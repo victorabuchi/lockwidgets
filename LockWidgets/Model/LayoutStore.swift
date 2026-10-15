@@ -57,6 +57,13 @@ final class LayoutStore: ObservableObject {
         var instance = WidgetInstance(kind: kind, style: style, size: size, center: .zero)
         instance.center = freeSpot(for: instance)
         instances.append(instance)
+        // Ask for access the moment a widget needs it, while the user is looking.
+        switch kind {
+        case .calendar, .dailyBrief: CalendarStore.shared.requestAccess()
+        case .reminders: RemindersStore.shared.requestAccess()
+        case .photos: if !PhotosStore.shared.libraryAccess { PhotosStore.shared.requestAccess() }
+        default: break
+        }
         save()
         return instance.id
     }
