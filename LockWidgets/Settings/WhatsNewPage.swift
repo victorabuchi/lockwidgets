@@ -9,6 +9,18 @@ struct WhatsNewPage: View {
 
     private let releases = [
         Release(
+            version: "1.2",
+            summary: "A Dynamic Island for your MacBook's notch: the song, your calls, notifications and more, like the iPhone.",
+            items: [
+                ("capsule.fill", "Dynamic Island", "Live activities beside the notch. Point at the island to see more; click it to open the app."),
+                ("music.note", "Now Playing in the notch", "Artwork and a live waveform, with the Apple Music lyric, progress and controls when you point at it."),
+                ("bell.badge", "Notifications", "Every app's notifications drop down from the notch as they arrive. Needs Full Disk Access."),
+                ("video", "Calls and meetings", "Zoom, FaceTime, Teams, Google Meet and calls in your browser, with how long you've been on."),
+                ("personalhotspot", "Hotspot, timers and alerts", "Personal Hotspot, the Pomodoro and Stopwatch, charging, AirPods, volume, brightness, Focus and upcoming events."),
+                ("lock.display", "On the lock screen too", "The island stays at the notch while your Mac is locked."),
+            ]
+        ),
+        Release(
             version: "1.1",
             summary: "Place widgets anywhere, in the size and style you like, with ten new widgets to choose from.",
             items: [

@@ -6,8 +6,11 @@ LockWidgets puts live widgets on your Mac's lock screen: the weather, your next 
 
 It runs from the menu bar. When you lock your Mac, it draws your widgets in a layer above the lock screen using [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow), and removes them when you sign back in.
 
+On a MacBook with a notch, LockWidgets also turns the notch into a Dynamic Island, like the iPhone's: the song that's playing, your calls, notifications and system alerts, on the desktop and on the lock screen.
+
 ## Features
 
+- **Dynamic Island** around the MacBook notch, with Now Playing, calls, notifications, Personal Hotspot, timers and system alerts
 - **17 widgets** in Small, Medium, Wide, Ultra Wide and Large sizes, most with several styles
 - **Layout Studio**: drag widgets anywhere on a life-size preview of your lock screen, with a warning when one covers the system clock or login area
 - **Layout Gallery**: seven ready-made layouts to start from
@@ -39,6 +42,21 @@ It runs from the menu bar. When you lock your Mac, it draws your widgets in a la
 | Daily Brief | Brief | Weather, calendar, reminders, news |
 | Sticky Note | Paper, Glass | Your text |
 
+## Dynamic Island
+
+With nothing going on, the island is exactly your notch. When something is live, it shows beside the notch at the notch's height, and a second live activity waits in its own circle on the right.
+
+| Activity | Beside the notch | When you point at it |
+| --- | --- | --- |
+| Now Playing | Artwork and a live waveform | Song, Apple Music lyric, progress and controls |
+| Calls and meetings | Call icon and time | App, mic and camera, Zoom controls |
+| Personal Hotspot | Hotspot icon | The iPhone you're connected to |
+| Pomodoro and Stopwatch | Timer and time left | Pause and skip or reset |
+
+Notifications from every app, upcoming events, charging, low battery, AirPods and other Bluetooth devices, volume, brightness and Focus drop down from the notch for a few seconds.
+
+Point at the island to see more. Click it to open the app behind it: Music or Spotify for a song, Wi-Fi settings for the hotspot, or the app that sent a notification. Calls are found by the app using the microphone, including Zoom, Google Meet and Teams in Chrome, Firefox and Safari. On Macs without a notch, the island appears only while something is live.
+
 ## Install
 
 1. Download `LockWidgets-<version>.dmg` from [Releases](../../releases).
@@ -57,10 +75,12 @@ LockWidgets asks only when a widget needs something:
 - **Location** for local weather (not needed if you set a city)
 - **Photos** for the Photos widget (not needed if you pick a folder)
 - **Automation** to read the current song from Music or Spotify. LockWidgets only talks to a player that is already open.
+- **Full Disk Access** for notifications and Focus on the Dynamic Island. macOS keeps both in protected files; the Setup Guide links to the setting.
+- **Accessibility** (optional) to name a call in your browser, such as Zoom or Google Meet, from the window title.
 
 ## Privacy
 
-LockWidgets collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and LockWidgets reads Music's local copy. Nothing is sent anywhere else.
+LockWidgets collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and LockWidgets reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Nothing is sent anywhere else.
 
 ## How lyrics work
 
@@ -82,6 +102,7 @@ Run `xcodegen generate` again after adding files outside Xcode.
 | --- | --- |
 | `LockWidgets/Model` | Widget kinds, styles and sizes; the saved layout and gallery presets |
 | `LockWidgets/Widgets` | One SwiftUI view per widget, plus the shared card |
+| `LockWidgets/Island` | The Dynamic Island: its window, state and the view for each activity |
 | `LockWidgets/Services` | Data sources: weather, calendar, music, lyrics, system and so on |
 | `LockWidgets/Settings` | The settings window, Layout Studio, Gallery and Setup Guide |
 | `scripts` | Release script and app icon renderer |
