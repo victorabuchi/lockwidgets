@@ -46,6 +46,7 @@ final class OverlayManager: ObservableObject {
     func refreshData() {
         BatteryMonitor.shared.refresh()
         CalendarStore.shared.reload()
+        RemindersStore.shared.reload()
         WeatherStore.shared.refresh()
         NowPlayingStore.shared.poll()
     }

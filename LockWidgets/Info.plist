@@ -32,5 +32,7 @@
 	<string>LockWidgets uses your location to show local weather.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>LockWidgets uses your location to show local weather.</string>
+	<key>NSRemindersFullAccessUsageDescription</key>
+	<string>LockWidgets shows your open reminders on the lock screen.</string>
 </dict>
 </plist>

@@ -20,6 +20,7 @@ struct WidgetPage: View {
             case .pomodoro: PomodoroOptions()
             case .stopwatch: StopwatchOptions()
             case .stickyNote: EmptyView()
+            case .reminders: RemindersOptions()
             }
         }
         .formStyle(.grouped)
@@ -310,6 +311,27 @@ private struct StopwatchOptions: View {
             Text("You can also start and stop it from the menu bar.")
                 .foregroundStyle(.secondary)
         }
+    }
+}
+
+private struct RemindersOptions: View {
+    @ObservedObject private var reminders = RemindersStore.shared
+
+    var body: some View {
+        Section("Access") {
+            LabeledContent("Reminders") {
+                switch reminders.status {
+                case .fullAccess:
+                    Label("Connected", systemImage: "checkmark.circle.fill")
+                        .foregroundStyle(.green)
+                case .notDetermined:
+                    Button("Allow Access") { reminders.requestAccess() }
+                default:
+                    Button("Open Privacy Settings") { reminders.openPrivacySettings() }
+                }
+            }
+        }
+        .onAppear { reminders.reload() }
     }
 }
 

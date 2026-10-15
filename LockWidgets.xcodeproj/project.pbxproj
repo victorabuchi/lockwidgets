@@ -10,6 +10,8 @@
 		072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */; };
 		07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6AF92AA3C096A2C102584A /* CalendarStore.swift */; };
 		08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */; };
+		09238D4482D2B0E1052B2F8F /* RemindersStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C4166E066E91470CCA71C3 /* RemindersStore.swift */; };
+		0A08C21283ABA0CC9BBB2311 /* RemindersWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093942A97379D147BCAD0A4 /* RemindersWidget.swift */; };
 		2C595B1CAC6C05B014363646 /* TimerStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59D421F3DF3559273A21EB63 /* TimerStore.swift */; };
 		2FFC8D696E8C781E6B2C6D42 /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */; };
 		317CB231FCB0BB0D5938E03B /* TimerWidgets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE53174CB038156238A8E21 /* TimerWidgets.swift */; };
@@ -43,6 +45,7 @@
 
 /* Begin PBXFileReference section */
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		2093942A97379D147BCAD0A4 /* RemindersWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersWidget.swift; sourceTree = "<group>"; };
 		241AC26A12C04E385F4ABA7E /* WidgetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetKind.swift; sourceTree = "<group>"; };
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
 		2B592C7B3AE19D5764E21A15 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
@@ -68,6 +71,7 @@
 		A78DAF013E95E14A143A0322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
+		C6C4166E066E91470CCA71C3 /* RemindersStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersStore.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCard.swift; sourceTree = "<group>"; };
 		E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryMonitor.swift; sourceTree = "<group>"; };
@@ -107,6 +111,7 @@
 				944261E2F34003592A329E1D /* ClockWidget.swift */,
 				CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */,
 				A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */,
+				2093942A97379D147BCAD0A4 /* RemindersWidget.swift */,
 				5542B4EFD93B4AB2028DCB89 /* StickyNoteWidget.swift */,
 				5AE53174CB038156238A8E21 /* TimerWidgets.swift */,
 				C166765275AD20B49E4DCDBE /* WeatherWidget.swift */,
@@ -140,6 +145,7 @@
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
 				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
 				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
+				C6C4166E066E91470CCA71C3 /* RemindersStore.swift */,
 				59D421F3DF3559273A21EB63 /* TimerStore.swift */,
 				8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */,
 			);
@@ -270,6 +276,8 @@
 				8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */,
 				8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */,
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,
+				09238D4482D2B0E1052B2F8F /* RemindersStore.swift in Sources */,
+				0A08C21283ABA0CC9BBB2311 /* RemindersWidget.swift in Sources */,
 				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,
 				96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */,
 				498525240AF04CC22C138ECB /* StickyNoteWidget.swift in Sources */,
