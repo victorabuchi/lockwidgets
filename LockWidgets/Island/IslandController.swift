@@ -1,4 +1,5 @@
 import AppKit
+import SkyLightWindow
 import Combine
 import SwiftUI
 
@@ -10,6 +11,7 @@ final class IslandController {
     private var monitors: [Any] = []
     private var subscriptions: Set<AnyCancellable> = []
     private var collapseWork: DispatchWorkItem?
+    private var expandWork: DispatchWorkItem?
     private let canvas = CGSize(width: 760, height: 320)
 
     private var enabled: Bool {
@@ -18,10 +20,9 @@ final class IslandController {
 
     func start() {
         let distributed = DistributedNotificationCenter.default()
+        // The island lives in the same layer as the lock screen widgets, so it stays put when the Mac locks.
         distributed.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
-            self?.panel?.orderOut(nil)
-        }
-        distributed.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
+            IslandModel.shared.isExpanded = false
             self?.update()
         }
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
@@ -96,7 +97,11 @@ final class IslandController {
         panel.isMovable = false
         panel.ignoresMouseEvents = true
         panel.contentView = FirstClickHostingView(rootView: IslandView())
+        panel.canBecomeVisibleWithoutLogin = true
         self.panel = panel
+        position()
+        panel.orderFrontRegardless()
+        SkyLightOperator.shared.delegateWindow(panel)
     }
 
     private func position() {
@@ -124,15 +129,34 @@ final class IslandController {
         panel.ignoresMouseEvents = !inside
         if model.isHovering != inside { model.isHovering = inside }
 
-        // Close the full card shortly after the pointer leaves it.
-        collapseWork?.cancel()
-        #if DEBUG
-        if UserDefaults.standard.bool(forKey: "islandExpanded") { return }
-        #endif
+        // Resting on the island opens it, as macOS keeps clicks in the menu bar strip for itself.
+        if inside, !model.isExpanded, model.primary?.canExpand == true {
+            if expandWork == nil {
+                let work = DispatchWorkItem { [weak self] in
+                    model.isExpanded = true
+                    self?.expandWork = nil
+                }
+                expandWork = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: work)
+            }
+        } else {
+            expandWork?.cancel()
+            expandWork = nil
+        }
+
+        // Close the full card shortly after the pointer leaves, however much it moves meanwhile.
         if model.isExpanded, !inside {
-            let work = DispatchWorkItem { model.isExpanded = false }
-            collapseWork = work
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.7, execute: work)
+            if collapseWork == nil {
+                let work = DispatchWorkItem { [weak self] in
+                    model.isExpanded = false
+                    self?.collapseWork = nil
+                }
+                collapseWork = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.6, execute: work)
+            }
+        } else {
+            collapseWork?.cancel()
+            collapseWork = nil
         }
     }
 }

@@ -38,14 +38,17 @@ final class StatusMonitor: ObservableObject {
         let name = onHotspot ? (CWWiFiClient.shared().interface()?.ssid() ?? "iPhone") : nil
         if name != hotspot { hotspot = name }
 
-        let microphone = Self.microphoneInUse()
+        let listening = Self.appsUsingMicrophone()
         let camera = Self.cameraInUse()
+        // Zoom runs its meeting in a separate CptHost process, so its presence means a meeting is on.
         let zoomMeeting = Self.processRunning("CptHost")
         var next: Meeting?
         if zoomMeeting {
+            let microphone = listening.contains { $0.hasPrefix("us.zoom") }
             next = Meeting(app: "Zoom", bundleID: "us.zoom.xos", started: meeting?.app == "Zoom" ? meeting!.started : .now, microphone: microphone, camera: camera)
-        } else if microphone || camera, let app = Self.callApp() {
-            next = Meeting(app: app.name, bundleID: app.bundleID, started: meeting?.app == app.name ? meeting!.started : .now, microphone: microphone, camera: camera)
+        } else if let app = Self.callApps.first(where: { app in listening.contains { $0.hasPrefix(app.bundleID) } }) {
+            // Only a known call app holding the microphone counts, so dictation or recording apps don't.
+            next = Meeting(app: app.name, bundleID: app.bundleID, started: meeting?.app == app.name ? meeting!.started : .now, microphone: true, camera: camera)
         }
         if next != meeting { meeting = next }
     }
@@ -60,13 +63,12 @@ final class StatusMonitor: ObservableObject {
         ("com.hnc.Discord", "Discord"),
         ("com.tinyspeck.slackmacgap", "Slack"),
         ("net.whatsapp.WhatsApp", "WhatsApp"),
-        ("com.google.Chrome", "Google Meet"),
+        ("com.google.Chrome", "Chrome"),
+        ("com.apple.Safari", "Safari"),
+        ("com.microsoft.edgemac", "Edge"),
+        ("company.thebrowser.Browser", "Arc"),
     ]
 
-    private static func callApp() -> (name: String, bundleID: String)? {
-        let running = Set(NSWorkspace.shared.runningApplications.compactMap(\.bundleIdentifier))
-        return callApps.first { running.contains($0.bundleID) }.map { ($0.name, $0.bundleID) }
-    }
 
     // MARK: Zoom controls
 
@@ -114,6 +116,31 @@ final class StatusMonitor: ObservableObject {
             }
         }
         return false
+    }
+
+    /// Bundle identifiers of the processes currently recording from any microphone.
+    private static func appsUsingMicrophone() -> [String] {
+        let system = AudioObjectID(kAudioObjectSystemObject)
+        var address = AudioObjectPropertyAddress(mSelector: kAudioHardwarePropertyProcessObjectList, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+        var size: UInt32 = 0
+        guard AudioObjectGetPropertyDataSize(system, &address, 0, nil, &size) == noErr, size > 0 else { return [] }
+        var processes = [AudioObjectID](repeating: 0, count: Int(size) / MemoryLayout<AudioObjectID>.size)
+        guard AudioObjectGetPropertyData(system, &address, 0, nil, &size, &processes) == noErr else { return [] }
+
+        var bundles: [String] = []
+        for process in processes {
+            var running = UInt32(0)
+            var runningSize = UInt32(MemoryLayout<UInt32>.size)
+            var runningAddress = AudioObjectPropertyAddress(mSelector: kAudioProcessPropertyIsRunningInput, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+            guard AudioObjectGetPropertyData(process, &runningAddress, 0, nil, &runningSize, &running) == noErr, running != 0 else { continue }
+            var bundle: Unmanaged<CFString>?
+            var bundleSize = UInt32(MemoryLayout<Unmanaged<CFString>?>.size)
+            var bundleAddress = AudioObjectPropertyAddress(mSelector: kAudioProcessPropertyBundleID, mScope: kAudioObjectPropertyScopeGlobal, mElement: kAudioObjectPropertyElementMain)
+            if AudioObjectGetPropertyData(process, &bundleAddress, 0, nil, &bundleSize, &bundle) == noErr, let bundle {
+                bundles.append(bundle.takeRetainedValue() as String)
+            }
+        }
+        return bundles
     }
 
     private static func microphoneInUse() -> Bool {
