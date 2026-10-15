@@ -1,3 +1,4 @@
+import ServiceManagement
 import SwiftUI
 
 struct SettingsView: View {
@@ -12,6 +13,7 @@ struct SettingsView: View {
     @AppStorage(SettingsKey.showSeconds) private var showSeconds = false
     @AppStorage(SettingsKey.weatherCity) private var city = ""
     @AppStorage(SettingsKey.fahrenheit) private var fahrenheit = SettingsKey.defaultFahrenheit
+    @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
     var body: some View {
         Form {
@@ -76,6 +78,8 @@ struct SettingsView: View {
             }
 
             Section {
+                Toggle("Launch at login", isOn: $launchAtLogin)
+                    .onChange(of: launchAtLogin) { _, enabled in setLaunchAtLogin(enabled) }
                 Button(overlay.isShowing ? "Hide Preview" : "Preview on Desktop") {
                     overlay.toggle()
                 }
@@ -85,6 +89,19 @@ struct SettingsView: View {
         .frame(width: 460)
         .fixedSize(horizontal: false, vertical: true)
         .onAppear { calendar.reload() }
+    }
+
+    private func setLaunchAtLogin(_ enabled: Bool) {
+        do {
+            if enabled {
+                try SMAppService.mainApp.register()
+            } else {
+                try SMAppService.mainApp.unregister()
+            }
+        } catch {
+            NSSound.beep()
+        }
+        launchAtLogin = SMAppService.mainApp.status == .enabled
     }
 
     private func widgetRow(_ kind: WidgetKind, index: Int) -> some View {
