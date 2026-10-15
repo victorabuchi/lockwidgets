@@ -257,7 +257,9 @@ final class IslandModel: ObservableObject {
     /// activity sits either side of it at its height; brief alerts hang below it at its width; the open
     /// card and banners are wider.
     var size: CGSize {
-        guard let primary else { return notch }
+        // On a Mac without a notch there is nothing to blend into, so the island only appears while
+        // something is live.
+        guard let primary else { return hasNotch ? notch : .zero }
         if primary.isBanner {
             return CGSize(width: bannerWidth(for: primary), height: notch.height + primary.expandedHeight)
         }
