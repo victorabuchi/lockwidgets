@@ -1,10 +1,14 @@
 import SwiftUI
 
 enum SettingsKey {
+    static let showOnLockScreen = "showOnLockScreen"
     static let widgetOrder = "widgetOrder"
     static let hiddenWidgets = "hiddenWidgets"
     static let position = "boardPosition"
     static let scale = "boardScale"
+    static let cardStyle = "cardStyle"
+    static let cornerRadius = "cardCornerRadius"
+    static let spacing = "boardSpacing"
     static let use24Hour = "clockUse24Hour"
     static let showSeconds = "clockShowSeconds"
     static let weatherCity = "weatherCity"
@@ -60,6 +64,30 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     static func visible(order: String, hidden: String) -> [WidgetKind] {
         let hiddenSet = Set(hidden.split(separator: ",").map(String.init))
         return ordered(order).filter { !hiddenSet.contains($0.rawValue) }
+    }
+}
+
+enum CardStyle: String, CaseIterable, Identifiable {
+    case glass, frosted, solid, minimal
+
+    var id: String { rawValue }
+
+    var title: String {
+        switch self {
+        case .glass: "Glass"
+        case .frosted: "Frosted"
+        case .solid: "Solid"
+        case .minimal: "Minimal"
+        }
+    }
+
+    var detail: String {
+        switch self {
+        case .glass: "See-through blur that picks up your wallpaper."
+        case .frosted: "Heavier blur with a darker tint for busy wallpapers."
+        case .solid: "Opaque dark cards."
+        case .minimal: "No card at all, just text with a soft shadow."
+        }
     }
 }
 

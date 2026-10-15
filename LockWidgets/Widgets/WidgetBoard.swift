@@ -6,9 +6,10 @@ struct WidgetBoard: View {
     @AppStorage(SettingsKey.hiddenWidgets) private var hidden = ""
     @AppStorage(SettingsKey.position) private var position = BoardPosition.leading
     @AppStorage(SettingsKey.scale) private var scale = 1.0
+    @AppStorage(SettingsKey.spacing) private var spacing = Theme.spacing
 
     var body: some View {
-        VStack(alignment: position.horizontalAlignment, spacing: Theme.spacing) {
+        VStack(alignment: position.horizontalAlignment, spacing: spacing) {
             ForEach(WidgetKind.visible(order: order, hidden: hidden)) { kind in
                 view(for: kind)
             }

@@ -13,6 +13,7 @@ final class OverlayManager: ObservableObject {
 
         let dnc = DistributedNotificationCenter.default()
         dnc.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
+            guard UserDefaults.standard.object(forKey: SettingsKey.showOnLockScreen) as? Bool ?? true else { return }
             self?.refreshData()
             self?.show()
         }
