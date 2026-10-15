@@ -1,5 +1,4 @@
 import AppKit
-import SkyLightWindow
 import Combine
 import SwiftUI
 
@@ -20,9 +19,13 @@ final class IslandController {
 
     func start() {
         let distributed = DistributedNotificationCenter.default()
-        // The island lives in the same layer as the lock screen widgets, so it stays put when the Mac locks.
+        // While locked, the lock screen layer draws its own copy of the island (see OverlayManager);
+        // this interactive one steps aside and comes back on unlock.
         distributed.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
             IslandModel.shared.isExpanded = false
+            self?.panel?.orderOut(nil)
+        }
+        distributed.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
             self?.update()
         }
         NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification)
@@ -96,12 +99,11 @@ final class IslandController {
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         panel.isMovable = false
         panel.ignoresMouseEvents = true
+        // Pointer moves over the panel must reach the tracker too, so the empty area around the island
+        // goes back to passing clicks through the moment the pointer leaves the island.
+        panel.acceptsMouseMovedEvents = true
         panel.contentView = FirstClickHostingView(rootView: IslandView())
-        panel.canBecomeVisibleWithoutLogin = true
         self.panel = panel
-        position()
-        panel.orderFrontRegardless()
-        SkyLightOperator.shared.delegateWindow(panel)
     }
 
     private func position() {

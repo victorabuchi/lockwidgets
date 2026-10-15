@@ -81,7 +81,7 @@ struct TimerExpanded: View {
                     .foregroundStyle(.white.opacity(0.6))
                 TimelineView(.periodic(from: .now, by: 1)) { context in
                     Text(timer.text(context.date))
-                        .font(.system(size: 40, weight: .semibold, design: .rounded).monospacedDigit())
+                        .font(.system(size: 32, weight: .semibold, design: .rounded).monospacedDigit())
                         .foregroundStyle(timer.color)
                 }
             }
@@ -94,7 +94,7 @@ struct TimerExpanded: View {
                 round("arrow.counterclockwise", .white) { timers.resetStopwatch() }
             }
         }
-        .padding(.horizontal, 26)
+        .padding(.horizontal, 20)
         .padding(.top, notch.height + 6)
     }
 }
@@ -103,9 +103,9 @@ struct TimerExpanded: View {
 func round(_ symbol: String, _ color: Color, action: @escaping () -> Void) -> some View {
     Button(action: action) {
         Image(systemName: symbol)
-            .font(.system(size: 17, weight: .bold))
+            .font(.system(size: 15, weight: .bold))
             .foregroundStyle(color)
-            .frame(width: 46, height: 46)
+            .frame(width: 38, height: 38)
             .background(color.opacity(0.22), in: Circle())
     }
     .buttonStyle(IslandButtonStyle())
@@ -142,7 +142,7 @@ struct MeetingExpanded: View {
                 if let bundleID = meeting.bundleID, let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
                     Image(nsImage: NSWorkspace.shared.icon(forFile: url.path))
                         .resizable()
-                        .frame(width: 48, height: 48)
+                        .frame(width: 40, height: 40)
                 }
                 VStack(alignment: .leading, spacing: 4) {
                     Text(meeting.app == "Zoom" ? "Zoom Meeting" : "\(meeting.app) Call")
@@ -174,7 +174,7 @@ struct MeetingExpanded: View {
                 .help("Open \(meeting.app)")
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 26)
+            .padding(.horizontal, 20)
             .padding(.top, notch.height + 8)
         }
     }
@@ -207,7 +207,7 @@ struct HotspotExpanded: View {
             Image(systemName: "personalhotspot")
                 .font(.system(size: 22, weight: .bold))
                 .foregroundStyle(.green)
-                .frame(width: 46, height: 46)
+                .frame(width: 38, height: 38)
                 .background(Color.green.opacity(0.2), in: Circle())
             VStack(alignment: .leading, spacing: 2) {
                 Text("Personal Hotspot")
@@ -219,7 +219,7 @@ struct HotspotExpanded: View {
             Spacer()
         }
         .foregroundStyle(.white)
-        .padding(.horizontal, 26)
+        .padding(.horizontal, 20)
         .padding(.top, notch.height + 6)
     }
 }

@@ -7,11 +7,11 @@ struct MusicCompact: View {
 
     var body: some View {
         CompactSlots(notch: notch, side: IslandActivity.music.compactSide) {
-            Artwork(image: music.artwork, size: notch.height - 12, cornerRadius: 6)
+            Artwork(image: music.artwork, size: notch.height - 14, cornerRadius: 5)
                 .matchedGeometryEffect(id: "artwork", in: namespace)
         } trailing: {
             Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
-                .frame(width: 22, height: 14)
+                .frame(width: 18, height: 12)
                 .matchedGeometryEffect(id: "waveform", in: namespace)
         }
     }
@@ -32,29 +32,29 @@ struct MusicExpanded: View {
         if let track = music.track {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {
-                    Artwork(image: music.artwork, size: 58, cornerRadius: 13)
+                    Artwork(image: music.artwork, size: 46, cornerRadius: 10)
                         .matchedGeometryEffect(id: "artwork", in: namespace)
                     Spacer()
                     Waveform(color: tint, playing: music.isPlaying)
-                        .frame(width: 26, height: 20)
+                        .frame(width: 22, height: 16)
                         .matchedGeometryEffect(id: "waveform", in: namespace)
-                        .padding(.top, 8)
+                        .padding(.top, 6)
                 }
-                .frame(height: 58)
+                .frame(height: 46)
 
                 VStack(alignment: .leading, spacing: 1) {
                     Text(track.title)
-                        .font(.system(size: 17, weight: .bold))
+                        .font(.system(size: 15, weight: .bold))
                         .lineLimit(1)
                     Text(track.artist)
-                        .font(.system(size: 15, weight: .medium))
+                        .font(.system(size: 13, weight: .medium))
                         .foregroundStyle(.white.opacity(0.55))
                         .lineLimit(1)
                     if showLyrics {
                         lyricLine
                     }
                 }
-                .padding(.top, 12)
+                .padding(.top, 8)
 
                 TimelineView(.periodic(from: .now, by: 0.5)) { context in
                     let position = music.position(at: context.date)
@@ -66,23 +66,23 @@ struct MusicExpanded: View {
                     .font(.system(size: 11, weight: .semibold).monospacedDigit())
                     .foregroundStyle(.white.opacity(0.5))
                 }
-                .padding(.top, 12)
+                .padding(.top, 8)
 
                 HStack {
                     Spacer()
-                    control("backward.fill", 22) { music.send(.previous) }
+                    control("backward.fill", 18) { music.send(.previous) }
                     Spacer()
-                    control(music.isPlaying ? "pause.fill" : "play.fill", 30) { music.send(.playPause) }
+                    control(music.isPlaying ? "pause.fill" : "play.fill", 24) { music.send(.playPause) }
                     Spacer()
-                    control("forward.fill", 22) { music.send(.next) }
+                    control("forward.fill", 18) { music.send(.next) }
                     Spacer()
                 }
-                .padding(.top, 10)
+                .padding(.top, 4)
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 24)
-            .padding(.top, 10)
-            .padding(.bottom, 16)
+            .padding(.horizontal, 20)
+            .padding(.top, 8)
+            .padding(.bottom, 12)
         }
     }
 
@@ -91,7 +91,7 @@ struct MusicExpanded: View {
         TimelineView(.periodic(from: .now, by: 0.25)) { context in
             if lyrics.state == .found, let index = lyrics.currentIndex(at: music.position(at: context.date)) {
                 Text(lyrics.lines[index].text)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(tint)
                     .lineLimit(1)
                     .id(index)
@@ -108,7 +108,7 @@ struct MusicExpanded: View {
         Button(action: action) {
             Image(systemName: symbol)
                 .font(.system(size: size, weight: .bold))
-                .frame(width: 52, height: 40)
+                .frame(width: 46, height: 34)
                 .contentShape(Rectangle())
         }
         .buttonStyle(IslandButtonStyle())

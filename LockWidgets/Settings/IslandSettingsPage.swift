@@ -13,6 +13,7 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandDevices) private var devices = true
     @AppStorage(SettingsKey.islandHUD) private var hud = true
     @AppStorage(SettingsKey.islandFocus) private var focus = true
+    @AppStorage(SettingsKey.islandShowSides) private var showSides = false
     @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
@@ -30,6 +31,10 @@ struct IslandSettingsPage: View {
             }
             Section {
                 Toggle("Show the Dynamic Island", isOn: $enabled)
+                Toggle(isOn: $showSides) {
+                    Text("Show live activities beside the notch")
+                    Text("Off: the closed island is exactly the notch, and opens when you point at it. On: artwork, timers and calls sit either side of the notch.")
+                }
             }
             Section {
                 Toggle(isOn: $notifications) {

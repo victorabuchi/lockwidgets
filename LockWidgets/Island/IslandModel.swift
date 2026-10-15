@@ -37,10 +37,10 @@ enum IslandActivity: Equatable {
     /// Width either side of the notch in the compact island.
     var compactSide: CGFloat {
         switch self {
-        case .charging, .lowBattery, .device, .focus: 100
-        case .volume, .brightness: 90
-        case .timer, .meeting: 60
-        default: 44
+        case .charging, .lowBattery, .device, .focus: 86
+        case .volume, .brightness: 74
+        case .timer, .meeting: 52
+        default: 34
         }
     }
 
@@ -48,9 +48,9 @@ enum IslandActivity: Equatable {
     var expandedHeight: CGFloat {
         switch self {
         case .music: 0
-        case .meeting: 118
-        case .timer: 104
-        default: 84
+        case .meeting: 104
+        case .timer: 92
+        default: 76
         }
     }
 
@@ -255,15 +255,18 @@ final class IslandModel: ObservableObject {
     /// Size of the black shape for the current state.
     var size: CGSize {
         guard let primary else { return notch }
+        let cardWidth = max(notch.width + 170, 360)
         if primary.isBanner {
-            return CGSize(width: max(notch.width + 250, 450), height: notch.height + 74)
+            return CGSize(width: cardWidth, height: notch.height + 64)
         }
         if isExpanded {
             // Music uses the space beside the camera, so its card is measured from the top edge.
-            if primary == .music { return CGSize(width: max(notch.width + 250, 450), height: 248) }
-            return CGSize(width: max(notch.width + 260, 470), height: notch.height + primary.expandedHeight)
+            if primary == .music { return CGSize(width: cardWidth, height: 210) }
+            return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
         }
-        // Exactly the notch's height, only widened, so it reads as the notch itself growing.
+        // Closed, the island is exactly the notch. Brief alerts, and ongoing activities when the user
+        // opts in, widen it to the notch's sides at the notch's height.
+        guard primary.isTransient || showsSides else { return notch }
         return CGSize(width: notch.width + primary.compactSide * 2, height: notch.height)
     }
 
@@ -271,13 +274,24 @@ final class IslandModel: ObservableObject {
     var bubble: CGFloat { notch.height }
     static let bubbleGap: CGFloat = 6
 
-    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isBanner != true }
+    /// Whether ongoing activities show beside the notch while closed (off by default: the closed island is the notch).
+    var showsSides: Bool {
+        UserDefaults.standard.object(forKey: SettingsKey.islandShowSides) as? Bool ?? false
+    }
+
+    /// True when the closed island is exactly the notch, with nothing drawn beside it.
+    var isNotchOnly: Bool {
+        guard let primary else { return true }
+        return !isExpanded && !primary.isTransient && !showsSides
+    }
+
+    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isBanner != true && showsSides }
 
     /// The notch's own bottom corner radius, used whenever the island is closed.
     static let notchRadius: CGFloat = 10
 
     var bottomRadius: CGFloat {
-        if isExpanded || primary?.isBanner == true { return 36 }
+        if isExpanded || primary?.isBanner == true { return 30 }
         return Self.notchRadius
     }
 

@@ -76,6 +76,22 @@ struct IslandView: View {
     private var content: some View {
         let notch = model.notch
         Group {
+            if model.isNotchOnly {
+                EmptyView()
+            } else {
+                activityContent(notch)
+            }
+        }
+        .transition(.asymmetric(
+            insertion: .opacity.animation(.easeOut(duration: 0.25).delay(0.08)),
+            removal: .opacity.animation(.easeIn(duration: 0.12))
+        ))
+        .id(contentID)
+    }
+
+    @ViewBuilder
+    private func activityContent(_ notch: CGSize) -> some View {
+        Group {
             switch (model.primary, model.isExpanded) {
             case (.music, true): MusicExpanded(notch: notch, namespace: namespace)
             case (.music, false): MusicCompact(notch: notch, namespace: namespace)
@@ -96,11 +112,6 @@ struct IslandView: View {
             case (nil, _): EmptyView()
             }
         }
-        .transition(.asymmetric(
-            insertion: .opacity.animation(.easeOut(duration: 0.25).delay(0.08)),
-            removal: .opacity.animation(.easeIn(duration: 0.12))
-        ))
-        .id(contentID)
     }
 
     private var contentID: String {
@@ -123,7 +134,7 @@ struct CompactSlots<Leading: View, Trailing: View>: View {
             trailing
                 .frame(width: side, alignment: .center)
         }
-        .padding(.horizontal, 6)
+        .padding(.horizontal, 3)
         .frame(height: notch.height)
     }
 }
