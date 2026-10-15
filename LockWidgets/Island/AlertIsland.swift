@@ -7,28 +7,27 @@ struct EventBanner: View {
     let color: NSColor
 
     var body: some View {
-        HStack(spacing: 12) {
+        BannerLayout(notch: notch) {
             Image(systemName: "calendar")
                 .font(.system(size: 18, weight: .semibold))
                 .foregroundStyle(Color(nsColor: color))
-                .frame(width: 38, height: 38)
+                .frame(width: BannerLayout<EmptyView, EmptyView, EmptyView>.iconSize, height: BannerLayout<EmptyView, EmptyView, EmptyView>.iconSize)
                 .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-            VStack(alignment: .leading, spacing: 1) {
-                Text(title)
-                    .font(.system(size: 14, weight: .semibold))
-                    .lineLimit(1)
-                TimelineView(.periodic(from: .now, by: 30)) { context in
-                    let minutes = max(Int(ceil(start.timeIntervalSince(context.date) / 60)), 0)
-                    Text(minutes == 0 ? "Starting now" : "Starts in \(minutes) min · \(start.formatted(date: .omitted, time: .shortened))")
-                        .font(.system(size: 13))
-                        .foregroundStyle(.white.opacity(0.7))
-                }
+        } corner: {
+            Text(start.formatted(date: .omitted, time: .shortened))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.white.opacity(0.45))
+        } text: {
+            Text(title)
+                .font(.system(size: 14, weight: .semibold))
+                .lineLimit(1)
+            TimelineView(.periodic(from: .now, by: 30)) { context in
+                let minutes = max(Int(ceil(start.timeIntervalSince(context.date) / 60)), 0)
+                Text(minutes == 0 ? "Starting now" : "Starts in \(minutes) min")
+                    .font(.system(size: 13))
+                    .foregroundStyle(.white.opacity(0.75))
             }
-            Spacer()
         }
-        .foregroundStyle(.white)
-        .padding(.horizontal, 20)
-        .padding(.top, notch.height + 6)
     }
 }
 

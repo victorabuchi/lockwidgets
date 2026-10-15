@@ -12,6 +12,7 @@
 		08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */; };
 		09238D4482D2B0E1052B2F8F /* RemindersStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6C4166E066E91470CCA71C3 /* RemindersStore.swift */; };
 		0A08C21283ABA0CC9BBB2311 /* RemindersWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2093942A97379D147BCAD0A4 /* RemindersWidget.swift */; };
+		17A497EE158324B1BD403F52 /* ClickDiagnostics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF2D6F84CBD67D5EA0D7ECE3 /* ClickDiagnostics.swift */; };
 		185BB4FA517C57C21E146968 /* WhatsNewPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A84B8C12897A8C598ADF01B7 /* WhatsNewPage.swift */; };
 		1E40CCFE7CE5EFFB31D4EB11 /* IslandController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A756FD67E8F8AAAA942CB1B /* IslandController.swift */; };
 		1E7456D8E2B533247FC78276 /* SystemMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */; };
@@ -122,6 +123,7 @@
 		C6C4166E066E91470CCA71C3 /* RemindersStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersStore.swift; sourceTree = "<group>"; };
 		C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGalleryPage.swift; sourceTree = "<group>"; };
 		CA65EB68D63BB068EC166544 /* DeviceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMonitor.swift; sourceTree = "<group>"; };
+		CF2D6F84CBD67D5EA0D7ECE3 /* ClickDiagnostics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClickDiagnostics.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidget.swift; sourceTree = "<group>"; };
 		DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIsland.swift; sourceTree = "<group>"; };
@@ -216,6 +218,7 @@
 				1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */,
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
+				CF2D6F84CBD67D5EA0D7ECE3 /* ClickDiagnostics.swift */,
 				CA65EB68D63BB068EC166544 /* DeviceMonitor.swift */,
 				406E0CD205C3061CF6EFE586 /* EarthStore.swift */,
 				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
@@ -369,6 +372,7 @@
 				2FFC8D696E8C781E6B2C6D42 /* BatteryWidget.swift in Sources */,
 				07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */,
 				AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */,
+				17A497EE158324B1BD403F52 /* ClickDiagnostics.swift in Sources */,
 				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
 				37BF9D2007A3BD1E1C46B18D /* DailyBriefWidget.swift in Sources */,
 				D0C46BF718881EBD91F7D12D /* DeviceMonitor.swift in Sources */,

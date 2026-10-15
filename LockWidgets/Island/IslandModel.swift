@@ -257,7 +257,7 @@ final class IslandModel: ObservableObject {
         guard let primary else { return notch }
         let cardWidth = max(notch.width + 170, 360)
         if primary.isBanner {
-            return CGSize(width: cardWidth, height: notch.height + 64)
+            return CGSize(width: cardWidth, height: notch.height + 52)
         }
         if isExpanded {
             // Music uses the space beside the camera, so its card is measured from the top edge.

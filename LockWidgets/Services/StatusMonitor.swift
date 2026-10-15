@@ -23,6 +23,7 @@ final class StatusMonitor: ObservableObject {
     @Published private(set) var meeting: Meeting?
 
     private var timer: Timer?
+    private let queue = DispatchQueue(label: "LockWidgets.Status")
 
     private init() {
         poll()
@@ -31,17 +32,27 @@ final class StatusMonitor: ObservableObject {
         }
     }
 
+    /// The Wi-Fi, audio and process checks make blocking system calls, so they run off the main thread.
     private func poll() {
+        queue.async { [weak self] in
+            guard let self else { return }
+            let onHotspot = Self.ipv4Addresses().contains { $0.hasPrefix("172.20.10.") }
+            let name = onHotspot ? (CWWiFiClient.shared().interface()?.ssid() ?? "iPhone") : nil
+            let listening = Self.appsUsingMicrophone()
+            let camera = Self.cameraInUse()
+            let zoomMeeting = Self.processRunning("CptHost")
+            DispatchQueue.main.async {
+                self.apply(onHotspot: onHotspot, name: name, listening: listening, camera: camera, zoomMeeting: zoomMeeting)
+            }
+        }
+    }
+
+    private func apply(onHotspot: Bool, name: String?, listening: [String], camera: Bool, zoomMeeting: Bool) {
         // iPhone hotspots hand out addresses in 172.20.10.0/28.
-        let onHotspot = Self.ipv4Addresses().contains { $0.hasPrefix("172.20.10.") }
         if onHotspot != isOnHotspot { isOnHotspot = onHotspot }
-        let name = onHotspot ? (CWWiFiClient.shared().interface()?.ssid() ?? "iPhone") : nil
         if name != hotspot { hotspot = name }
 
-        let listening = Self.appsUsingMicrophone()
-        let camera = Self.cameraInUse()
         // Zoom runs its meeting in a separate CptHost process, so its presence means a meeting is on.
-        let zoomMeeting = Self.processRunning("CptHost")
         var next: Meeting?
         if zoomMeeting {
             let microphone = listening.contains { $0.hasPrefix("us.zoom") }

@@ -33,6 +33,7 @@ final class NotificationStore: ObservableObject {
 
     private var lastID: Int64?
     private var timer: Timer?
+    private var watchers: [DispatchSourceFileSystemObject] = []
     private let queue = DispatchQueue(label: "LockWidgets.Notifications")
 
     private static var databaseURL: URL {
@@ -41,10 +42,36 @@ final class NotificationStore: ObservableObject {
     }
 
     private init() {
-        timer = Timer.scheduledTimer(withTimeInterval: 1.5, repeats: true) { [weak self] _ in
+        // React the moment macOS writes a notification; the timer is a fallback and re-arms the watchers.
+        watchDatabase()
+        timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true) { [weak self] _ in
             self?.poll()
+            if self?.watchers.isEmpty == true { self?.watchDatabase() }
         }
+        timer?.tolerance = 0.1
         poll()
+    }
+
+    /// Watches the database and its write-ahead log, which usernoted appends to as notifications arrive.
+    private func watchDatabase() {
+        watchers.forEach { $0.cancel() }
+        watchers = []
+        for suffix in ["", "-wal"] {
+            let descriptor = open(Self.databaseURL.path + suffix, O_EVTONLY)
+            guard descriptor >= 0 else { continue }
+            let source = DispatchSource.makeFileSystemObjectSource(fileDescriptor: descriptor, eventMask: [.write, .extend, .delete, .rename], queue: queue)
+            source.setEventHandler { [weak self, weak source] in
+                guard let self else { return }
+                if let event = source?.data, event.contains(.delete) || event.contains(.rename) {
+                    // The file was replaced; watch the new one on the next tick.
+                    DispatchQueue.main.async { self.watchers.forEach { $0.cancel() }; self.watchers = [] }
+                }
+                DispatchQueue.main.async { self.poll() }
+            }
+            source.setCancelHandler { close(descriptor) }
+            source.resume()
+            watchers.append(source)
+        }
     }
 
     func openFullDiskAccessSettings() {

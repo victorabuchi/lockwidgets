@@ -48,6 +48,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         Self.launchedAtLogin = loginItem || ProcessInfo.processInfo.systemUptime < 120
     }
 
+    /// Keeps App Nap from slowing LockWidgets down in the background, so the island reacts instantly.
+    private var activity: NSObjectProtocol?
+
+    func applicationDidFinishLaunching(_: Notification) {
+        ClickDiagnostics.start()
+        activity = ProcessInfo.processInfo.beginActivity(
+            options: [.userInitiatedAllowingIdleSystemSleep, .latencyCritical],
+            reason: "Live widgets and the Dynamic Island"
+        )
+    }
+
     /// Opening the app again from Finder, Launchpad or the Dock shows its window.
     func applicationShouldHandleReopen(_: NSApplication, hasVisibleWindows: Bool) -> Bool {
         if !hasVisibleWindows {
