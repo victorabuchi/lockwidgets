@@ -9,23 +9,20 @@ struct EventBanner: View {
     var body: some View {
         BannerLayout(notch: notch) {
             Image(systemName: "calendar")
-                .font(.system(size: 18, weight: .semibold))
+                .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(Color(nsColor: color))
-                .frame(width: BannerLayout<EmptyView, EmptyView, EmptyView>.iconSize, height: BannerLayout<EmptyView, EmptyView, EmptyView>.iconSize)
-                .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 10, style: .continuous))
-        } corner: {
-            Text(start.formatted(date: .omitted, time: .shortened))
-                .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(.white.opacity(0.45))
+                .frame(width: BannerLayout<EmptyView, EmptyView>.iconSize, height: BannerLayout<EmptyView, EmptyView>.iconSize)
+                .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
         } text: {
             Text(title)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 12.5, weight: .semibold))
                 .lineLimit(1)
             TimelineView(.periodic(from: .now, by: 30)) { context in
                 let minutes = max(Int(ceil(start.timeIntervalSince(context.date) / 60)), 0)
-                Text(minutes == 0 ? "Starting now" : "Starts in \(minutes) min")
-                    .font(.system(size: 13))
+                Text((minutes == 0 ? "Starting now" : "In \(minutes) min") + " · " + start.formatted(date: .omitted, time: .shortened))
+                    .font(.system(size: 11.5))
                     .foregroundStyle(.white.opacity(0.75))
+                    .lineLimit(1)
             }
         }
     }

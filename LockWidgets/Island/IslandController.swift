@@ -61,11 +61,8 @@ final class IslandController {
     /// Returns true when the click was used to open the island.
     private func handleClick(_: NSEvent) -> Bool {
         let model = IslandModel.shared
-        guard !model.isExpanded, let screen = IslandModel.screen else { return false }
-        let location = NSEvent.mouseLocation
-        let size = model.size
-        let island = NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
-        if island.insetBy(dx: -4, dy: -4).contains(location) {
+        guard !model.isExpanded else { return false }
+        if hoverRect.insetBy(dx: -4, dy: -4).contains(NSEvent.mouseLocation) {
             model.toggleExpanded()
             return true
         }
@@ -106,19 +103,28 @@ final class IslandController {
         panel.setFrame(NSRect(x: frame.midX - canvas.width / 2, y: frame.maxY - canvas.height, width: canvas.width, height: canvas.height), display: true)
     }
 
-    /// The island's current rectangle in screen coordinates.
-    private var islandRect: NSRect {
+    /// A rectangle of the given size hanging from the top of the screen, centred on the notch.
+    private func rect(_ size: CGSize) -> NSRect {
         guard let screen = IslandModel.screen else { return .zero }
-        let model = IslandModel.shared
-        let size = model.size
         return NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
+    }
+
+    /// Where the pointer counts as on the island: the island, its sides while the narrower card is open
+    /// (so the card doesn't close under a pointer resting there), and the second activity's bubble.
+    private var hoverRect: NSRect {
+        let model = IslandModel.shared
+        var area = rect(model.size).union(rect(model.closedSize))
+        if model.secondary != nil, model.primary?.isTransient == false {
+            area.size.width += IslandModel.bubbleGap + model.bubbleSize
+        }
+        return area
     }
 
     private func trackMouse() {
         guard let panel, panel.isVisible else { return }
         let model = IslandModel.shared
         let pointer = NSEvent.mouseLocation
-        let inside = islandRect.insetBy(dx: -4, dy: -4).contains(pointer) && model.primary != nil
+        let inside = hoverRect.insetBy(dx: -4, dy: -4).contains(pointer) && model.primary != nil
         // Nothing to do while the pointer rests elsewhere.
         if pointer == lastPointer, panel.ignoresMouseEvents == !inside { return }
         lastPointer = pointer

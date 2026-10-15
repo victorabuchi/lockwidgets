@@ -1,11 +1,9 @@
 import SwiftUI
 
-/// The black shape: flat along the top with small flared shoulders, like the notch it grows out of.
+/// The black shape: square along the top, where it meets the notch and the screen edge, with rounded
+/// bottom corners like the notch's own.
 struct IslandShape: Shape {
-    static let shoulderSize: CGFloat = 7
-
     var bottomRadius: CGFloat
-    var shoulder: CGFloat = IslandShape.shoulderSize
 
     var animatableData: CGFloat {
         get { bottomRadius }
@@ -13,16 +11,12 @@ struct IslandShape: Shape {
     }
 
     func path(in rect: CGRect) -> Path {
-        let r = min(bottomRadius, (rect.height - shoulder) / 2, (rect.width - shoulder * 2) / 2)
+        let r = max(0, min(bottomRadius, rect.height / 2, rect.width / 2))
         var path = Path()
         path.move(to: CGPoint(x: rect.minX, y: rect.minY))
-        path.addQuadCurve(to: CGPoint(x: rect.minX + shoulder, y: rect.minY + shoulder), control: CGPoint(x: rect.minX + shoulder, y: rect.minY))
-        path.addLine(to: CGPoint(x: rect.minX + shoulder, y: rect.maxY - r))
-        path.addQuadCurve(to: CGPoint(x: rect.minX + shoulder + r, y: rect.maxY), control: CGPoint(x: rect.minX + shoulder, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX - shoulder - r, y: rect.maxY))
-        path.addQuadCurve(to: CGPoint(x: rect.maxX - shoulder, y: rect.maxY - r), control: CGPoint(x: rect.maxX - shoulder, y: rect.maxY))
-        path.addLine(to: CGPoint(x: rect.maxX - shoulder, y: rect.minY + shoulder))
-        path.addQuadCurve(to: CGPoint(x: rect.maxX, y: rect.minY), control: CGPoint(x: rect.maxX - shoulder, y: rect.minY))
+        path.addArc(tangent1End: CGPoint(x: rect.minX, y: rect.maxY), tangent2End: CGPoint(x: rect.maxX, y: rect.maxY), radius: r)
+        path.addArc(tangent1End: CGPoint(x: rect.maxX, y: rect.maxY), tangent2End: CGPoint(x: rect.maxX, y: rect.minY), radius: r)
+        path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
         path.closeSubpath()
         return path
     }
@@ -44,17 +38,24 @@ struct IslandView: View {
             IslandShape(bottomRadius: model.bottomRadius)
                 .fill(Color.black)
                 .frame(width: size.width, height: size.height)
-                .shadow(color: .black.opacity(model.isExpanded ? 0.5 : 0), radius: 20, y: 8)
             content
                 .frame(width: size.width, height: size.height, alignment: .top)
                 .clipShape(IslandShape(bottomRadius: model.bottomRadius))
         }
-        // Width and height move on different springs: closing, the card narrows first and then rises
-        // into the notch (a genie-like pull); opening, it widens first and then drops down.
+        // Width and height move on different springs: opening, the sides draw in and the card drops out
+        // of the notch; closing, it rises back into the notch and the sides spread out again.
         .frame(height: size.height)
         .animation(.spring(response: 0.48, dampingFraction: 0.82), value: size.height)
         .frame(width: size.width)
         .animation(.spring(response: 0.32, dampingFraction: 0.86), value: size.width)
+        .overlay(alignment: .topTrailing) {
+            // A second live activity floats in its own bubble on the right, as on the iPhone.
+            if model.showsBubble, let secondary = model.secondary {
+                Bubble(activity: secondary, size: model.bubbleSize, fill: .black)
+                    .offset(x: IslandModel.bubbleGap + model.bubbleSize)
+                    .transition(.scale(scale: 0.4, anchor: .leading).combined(with: .opacity))
+            }
+        }
         .contentShape(Rectangle())
         .onTapGesture { model.toggleExpanded() }
     }
@@ -97,14 +98,14 @@ struct IslandView: View {
 }
 
 /// Live activities sit either side of the camera at the notch's own height, like the iPhone's compact island.
-/// Each side runs from the shoulder to the notch, so nothing is hidden by the camera or cut by the edge.
+/// Each side runs from the island's edge to the notch, so nothing is hidden by the camera.
 struct CompactRow<Leading: View, Trailing: View>: View {
     let notch: CGSize
     @ViewBuilder var leading: Leading
     @ViewBuilder var trailing: Trailing
 
     var body: some View {
-        let side = IslandModel.wing(notch) - IslandShape.shoulderSize
+        let side = IslandModel.wing(notch)
         HStack(spacing: 0) {
             leading
                 .frame(width: side, height: notch.height)
@@ -113,7 +114,6 @@ struct CompactRow<Leading: View, Trailing: View>: View {
                 .frame(width: side, height: notch.height)
         }
         .lineLimit(1)
-        .padding(.horizontal, IslandShape.shoulderSize)
         .frame(height: notch.height)
     }
 }
@@ -131,7 +131,7 @@ struct DropRow<Leading: View, Trailing: View>: View {
             trailing
         }
         .lineLimit(1)
-        .padding(.horizontal, IslandShape.shoulderSize + 14)
+        .padding(.horizontal, 14)
         .frame(height: IslandModel.dropHeight)
         .padding(.top, notch.height)
     }

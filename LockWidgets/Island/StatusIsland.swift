@@ -1,5 +1,35 @@
 import SwiftUI
 
+// MARK: Bubble
+
+/// A small round icon for a second live activity: beside the closed island, and on the right of the open card.
+struct Bubble: View {
+    let activity: IslandActivity
+    var size: CGFloat = 22
+    var fill = Color.white.opacity(0.14)
+    @ObservedObject private var music = NowPlayingStore.shared
+
+    var body: some View {
+        ZStack {
+            Circle().fill(fill)
+            switch activity {
+            case .music:
+                Artwork(image: music.artwork, size: size * 0.78, cornerRadius: size * 0.39)
+            case .timer:
+                Image(systemName: "timer").foregroundStyle(.orange)
+            case .meeting:
+                Image(systemName: "video.fill").foregroundStyle(.green)
+            case .hotspot:
+                Image(systemName: "personalhotspot").foregroundStyle(.green)
+            default:
+                EmptyView()
+            }
+        }
+        .font(.system(size: size * 0.5, weight: .semibold))
+        .frame(width: size, height: size)
+    }
+}
+
 // MARK: Timer
 
 private struct ActiveTimer {
@@ -43,21 +73,23 @@ struct TimerExpanded: View {
 
     var body: some View {
         let timer = activeTimer(timers)
-        HStack(spacing: 18) {
+        HStack(spacing: 8) {
             Image(systemName: timer.symbol)
-                .font(.system(size: 30, weight: .semibold))
+                .font(.system(size: 20, weight: .semibold))
                 .foregroundStyle(timer.color)
             VStack(alignment: .leading, spacing: 0) {
                 Text(timer.title)
-                    .font(.system(size: 13, weight: .semibold))
+                    .font(.system(size: 11, weight: .semibold))
                     .foregroundStyle(.white.opacity(0.6))
                 TimelineView(.periodic(from: .now, by: 1)) { context in
                     Text(timer.text(context.date))
-                        .font(.system(size: 32, weight: .semibold, design: .rounded).monospacedDigit())
+                        .font(.system(size: 22, weight: .semibold, design: .rounded).monospacedDigit())
                         .foregroundStyle(timer.color)
+                        .minimumScaleFactor(0.6)
                 }
             }
-            Spacer()
+            .lineLimit(1)
+            Spacer(minLength: 4)
             if timers.pomodoroRunning {
                 round("pause.fill", timer.color) { timers.togglePomodoro() }
                 round("forward.end.fill", .white) { timers.skipPhase() }
@@ -66,8 +98,8 @@ struct TimerExpanded: View {
                 round("arrow.counterclockwise", .white) { timers.resetStopwatch() }
             }
         }
-        .padding(.horizontal, 20)
-        .padding(.top, notch.height + 6)
+        .padding(.horizontal, 14)
+        .padding(.top, notch.height + 8)
     }
 }
 
@@ -75,9 +107,9 @@ struct TimerExpanded: View {
 func round(_ symbol: String, _ color: Color, action: @escaping () -> Void) -> some View {
     Button(action: action) {
         Image(systemName: symbol)
-            .font(.system(size: 15, weight: .bold))
+            .font(.system(size: 13, weight: .bold))
             .foregroundStyle(color)
-            .frame(width: 38, height: 38)
+            .frame(width: 32, height: 32)
             .background(color.opacity(0.22), in: Circle())
     }
     .buttonStyle(IslandButtonStyle())
@@ -107,46 +139,57 @@ struct MeetingCompact: View {
 struct MeetingExpanded: View {
     let notch: CGSize
     @ObservedObject private var status = StatusMonitor.shared
+    @ObservedObject private var island = IslandModel.shared
 
     var body: some View {
         if let meeting = status.meeting {
-            HStack(spacing: 16) {
-                if let bundleID = meeting.bundleID, let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
-                    Image(nsImage: NSWorkspace.shared.icon(forFile: url.path))
-                        .resizable()
-                        .frame(width: 40, height: 40)
-                }
-                VStack(alignment: .leading, spacing: 4) {
-                    Text(meeting.app == "Zoom" ? "Zoom Meeting" : "\(meeting.app) Call")
-                        .font(.system(size: 15, weight: .semibold))
-                    TimelineView(.periodic(from: .now, by: 1)) { _ in
-                        Text(Date.now.timeIntervalSince(meeting.started).clockText)
-                            .font(.system(size: 13, weight: .semibold).monospacedDigit())
-                            .foregroundStyle(.green)
+            VStack(spacing: 8) {
+                HStack(spacing: 10) {
+                    if let bundleID = meeting.bundleID, let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) {
+                        Image(nsImage: NSWorkspace.shared.icon(forFile: url.path))
+                            .resizable()
+                            .frame(width: 30, height: 30)
                     }
-                    HStack(spacing: 10) {
-                        Label(meeting.microphone ? "Mic on" : "Mic off", systemImage: meeting.microphone ? "mic.fill" : "mic.slash.fill")
-                        Label(meeting.camera ? "Camera on" : "Camera off", systemImage: meeting.camera ? "video.fill" : "video.slash.fill")
+                    VStack(alignment: .leading, spacing: 1) {
+                        Text(meeting.app == "Zoom" ? "Zoom Meeting" : "\(meeting.app) Call")
+                            .font(.system(size: 13, weight: .semibold))
+                        HStack(spacing: 6) {
+                            TimelineView(.periodic(from: .now, by: 1)) { context in
+                                Text(context.date.timeIntervalSince(meeting.started).clockText)
+                                    .foregroundStyle(.green)
+                            }
+                            Image(systemName: meeting.microphone ? "mic.fill" : "mic.slash.fill")
+                                .help(meeting.microphone ? "Mic on" : "Mic off")
+                            Image(systemName: meeting.camera ? "video.fill" : "video.slash.fill")
+                                .help(meeting.camera ? "Camera on" : "Camera off")
+                        }
+                        .font(.system(size: 11, weight: .semibold).monospacedDigit())
+                        .foregroundStyle(.white.opacity(0.6))
                     }
-                    .font(.system(size: 11, weight: .semibold))
-                    .foregroundStyle(.white.opacity(0.6))
-                }
-                Spacer()
-                if meeting.app == "Zoom" {
-                    round("mic.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomMuteKey) }
-                        .help("Mute or unmute in Zoom")
-                    round("video.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomVideoKey) }
-                        .help("Start or stop video in Zoom")
-                }
-                round("arrow.up.forward.app.fill", .green) {
-                    if let bundleID = meeting.bundleID {
-                        NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).first?.activate()
+                    .lineLimit(1)
+                    Spacer(minLength: 0)
+                    if let other = island.secondary {
+                        Bubble(activity: other)
                     }
                 }
-                .help("Open \(meeting.app)")
+                .frame(height: 30)
+                HStack(spacing: 12) {
+                    if meeting.app == "Zoom" {
+                        round("mic.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomMuteKey) }
+                            .help("Mute or unmute in Zoom")
+                        round("video.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomVideoKey) }
+                            .help("Start or stop video in Zoom")
+                    }
+                    round("arrow.up.forward.app.fill", .green) {
+                        if let bundleID = meeting.bundleID {
+                            NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).first?.activate()
+                        }
+                    }
+                    .help("Open \(meeting.app)")
+                }
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 20)
+            .padding(.horizontal, 14)
             .padding(.top, notch.height + 8)
         }
     }
@@ -154,18 +197,18 @@ struct MeetingExpanded: View {
 
 // MARK: Hotspot
 
+/// While closed, the hotspot sits where a song's artwork would, as on the iPhone.
 struct HotspotCompact: View {
     let notch: CGSize
 
     var body: some View {
         CompactRow(notch: notch) {
             Image(systemName: "personalhotspot")
-                .font(.system(size: 14, weight: .bold))
+                .font(.system(size: 15, weight: .bold))
+                .foregroundStyle(.green)
         } trailing: {
-            Image(systemName: "iphone.gen3")
-                .font(.system(size: 14, weight: .semibold))
+            Color.clear
         }
-        .foregroundStyle(.green)
     }
 }
 
@@ -174,24 +217,25 @@ struct HotspotExpanded: View {
     @ObservedObject private var status = StatusMonitor.shared
 
     var body: some View {
-        HStack(spacing: 14) {
+        HStack(spacing: 10) {
             Image(systemName: "personalhotspot")
-                .font(.system(size: 22, weight: .bold))
+                .font(.system(size: 15, weight: .bold))
                 .foregroundStyle(.green)
-                .frame(width: 38, height: 38)
+                .frame(width: 30, height: 30)
                 .background(Color.green.opacity(0.2), in: Circle())
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 1) {
                 Text("Personal Hotspot")
-                    .font(.system(size: 15, weight: .semibold))
+                    .font(.system(size: 13, weight: .semibold))
                 Text("Connected to \(status.hotspot ?? "iPhone")")
-                    .font(.system(size: 12, weight: .medium))
+                    .font(.system(size: 11, weight: .medium))
                     .foregroundStyle(.white.opacity(0.6))
             }
-            Spacer()
+            .lineLimit(1)
+            Spacer(minLength: 0)
         }
         .foregroundStyle(.white)
-        .padding(.horizontal, 20)
-        .padding(.top, notch.height + 6)
+        .padding(.horizontal, 14)
+        .padding(.top, notch.height + 8)
     }
 }
 

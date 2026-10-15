@@ -37,10 +37,10 @@ enum IslandActivity: Equatable {
     /// Height of the full card below the notch.
     var expandedHeight: CGFloat {
         switch self {
-        case .music: 0
-        case .meeting: 104
-        case .timer: 92
-        default: 76
+        case .music: MusicExpanded.height(showsLyrics: UserDefaults.standard.object(forKey: SettingsKey.islandLyrics) as? Bool ?? true)
+        case .meeting: 88
+        case .timer: 60
+        default: 48
         }
     }
 
@@ -52,6 +52,8 @@ final class IslandModel: ObservableObject {
     static let shared = IslandModel()
 
     @Published private(set) var primary: IslandActivity?
+    /// A second live activity, shown as a small icon on the right of the open card, as the iPhone does.
+    @Published private(set) var secondary: IslandActivity?
     @Published var isExpanded = false
     @Published var isHovering = false
 
@@ -150,7 +152,7 @@ final class IslandModel: ObservableObject {
         UserDefaults.standard.object(forKey: key) as? Bool ?? true
     }
 
-    /// Ongoing activities in priority order. The island shows the first one.
+    /// Ongoing activities in priority order. The island shows the first, and the open card the second as an icon.
     private var ongoing: [IslandActivity] {
         var list: [IslandActivity] = []
         if setting(SettingsKey.islandMeetings), StatusMonitor.shared.meeting != nil { list.append(.meeting) }
@@ -162,11 +164,14 @@ final class IslandModel: ObservableObject {
     }
 
     func refresh() {
-        let nextPrimary = transient ?? ongoing.first
+        let list = ongoing
+        let nextPrimary = transient ?? list.first
+        let nextSecondary = transient == nil ? list.dropFirst().first : nil
         if primary != nextPrimary {
             if primary != nil, nextPrimary != nil, transient == nil { isExpanded = false }
             primary = nextPrimary
         }
+        if secondary != nextSecondary { secondary = nextSecondary }
         if primary == nil || primary?.canExpand == false { isExpanded = false }
         #if DEBUG
         if UserDefaults.standard.bool(forKey: "islandExpanded"), primary?.canExpand == true { isExpanded = true }
@@ -225,27 +230,38 @@ final class IslandModel: ObservableObject {
     /// Height of the row that brief alerts add below the notch.
     static let dropHeight: CGFloat = 32
 
-    /// How far a live activity reaches out on each side of the notch. The notch has no screen under it,
-    /// so a song's artwork and waveform can only show beside the camera, as on the iPhone.
-    static func wing(_ notch: CGSize) -> CGFloat { notch.height + 6 }
+    /// Height that notification and calendar banners add below the notch.
+    static let bannerHeight: CGFloat = 64
 
-    /// Size of the black shape for the current state.
+    /// How far a live activity reaches out on each side of the notch while closed, like the iPhone's
+    /// compact island. The notch has no screen under it, so the artwork can only show beside it.
+    static func wing(_ notch: CGSize) -> CGFloat { notch.height + 2 }
+
+    /// The round bubble for a second live activity, beside the closed island on the right, as on the iPhone.
+    var bubbleSize: CGFloat { notch.height }
+    static let bubbleGap: CGFloat = 6
+
+    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isTransient == false }
+
+    /// Size of the black shape for the current state. With nothing live it is exactly the notch; live
+    /// activities sit beside it at its height; everything else hangs below it at the notch's width.
     var size: CGSize {
         guard let primary else { return notch }
-        let cardWidth = max(notch.width + 170, 360)
         if primary.isBanner {
-            return CGSize(width: cardWidth, height: notch.height + 52)
+            return CGSize(width: notch.width, height: notch.height + Self.bannerHeight)
         }
         if isExpanded {
-            // Music uses the space beside the camera, so its card is measured from the top edge.
-            if primary == .music { return CGSize(width: cardWidth, height: 210) }
-            return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
+            return CGSize(width: notch.width, height: notch.height + primary.expandedHeight)
         }
-        // Brief alerts hang below the notch at the notch's own width, as if the notch grew downwards.
         if primary.isTransient {
-            return CGSize(width: notch.width + IslandShape.shoulderSize * 2, height: notch.height + Self.dropHeight)
+            return CGSize(width: notch.width, height: notch.height + Self.dropHeight)
         }
-        // Live activities keep the notch's exact height and reach out either side of it.
+        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
+    }
+
+    /// The size the island returns to when the open card closes.
+    var closedSize: CGSize {
+        guard let primary, !primary.isTransient else { return size }
         return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
     }
 
@@ -254,8 +270,8 @@ final class IslandModel: ObservableObject {
 
     var bottomRadius: CGFloat {
         guard let primary else { return Self.notchRadius }
-        if isExpanded || primary.isBanner { return 30 }
-        return primary.isTransient ? 18 : 14
+        if isExpanded || primary.isBanner { return 22 }
+        return 16
     }
 
     func toggleExpanded() {

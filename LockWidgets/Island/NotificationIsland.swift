@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// A notification dropping down from the island: app icon, title and message, like the iPhone's banner.
+/// A notification dropping down from the notch at the notch's width: the app icon beside the title and message.
 struct NotificationBanner: View {
     let notch: CGSize
     let item: NotificationStore.Item
@@ -8,16 +8,12 @@ struct NotificationBanner: View {
     var body: some View {
         BannerLayout(notch: notch) {
             icon
-        } corner: {
-            Text("now")
-                .font(.system(size: 11, weight: .medium))
-                .foregroundStyle(.white.opacity(0.45))
         } text: {
             Text(item.title.isEmpty ? item.appName : item.title)
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 12.5, weight: .semibold))
                 .lineLimit(1)
             Text([item.subtitle, item.body].filter { !$0.isEmpty }.joined(separator: " · "))
-                .font(.system(size: 13))
+                .font(.system(size: 11.5))
                 .foregroundStyle(.white.opacity(0.75))
                 .lineLimit(2)
         }
@@ -44,34 +40,27 @@ struct NotificationBanner: View {
     }
 }
 
-/// Banner arrangement that uses the band beside the camera: the icon sits in the top-left corner and a
-/// small detail in the top-right, with the text column starting right under the notch, as on the iPhone.
-struct BannerLayout<Icon: View, Corner: View, Content: View>: View {
+/// Banner arrangement below the notch, as wide as the notch: the icon beside the title and message,
+/// both starting right under the camera so there is no empty band.
+struct BannerLayout<Icon: View, Content: View>: View {
     let notch: CGSize
     @ViewBuilder var icon: Icon
-    @ViewBuilder var corner: Corner
     @ViewBuilder var text: Content
 
-    static var iconSize: CGFloat { 40 }
+    static var iconSize: CGFloat { 30 }
 
     var body: some View {
-        ZStack(alignment: .topLeading) {
+        HStack(alignment: .top, spacing: 10) {
             icon
                 .frame(width: Self.iconSize, height: Self.iconSize)
-                .padding(.leading, 16)
-                .padding(.top, 9)
-            corner
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .frame(height: notch.height)
-                .padding(.trailing, 20)
             VStack(alignment: .leading, spacing: 1) {
                 text
             }
-            .foregroundStyle(.white)
-            .padding(.leading, 16 + Self.iconSize + 12)
-            .padding(.trailing, 20)
-            .padding(.top, notch.height - 2)
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
+        .foregroundStyle(.white)
+        .padding(.horizontal, 14)
+        .padding(.top, notch.height + 10)
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }

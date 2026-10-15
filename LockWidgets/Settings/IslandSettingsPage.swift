@@ -18,11 +18,11 @@ struct IslandSettingsPage: View {
     var body: some View {
         Form {
             Section {
-                PageHeader(title: "Dynamic Island", subtitle: "Live activity around your MacBook's notch, like the iPhone. Tap the island to open the full card.")
+                PageHeader(title: "Dynamic Island", subtitle: "Live activity in your MacBook's notch, like the iPhone's Dynamic Island.")
                 PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("With nothing live, it is exactly your notch. A song shows beside the camera; point at it to open the full card.")
+                        Text("A song or your hotspot shows beside the notch, like the iPhone. Point at it to open the card.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }
@@ -56,7 +56,7 @@ struct IslandSettingsPage: View {
             Section("Activities") {
                 Toggle(isOn: $music) {
                     Text("Now Playing")
-                    Text("Artwork and a live waveform while a song plays; tap for controls.")
+                    Text("Artwork and waveform beside the notch; the song, lyric and controls when you open it.")
                 }
                 Toggle(isOn: $lyrics) {
                     Text("Lyrics in the full card")
@@ -97,7 +97,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When more than one thing is live, the island shows one: calls first, then timers, music and the hotspot.")
+                Text("When two things are live, the second waits in a small bubble on the right, like the iPhone. Calls come first, then timers, music and the hotspot.")
                     .foregroundStyle(.secondary)
             }
         }
@@ -105,17 +105,17 @@ struct IslandSettingsPage: View {
     }
 }
 
-/// The open music card in miniature, for the settings page.
+/// The open music card at its real size, for the settings page.
 private struct IslandPreview: View {
+    @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
+
     var body: some View {
-        let notch = CGSize(width: 190, height: 32)
+        let notch = IslandModel.shared.notch
         ZStack(alignment: .top) {
-            IslandShape(bottomRadius: 30).fill(Color.black)
+            IslandShape(bottomRadius: 22).fill(Color.black)
             MusicExpanded(notch: notch)
         }
-        .frame(width: 360, height: 210)
+        .frame(width: notch.width, height: notch.height + MusicExpanded.height(showsLyrics: showLyrics))
         .environment(\.colorScheme, .dark)
-        .scaleEffect(0.75)
-        .frame(width: 270, height: 158)
     }
 }
