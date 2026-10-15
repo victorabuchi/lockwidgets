@@ -10,6 +10,7 @@ struct LockWidgetsApp: App {
         // Before anything reads a setting.
         PreferencesMigration.run()
         _overlay = StateObject(wrappedValue: OverlayManager())
+        IslandController.shared.start()
     }
 
     var body: some Scene {
@@ -111,6 +112,7 @@ private struct MenuContent: View {
     @ObservedObject private var timers = TimerStore.shared
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.showOnLockScreen) private var showOnLockScreen = true
+    @AppStorage(SettingsKey.islandEnabled) private var islandEnabled = true
 
     private var version: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
@@ -127,6 +129,9 @@ private struct MenuContent: View {
         Button("Browse Layout Gallery…") { open(.gallery) }
         Button(showOnLockScreen ? "Hide Widgets on Lock Screen" : "Show Widgets on Lock Screen") {
             showOnLockScreen.toggle()
+        }
+        Button(islandEnabled ? "Hide Dynamic Island" : "Show Dynamic Island") {
+            islandEnabled.toggle()
         }
         Button(overlay.isShowing ? "Hide Desktop Preview" : "Preview on Desktop") {
             overlay.toggle()

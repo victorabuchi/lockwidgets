@@ -16,6 +16,9 @@ enum SettingsKey {
     static let calendarIncludeTomorrow = "calendarIncludeTomorrow"
     static let studioBackground = "studioBackground"
     static let hasLaunched = "hasLaunched"
+    static let islandEnabled = "islandEnabled"
+    static let islandMusic = "islandMusic"
+    static let islandLyrics = "islandLyrics"
 
     /// Follows the region (°F in the US) until the user picks a unit.
     static var defaultFahrenheit: Bool { Locale.current.measurementSystem == .us }

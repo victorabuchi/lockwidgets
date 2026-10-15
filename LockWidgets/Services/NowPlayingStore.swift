@@ -53,7 +53,11 @@ final class NowPlayingStore: ObservableObject {
 
     @Published private(set) var track: Track?
     @Published private(set) var isPlaying = false
-    @Published private(set) var artwork: NSImage?
+    @Published private(set) var artwork: NSImage? {
+        didSet { artworkColor = artwork.flatMap(Self.averageColor) }
+    }
+    /// The artwork's average colour, for tinting the island's waveform.
+    @Published private(set) var artworkColor: NSColor?
     /// Set when macOS has blocked LockWidgets from controlling the player.
     @Published private(set) var needsPermission = false
 
@@ -77,6 +81,36 @@ final class NowPlayingStore: ObservableObject {
         guard let track else { return 0 }
         let elapsed = isPlaying ? date.timeIntervalSince(positionDate) : 0
         return min(position + elapsed, track.duration)
+    }
+
+    enum Command: String {
+        case playPause = "playpause"
+        case next = "next track"
+        case previous = "previous track"
+    }
+
+    /// Sends a transport command to whichever player owns the current track.
+    func send(_ command: Command) {
+        guard let player = track?.player else { return }
+        if command == .playPause { isPlaying.toggle() }
+        queue.async { [weak self] in
+            var error: NSDictionary?
+            NSAppleScript(source: "tell application id \"\(player.rawValue)\" to \(command.rawValue)")?.executeAndReturnError(&error)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) { self?.poll() }
+        }
+    }
+
+    private static func averageColor(_ image: NSImage) -> NSColor? {
+        guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else { return nil }
+        var pixel = [UInt8](repeating: 0, count: 4)
+        guard let context = CGContext(data: &pixel, width: 1, height: 1, bitsPerComponent: 8, bytesPerRow: 4,
+                                      space: CGColorSpaceCreateDeviceRGB(), bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)
+        else { return nil }
+        context.interpolationQuality = .medium
+        context.draw(cgImage, in: CGRect(x: 0, y: 0, width: 1, height: 1))
+        let color = NSColor(red: CGFloat(pixel[0]) / 255, green: CGFloat(pixel[1]) / 255, blue: CGFloat(pixel[2]) / 255, alpha: 1)
+        // Lift dark covers so the bars stay visible on black.
+        return color.blended(withFraction: color.brightnessComponent < 0.5 ? 0.45 : 0.1, of: .white)
     }
 
     func openAutomationSettings() {
