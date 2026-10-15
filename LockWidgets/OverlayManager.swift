@@ -3,6 +3,8 @@ import SkyLightWindow
 import SwiftUI
 
 final class OverlayManager: ObservableObject {
+    @Published private(set) var isShowing = false
+
     private var controllers: [NSWindowController] = []
 
     init() {
@@ -10,6 +12,7 @@ final class OverlayManager: ObservableObject {
 
         let dnc = DistributedNotificationCenter.default()
         dnc.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
+            self?.refreshData()
             self?.show()
         }
         dnc.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
@@ -25,10 +28,22 @@ final class OverlayManager: ObservableObject {
             controller.window?.ignoresMouseEvents = true
             controllers.append(controller)
         }
+        isShowing = true
     }
 
     func hide() {
         controllers.forEach { $0.close() }
         controllers.removeAll()
+        isShowing = false
+    }
+
+    func toggle() {
+        isShowing ? hide() : show()
+    }
+
+    func refreshData() {
+        BatteryMonitor.shared.refresh()
+        CalendarStore.shared.reload()
+        WeatherStore.shared.refresh()
     }
 }
