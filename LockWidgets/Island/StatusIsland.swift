@@ -1,35 +1,5 @@
 import SwiftUI
 
-// MARK: Bubble
-
-/// A small round icon for a second live activity, shown at the top of the open card.
-struct Bubble: View {
-    let activity: IslandActivity
-    let size: CGFloat
-    @ObservedObject private var music = NowPlayingStore.shared
-
-    var body: some View {
-        ZStack {
-            Circle().fill(Color.white.opacity(0.14))
-            switch activity {
-            case .music:
-                Artwork(image: music.artwork, size: size - 4, cornerRadius: (size - 4) / 2)
-            case .timer:
-                Image(systemName: "timer").foregroundStyle(.orange)
-            case .meeting:
-                Image(systemName: "video.fill").foregroundStyle(.green)
-            case .hotspot:
-                Image(systemName: "personalhotspot").foregroundStyle(.green)
-            default:
-                EmptyView()
-            }
-        }
-        .font(.system(size: size * 0.46, weight: .semibold))
-        .frame(width: size, height: size)
-        .contentShape(Circle())
-    }
-}
-
 // MARK: Timer
 
 private struct ActiveTimer {
@@ -45,6 +15,26 @@ private func activeTimer(_ timers: TimerStore) -> ActiveTimer {
         return ActiveTimer(symbol: "timer", title: timers.phase.title, color: color) { timers.pomodoroRemaining(at: $0).clockText }
     }
     return ActiveTimer(symbol: "stopwatch", title: "Stopwatch", color: .orange) { timers.stopwatchElapsed(at: $0).clockText }
+}
+
+struct TimerCompact: View {
+    let notch: CGSize
+    @ObservedObject private var timers = TimerStore.shared
+
+    var body: some View {
+        let timer = activeTimer(timers)
+        CompactRow(notch: notch) {
+            Image(systemName: timer.symbol)
+                .font(.system(size: 15, weight: .semibold))
+        } trailing: {
+            TimelineView(.periodic(from: .now, by: 1)) { context in
+                Text(timer.text(context.date))
+                    .font(.system(size: 12, weight: .semibold, design: .rounded).monospacedDigit())
+                    .minimumScaleFactor(0.6)
+            }
+        }
+        .foregroundStyle(timer.color)
+    }
 }
 
 struct TimerExpanded: View {
@@ -95,6 +85,25 @@ func round(_ symbol: String, _ color: Color, action: @escaping () -> Void) -> so
 
 // MARK: Meeting
 
+struct MeetingCompact: View {
+    let notch: CGSize
+    @ObservedObject private var status = StatusMonitor.shared
+
+    var body: some View {
+        CompactRow(notch: notch) {
+            Image(systemName: status.meeting?.camera == true ? "video.fill" : "phone.fill")
+                .font(.system(size: 14, weight: .semibold))
+        } trailing: {
+            TimelineView(.periodic(from: .now, by: 1)) { context in
+                Text(context.date.timeIntervalSince(status.meeting?.started ?? context.date).clockText)
+                    .font(.system(size: 12, weight: .semibold, design: .rounded).monospacedDigit())
+                    .minimumScaleFactor(0.6)
+            }
+        }
+        .foregroundStyle(.green)
+    }
+}
+
 struct MeetingExpanded: View {
     let notch: CGSize
     @ObservedObject private var status = StatusMonitor.shared
@@ -144,6 +153,21 @@ struct MeetingExpanded: View {
 }
 
 // MARK: Hotspot
+
+struct HotspotCompact: View {
+    let notch: CGSize
+
+    var body: some View {
+        CompactRow(notch: notch) {
+            Image(systemName: "personalhotspot")
+                .font(.system(size: 14, weight: .bold))
+        } trailing: {
+            Image(systemName: "iphone.gen3")
+                .font(.system(size: 14, weight: .semibold))
+        }
+        .foregroundStyle(.green)
+    }
+}
 
 struct HotspotExpanded: View {
     let notch: CGSize

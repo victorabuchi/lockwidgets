@@ -36,7 +36,6 @@ struct IslandView: View {
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .animation(.spring(response: 0.5, dampingFraction: 0.72), value: model.isExpanded)
             .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.primary)
-            .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.secondary)
             .environment(\.colorScheme, .dark)
     }
 
@@ -49,15 +48,6 @@ struct IslandView: View {
             content
                 .frame(width: size.width, height: size.height, alignment: .top)
                 .clipShape(IslandShape(bottomRadius: model.bottomRadius))
-            if model.isExpanded, let secondary = model.secondary {
-                // The other live activity waits in the band beside the camera; tap it to switch.
-                Bubble(activity: secondary, size: 26)
-                    .onTapGesture { model.promoteSecondary() }
-                    .frame(maxWidth: .infinity, alignment: .trailing)
-                    .padding(.trailing, model.primary == .music ? 54 : 20)
-                    .padding(.top, model.primary == .music ? 9 : max((model.notch.height - 26) / 2, 4))
-                    .transition(.opacity)
-            }
         }
         // Width and height move on different springs: closing, the card narrows first and then rises
         // into the notch (a genie-like pull); opening, it widens first and then drops down.
@@ -69,30 +59,26 @@ struct IslandView: View {
         .onTapGesture { model.toggleExpanded() }
     }
 
-    @ViewBuilder
     private var content: some View {
-        let notch = model.notch
-        Group {
-            if model.isNotchOnly {
-                EmptyView()
-            } else {
-                activityContent(notch)
-            }
-        }
-        .transition(.asymmetric(
-            insertion: .opacity.animation(.easeOut(duration: 0.25).delay(0.08)),
-            removal: .opacity.animation(.easeIn(duration: 0.12))
-        ))
-        .id(contentID)
+        activityContent(model.notch)
+            .transition(.asymmetric(
+                insertion: .opacity.animation(.easeOut(duration: 0.25).delay(0.08)),
+                removal: .opacity.animation(.easeIn(duration: 0.12))
+            ))
+            .id(contentID)
     }
 
     @ViewBuilder
     private func activityContent(_ notch: CGSize) -> some View {
         switch (model.primary, model.isExpanded) {
         case (.music, true): MusicExpanded(notch: notch)
+        case (.music, false): MusicCompact(notch: notch)
         case (.timer, true): TimerExpanded(notch: notch)
+        case (.timer, false): TimerCompact(notch: notch)
         case (.meeting, true): MeetingExpanded(notch: notch)
+        case (.meeting, false): MeetingCompact(notch: notch)
         case (.hotspot, true): HotspotExpanded(notch: notch)
+        case (.hotspot, false): HotspotCompact(notch: notch)
         case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
         case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
         case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
@@ -107,6 +93,28 @@ struct IslandView: View {
 
     private var contentID: String {
         "\(String(describing: model.primary))-\(model.isExpanded)"
+    }
+}
+
+/// Live activities sit either side of the camera at the notch's own height, like the iPhone's compact island.
+/// Each side runs from the shoulder to the notch, so nothing is hidden by the camera or cut by the edge.
+struct CompactRow<Leading: View, Trailing: View>: View {
+    let notch: CGSize
+    @ViewBuilder var leading: Leading
+    @ViewBuilder var trailing: Trailing
+
+    var body: some View {
+        let side = IslandModel.wing(notch) - IslandShape.shoulderSize
+        HStack(spacing: 0) {
+            leading
+                .frame(width: side, height: notch.height)
+            Spacer(minLength: notch.width)
+            trailing
+                .frame(width: side, height: notch.height)
+        }
+        .lineLimit(1)
+        .padding(.horizontal, IslandShape.shoulderSize)
+        .frame(height: notch.height)
     }
 }
 

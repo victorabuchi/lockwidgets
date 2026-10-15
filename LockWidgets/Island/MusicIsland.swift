@@ -1,5 +1,21 @@
 import SwiftUI
 
+/// While closed, the song sits either side of the camera: artwork on the left, waveform on the right.
+struct MusicCompact: View {
+    let notch: CGSize
+    @ObservedObject private var music = NowPlayingStore.shared
+
+    var body: some View {
+        let artwork = (notch.height * 0.63).rounded()
+        CompactRow(notch: notch) {
+            Artwork(image: music.artwork, size: artwork, cornerRadius: artwork / 4)
+        } trailing: {
+            Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
+                .frame(width: artwork * 0.75, height: artwork * 0.58)
+        }
+    }
+}
+
 /// The full card. Like the iPhone's, the artwork and waveform sit in the top corners beside the camera,
 /// with the song, progress and controls beneath them.
 struct MusicExpanded: View {

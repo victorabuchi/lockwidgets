@@ -22,7 +22,7 @@ struct IslandSettingsPage: View {
                 PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("Closed, it is exactly your notch. Point at the notch to open it.")
+                        Text("With nothing live, it is exactly your notch. A song shows beside the camera; point at it to open the full card.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }
@@ -97,7 +97,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When two things are live, the other one waits as a small icon at the top of the open card. Tap it to switch.")
+                Text("When more than one thing is live, the island shows one: calls first, then timers, music and the hotspot.")
                     .foregroundStyle(.secondary)
             }
         }

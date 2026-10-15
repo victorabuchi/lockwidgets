@@ -52,8 +52,6 @@ final class IslandModel: ObservableObject {
     static let shared = IslandModel()
 
     @Published private(set) var primary: IslandActivity?
-    /// A second ongoing activity, shown as a small icon at the top of the open card; tap it to switch.
-    @Published private(set) var secondary: IslandActivity?
     @Published var isExpanded = false
     @Published var isHovering = false
 
@@ -65,8 +63,6 @@ final class IslandModel: ObservableObject {
     private var transientWork: DispatchWorkItem?
     /// Brief activities waiting their turn, so a burst of notifications plays one after another.
     private var pending: [(IslandActivity, Double)] = []
-    /// The activity the user brought forward by tapping the bubble.
-    private var pinned: IslandActivity?
     private var subscriptions: Set<AnyCancellable> = []
 
     private init() {
@@ -154,7 +150,7 @@ final class IslandModel: ObservableObject {
         UserDefaults.standard.object(forKey: key) as? Bool ?? true
     }
 
-    /// Ongoing activities in priority order.
+    /// Ongoing activities in priority order. The island shows the first one.
     private var ongoing: [IslandActivity] {
         var list: [IslandActivity] = []
         if setting(SettingsKey.islandMeetings), StatusMonitor.shared.meeting != nil { list.append(.meeting) }
@@ -166,19 +162,11 @@ final class IslandModel: ObservableObject {
     }
 
     func refresh() {
-        var list = ongoing
-        if let pinned, let index = list.firstIndex(of: pinned) {
-            list.insert(list.remove(at: index), at: 0)
-        } else {
-            pinned = nil
-        }
-        let nextPrimary = transient ?? list.first
-        let nextSecondary = transient == nil ? list.dropFirst().first : list.first
+        let nextPrimary = transient ?? ongoing.first
         if primary != nextPrimary {
             if primary != nil, nextPrimary != nil, transient == nil { isExpanded = false }
             primary = nextPrimary
         }
-        if secondary != nextSecondary { secondary = nextSecondary }
         if primary == nil || primary?.canExpand == false { isExpanded = false }
         #if DEBUG
         if UserDefaults.standard.bool(forKey: "islandExpanded"), primary?.canExpand == true { isExpanded = true }
@@ -215,14 +203,6 @@ final class IslandModel: ObservableObject {
         transientWork?.perform()
     }
 
-    /// Tapping the icon of the other live activity switches the open card to it.
-    func promoteSecondary() {
-        guard let secondary, transient == nil else { return }
-        pinned = secondary
-        refresh()
-        isExpanded = true
-    }
-
     // MARK: Geometry
 
     static var screen: NSScreen? {
@@ -245,6 +225,10 @@ final class IslandModel: ObservableObject {
     /// Height of the row that brief alerts add below the notch.
     static let dropHeight: CGFloat = 32
 
+    /// How far a live activity reaches out on each side of the notch. The notch has no screen under it,
+    /// so a song's artwork and waveform can only show beside the camera, as on the iPhone.
+    static func wing(_ notch: CGSize) -> CGFloat { notch.height + 6 }
+
     /// Size of the black shape for the current state.
     var size: CGSize {
         guard let primary else { return notch }
@@ -261,23 +245,17 @@ final class IslandModel: ObservableObject {
         if primary.isTransient {
             return CGSize(width: notch.width + IslandShape.shoulderSize * 2, height: notch.height + Self.dropHeight)
         }
-        // Closed, the island is exactly the notch.
-        return notch
+        // Live activities keep the notch's exact height and reach out either side of it.
+        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
     }
 
-    /// True when the closed island is exactly the notch, with nothing drawn.
-    var isNotchOnly: Bool {
-        guard let primary else { return true }
-        return !isExpanded && !primary.isTransient
-    }
-
-    /// The notch's own bottom corner radius, used whenever the island is closed.
+    /// The notch's own bottom corner radius, used when nothing is live.
     static let notchRadius: CGFloat = 10
 
     var bottomRadius: CGFloat {
-        if isExpanded || primary?.isBanner == true { return 30 }
-        if primary?.isTransient == true { return 18 }
-        return Self.notchRadius
+        guard let primary else { return Self.notchRadius }
+        if isExpanded || primary.isBanner { return 30 }
+        return primary.isTransient ? 18 : 14
     }
 
     func toggleExpanded() {
