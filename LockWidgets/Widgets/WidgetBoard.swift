@@ -26,6 +26,7 @@ struct WidgetBoard: View {
         case .weather: WeatherWidget()
         case .calendar: CalendarWidget()
         case .nowPlaying: NowPlayingWidget()
+        case .lyrics: LyricsWidget()
         case .battery: BatteryWidget()
         }
     }

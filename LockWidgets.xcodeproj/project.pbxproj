@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */; };
 		07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6AF92AA3C096A2C102584A /* CalendarStore.swift */; };
 		08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */; };
 		2995A1022826B75A05437494 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE88B71190D9CDAAB2651E6E /* SettingsView.swift */; };
@@ -23,6 +24,7 @@
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
+		D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */; };
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
 /* End PBXBuildFile section */
 
@@ -43,9 +45,11 @@
 		AE88B71190D9CDAAB2651E6E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
+		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCard.swift; sourceTree = "<group>"; };
 		E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryMonitor.swift; sourceTree = "<group>"; };
 		E99FB43B933F43756700684B /* OverlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
+		EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsStore.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +70,7 @@
 				6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */,
 				76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */,
 				944261E2F34003592A329E1D /* ClockWidget.swift */,
+				CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */,
 				A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */,
 				C166765275AD20B49E4DCDBE /* WeatherWidget.swift */,
 				33D67D8F04957B4191B11B16 /* WidgetBoard.swift */,
@@ -95,6 +100,7 @@
 			children = (
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
+				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
 				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
 				8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */,
 			);
@@ -207,6 +213,8 @@
 				AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */,
 				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
+				072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */,
+				D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */,
 				8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */,
 				8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */,
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,

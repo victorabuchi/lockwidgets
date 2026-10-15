@@ -10,6 +10,7 @@ enum SettingsKey {
     static let weatherCity = "weatherCity"
     static let fahrenheit = "weatherFahrenheit"
     static let hideMusicWhenIdle = "musicHideWhenIdle"
+    static let lyricsUpcomingLines = "lyricsUpcomingLines"
 
     /// Follows the region (°F in the US) until the user picks a unit.
     static var defaultFahrenheit: Bool { Locale.current.measurementSystem == .us }
@@ -20,6 +21,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     case weather
     case calendar
     case nowPlaying
+    case lyrics
     case battery
 
     var id: String { rawValue }
@@ -30,6 +32,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .weather: "Weather"
         case .calendar: "Up Next"
         case .nowPlaying: "Now Playing"
+        case .lyrics: "Live Lyrics"
         case .battery: "Battery"
         }
     }
@@ -40,6 +43,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
         case .weather: "cloud.sun"
         case .calendar: "calendar"
         case .nowPlaying: "music.note"
+        case .lyrics: "quote.bubble"
         case .battery: "battery.75"
         }
     }

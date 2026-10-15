@@ -9,6 +9,7 @@ final class OverlayManager: ObservableObject {
 
     init() {
         CalendarStore.shared.requestAccess()
+        _ = LyricsStore.shared
 
         let dnc = DistributedNotificationCenter.default()
         dnc.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
