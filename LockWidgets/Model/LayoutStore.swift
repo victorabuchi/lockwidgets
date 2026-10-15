@@ -176,4 +176,72 @@ struct LayoutPreset: Identifiable {
             place(.battery, "ring", .small, x: 1292, y: 590),
         ]
     )
+
+    static let gallery: [LayoutPreset] = [
+        LayoutPreset(
+            id: "everyday", name: "Everyday", tagline: "A little of everything",
+            colors: [Color(red: 0.05, green: 0.25, blue: 0.35), Color(red: 0.02, green: 0.08, blue: 0.15)],
+            instances: [
+                place(.weather, "hourly", .medium, x: 56, y: 250),
+                place(.calendar, "upNext", .medium, x: 56, y: 430),
+                place(.nowPlaying, "player", .medium, x: 1112, y: 250),
+                place(.battery, "bar", .medium, x: 1112, y: 430),
+            ]
+        ),
+        LayoutPreset(
+            id: "afterHours", name: "After Hours", tagline: "Let the music take over",
+            colors: [Color(red: 0.3, green: 0.08, blue: 0.35), Color(red: 0.05, green: 0.02, blue: 0.12)],
+            instances: [
+                place(.lyrics, "lyrics", .large, x: 1112, y: 280),
+                place(.nowPlaying, "player", .wide, x: 494, y: 560),
+                place(.clock, "analog", .small, x: 56, y: 280),
+                place(.weather, "current", .small, x: 56, y: 460),
+            ]
+        ),
+        LayoutPreset(
+            id: "inTheZone", name: "In the Zone", tagline: "Find your focus",
+            colors: [Color(red: 0.08, green: 0.3, blue: 0.2), Color(red: 0.02, green: 0.1, blue: 0.07)],
+            instances: [
+                place(.pomodoro, "ring", .medium, x: 56, y: 280),
+                place(.stickyNote, "paper", .medium, x: 56, y: 460),
+                place(.reminders, "list", .large, x: 1112, y: 280),
+            ]
+        ),
+        LayoutPreset(
+            id: "dayAhead", name: "Day Ahead", tagline: "Catch up. Look ahead.",
+            colors: [Color(red: 0.6, green: 0.4, blue: 0.25), Color(red: 0.2, green: 0.12, blue: 0.08)],
+            instances: [
+                place(.dailyBrief, "brief", .large, x: 56, y: 280),
+                place(.calendar, "monthly", .medium, x: 1112, y: 280),
+                place(.weather, "daily", .wide, x: 932, y: 460),
+            ]
+        ),
+        LayoutPreset(
+            id: "missionControl", name: "Mission Control", tagline: "The bigger picture",
+            colors: [Color(red: 0.08, green: 0.12, blue: 0.3), Color(red: 0.01, green: 0.02, blue: 0.08)],
+            instances: [
+                place(.stocks, "watchlist", .medium, x: 56, y: 250),
+                place(.news, "headlines", .large, x: 56, y: 430),
+                place(.system, "list", .large, x: 1112, y: 250),
+                place(.earth, "globe", .small, x: 1292, y: 610),
+            ]
+        ),
+        LayoutPreset(
+            id: "traveller", name: "Traveller", tagline: "Time and weather wherever you are",
+            colors: [Color(red: 0.1, green: 0.35, blue: 0.55), Color(red: 0.02, green: 0.1, blue: 0.2)],
+            instances: [
+                place(.weather, "daily", .large, x: 56, y: 250),
+                place(.earth, "globe", .medium, x: 1112, y: 250),
+                place(.clock, "world", .ultraWide, x: 404, y: 560),
+            ]
+        ),
+        LayoutPreset(
+            id: "minimal", name: "Minimal", tagline: "Just the essentials, out of the way",
+            colors: [Color(white: 0.3), Color(white: 0.08)],
+            instances: [
+                place(.clock, "digital", .wide, x: 56, y: 760),
+                place(.weather, "current", .small, x: 1292, y: 760),
+            ]
+        ),
+    ]
 }

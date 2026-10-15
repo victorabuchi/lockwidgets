@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SettingsPage: Hashable {
-    case general, layoutStudio, appearance, stickyNotes, about
+    case general, layoutStudio, gallery, appearance, stickyNotes, about
     case widget(WidgetKind)
 
     #if DEBUG
@@ -9,7 +9,7 @@ enum SettingsPage: Hashable {
     static var launchPage: SettingsPage? {
         guard let name = UserDefaults.standard.string(forKey: "settingsPage") else { return nil }
         if let kind = WidgetKind(rawValue: name) { return .widget(kind) }
-        return ["general": .general, "studio": .layoutStudio, "appearance": .appearance, "notes": .stickyNotes, "about": .about][name]
+        return ["general": .general, "studio": .layoutStudio, "gallery": .gallery, "appearance": .appearance, "notes": .stickyNotes, "about": .about][name]
     }
     #endif
 }
@@ -33,6 +33,8 @@ struct SettingsWindow: View {
                 Section("Lock Screen") {
                     SidebarRow(title: "Layout Studio", symbol: "rectangle.3.group.fill", color: .blue)
                         .tag(SettingsPage.layoutStudio)
+                    SidebarRow(title: "Layout Gallery", symbol: "square.grid.2x2.fill", color: .indigo)
+                        .tag(SettingsPage.gallery)
                     SidebarRow(title: "Appearance", symbol: "paintpalette.fill", color: .teal)
                         .tag(SettingsPage.appearance)
                     SidebarRow(title: "Sticky Notes", symbol: "note.text", color: .yellow)
@@ -56,6 +58,7 @@ struct SettingsWindow: View {
             switch router.page ?? .general {
             case .general: GeneralPage(overlay: overlay)
             case .layoutStudio: LayoutStudioPage()
+            case .gallery: LayoutGalleryPage()
             case .appearance: AppearancePage()
             case .stickyNotes: StickyNotesPage()
             case .about: AboutPage()

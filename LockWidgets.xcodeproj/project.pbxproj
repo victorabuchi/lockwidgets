@@ -33,6 +33,7 @@
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
 		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
 		8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */; };
+		8EE9ADA9CB9906AF5DEE5112 /* LayoutGalleryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */; };
 		8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */; };
 		940693083BF27989A43B197B /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166765275AD20B49E4DCDBE /* WeatherWidget.swift */; };
 		96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520B6BC02944014CAB7788 /* SettingsWindow.swift */; };
@@ -92,6 +93,7 @@
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
 		C6C4166E066E91470CCA71C3 /* RemindersStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersStore.swift; sourceTree = "<group>"; };
+		C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGalleryPage.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidget.swift; sourceTree = "<group>"; };
 		E247A3444F4E8B1630533277 /* PhotosWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosWidget.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				50667F8A2F064584A76D173F /* AboutPage.swift */,
 				87979B3677A77236CBF7E633 /* AppearancePage.swift */,
 				F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */,
+				C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */,
 				340B9D05531D1298D3305788 /* LayoutStudioPage.swift */,
 				8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */,
 				3A520B6BC02944014CAB7788 /* SettingsWindow.swift */,
@@ -304,6 +307,7 @@
 				FF78446DB95D86E2A4E1A8B5 /* EarthStore.swift in Sources */,
 				A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */,
 				8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */,
+				8EE9ADA9CB9906AF5DEE5112 /* LayoutGalleryPage.swift in Sources */,
 				C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */,
 				52690D0AE034DEDF3E3D8D2E /* LayoutStudioPage.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
