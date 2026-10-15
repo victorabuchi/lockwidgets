@@ -24,5 +24,9 @@
 	<true/>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>LockWidgets shows your upcoming events on the lock screen.</string>
+	<key>NSLocationUsageDescription</key>
+	<string>LockWidgets uses your location to show local weather.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>LockWidgets uses your location to show local weather.</string>
 </dict>
 </plist>

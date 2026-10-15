@@ -23,6 +23,7 @@ struct WidgetBoard: View {
     private func view(for kind: WidgetKind) -> some View {
         switch kind {
         case .clock: ClockWidget()
+        case .weather: WeatherWidget()
         case .calendar: CalendarWidget()
         case .battery: BatteryWidget()
         }

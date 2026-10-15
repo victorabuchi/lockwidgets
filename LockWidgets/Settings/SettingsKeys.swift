@@ -7,10 +7,16 @@ enum SettingsKey {
     static let scale = "boardScale"
     static let use24Hour = "clockUse24Hour"
     static let showSeconds = "clockShowSeconds"
+    static let weatherCity = "weatherCity"
+    static let fahrenheit = "weatherFahrenheit"
+
+    /// Follows the region (°F in the US) until the user picks a unit.
+    static var defaultFahrenheit: Bool { Locale.current.measurementSystem == .us }
 }
 
 enum WidgetKind: String, CaseIterable, Identifiable {
     case clock
+    case weather
     case calendar
     case battery
 
@@ -19,6 +25,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .clock: "Clock"
+        case .weather: "Weather"
         case .calendar: "Up Next"
         case .battery: "Battery"
         }
@@ -27,6 +34,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var symbol: String {
         switch self {
         case .clock: "clock"
+        case .weather: "cloud.sun"
         case .calendar: "calendar"
         case .battery: "battery.75"
         }
