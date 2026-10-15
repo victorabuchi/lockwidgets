@@ -22,6 +22,7 @@ struct WidgetPage: View {
             case .stickyNote: EmptyView()
             case .reminders: RemindersOptions()
             case .system: EmptyView()
+            case .news: NewsOptions()
             }
         }
         .formStyle(.grouped)
@@ -333,6 +334,47 @@ private struct RemindersOptions: View {
             }
         }
         .onAppear { reminders.reload() }
+    }
+}
+
+private struct NewsOptions: View {
+    @ObservedObject private var news = NewsStore.shared
+    @AppStorage(NewsStore.feedKey) private var feed = NewsStore.sources[0].url
+    @State private var custom = ""
+
+    var body: some View {
+        Section {
+            Picker("Source", selection: $feed) {
+                ForEach(NewsStore.sources, id: \.url) { Text($0.name).tag($0.url) }
+                if !NewsStore.sources.contains(where: { $0.url == feed }) {
+                    Text("Custom feed").tag(feed)
+                }
+            }
+            .onChange(of: feed) { news.refresh() }
+            LabeledContent("Custom RSS feed") {
+                HStack {
+                    TextField("https://…", text: $custom)
+                        .labelsHidden()
+                        .onSubmit(useCustom)
+                    Button("Use", action: useCustom)
+                        .disabled(URL(string: custom)?.scheme?.hasPrefix("http") != true)
+                }
+            }
+            if let problem = news.problem {
+                Label(problem, systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+            }
+        } header: {
+            Text("News")
+        } footer: {
+            Text("Headlines refresh every 30 minutes. Any RSS or Atom feed works.")
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func useCustom() {
+        feed = custom.trimmingCharacters(in: .whitespaces)
+        custom = ""
     }
 }
 
