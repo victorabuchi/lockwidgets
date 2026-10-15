@@ -25,6 +25,7 @@ struct WidgetPage: View {
             case .news: NewsOptions()
             case .stocks: StocksOptions()
             case .photos: PhotosOptions()
+            case .earth: EarthOptions()
             }
         }
         .formStyle(.grouped)
@@ -459,6 +460,15 @@ private struct PhotosOptions: View {
             }
         } header: {
             Text("Photos")
+        }
+    }
+}
+
+private struct EarthOptions: View {
+    var body: some View {
+        Section {
+            Text("The globe is centred on your weather location and redrawn every 10 minutes, with night shading from the sun's real position.")
+                .foregroundStyle(.secondary)
         }
     }
 }

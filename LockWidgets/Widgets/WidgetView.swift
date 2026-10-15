@@ -20,6 +20,7 @@ struct WidgetView: View {
         case .news: NewsWidget(instance: instance)
         case .stocks: StocksWidget(instance: instance)
         case .photos: PhotosWidget(instance: instance)
+        case .earth: EarthWidget(instance: instance)
         case .stickyNote: StickyNoteWidget(instance: instance)
         }
     }

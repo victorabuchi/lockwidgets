@@ -37,6 +37,7 @@
 		96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520B6BC02944014CAB7788 /* SettingsWindow.swift */; };
 		9F649597321F6665DB1D7129 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B592C7B3AE19D5764E21A15 /* WidgetView.swift */; };
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
+		A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19685DDC575424AFEFDC10DB /* EarthWidget.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
 		B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0898E2431D9B5E4809FB335 /* PhotosStore.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
@@ -49,10 +50,12 @@
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
 		FBB750C184D9FD02F78B8B5C /* SystemWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */; };
 		FDCBF09357F365705EEB40C7 /* NewsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */; };
+		FF78446DB95D86E2A4E1A8B5 /* EarthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E0CD205C3061CF6EFE586 /* EarthStore.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		19685DDC575424AFEFDC10DB /* EarthWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthWidget.swift; sourceTree = "<group>"; };
 		2093942A97379D147BCAD0A4 /* RemindersWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersWidget.swift; sourceTree = "<group>"; };
 		241AC26A12C04E385F4ABA7E /* WidgetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetKind.swift; sourceTree = "<group>"; };
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
@@ -61,6 +64,7 @@
 		340B9D05531D1298D3305788 /* LayoutStudioPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutStudioPage.swift; sourceTree = "<group>"; };
 		3A520B6BC02944014CAB7788 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
 		3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMonitor.swift; sourceTree = "<group>"; };
+		406E0CD205C3061CF6EFE586 /* EarthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthStore.swift; sourceTree = "<group>"; };
 		50667F8A2F064584A76D173F /* AboutPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPage.swift; sourceTree = "<group>"; };
 		51BC3ABA91FF75E22A9622A7 /* NewsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsStore.swift; sourceTree = "<group>"; };
 		51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -125,6 +129,7 @@
 				6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */,
 				76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */,
 				944261E2F34003592A329E1D /* ClockWidget.swift */,
+				19685DDC575424AFEFDC10DB /* EarthWidget.swift */,
 				CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */,
 				5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */,
 				A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */,
@@ -163,6 +168,7 @@
 			children = (
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
+				406E0CD205C3061CF6EFE586 /* EarthStore.swift */,
 				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
 				51BC3ABA91FF75E22A9622A7 /* NewsStore.swift */,
 				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
@@ -291,6 +297,8 @@
 				07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */,
 				AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */,
 				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
+				FF78446DB95D86E2A4E1A8B5 /* EarthStore.swift in Sources */,
+				A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */,
 				8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */,
 				C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */,
 				52690D0AE034DEDF3E3D8D2E /* LayoutStudioPage.swift in Sources */,

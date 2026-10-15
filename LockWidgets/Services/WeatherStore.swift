@@ -30,6 +30,10 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
         let low: Double
         let hours: [Hour]
         let days: [Day]
+        let sunrise: Date?
+        let sunset: Date?
+        let latitude: Double
+        let longitude: Double
     }
 
     @Published private(set) var report: Report?
@@ -134,7 +138,7 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
             .init(name: "longitude", value: String(longitude)),
             .init(name: "current", value: "temperature_2m,weather_code,is_day"),
             .init(name: "hourly", value: "temperature_2m,weather_code,is_day"),
-            .init(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min"),
+            .init(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min,sunrise,sunset"),
             .init(name: "forecast_days", value: "6"),
             .init(name: "forecast_hours", value: "8"),
             .init(name: "timezone", value: "auto"),
@@ -182,7 +186,11 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
                 high: forecast.daily.temperature_2m_max.first ?? forecast.current.temperature_2m,
                 low: forecast.daily.temperature_2m_min.first ?? forecast.current.temperature_2m,
                 hours: hours,
-                days: days
+                days: days,
+                sunrise: daily.sunrise.first.flatMap(parser.date(from:)),
+                sunset: daily.sunset.first.flatMap(parser.date(from:)),
+                latitude: latitude,
+                longitude: longitude
             )
             await MainActor.run {
                 self.report = report
@@ -227,6 +235,8 @@ private struct ForecastResponse: Decodable {
         let weather_code: [Int]
         let temperature_2m_max: [Double]
         let temperature_2m_min: [Double]
+        let sunrise: [String]
+        let sunset: [String]
     }
 
     let utc_offset_seconds: Int
