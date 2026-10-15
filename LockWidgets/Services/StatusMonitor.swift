@@ -18,6 +18,15 @@ final class StatusMonitor: ObservableObject {
         let started: Date
         var microphone: Bool
         var camera: Bool
+
+        /// What the island calls it, such as "Zoom Meeting" or "FaceTime Call".
+        var title: String {
+            switch app {
+            case "Zoom": "Zoom Meeting"
+            case "Google Meet": "Google Meet"
+            default: "\(app) Call"
+            }
+        }
     }
 
     @Published private(set) var meeting: Meeting?
@@ -41,13 +50,14 @@ final class StatusMonitor: ObservableObject {
             let listening = Self.appsUsingMicrophone()
             let camera = Self.cameraInUse()
             let zoomMeeting = Self.processRunning("CptHost")
+            let call = zoomMeeting ? nil : Self.call(listening: listening)
             DispatchQueue.main.async {
-                self.apply(onHotspot: onHotspot, name: name, listening: listening, camera: camera, zoomMeeting: zoomMeeting)
+                self.apply(onHotspot: onHotspot, name: name, listening: listening, camera: camera, zoomMeeting: zoomMeeting, call: call)
             }
         }
     }
 
-    private func apply(onHotspot: Bool, name: String?, listening: [String], camera: Bool, zoomMeeting: Bool) {
+    private func apply(onHotspot: Bool, name: String?, listening: [String], camera: Bool, zoomMeeting: Bool, call: (name: String, bundleID: String?)?) {
         // iPhone hotspots hand out addresses in 172.20.10.0/28.
         if onHotspot != isOnHotspot { isOnHotspot = onHotspot }
         if name != hotspot { hotspot = name }
@@ -57,14 +67,15 @@ final class StatusMonitor: ObservableObject {
         if zoomMeeting {
             let microphone = listening.contains { $0.hasPrefix("us.zoom") }
             next = Meeting(app: "Zoom", bundleID: "us.zoom.xos", started: meeting?.app == "Zoom" ? meeting!.started : .now, microphone: microphone, camera: camera)
-        } else if let app = Self.callApps.first(where: { app in listening.contains { $0.hasPrefix(app.bundleID) } }) {
-            // Only a known call app holding the microphone counts, so dictation or recording apps don't.
-            next = Meeting(app: app.name, bundleID: app.bundleID, started: meeting?.app == app.name ? meeting!.started : .now, microphone: true, camera: camera)
+        } else if let call {
+            next = Meeting(app: call.name, bundleID: call.bundleID, started: meeting?.app == call.name ? meeting!.started : .now, microphone: true, camera: camera)
         }
         if next != meeting { meeting = next }
     }
 
-    /// Calls and meeting apps that may be using the mic or camera, most specific first.
+    /// Calls and meeting apps that may be using the mic or camera, most specific first. Browsers record
+    /// from helper processes: Chrome's helpers share its identifier, Firefox records from its content
+    /// processes and Safari from WebKit's.
     private static let callApps: [(bundleID: String, name: String)] = [
         ("us.zoom.xos", "Zoom"),
         ("com.apple.FaceTime", "FaceTime"),
@@ -75,10 +86,51 @@ final class StatusMonitor: ObservableObject {
         ("com.tinyspeck.slackmacgap", "Slack"),
         ("net.whatsapp.WhatsApp", "WhatsApp"),
         ("com.google.Chrome", "Chrome"),
+        ("org.mozilla", "Firefox"),
         ("com.apple.Safari", "Safari"),
+        ("com.apple.WebKit", "Safari"),
         ("com.microsoft.edgemac", "Edge"),
         ("company.thebrowser.Browser", "Arc"),
+        ("com.brave.Browser", "Brave"),
     ]
+
+    /// Only a known call app or browser holding the microphone counts, so dictation or recording apps
+    /// don't. A browser's call is named after the site when its window says so, such as Zoom on the web.
+    private static func call(listening: [String]) -> (name: String, bundleID: String?)? {
+        for app in callApps {
+            guard let process = listening.first(where: { $0.hasPrefix(app.bundleID) }) else { continue }
+            let owner = owningApp(of: process, family: app.bundleID)
+            let site = owner.flatMap(webCallName)
+            return (site ?? app.name, owner)
+        }
+        return nil
+    }
+
+    /// The app behind a process using the microphone, such as Chrome Canary for its helper.
+    private static func owningApp(of process: String, family: String) -> String? {
+        let apps = NSWorkspace.shared.runningApplications.compactMap { $0.activationPolicy == .regular ? $0.bundleIdentifier : nil }
+        if let exact = apps.filter({ process.hasPrefix($0) }).max(by: { $0.count < $1.count }) { return exact }
+        if family == "com.apple.WebKit" { return apps.first { $0 == "com.apple.Safari" } }
+        return apps.first { $0.hasPrefix(family) }
+    }
+
+    /// Zoom, Google Meet or Teams when a browser window's title names it. Reading titles needs
+    /// Accessibility; without it the call is named after the browser.
+    private static func webCallName(bundleID: String) -> String? {
+        guard AXIsProcessTrusted(), let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleID).first else { return nil }
+        var windows: CFTypeRef?
+        guard AXUIElementCopyAttributeValue(AXUIElementCreateApplication(app.processIdentifier), kAXWindowsAttribute as CFString, &windows) == .success,
+              let list = windows as? [AXUIElement]
+        else { return nil }
+        for window in list {
+            var title: CFTypeRef?
+            guard AXUIElementCopyAttributeValue(window, kAXTitleAttribute as CFString, &title) == .success, let text = title as? String else { continue }
+            if text.localizedCaseInsensitiveContains("zoom") { return "Zoom" }
+            if text.hasPrefix("Meet") || text.localizedCaseInsensitiveContains("Google Meet") { return "Google Meet" }
+            if text.localizedCaseInsensitiveContains("Teams") { return "Teams" }
+        }
+        return nil
+    }
 
 
     // MARK: Zoom controls

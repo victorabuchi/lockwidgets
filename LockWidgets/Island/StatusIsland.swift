@@ -166,7 +166,7 @@ struct MeetingExpanded: View {
             } below: {
                 HStack(spacing: 10) {
                     VStack(alignment: .leading, spacing: 1) {
-                        Text(meeting.app == "Zoom" ? "Zoom Meeting" : "\(meeting.app) Call")
+                        Text(meeting.title)
                             .font(.system(size: 13, weight: .semibold))
                         HStack(spacing: 10) {
                             Label(meeting.microphone ? "Mic on" : "Mic off", systemImage: meeting.microphone ? "mic.fill" : "mic.slash.fill")
@@ -177,7 +177,7 @@ struct MeetingExpanded: View {
                     }
                     .lineLimit(1)
                     Spacer()
-                    if meeting.app == "Zoom" {
+                    if meeting.bundleID == "us.zoom.xos" {
                         round("mic.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomMuteKey) }
                             .help("Mute or unmute in Zoom")
                         round("video.slash.fill", .white) { StatusMonitor.sendZoomShortcut(StatusMonitor.zoomVideoKey) }

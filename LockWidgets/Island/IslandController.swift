@@ -12,6 +12,7 @@ final class IslandController {
     private var lastPointer = NSPoint(x: -1, y: -1)
     private var subscriptions: Set<AnyCancellable> = []
     private var collapseWork: DispatchWorkItem?
+    private var expandWork: DispatchWorkItem?
     private var holdWork: DispatchWorkItem?
     private var pressTarget: PressTarget?
     private let canvas = CGSize(width: 760, height: 320)
@@ -52,7 +53,8 @@ final class IslandController {
 
         // Read presses at the AppKit level, so the first click always counts even though LockWidgets is
         // in the background. As on the iPhone, a click on the closed island opens the app behind it and
-        // holding it opens the full card. Clicks inside the open card go to its buttons.
+        // holding it opens the card (as resting the pointer on it does). Clicks inside the open card go
+        // to its buttons.
         if let presses = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .leftMouseUp], handler: { [weak self] event in
             guard let self, event.window === panel else { return event }
             let handled = event.type == .leftMouseDown ? pressBegan() : pressEnded()
@@ -74,6 +76,8 @@ final class IslandController {
         }
         guard !model.isExpanded, rect(model.size).insetBy(dx: -4, dy: -4).contains(point) else { return false }
         pressTarget = .island
+        expandWork?.cancel()
+        expandWork = nil
         holdWork?.cancel()
         if model.primary?.canExpand == true {
             let work = DispatchWorkItem { [weak self] in
@@ -170,6 +174,21 @@ final class IslandController {
         lastPointer = pointer
         if panel.ignoresMouseEvents != !inside { panel.ignoresMouseEvents = !inside }
         if model.isHovering != inside { model.isHovering = inside }
+
+        // Resting the pointer on a live activity opens its card.
+        if inside, !model.isExpanded, pressTarget == nil, model.primary?.canExpand == true {
+            if expandWork == nil {
+                let work = DispatchWorkItem { [weak self] in
+                    model.isExpanded = true
+                    self?.expandWork = nil
+                }
+                expandWork = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: work)
+            }
+        } else {
+            expandWork?.cancel()
+            expandWork = nil
+        }
 
         // Close the full card shortly after the pointer leaves, however much it moves meanwhile.
         if model.isExpanded, !inside {

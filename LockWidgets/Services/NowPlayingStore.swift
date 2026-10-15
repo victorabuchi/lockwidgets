@@ -192,14 +192,32 @@ final class NowPlayingStore: ObservableObject {
             return
         }
         guard reading.track.player == .music else { return }
+        let track = reading.track
         queue.async { [weak self] in
             let script = "tell application id \"com.apple.Music\" to get raw data of artwork 1 of current track"
             var error: NSDictionary?
-            guard let data = NSAppleScript(source: script)?.executeAndReturnError(&error).data,
-                  let image = NSImage(data: data)
-            else { return }
-            DispatchQueue.main.async { if self?.track?.id == id { self?.artwork = image } }
+            if let data = NSAppleScript(source: script)?.executeAndReturnError(&error).data, let image = NSImage(data: data) {
+                DispatchQueue.main.async { if self?.track?.id == id { self?.artwork = image } }
+            } else {
+                // Songs streamed from Apple Music have no artwork of their own in Music's library.
+                self?.loadCatalogueArtwork(for: track, attempt: 0)
+            }
         }
+    }
+
+    /// Fetches a streamed song's artwork from Apple, by the link in Music's cached catalogue entry, trying
+    /// again for a little while if Music hasn't cached the entry yet.
+    private func loadCatalogueArtwork(for track: Track, attempt: Int) {
+        guard let url = AppleMusicLyrics.artworkURL(title: track.title, duration: track.duration) else {
+            if attempt < 5 {
+                queue.asyncAfter(deadline: .now() + 2) { [weak self] in self?.loadCatalogueArtwork(for: track, attempt: attempt + 1) }
+            }
+            return
+        }
+        URLSession.shared.dataTask(with: url) { [weak self] data, _, _ in
+            guard let data, let image = NSImage(data: data) else { return }
+            DispatchQueue.main.async { if self?.track?.id == track.id { self?.artwork = image } }
+        }.resume()
     }
 }
 

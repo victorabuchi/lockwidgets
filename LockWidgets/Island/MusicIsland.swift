@@ -24,8 +24,8 @@ struct MusicExpanded: View {
     @ObservedObject private var lyrics = LyricsStore.shared
     @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
 
-    /// Height of the card below the notch. The rows in `body` add up to it.
-    static func height(showsLyrics: Bool) -> CGFloat { showsLyrics ? 128 : 94 }
+    /// Height of the card below the notch, the same as a notification's. The rows in `body` add up to it.
+    static func height(showsLyrics: Bool) -> CGFloat { showsLyrics ? 60 : 42 }
 
     private var tint: Color { Color(nsColor: music.artworkColor ?? .systemPink) }
 
@@ -37,65 +37,57 @@ struct MusicExpanded: View {
                 Waveform(color: tint, playing: music.isPlaying)
                     .frame(width: 18, height: 14)
             } below: {
-                Text(track.title)
-                    .font(.system(size: 13.5, weight: .bold))
-                    .lineLimit(1)
-                    .frame(height: 16)
-                    .padding(.top, 4)
-                Text(track.artist)
-                    .font(.system(size: 11.5, weight: .medium))
-                    .foregroundStyle(.white.opacity(0.55))
-                    .lineLimit(1)
-                    .frame(height: 14)
+                HStack(spacing: 2) {
+                    (Text(track.title)
+                        .font(.system(size: 13, weight: .bold))
+                        + Text("  " + track.artist)
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.55)))
+                        .lineLimit(1)
+                    Spacer(minLength: 8)
+                    control("backward.fill", 11) { music.send(.previous) }
+                    control(music.isPlaying ? "pause.fill" : "play.fill", 14) { music.send(.playPause) }
+                    control("forward.fill", 11) { music.send(.next) }
+                }
+                .frame(height: 22)
+                .padding(.top, 3)
 
                 if showLyrics {
                     lyricLine
-                        .padding(.top, 6)
+                        .padding(.top, 2)
                 }
 
                 TimelineView(.periodic(from: .now, by: 0.5)) { context in
                     let position = music.position(at: context.date)
-                    HStack(spacing: 10) {
+                    HStack(spacing: 8) {
                         Text(position.playbackTime)
-                        ProgressBar(fraction: track.duration > 0 ? position / track.duration : 0, height: 4)
+                        ProgressBar(fraction: track.duration > 0 ? position / track.duration : 0, height: 3)
                         Text("-" + (track.duration - position).playbackTime)
                     }
-                    .font(.system(size: 10.5, weight: .semibold).monospacedDigit())
+                    .font(.system(size: 9.5, weight: .semibold).monospacedDigit())
                     .foregroundStyle(.white.opacity(0.5))
                 }
-                .frame(height: 12)
-                .padding(.top, 8)
-
-                HStack {
-                    Spacer()
-                    control("backward.fill", 16) { music.send(.previous) }
-                    Spacer()
-                    control(music.isPlaying ? "pause.fill" : "play.fill", 22) { music.send(.playPause) }
-                    Spacer()
-                    control("forward.fill", 16) { music.send(.next) }
-                    Spacer()
-                }
-                .frame(height: 30)
-                .padding(.top, 2)
+                .frame(height: 10)
+                .padding(.top, 5)
             }
         }
     }
 
-    /// The line Apple Music is on, wrapping onto a second line rather than being cut off.
+    /// The line Apple Music is on.
     private var lyricLine: some View {
         TimelineView(.periodic(from: .now, by: 0.25)) { context in
             if lyrics.state == .found, let index = lyrics.currentIndex(at: music.position(at: context.date)) {
                 Text(lyrics.lines[index].text)
                     .font(.system(size: 12, weight: .semibold))
                     .foregroundStyle(tint)
-                    .lineLimit(2)
+                    .lineLimit(1)
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .id(index)
                     .transition(.push(from: .bottom))
                     .animation(.easeInOut(duration: 0.3), value: index)
             }
         }
-        .frame(height: 28, alignment: .leading)
+        .frame(height: 16, alignment: .leading)
         .clipped()
     }
 
@@ -103,7 +95,7 @@ struct MusicExpanded: View {
         Button(action: action) {
             Image(systemName: symbol)
                 .font(.system(size: size, weight: .bold))
-                .frame(width: 46, height: 30)
+                .frame(width: 30, height: 22)
                 .contentShape(Rectangle())
         }
         .buttonStyle(IslandButtonStyle())

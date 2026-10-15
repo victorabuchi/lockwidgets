@@ -33,6 +33,30 @@ enum AppleMusicLyrics {
         return nil
     }
 
+    /// Artwork for a song Music is streaming, from the same cached catalogue entry. Music's scripting only
+    /// hands out artwork for songs in the library, so this covers the rest. nil until Music has cached it.
+    static func artworkURL(title: String, duration: Double, size: Int = 300) -> URL? {
+        for response in cachedResponses() {
+            guard let songs = (try? JSONSerialization.jsonObject(with: response) as? [String: Any])?["data"] as? [[String: Any]] else { continue }
+            for song in songs {
+                guard let attributes = song["attributes"] as? [String: Any],
+                      let name = attributes["name"] as? String,
+                      matches(name, title),
+                      abs((attributes["durationInMillis"] as? Double ?? 0) / 1000 - duration) < 4,
+                      let template = (attributes["artwork"] as? [String: Any])?["url"] as? String
+                else { continue }
+                // The URL is a template: {w}x{h} for the size, {c} for the crop and {f} for the format.
+                let link = template
+                    .replacingOccurrences(of: "{w}", with: "\(size)")
+                    .replacingOccurrences(of: "{h}", with: "\(size)")
+                    .replacingOccurrences(of: "{c}", with: "bb")
+                    .replacingOccurrences(of: "{f}", with: "jpg")
+                return URL(string: link)
+            }
+        }
+        return nil
+    }
+
     private static func ttml(in song: [String: Any]) -> String? {
         let relationships = song["relationships"] as? [String: Any]
         for key in ["syllable-lyrics", "lyrics"] {
@@ -62,9 +86,11 @@ enum AppleMusicLyrics {
 
     /// Bodies of Music's cached catalogue responses that asked for lyrics, newest first.
     private static func cachedResponses() -> [Data] {
-        // Music keeps the database open, so read from a private copy.
-        let scratch = FileManager.default.temporaryDirectory.appendingPathComponent("LockWidgetsMusicCache", isDirectory: true)
+        // Music keeps the database open, so read from a private copy, one per lookup, since lyrics and
+        // artwork can be looked up at the same time.
+        let scratch = FileManager.default.temporaryDirectory.appendingPathComponent("LockWidgetsMusicCache-\(UUID().uuidString)", isDirectory: true)
         try? FileManager.default.createDirectory(at: scratch, withIntermediateDirectories: true)
+        defer { try? FileManager.default.removeItem(at: scratch) }
         for suffix in ["", "-wal", "-shm"] {
             let source = cacheFolder.appendingPathComponent("Cache.db" + suffix)
             let target = scratch.appendingPathComponent("Cache.db" + suffix)

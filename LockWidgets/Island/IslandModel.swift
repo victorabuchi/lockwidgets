@@ -65,6 +65,10 @@ final class IslandModel: ObservableObject {
     private var transientWork: DispatchWorkItem?
     /// Brief activities waiting their turn, so a burst of notifications plays one after another.
     private var pending: [(IslandActivity, Double)] = []
+    /// When the charger last went in or out.
+    private var powerChangedAt = Date.distantPast
+    /// Banner widths by app, measured once per app.
+    private var bannerWidths: [String: CGFloat] = [:]
     private var subscriptions: Set<AnyCancellable> = []
 
     private init() {
@@ -89,6 +93,7 @@ final class IslandModel: ObservableObject {
         battery.$isPluggedIn.removeDuplicates().dropFirst()
             .receive(on: DispatchQueue.main)
             .sink { [weak self] plugged in
+                self?.powerChangedAt = .now
                 guard self?.setting(SettingsKey.islandBattery) == true else { return }
                 self?.show(.charging(level: battery.level ?? 0, pluggedIn: plugged), for: 4)
             }
@@ -121,7 +126,11 @@ final class IslandModel: ObservableObject {
             case let .volume(level, muted):
                 if setting(SettingsKey.islandHUD) { show(.volume(level: level, muted: muted), for: 1.6) }
             case let .brightness(level):
-                if setting(SettingsKey.islandHUD) { show(.brightness(level: level), for: 1.6) }
+                // macOS changes the brightness itself when the charger goes in or out; the charging alert
+                // says what happened, so that change doesn't replace it.
+                if setting(SettingsKey.islandHUD), Date.now.timeIntervalSince(powerChangedAt) > 5 {
+                    show(.brightness(level: level), for: 1.6)
+                }
             case let .focus(name, symbol, on):
                 if setting(SettingsKey.islandFocus) { show(.focus(name: name, symbol: symbol, on: on), for: 3) }
             }
@@ -249,13 +258,28 @@ final class IslandModel: ObservableObject {
     /// card and banners are wider.
     var size: CGSize {
         guard let primary else { return notch }
-        if isExpanded || primary.isBanner {
+        if primary.isBanner {
+            return CGSize(width: bannerWidth(for: primary), height: notch.height + primary.expandedHeight)
+        }
+        if isExpanded {
             return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
         }
         if primary.isTransient {
             return CGSize(width: notch.width, height: notch.height + Self.dropHeight)
         }
         return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
+    }
+
+    /// A notification widens, when it needs to, so the app's full name fits beside the camera.
+    private func bannerWidth(for activity: IslandActivity) -> CGFloat {
+        guard case let .notification(item) = activity else { return cardWidth }
+        if let width = bannerWidths[item.bundleID] { return width }
+        let name = (item.appName as NSString).size(withAttributes: [.font: NSFont.systemFont(ofSize: 11, weight: .semibold)]).width
+        // Padding, icon and gap before the name, and room before the camera.
+        let side = 16 + 20 + 6 + ceil(name) + 10
+        let width = min(max(cardWidth, notch.width + side * 2), 640)
+        bannerWidths[item.bundleID] = width
+        return width
     }
 
     /// The size the island returns to when the open card closes.
