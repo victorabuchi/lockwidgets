@@ -18,6 +18,7 @@ targets:
       path: LockWidgets/Info.plist
       properties:
         LSUIElement: true
+        LSApplicationCategoryType: public.app-category.utilities
         CFBundleDisplayName: LockWidgets
         NSAppleEventsUsageDescription: LockWidgets reads the current song from Music and Spotify to show it on the lock screen.
         NSLocationUsageDescription: LockWidgets uses your location to show local weather.
