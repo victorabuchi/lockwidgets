@@ -24,6 +24,7 @@ struct WidgetPage: View {
             case .system: EmptyView()
             case .news: NewsOptions()
             case .stocks: StocksOptions()
+            case .photos: PhotosOptions()
             }
         }
         .formStyle(.grouped)
@@ -415,6 +416,50 @@ private struct StocksOptions: View {
         symbols = draft.uppercased().replacingOccurrences(of: " ", with: "")
         draft = symbols
         stocks.refresh()
+    }
+}
+
+private struct PhotosOptions: View {
+    @ObservedObject private var photos = PhotosStore.shared
+    @AppStorage(PhotosStore.sourceKey) private var source = PhotosStore.Source.favorites
+    @AppStorage(PhotosStore.intervalKey) private var interval = 15
+
+    var body: some View {
+        Section {
+            Picker("Show", selection: $source) {
+                ForEach(PhotosStore.Source.allCases) { Text($0.title).tag($0) }
+            }
+            .onChange(of: source) { photos.next() }
+            if source == .folder {
+                LabeledContent("Folder") {
+                    HStack {
+                        Text(photos.folderName ?? "None chosen")
+                            .foregroundStyle(.secondary)
+                        Button("Choose…") { photos.chooseFolder() }
+                    }
+                }
+            } else if !photos.libraryAccess {
+                LabeledContent("Photos access") {
+                    Button("Allow Access") { photos.requestAccess() }
+                }
+            }
+            Picker("Change photo", selection: $interval) {
+                Text("Every minute").tag(1)
+                Text("Every 5 minutes").tag(5)
+                Text("Every 15 minutes").tag(15)
+                Text("Every hour").tag(60)
+            }
+            .onChange(of: interval) { photos.restartTimer() }
+            LabeledContent("Current photo") {
+                Button("Show Another") { photos.next() }
+            }
+            if let problem = photos.problem {
+                Label(problem, systemImage: "exclamationmark.triangle.fill")
+                    .foregroundStyle(.orange)
+            }
+        } header: {
+            Text("Photos")
+        }
     }
 }
 
