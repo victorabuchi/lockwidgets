@@ -287,6 +287,8 @@ struct InstanceOptions: View {
                 DatePicker("Date", selection: countdownDate, displayedComponents: [.date, .hourAndMinute])
                     .labelsHidden()
             }
+        case .stickyNote:
+            NoteEditor(instance: instance)
         default:
             EmptyView()
         }

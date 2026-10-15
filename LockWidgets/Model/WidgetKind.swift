@@ -54,7 +54,7 @@ struct WidgetMeta {
 
 enum WidgetKind: String, Codable, CaseIterable, Identifiable {
     // Sidebar order.
-    case weather, nowPlaying, lyrics, calendar, clock, countdown, pomodoro, stopwatch, battery
+    case weather, nowPlaying, lyrics, calendar, clock, countdown, pomodoro, stopwatch, battery, stickyNote
 
     var id: String { rawValue }
     var title: String { meta.title }
@@ -138,8 +138,19 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
                 WidgetStyle(id: "bar", name: "Bar", summary: "Charge, status and time remaining.", sizes: [.medium, .wide]),
             ]
         )
+        case .stickyNote: WidgetMeta(
+            title: "Sticky Note", symbol: "note.text", color: .yellow,
+            summary: "A note to yourself, right on the lock screen.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "paper", name: "Paper", summary: "A coloured note.", sizes: [.small, .medium, .large]),
+                WidgetStyle(id: "glass", name: "Glass", summary: "Matches your other widgets.", sizes: [.small, .medium, .large]),
+            ]
+        )
         }
     }
+
+    /// Kinds listed under Widget Settings; sticky notes have their own page.
+    static var settingsKinds: [WidgetKind] { allCases.filter { $0 != .stickyNote } }
 
     var defaultStyle: WidgetStyle { styles[0] }
 

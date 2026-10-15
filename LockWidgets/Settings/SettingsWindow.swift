@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SettingsPage: Hashable {
-    case general, layoutStudio, appearance, about
+    case general, layoutStudio, appearance, stickyNotes, about
     case widget(WidgetKind)
 
     #if DEBUG
@@ -9,7 +9,7 @@ enum SettingsPage: Hashable {
     static var launchPage: SettingsPage? {
         guard let name = UserDefaults.standard.string(forKey: "settingsPage") else { return nil }
         if let kind = WidgetKind(rawValue: name) { return .widget(kind) }
-        return ["general": .general, "studio": .layoutStudio, "appearance": .appearance, "about": .about][name]
+        return ["general": .general, "studio": .layoutStudio, "appearance": .appearance, "notes": .stickyNotes, "about": .about][name]
     }
     #endif
 }
@@ -35,10 +35,12 @@ struct SettingsWindow: View {
                         .tag(SettingsPage.layoutStudio)
                     SidebarRow(title: "Appearance", symbol: "paintpalette.fill", color: .teal)
                         .tag(SettingsPage.appearance)
+                    SidebarRow(title: "Sticky Notes", symbol: "note.text", color: .yellow)
+                        .tag(SettingsPage.stickyNotes)
                 }
 
                 Section("Widget Settings") {
-                    ForEach(WidgetKind.allCases) { kind in
+                    ForEach(WidgetKind.settingsKinds) { kind in
                         SidebarRow(title: kind.title, symbol: kind.symbol, color: kind.color)
                             .tag(SettingsPage.widget(kind))
                     }
@@ -55,6 +57,7 @@ struct SettingsWindow: View {
             case .general: GeneralPage(overlay: overlay)
             case .layoutStudio: LayoutStudioPage()
             case .appearance: AppearancePage()
+            case .stickyNotes: StickyNotesPage()
             case .about: AboutPage()
             case let .widget(kind): WidgetPage(kind: kind)
             }

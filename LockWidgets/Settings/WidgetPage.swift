@@ -19,6 +19,7 @@ struct WidgetPage: View {
             case .countdown: CountdownOptions()
             case .pomodoro: PomodoroOptions()
             case .stopwatch: StopwatchOptions()
+            case .stickyNote: EmptyView()
             }
         }
         .formStyle(.grouped)
