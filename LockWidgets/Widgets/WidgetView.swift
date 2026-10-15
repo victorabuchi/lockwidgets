@@ -16,6 +16,7 @@ struct WidgetView: View {
         case .pomodoro: PomodoroWidget(instance: instance)
         case .stopwatch: StopwatchWidget(instance: instance)
         case .reminders: RemindersWidget(instance: instance)
+        case .system: SystemWidget(instance: instance)
         case .stickyNote: StickyNoteWidget(instance: instance)
         }
     }

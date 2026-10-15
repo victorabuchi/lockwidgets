@@ -21,6 +21,7 @@ struct WidgetPage: View {
             case .stopwatch: StopwatchOptions()
             case .stickyNote: EmptyView()
             case .reminders: RemindersOptions()
+            case .system: EmptyView()
             }
         }
         .formStyle(.grouped)

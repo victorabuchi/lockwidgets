@@ -54,7 +54,7 @@ struct WidgetMeta {
 
 enum WidgetKind: String, Codable, CaseIterable, Identifiable {
     // Sidebar order.
-    case weather, nowPlaying, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, battery, stickyNote
+    case weather, nowPlaying, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, battery, system, stickyNote
 
     var id: String { rawValue }
     var title: String { meta.title }
@@ -143,6 +143,14 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
             styles: [
                 WidgetStyle(id: "ring", name: "Ring", summary: "A charge ring with the percentage.", sizes: [.small]),
                 WidgetStyle(id: "bar", name: "Bar", summary: "Charge, status and time remaining.", sizes: [.medium, .wide]),
+            ]
+        )
+        case .system: WidgetMeta(
+            title: "System", symbol: "cpu", color: .purple,
+            summary: "CPU, memory, network and disk at a glance.", category: .information,
+            styles: [
+                WidgetStyle(id: "gauges", name: "Gauges", summary: "CPU and memory rings.", sizes: [.small, .medium]),
+                WidgetStyle(id: "list", name: "Monitor", summary: "Every metric with a live sparkline.", sizes: [.medium, .large]),
             ]
         )
         case .stickyNote: WidgetMeta(
