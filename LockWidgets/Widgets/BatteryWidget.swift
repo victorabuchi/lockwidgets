@@ -2,6 +2,7 @@ import SwiftUI
 
 struct BatteryWidget: View {
     @ObservedObject private var battery = BatteryMonitor.shared
+    @Environment(\.isWidgetPreview) private var isPreview
 
     var body: some View {
         if let level = battery.level {
@@ -18,6 +19,10 @@ struct BatteryWidget: View {
                     }
                     bar(level)
                 }
+            }
+        } else if isPreview {
+            WidgetCard(title: "Battery", symbol: "powerplug") {
+                WidgetPlaceholder(symbol: "powerplug", message: "This Mac has no battery, so the widget stays hidden.")
             }
         }
     }

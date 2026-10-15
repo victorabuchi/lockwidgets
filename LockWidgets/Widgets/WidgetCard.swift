@@ -10,6 +10,18 @@ enum Theme {
     static let tertiary = Color.white.opacity(0.38)
 }
 
+private struct WidgetPreviewKey: EnvironmentKey {
+    static let defaultValue = false
+}
+
+extension EnvironmentValues {
+    /// True inside settings previews, where widgets show a placeholder instead of hiding.
+    var isWidgetPreview: Bool {
+        get { self[WidgetPreviewKey.self] }
+        set { self[WidgetPreviewKey.self] = newValue }
+    }
+}
+
 /// Glass card shared by every widget: small uppercase header, then content.
 struct WidgetCard<Content: View>: View {
     let title: String

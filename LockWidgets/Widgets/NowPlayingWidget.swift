@@ -3,6 +3,7 @@ import SwiftUI
 struct NowPlayingWidget: View {
     @ObservedObject private var music = NowPlayingStore.shared
     @AppStorage(SettingsKey.hideMusicWhenIdle) private var hideWhenIdle = true
+    @Environment(\.isWidgetPreview) private var isPreview
 
     var body: some View {
         if let track = music.track {
@@ -39,7 +40,7 @@ struct NowPlayingWidget: View {
             WidgetCard(title: "Now Playing", symbol: "music.note") {
                 WidgetPlaceholder(symbol: "lock", message: "Allow LockWidgets under Privacy & Security → Automation.")
             }
-        } else if !hideWhenIdle {
+        } else if !hideWhenIdle || isPreview {
             WidgetCard(title: "Now Playing", symbol: "music.note") {
                 WidgetPlaceholder(symbol: "music.note", message: "Nothing playing in Music or Spotify.")
             }

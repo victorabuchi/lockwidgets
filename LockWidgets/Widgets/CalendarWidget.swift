@@ -3,19 +3,25 @@ import SwiftUI
 
 struct CalendarWidget: View {
     @ObservedObject private var calendar = CalendarStore.shared
-    private let maxEvents = 4
+    @AppStorage(SettingsKey.calendarMaxEvents) private var maxEvents = 4
+    @AppStorage(SettingsKey.calendarIncludeTomorrow) private var includeTomorrow = true
 
     var body: some View {
         WidgetCard(title: "Up Next", symbol: "calendar") {
             if !calendar.hasAccess {
                 WidgetPlaceholder(symbol: "lock", message: "Allow calendar access in LockWidgets settings.")
-            } else if calendar.events.isEmpty {
-                WidgetPlaceholder(symbol: "checkmark.circle", message: "Nothing else today or tomorrow.")
             } else {
                 // Re-render each minute so "now" and "in 5 min" stay current on the lock screen.
                 TimelineView(.everyMinute) { context in
+                    let sections = sections(now: context.date)
+                    if sections.isEmpty {
+                        WidgetPlaceholder(
+                            symbol: "checkmark.circle",
+                            message: includeTomorrow ? "Nothing else today or tomorrow." : "Nothing else today."
+                        )
+                    }
                     VStack(alignment: .leading, spacing: 10) {
-                        ForEach(sections(now: context.date), id: \.title) { section in
+                        ForEach(sections, id: \.title) { section in
                             if section.showsTitle {
                                 Text(section.title.uppercased())
                                     .font(.system(size: 10, weight: .semibold))
@@ -40,8 +46,9 @@ struct CalendarWidget: View {
     }
 
     private func sections(now: Date) -> [Section] {
-        let upcoming = Array(calendar.events.filter { $0.endDate > now }.prefix(maxEvents))
-        let today = upcoming.filter { Calendar.current.isDateInToday($0.startDate) || $0.startDate < now }
+        let isToday = { (event: EKEvent) in Calendar.current.isDateInToday(event.startDate) || event.startDate < now }
+        let upcoming = Array(calendar.events.filter { $0.endDate > now && (includeTomorrow || isToday($0)) }.prefix(maxEvents))
+        let today = upcoming.filter(isToday)
         let tomorrow = upcoming.filter { !today.contains($0) }
         var result: [Section] = []
         if !today.isEmpty { result.append(Section(title: "Today", showsTitle: !tomorrow.isEmpty, events: today)) }

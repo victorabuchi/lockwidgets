@@ -11,7 +11,7 @@ struct WidgetBoard: View {
     var body: some View {
         VStack(alignment: position.horizontalAlignment, spacing: spacing) {
             ForEach(WidgetKind.visible(order: order, hidden: hidden)) { kind in
-                view(for: kind)
+                Self.widget(for: kind)
             }
         }
         .scaleEffect(scale, anchor: position.anchor)
@@ -21,7 +21,7 @@ struct WidgetBoard: View {
     }
 
     @ViewBuilder
-    private func view(for kind: WidgetKind) -> some View {
+    static func widget(for kind: WidgetKind) -> some View {
         switch kind {
         case .clock: ClockWidget()
         case .weather: WeatherWidget()

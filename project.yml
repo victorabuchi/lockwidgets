@@ -2,7 +2,7 @@ name: LockWidgets
 options:
   bundleIdPrefix: com.victorabuchi
   deploymentTarget:
-    macOS: "14.0"
+    macOS: "15.0"
 packages:
   SkyLightWindow:
     url: https://github.com/Lakr233/SkyLightWindow

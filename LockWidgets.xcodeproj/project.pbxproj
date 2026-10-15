@@ -7,42 +7,50 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0071EF204F93A62E4D2B7816 /* LayoutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1C9A9DF56EF7497259A1EBA1 /* LayoutPage.swift */; };
 		072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */; };
 		07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB6AF92AA3C096A2C102584A /* CalendarStore.swift */; };
 		08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */; };
-		2995A1022826B75A05437494 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AE88B71190D9CDAAB2651E6E /* SettingsView.swift */; };
 		2FFC8D696E8C781E6B2C6D42 /* BatteryWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */; };
 		39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FB43B933F43756700684B /* OverlayManager.swift */; };
 		4469748AF58F07A1B94D7510 /* WeatherStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */; };
 		518E03FAE3F3E7B82E76716F /* BatteryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */; };
 		5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */; };
+		5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50667F8A2F064584A76D173F /* AboutPage.swift */; };
 		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
+		6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88EF4BD9D335A452A827616 /* WidgetPage.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
 		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
 		8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */; };
+		8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */; };
 		940693083BF27989A43B197B /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166765275AD20B49E4DCDBE /* WeatherWidget.swift */; };
+		96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520B6BC02944014CAB7788 /* SettingsWindow.swift */; };
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */; };
+		F251FDA54218560388619A49 /* AppearancePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87979B3677A77236CBF7E633 /* AppearancePage.swift */; };
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1C9A9DF56EF7497259A1EBA1 /* LayoutPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutPage.swift; sourceTree = "<group>"; };
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
 		33D67D8F04957B4191B11B16 /* WidgetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBoard.swift; sourceTree = "<group>"; };
+		3A520B6BC02944014CAB7788 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
+		50667F8A2F064584A76D173F /* AboutPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutPage.swift; sourceTree = "<group>"; };
 		51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
+		87979B3677A77236CBF7E633 /* AppearancePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePage.swift; sourceTree = "<group>"; };
 		8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStore.swift; sourceTree = "<group>"; };
 		8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetsApp.swift; sourceTree = "<group>"; };
 		944261E2F34003592A329E1D /* ClockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockWidget.swift; sourceTree = "<group>"; };
 		A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingWidget.swift; sourceTree = "<group>"; };
 		A78DAF013E95E14A143A0322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		AE88B71190D9CDAAB2651E6E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
@@ -50,6 +58,8 @@
 		E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryMonitor.swift; sourceTree = "<group>"; };
 		E99FB43B933F43756700684B /* OverlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
 		EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsStore.swift; sourceTree = "<group>"; };
+		F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPage.swift; sourceTree = "<group>"; };
+		F88EF4BD9D335A452A827616 /* WidgetPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -125,8 +135,13 @@
 		CBDD96605743EC51922F7DCC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				50667F8A2F064584A76D173F /* AboutPage.swift */,
+				87979B3677A77236CBF7E633 /* AppearancePage.swift */,
+				F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */,
+				1C9A9DF56EF7497259A1EBA1 /* LayoutPage.swift */,
 				8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */,
-				AE88B71190D9CDAAB2651E6E /* SettingsView.swift */,
+				3A520B6BC02944014CAB7788 /* SettingsWindow.swift */,
+				F88EF4BD9D335A452A827616 /* WidgetPage.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -207,11 +222,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */,
+				F251FDA54218560388619A49 /* AppearancePage.swift in Sources */,
 				518E03FAE3F3E7B82E76716F /* BatteryMonitor.swift in Sources */,
 				2FFC8D696E8C781E6B2C6D42 /* BatteryWidget.swift in Sources */,
 				07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */,
 				AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */,
 				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
+				8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */,
+				0071EF204F93A62E4D2B7816 /* LayoutPage.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
 				072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */,
 				D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */,
@@ -219,11 +238,12 @@
 				8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */,
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,
 				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,
-				2995A1022826B75A05437494 /* SettingsView.swift in Sources */,
+				96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */,
 				4469748AF58F07A1B94D7510 /* WeatherStore.swift in Sources */,
 				940693083BF27989A43B197B /* WeatherWidget.swift in Sources */,
 				A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */,
 				08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */,
+				6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,7 +343,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -385,7 +405,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;

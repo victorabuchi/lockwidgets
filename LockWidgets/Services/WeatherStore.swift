@@ -70,6 +70,7 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
     private func requestLocation() {
         switch manager.authorizationStatus {
         case .notDetermined:
+            publish(problem: "Allow location access, or set a city in LockWidgets settings.")
             manager.requestWhenInUseAuthorization()
         case .denied, .restricted:
             publish(problem: "Location is off. Set a city in LockWidgets settings.")
