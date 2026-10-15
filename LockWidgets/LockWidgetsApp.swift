@@ -83,35 +83,22 @@ private struct MenuBarLabel: View {
     }
 }
 
-/// Four widget tiles with a keyhole cut through the middle, drawn as a template so it tints with the menu bar.
+/// A padlock with a widget-shaped window in its body, drawn as a template so it tints with the menu bar.
 enum MenuBarIcon {
     static let image: NSImage = {
         let image = NSImage(size: NSSize(width: 18, height: 18), flipped: true) { _ in
-            guard let context = NSGraphicsContext.current?.cgContext else { return false }
+            NSColor.black.setStroke()
             NSColor.black.setFill()
-            for (x, y) in [(1.0, 1.0), (10.0, 1.0), (1.0, 10.0), (10.0, 10.0)] {
-                NSBezierPath(roundedRect: NSRect(x: x, y: y, width: 7, height: 7), xRadius: 2, yRadius: 2).fill()
-            }
-            // Clear a keyhole-shaped window through the tiles…
-            context.setBlendMode(.clear)
-            NSBezierPath(ovalIn: NSRect(x: 6, y: 4.6, width: 6, height: 6)).fill()
-            let opening = NSBezierPath()
-            opening.move(to: NSPoint(x: 7.6, y: 8))
-            opening.line(to: NSPoint(x: 10.4, y: 8))
-            opening.line(to: NSPoint(x: 11.2, y: 14.2))
-            opening.line(to: NSPoint(x: 6.8, y: 14.2))
-            opening.close()
-            opening.fill()
-            // …then draw the keyhole itself inside it.
-            context.setBlendMode(.normal)
-            NSBezierPath(ovalIn: NSRect(x: 7.4, y: 6, width: 3.2, height: 3.2)).fill()
-            let stem = NSBezierPath()
-            stem.move(to: NSPoint(x: 8.3, y: 8.4))
-            stem.line(to: NSPoint(x: 9.7, y: 8.4))
-            stem.line(to: NSPoint(x: 10.1, y: 12.6))
-            stem.line(to: NSPoint(x: 7.9, y: 12.6))
-            stem.close()
-            stem.fill()
+            let shackle = NSBezierPath()
+            shackle.move(to: NSPoint(x: 5, y: 8))
+            shackle.line(to: NSPoint(x: 5, y: 5.5))
+            shackle.appendArc(withCenter: NSPoint(x: 9, y: 5.5), radius: 4, startAngle: 180, endAngle: 0, clockwise: false)
+            shackle.line(to: NSPoint(x: 13, y: 8))
+            shackle.lineWidth = 1.7
+            shackle.stroke()
+            let body = NSBezierPath(roundedRect: NSRect(x: 2.5, y: 7.5, width: 13, height: 9.5), xRadius: 2.6, yRadius: 2.6)
+            body.append(NSBezierPath(roundedRect: NSRect(x: 5.5, y: 10.2, width: 7, height: 4), xRadius: 1.2, yRadius: 1.2).reversed)
+            body.fill()
             return true
         }
         image.isTemplate = true
