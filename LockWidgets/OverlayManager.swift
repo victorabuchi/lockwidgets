@@ -18,7 +18,7 @@ final class OverlayManager: ObservableObject {
     func show() {
         hide()
         for screen in NSScreen.screens {
-            let controller = SkyLightOperator.shared.delegateView(AnyView(WidgetView()), toScreen: screen)
+            let controller = SkyLightOperator.shared.delegateView(AnyView(WidgetBoard()), toScreen: screen)
             // Full-screen overlay at the top level: let clicks pass through or the Mac becomes unusable.
             controller.window?.ignoresMouseEvents = true
             controllers.append(controller)

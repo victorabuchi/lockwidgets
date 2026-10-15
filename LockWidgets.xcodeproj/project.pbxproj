@@ -7,9 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		22EE89271E606B07D2BC1C4D /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFC392908D9A404BD187AD97 /* WidgetView.swift */; };
+		08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */; };
 		39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = E99FB43B933F43756700684B /* OverlayManager.swift */; };
+		5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */; };
+		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
+		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
 /* End PBXBuildFile section */
@@ -17,10 +20,13 @@
 /* Begin PBXFileReference section */
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
+		33D67D8F04957B4191B11B16 /* WidgetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBoard.swift; sourceTree = "<group>"; };
 		51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
 		8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetsApp.swift; sourceTree = "<group>"; };
+		944261E2F34003592A329E1D /* ClockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockWidget.swift; sourceTree = "<group>"; };
 		A78DAF013E95E14A143A0322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		BFC392908D9A404BD187AD97 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
+		E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCard.swift; sourceTree = "<group>"; };
 		E99FB43B933F43756700684B /* OverlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -36,6 +42,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		190CEE6C955127410D555B38 /* Widgets */ = {
+			isa = PBXGroup;
+			children = (
+				944261E2F34003592A329E1D /* ClockWidget.swift */,
+				33D67D8F04957B4191B11B16 /* WidgetBoard.swift */,
+				E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */,
+			);
+			path = Widgets;
+			sourceTree = "<group>";
+		};
 		207F3E4DB7C3A9F38C6B190D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -60,9 +76,18 @@
 				28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */,
 				8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */,
 				E99FB43B933F43756700684B /* OverlayManager.swift */,
-				BFC392908D9A404BD187AD97 /* WidgetView.swift */,
+				CBDD96605743EC51922F7DCC /* Settings */,
+				190CEE6C955127410D555B38 /* Widgets */,
 			);
 			path = LockWidgets;
+			sourceTree = "<group>";
+		};
+		CBDD96605743EC51922F7DCC /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,9 +165,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,
-				22EE89271E606B07D2BC1C4D /* WidgetView.swift in Sources */,
+				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,
+				A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */,
+				08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
