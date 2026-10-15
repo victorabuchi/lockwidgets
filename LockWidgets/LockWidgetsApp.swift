@@ -52,8 +52,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var activity: NSObjectProtocol?
 
     func applicationDidFinishLaunching(_: Notification) {
-        ClickDiagnostics.start()
-        activity = ProcessInfo.processInfo.beginActivity(
+        activity =ProcessInfo.processInfo.beginActivity(
             options: [.userInitiatedAllowingIdleSystemSleep, .latencyCritical],
             reason: "Live widgets and the Dynamic Island"
         )
