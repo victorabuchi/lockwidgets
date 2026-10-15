@@ -7,6 +7,7 @@ struct SetupGuide: View {
     @Environment(\.dismissWindow) private var dismissWindow
     @Environment(\.openWindow) private var openWindow
 
+    @ObservedObject private var notifications = NotificationStore.shared
     @State private var step = 0
     @State private var chosen: Set<WidgetKind> = [.clock, .weather, .calendar, .nowPlaying]
 
@@ -233,6 +234,10 @@ struct SetupGuide: View {
                     permission("location", "Location for weather", CLLocationManager().authorizationStatus != .notDetermined) {
                         WeatherStore.shared.refresh()
                     }
+                }
+                // macOS keeps notifications in a protected file, so the island needs Full Disk Access to show them.
+                permission("bell.badge", "Notifications on the island (Full Disk Access)", notifications.status == .connected) {
+                    notifications.openFullDiskAccessSettings()
                 }
                 LaunchAtLoginRow()
             }
