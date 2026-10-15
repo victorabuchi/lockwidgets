@@ -20,6 +20,12 @@ final class OverlayManager: ObservableObject {
         dnc.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
             self?.hide()
         }
+
+        #if DEBUG
+        if UserDefaults.standard.bool(forKey: "previewAtLaunch") {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.show() }
+        }
+        #endif
     }
 
     func show() {
