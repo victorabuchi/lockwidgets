@@ -16,6 +16,13 @@ struct LockWidgetsApp: App {
         }
         .defaultSize(width: 920, height: 680)
         .defaultLaunchBehavior(.suppressed)
+
+        Window("Welcome to LockWidgets", id: "setup") {
+            SetupGuide()
+        }
+        .windowStyle(.hiddenTitleBar)
+        .windowResizability(.contentSize)
+        .defaultLaunchBehavior(.suppressed)
     }
 }
 
@@ -32,7 +39,7 @@ private struct MenuBarLabel: View {
                 #endif
                 guard !hasLaunched else { return }
                 hasLaunched = true
-                openWindow(id: "settings")
+                openWindow(id: "setup")
             }
     }
 }

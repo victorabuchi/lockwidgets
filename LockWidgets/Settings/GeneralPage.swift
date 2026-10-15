@@ -8,6 +8,7 @@ struct GeneralPage: View {
     @ObservedObject private var calendar = CalendarStore.shared
     @ObservedObject private var music = NowPlayingStore.shared
 
+    @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.showOnLockScreen) private var showOnLockScreen = true
     @State private var launchAtLogin = SMAppService.mainApp.status == .enabled
 
@@ -15,6 +16,17 @@ struct GeneralPage: View {
         Form {
             Section {
                 PageHeader(title: "General", subtitle: "Turn LockWidgets on or off and manage permissions.")
+            }
+
+            Section {
+                LabeledContent {
+                    Button("Show Setup Guide…") { openWindow(id: "setup") }
+                } label: {
+                    Text("Setup Guide")
+                    Text("Revisit the introduction without changing your current settings.")
+                }
+            } header: {
+                Text("Setup")
             }
 
             Section("Lock Screen") {

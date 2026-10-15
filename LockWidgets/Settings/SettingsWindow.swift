@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SettingsPage: Hashable {
-    case general, layoutStudio, gallery, appearance, stickyNotes, about
+    case general, whatsNew, layoutStudio, gallery, appearance, stickyNotes, about
     case widget(WidgetKind)
 
     #if DEBUG
@@ -9,7 +9,7 @@ enum SettingsPage: Hashable {
     static var launchPage: SettingsPage? {
         guard let name = UserDefaults.standard.string(forKey: "settingsPage") else { return nil }
         if let kind = WidgetKind(rawValue: name) { return .widget(kind) }
-        return ["general": .general, "studio": .layoutStudio, "gallery": .gallery, "appearance": .appearance, "notes": .stickyNotes, "about": .about][name]
+        return ["general": .general, "whatsnew": .whatsNew, "studio": .layoutStudio, "gallery": .gallery, "appearance": .appearance, "notes": .stickyNotes, "about": .about][name]
     }
     #endif
 }
@@ -29,6 +29,8 @@ struct SettingsWindow: View {
             List(selection: $router.page) {
                 SidebarRow(title: "General", symbol: "gearshape.fill", color: .gray)
                     .tag(SettingsPage.general)
+                SidebarRow(title: "What's New", symbol: "sparkles", color: .pink)
+                    .tag(SettingsPage.whatsNew)
 
                 Section("Lock Screen") {
                     SidebarRow(title: "Layout Studio", symbol: "rectangle.3.group.fill", color: .blue)
@@ -57,6 +59,7 @@ struct SettingsWindow: View {
         } detail: {
             switch router.page ?? .general {
             case .general: GeneralPage(overlay: overlay)
+            case .whatsNew: WhatsNewPage()
             case .layoutStudio: LayoutStudioPage()
             case .gallery: LayoutGalleryPage()
             case .appearance: AppearancePage()
@@ -70,12 +73,10 @@ struct SettingsWindow: View {
             #if DEBUG
             if let launchPage = SettingsPage.launchPage { router.page = launchPage }
             #endif
-            // Show in the Dock and app switcher only while settings are open.
-            NSApp.setActivationPolicy(.regular)
-            NSApp.activate()
+            DockPolicy.update()
         }
         .onDisappear {
-            NSApp.setActivationPolicy(.accessory)
+            DockPolicy.update()
         }
     }
 }
