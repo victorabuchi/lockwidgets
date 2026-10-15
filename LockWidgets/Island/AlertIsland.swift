@@ -7,22 +7,30 @@ struct EventBanner: View {
     let color: NSColor
 
     var body: some View {
-        BannerLayout(notch: notch) {
+        CardLayout(notch: notch) {
             Image(systemName: "calendar")
-                .font(.system(size: 14, weight: .semibold))
+                .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(Color(nsColor: color))
-                .frame(width: BannerLayout<EmptyView, EmptyView>.iconSize, height: BannerLayout<EmptyView, EmptyView>.iconSize)
-                .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 8, style: .continuous))
-        } text: {
+                .frame(width: 20, height: 20)
+                .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 5, style: .continuous))
+            Text("Calendar")
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.8))
+        } right: {
+            Text(start.formatted(date: .omitted, time: .shortened))
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.white.opacity(0.45))
+        } below: {
             Text(title)
-                .font(.system(size: 12.5, weight: .semibold))
+                .font(.system(size: 13, weight: .semibold))
                 .lineLimit(1)
+                .frame(height: 16)
+                .padding(.top, 4)
             TimelineView(.periodic(from: .now, by: 30)) { context in
                 let minutes = max(Int(ceil(start.timeIntervalSince(context.date) / 60)), 0)
-                Text((minutes == 0 ? "Starting now" : "In \(minutes) min") + " · " + start.formatted(date: .omitted, time: .shortened))
-                    .font(.system(size: 11.5))
+                Text(minutes == 0 ? "Starting now" : "Starts in \(minutes) min")
+                    .font(.system(size: 12))
                     .foregroundStyle(.white.opacity(0.75))
-                    .lineLimit(1)
             }
         }
     }
@@ -65,7 +73,7 @@ struct LevelCompact: View {
                 .frame(width: 22)
         } trailing: {
             ProgressBar(fraction: level, color: .white, height: 6)
-                .frame(width: max(notch.width - 66, 60))
+                .frame(width: max(notch.width - 76, 60))
                 .animation(.easeOut(duration: 0.15), value: level)
         }
     }

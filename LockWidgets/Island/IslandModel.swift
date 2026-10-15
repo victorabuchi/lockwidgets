@@ -26,7 +26,7 @@ enum IslandActivity: Equatable {
         }
     }
 
-    /// Banners drop down below the notch instead of sitting beside it.
+    /// Banners open out like the full card instead of dropping a row below the notch.
     var isBanner: Bool {
         switch self {
         case .notification, .event: true
@@ -34,13 +34,13 @@ enum IslandActivity: Equatable {
         }
     }
 
-    /// Height of the full card below the notch.
+    /// Height of the open card, or a banner, below the notch.
     var expandedHeight: CGFloat {
         switch self {
         case .music: MusicExpanded.height(showsLyrics: UserDefaults.standard.object(forKey: SettingsKey.islandLyrics) as? Bool ?? true)
-        case .meeting: 88
-        case .timer: 60
-        default: 48
+        case .notification: 60
+        case .hotspot: 44
+        default: 46
         }
     }
 
@@ -230,48 +230,29 @@ final class IslandModel: ObservableObject {
     /// Height of the row that brief alerts add below the notch.
     static let dropHeight: CGFloat = 32
 
-    /// Height that notification and calendar banners add below the notch.
-    static let bannerHeight: CGFloat = 64
+    /// Width of the open card and banners: wider than the notch, so their top row sits either side of it.
+    var cardWidth: CGFloat { max(notch.width + 170, 360) }
 
-    /// How far a live activity reaches out on each side of the notch while closed, like the iPhone's
-    /// compact island. The notch has no screen under it, so the artwork can only show beside it.
-    static func wing(_ notch: CGSize) -> CGFloat { notch.height + 2 }
-
-    /// The round bubble for a second live activity, beside the closed island on the right, as on the iPhone.
-    var bubbleSize: CGFloat { notch.height }
-    static let bubbleGap: CGFloat = 6
-
-    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isTransient == false }
-
-    /// Size of the black shape for the current state. With nothing live it is exactly the notch; live
-    /// activities sit beside it at its height; everything else hangs below it at the notch's width.
+    /// Size of the black shape for the current state. Closed, it is exactly the notch whatever is live;
+    /// brief alerts hang below it at its width; only the open card and banners are wider.
     var size: CGSize {
         guard let primary else { return notch }
-        if primary.isBanner {
-            return CGSize(width: notch.width, height: notch.height + Self.bannerHeight)
-        }
-        if isExpanded {
-            return CGSize(width: notch.width, height: notch.height + primary.expandedHeight)
+        if isExpanded || primary.isBanner {
+            return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
         }
         if primary.isTransient {
             return CGSize(width: notch.width, height: notch.height + Self.dropHeight)
         }
-        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
+        return notch
     }
 
-    /// The size the island returns to when the open card closes.
-    var closedSize: CGSize {
-        guard let primary, !primary.isTransient else { return size }
-        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
-    }
-
-    /// The notch's own bottom corner radius, used when nothing is live.
+    /// The notch's own bottom corner radius, used whenever the island is closed.
     static let notchRadius: CGFloat = 10
 
     var bottomRadius: CGFloat {
         guard let primary else { return Self.notchRadius }
-        if isExpanded || primary.isBanner { return 22 }
-        return 16
+        if isExpanded || primary.isBanner { return 24 }
+        return primary.isTransient ? 16 : Self.notchRadius
     }
 
     func toggleExpanded() {

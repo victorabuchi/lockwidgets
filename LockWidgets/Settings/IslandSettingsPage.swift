@@ -22,7 +22,7 @@ struct IslandSettingsPage: View {
                 PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("A song or your hotspot shows beside the notch, like the iPhone. Point at it to open the card.")
+                        Text("Closed, it is exactly your notch. Point at the notch to open it.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }
@@ -56,7 +56,7 @@ struct IslandSettingsPage: View {
             Section("Activities") {
                 Toggle(isOn: $music) {
                     Text("Now Playing")
-                    Text("Artwork and waveform beside the notch; the song, lyric and controls when you open it.")
+                    Text("The song, its lyric, progress and controls when you open the island.")
                 }
                 Toggle(isOn: $lyrics) {
                     Text("Lyrics in the full card")
@@ -97,7 +97,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When two things are live, the second waits in a small bubble on the right, like the iPhone. Calls come first, then timers, music and the hotspot.")
+                Text("When two things are live, the open card shows the second as a small icon on its right, like the iPhone. Calls come first, then timers, music and the hotspot.")
                     .foregroundStyle(.secondary)
             }
         }
@@ -105,17 +105,20 @@ struct IslandSettingsPage: View {
     }
 }
 
-/// The open music card at its real size, for the settings page.
+/// The open music card in miniature, for the settings page.
 private struct IslandPreview: View {
     @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
 
     var body: some View {
-        let notch = IslandModel.shared.notch
+        let model = IslandModel.shared
+        let size = CGSize(width: model.cardWidth, height: model.notch.height + MusicExpanded.height(showsLyrics: showLyrics))
         ZStack(alignment: .top) {
-            IslandShape(bottomRadius: 22).fill(Color.black)
-            MusicExpanded(notch: notch)
+            IslandShape(bottomRadius: 24).fill(Color.black)
+            MusicExpanded(notch: model.notch)
         }
-        .frame(width: notch.width, height: notch.height + MusicExpanded.height(showsLyrics: showLyrics))
+        .frame(width: size.width, height: size.height)
         .environment(\.colorScheme, .dark)
+        .scaleEffect(0.8)
+        .frame(width: size.width * 0.8, height: size.height * 0.8)
     }
 }

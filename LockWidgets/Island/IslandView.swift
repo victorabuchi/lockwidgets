@@ -42,20 +42,12 @@ struct IslandView: View {
                 .frame(width: size.width, height: size.height, alignment: .top)
                 .clipShape(IslandShape(bottomRadius: model.bottomRadius))
         }
-        // Width and height move on different springs: opening, the sides draw in and the card drops out
-        // of the notch; closing, it rises back into the notch and the sides spread out again.
+        // Width and height move on different springs: closing, the card narrows first and then rises
+        // into the notch (a genie-like pull); opening, it widens first and then drops down.
         .frame(height: size.height)
         .animation(.spring(response: 0.48, dampingFraction: 0.82), value: size.height)
         .frame(width: size.width)
         .animation(.spring(response: 0.32, dampingFraction: 0.86), value: size.width)
-        .overlay(alignment: .topTrailing) {
-            // A second live activity floats in its own bubble on the right, as on the iPhone.
-            if model.showsBubble, let secondary = model.secondary {
-                Bubble(activity: secondary, size: model.bubbleSize, fill: .black)
-                    .offset(x: IslandModel.bubbleGap + model.bubbleSize)
-                    .transition(.scale(scale: 0.4, anchor: .leading).combined(with: .opacity))
-            }
-        }
         .contentShape(Rectangle())
         .onTapGesture { model.toggleExpanded() }
     }
@@ -73,13 +65,9 @@ struct IslandView: View {
     private func activityContent(_ notch: CGSize) -> some View {
         switch (model.primary, model.isExpanded) {
         case (.music, true): MusicExpanded(notch: notch)
-        case (.music, false): MusicCompact(notch: notch)
         case (.timer, true): TimerExpanded(notch: notch)
-        case (.timer, false): TimerCompact(notch: notch)
         case (.meeting, true): MeetingExpanded(notch: notch)
-        case (.meeting, false): MeetingCompact(notch: notch)
         case (.hotspot, true): HotspotExpanded(notch: notch)
-        case (.hotspot, false): HotspotCompact(notch: notch)
         case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
         case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
         case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
@@ -88,6 +76,7 @@ struct IslandView: View {
         case let (.volume(level, muted), _): LevelCompact(notch: notch, symbol: muted ? "speaker.slash.fill" : level < 0.34 ? "speaker.wave.1.fill" : level < 0.67 ? "speaker.wave.2.fill" : "speaker.wave.3.fill", level: muted ? 0 : level)
         case let (.brightness(level), _): LevelCompact(notch: notch, symbol: level < 0.5 ? "sun.min.fill" : "sun.max.fill", level: level)
         case let (.focus(name, symbol, on), _): FocusCompact(notch: notch, name: name, symbol: symbol, on: on)
+        // Closed, a live activity is exactly the notch, with nothing drawn.
         default: EmptyView()
         }
     }
@@ -97,24 +86,32 @@ struct IslandView: View {
     }
 }
 
-/// Live activities sit either side of the camera at the notch's own height, like the iPhone's compact island.
-/// Each side runs from the island's edge to the notch, so nothing is hidden by the camera.
-struct CompactRow<Leading: View, Trailing: View>: View {
+/// The open card and banners. They are wider than the notch, so their top row sits either side of the
+/// camera, something on the left and something on the right, and the rest runs full width below it.
+struct CardLayout<Left: View, Right: View, Below: View>: View {
     let notch: CGSize
-    @ViewBuilder var leading: Leading
-    @ViewBuilder var trailing: Trailing
+    @ViewBuilder var left: Left
+    @ViewBuilder var right: Right
+    @ViewBuilder var below: Below
 
     var body: some View {
-        let side = IslandModel.wing(notch)
-        HStack(spacing: 0) {
-            leading
-                .frame(width: side, height: notch.height)
-            Spacer(minLength: notch.width)
-            trailing
-                .frame(width: side, height: notch.height)
+        VStack(alignment: .leading, spacing: 0) {
+            HStack(spacing: 0) {
+                HStack(spacing: 6) { left }
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Color.clear
+                    .frame(width: notch.width)
+                HStack(spacing: 6) { right }
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .lineLimit(1)
+            .frame(height: notch.height)
+            VStack(alignment: .leading, spacing: 0) { below }
+                .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .lineLimit(1)
-        .frame(height: notch.height)
+        .foregroundStyle(.white)
+        .padding(.horizontal, 16)
+        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
     }
 }
 

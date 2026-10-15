@@ -1,19 +1,30 @@
 import SwiftUI
 
-/// A notification dropping down from the notch at the notch's width: the app icon beside the title and message.
+/// A notification opening out from the notch. Its header sits either side of the camera, the app's icon
+/// and name on the left and the time on the right, and the title and message run full width below.
 struct NotificationBanner: View {
     let notch: CGSize
     let item: NotificationStore.Item
 
     var body: some View {
-        BannerLayout(notch: notch) {
+        CardLayout(notch: notch) {
             icon
-        } text: {
+                .frame(width: 20, height: 20)
+            Text(item.appName)
+                .font(.system(size: 11, weight: .semibold))
+                .foregroundStyle(.white.opacity(0.8))
+        } right: {
+            Text("now")
+                .font(.system(size: 11, weight: .medium))
+                .foregroundStyle(.white.opacity(0.45))
+        } below: {
             Text(item.title.isEmpty ? item.appName : item.title)
-                .font(.system(size: 12.5, weight: .semibold))
+                .font(.system(size: 13, weight: .semibold))
                 .lineLimit(1)
+                .frame(height: 16)
+                .padding(.top, 4)
             Text([item.subtitle, item.body].filter { !$0.isEmpty }.joined(separator: " · "))
-                .font(.system(size: 11.5))
+                .font(.system(size: 12))
                 .foregroundStyle(.white.opacity(0.75))
                 .lineLimit(2)
         }
@@ -37,30 +48,5 @@ struct NotificationBanner: View {
                 .scaledToFit()
                 .foregroundStyle(.white.opacity(0.6))
         }
-    }
-}
-
-/// Banner arrangement below the notch, as wide as the notch: the icon beside the title and message,
-/// both starting right under the camera so there is no empty band.
-struct BannerLayout<Icon: View, Content: View>: View {
-    let notch: CGSize
-    @ViewBuilder var icon: Icon
-    @ViewBuilder var text: Content
-
-    static var iconSize: CGFloat { 30 }
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 10) {
-            icon
-                .frame(width: Self.iconSize, height: Self.iconSize)
-            VStack(alignment: .leading, spacing: 1) {
-                text
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
-        }
-        .foregroundStyle(.white)
-        .padding(.horizontal, 14)
-        .padding(.top, notch.height + 10)
-        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     }
 }
