@@ -23,6 +23,7 @@ struct WidgetPage: View {
             case .reminders: RemindersOptions()
             case .system: EmptyView()
             case .news: NewsOptions()
+            case .stocks: StocksOptions()
             }
         }
         .formStyle(.grouped)
@@ -375,6 +376,45 @@ private struct NewsOptions: View {
     private func useCustom() {
         feed = custom.trimmingCharacters(in: .whitespaces)
         custom = ""
+    }
+}
+
+private struct StocksOptions: View {
+    @ObservedObject private var stocks = StocksStore.shared
+    @AppStorage(StocksStore.symbolsKey) private var symbols = StocksStore.defaultSymbols
+    @State private var draft = ""
+
+    var body: some View {
+        Section {
+            LabeledContent("Symbols") {
+                HStack {
+                    TextField("Symbols", text: $draft)
+                        .labelsHidden()
+                        .onSubmit(apply)
+                    Button("Apply", action: apply)
+                        .disabled(draft == symbols)
+                }
+            }
+            ForEach(stocks.quotes) { quote in
+                LabeledContent(quote.symbol) {
+                    Text("\(quote.priceText)  \(quote.changeText)")
+                        .foregroundStyle(quote.change >= 0 ? .green : .red)
+                        .monospacedDigit()
+                }
+            }
+        } header: {
+            Text("Watchlist")
+        } footer: {
+            Text("Separate symbols with commas. Use BTC-USD for crypto and EURUSD=X for currency pairs. The first symbol leads the Spotlight style. Prices from Yahoo Finance, updated every 5 minutes.")
+                .foregroundStyle(.secondary)
+        }
+        .onAppear { draft = symbols }
+    }
+
+    private func apply() {
+        symbols = draft.uppercased().replacingOccurrences(of: " ", with: "")
+        draft = symbols
+        stocks.refresh()
     }
 }
 
