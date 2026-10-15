@@ -77,10 +77,14 @@ private struct SidebarRow: View {
         Label {
             Text(title)
         } icon: {
+            // Fit every symbol into the same inner box so wide ones (battery) stay centred.
             Image(systemName: symbol)
+                .resizable()
                 .symbolVariant(.fill)
-                .font(.system(size: 11, weight: .semibold))
+                .scaledToFit()
+                .fontWeight(.semibold)
                 .foregroundStyle(.white)
+                .frame(width: 13, height: 13)
                 .frame(width: 22, height: 22)
                 .background(color.gradient, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
         }
