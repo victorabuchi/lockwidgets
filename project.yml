@@ -2,7 +2,7 @@ name: LockWidgets
 options:
   bundleIdPrefix: com.victorabuchi
   deploymentTarget:
-    macOS: "13.0"
+    macOS: "14.0"
 packages:
   SkyLightWindow:
     url: https://github.com/Lakr233/SkyLightWindow
@@ -19,10 +19,12 @@ targets:
       properties:
         LSUIElement: true
         CFBundleDisplayName: LockWidgets
+        NSCalendarsFullAccessUsageDescription: LockWidgets shows your upcoming events on the lock screen.
     entitlements:
       path: LockWidgets/LockWidgets.entitlements
       properties:
         com.apple.security.app-sandbox: true
+        com.apple.security.personal-information.calendars: true
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.victorabuchi.LockWidgets

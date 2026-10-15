@@ -11,6 +11,7 @@ enum SettingsKey {
 
 enum WidgetKind: String, CaseIterable, Identifiable {
     case clock
+    case calendar
     case battery
 
     var id: String { rawValue }
@@ -18,6 +19,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var title: String {
         switch self {
         case .clock: "Clock"
+        case .calendar: "Up Next"
         case .battery: "Battery"
         }
     }
@@ -25,6 +27,7 @@ enum WidgetKind: String, CaseIterable, Identifiable {
     var symbol: String {
         switch self {
         case .clock: "clock"
+        case .calendar: "calendar"
         case .battery: "battery.75"
         }
     }

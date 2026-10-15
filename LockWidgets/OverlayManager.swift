@@ -6,6 +6,8 @@ final class OverlayManager: ObservableObject {
     private var controllers: [NSWindowController] = []
 
     init() {
+        CalendarStore.shared.requestAccess()
+
         let dnc = DistributedNotificationCenter.default()
         dnc.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
             self?.show()

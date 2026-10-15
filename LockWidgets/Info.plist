@@ -22,5 +22,7 @@
 	<string>1</string>
 	<key>LSUIElement</key>
 	<true/>
+	<key>NSCalendarsFullAccessUsageDescription</key>
+	<string>LockWidgets shows your upcoming events on the lock screen.</string>
 </dict>
 </plist>
