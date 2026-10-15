@@ -40,6 +40,7 @@ enum WidgetCategory: String, CaseIterable {
     case music = "Music"
     case productivity = "Productivity"
     case information = "Information"
+    case briefings = "Briefings"
 }
 
 /// Everything that describes a widget kind, kept together so adding one is a single edit.
@@ -54,7 +55,7 @@ struct WidgetMeta {
 
 enum WidgetKind: String, Codable, CaseIterable, Identifiable {
     // Sidebar order.
-    case weather, earth, news, stocks, nowPlaying, photos, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, battery, system, stickyNote
+    case weather, earth, news, stocks, nowPlaying, photos, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, battery, system, dailyBrief, stickyNote
 
     var id: String { rawValue }
     var title: String { meta.title }
@@ -181,6 +182,13 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
             styles: [
                 WidgetStyle(id: "gauges", name: "Gauges", summary: "CPU and memory rings.", sizes: [.small, .medium]),
                 WidgetStyle(id: "list", name: "Monitor", summary: "Every metric with a live sparkline.", sizes: [.medium, .large]),
+            ]
+        )
+        case .dailyBrief: WidgetMeta(
+            title: "Daily Brief", symbol: "sun.horizon.fill", color: .orange,
+            summary: "A greeting with your weather, next event, reminders and top story.", category: .briefings,
+            styles: [
+                WidgetStyle(id: "brief", name: "Brief", summary: "Your day in one card.", sizes: [.medium, .wide, .large]),
             ]
         )
         case .stickyNote: WidgetMeta(

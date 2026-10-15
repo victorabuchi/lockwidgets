@@ -21,6 +21,7 @@ struct WidgetView: View {
         case .stocks: StocksWidget(instance: instance)
         case .photos: PhotosWidget(instance: instance)
         case .earth: EarthWidget(instance: instance)
+        case .dailyBrief: DailyBriefWidget(instance: instance)
         case .stickyNote: StickyNoteWidget(instance: instance)
         }
     }

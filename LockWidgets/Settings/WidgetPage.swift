@@ -26,6 +26,7 @@ struct WidgetPage: View {
             case .stocks: StocksOptions()
             case .photos: PhotosOptions()
             case .earth: EarthOptions()
+            case .dailyBrief: EmptyView()
             }
         }
         .formStyle(.grouped)
