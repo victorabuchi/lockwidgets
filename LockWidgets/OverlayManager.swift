@@ -22,6 +22,12 @@ final class OverlayManager: ObservableObject {
         }
 
         #if DEBUG
+        if UserDefaults.standard.bool(forKey: "dumpMusicAX") {
+            if !MusicLyricsReader.isTrusted { MusicLyricsReader.requestTrust() }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                MusicLyricsReader.dumpTree(to: URL(fileURLWithPath: NSTemporaryDirectory()).appendingPathComponent("music-ax.txt"))
+            }
+        }
         if UserDefaults.standard.bool(forKey: "previewAtLaunch") {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1) { self.show() }
         }

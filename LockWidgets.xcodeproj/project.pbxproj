@@ -46,7 +46,9 @@
 		B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0898E2431D9B5E4809FB335 /* PhotosStore.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */; };
+		CFCEFD4AAE833D1677DDB1D9 /* MusicLyricsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */; };
 		D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */; };
+		E269AFCAC0D00F660729B5BA /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FB388C82226A174F836470 /* PreferencesMigration.swift */; };
 		E6A7094B55903D1451A0D767 /* PhotosWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247A3444F4E8B1630533277 /* PhotosWidget.swift */; };
 		E9B7A91CE8C1510260200D5B /* WidgetKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241AC26A12C04E385F4ABA7E /* WidgetKind.swift */; };
 		F251FDA54218560388619A49 /* AppearancePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87979B3677A77236CBF7E633 /* AppearancePage.swift */; };
@@ -58,6 +60,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		00FB388C82226A174F836470 /* PreferencesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesMigration.swift; sourceTree = "<group>"; };
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFDEB25E245827A7F447F5B /* DailyBriefWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBriefWidget.swift; sourceTree = "<group>"; };
 		19685DDC575424AFEFDC10DB /* EarthWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthWidget.swift; sourceTree = "<group>"; };
@@ -83,6 +86,7 @@
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
 		842E3889C5A24B2CAA914CBF /* WidgetPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPicker.swift; sourceTree = "<group>"; };
+		853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLyricsReader.swift; sourceTree = "<group>"; };
 		87979B3677A77236CBF7E633 /* AppearancePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePage.swift; sourceTree = "<group>"; };
 		8A513FE231239454ED6ED159 /* StocksStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksStore.swift; sourceTree = "<group>"; };
 		8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStore.swift; sourceTree = "<group>"; };
@@ -179,9 +183,11 @@
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
 				406E0CD205C3061CF6EFE586 /* EarthStore.swift */,
 				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
+				853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */,
 				51BC3ABA91FF75E22A9622A7 /* NewsStore.swift */,
 				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
 				A0898E2431D9B5E4809FB335 /* PhotosStore.swift */,
+				00FB388C82226A174F836470 /* PreferencesMigration.swift */,
 				C6C4166E066E91470CCA71C3 /* RemindersStore.swift */,
 				8A513FE231239454ED6ED159 /* StocksStore.swift */,
 				3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */,
@@ -319,6 +325,7 @@
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
 				072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */,
 				D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */,
+				CFCEFD4AAE833D1677DDB1D9 /* MusicLyricsReader.swift in Sources */,
 				32752994212DB888A0358D54 /* NewsStore.swift in Sources */,
 				FDCBF09357F365705EEB40C7 /* NewsWidget.swift in Sources */,
 				8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */,
@@ -326,6 +333,7 @@
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,
 				B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */,
 				E6A7094B55903D1451A0D767 /* PhotosWidget.swift in Sources */,
+				E269AFCAC0D00F660729B5BA /* PreferencesMigration.swift in Sources */,
 				09238D4482D2B0E1052B2F8F /* RemindersStore.swift in Sources */,
 				0A08C21283ABA0CC9BBB2311 /* RemindersWidget.swift in Sources */,
 				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,

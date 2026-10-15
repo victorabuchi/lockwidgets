@@ -4,7 +4,13 @@ import SwiftUI
 @main
 struct LockWidgetsApp: App {
     @NSApplicationDelegateAdaptor private var appDelegate: AppDelegate
-    @StateObject private var overlay = OverlayManager()
+    @StateObject private var overlay: OverlayManager
+
+    init() {
+        // Before anything reads a setting.
+        PreferencesMigration.run()
+        _overlay = StateObject(wrappedValue: OverlayManager())
+    }
 
     var body: some Scene {
         MenuBarExtra {
