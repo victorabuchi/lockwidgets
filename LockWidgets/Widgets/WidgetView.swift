@@ -12,6 +12,9 @@ struct WidgetView: View {
         case .nowPlaying: NowPlayingWidget(instance: instance)
         case .lyrics: LyricsWidget(instance: instance)
         case .battery: BatteryWidget(instance: instance)
+        case .countdown: CountdownWidget(instance: instance)
+        case .pomodoro: PomodoroWidget(instance: instance)
+        case .stopwatch: StopwatchWidget(instance: instance)
         }
     }
 }

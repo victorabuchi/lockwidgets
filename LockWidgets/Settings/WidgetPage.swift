@@ -16,6 +16,9 @@ struct WidgetPage: View {
             case .nowPlaying: NowPlayingOptions()
             case .lyrics: LyricsOptions()
             case .battery: BatteryOptions()
+            case .countdown: CountdownOptions()
+            case .pomodoro: PomodoroOptions()
+            case .stopwatch: StopwatchOptions()
             }
         }
         .formStyle(.grouped)
@@ -241,6 +244,69 @@ private struct LyricsOptions: View {
             Text("Lyrics")
         } footer: {
             Text("Time-synced lyrics come from LRCLIB, a free community database. Some songs have no synced lyrics yet.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct CountdownOptions: View {
+    var body: some View {
+        Section {
+            Text("Each countdown has its own title and date. Select one in Layout Studio to set them.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct PomodoroOptions: View {
+    @ObservedObject private var timers = TimerStore.shared
+    @AppStorage(TimerStore.focusMinutesKey) private var focus = 25
+    @AppStorage(TimerStore.breakMinutesKey) private var shortBreak = 5
+    @AppStorage(TimerStore.longBreakMinutesKey) private var longBreak = 15
+
+    var body: some View {
+        Section("Timer") {
+            LabeledContent(timers.phase.title) {
+                HStack {
+                    Button(timers.pomodoroRunning ? "Pause" : "Start") { timers.togglePomodoro() }
+                        .buttonStyle(.borderedProminent)
+                    Button("Skip") { timers.skipPhase() }
+                    Button("Reset") { timers.resetPomodoro() }
+                }
+            }
+        }
+        Section {
+            Stepper("Focus: \(focus) min", value: $focus, in: 5 ... 90, step: 5)
+            Stepper("Short break: \(shortBreak) min", value: $shortBreak, in: 1 ... 30)
+            Stepper("Long break: \(longBreak) min", value: $longBreak, in: 5 ... 60, step: 5)
+        } header: {
+            Text("Sessions")
+        } footer: {
+            Text("A long break follows every four focus sessions. You can also start and pause from the menu bar.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct StopwatchOptions: View {
+    @ObservedObject private var timers = TimerStore.shared
+
+    var body: some View {
+        Section {
+            TimelineView(.periodic(from: .now, by: 0.1)) { context in
+                LabeledContent(timers.stopwatchElapsed(at: context.date).clockText) {
+                    HStack {
+                        Button(timers.stopwatchRunning ? "Stop" : "Start") { timers.toggleStopwatch() }
+                            .buttonStyle(.borderedProminent)
+                        Button("Reset") { timers.resetStopwatch() }
+                    }
+                }
+                .monospacedDigit()
+            }
+        } header: {
+            Text("Stopwatch")
+        } footer: {
+            Text("You can also start and stop it from the menu bar.")
                 .foregroundStyle(.secondary)
         }
     }

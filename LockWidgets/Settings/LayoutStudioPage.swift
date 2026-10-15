@@ -276,7 +276,36 @@ struct InstanceOptions: View {
     let instance: WidgetInstance
 
     var body: some View {
-        EmptyView()
+        switch instance.kind {
+        case .countdown:
+            LabeledContent("Title") {
+                TextField("Title", text: config("title"), prompt: Text("New Year"))
+                    .labelsHidden()
+                    .frame(maxWidth: 260)
+            }
+            LabeledContent("Counting down to") {
+                DatePicker("Date", selection: countdownDate, displayedComponents: [.date, .hourAndMinute])
+                    .labelsHidden()
+            }
+        default:
+            EmptyView()
+        }
+    }
+
+    private func config(_ key: String) -> Binding<String> {
+        Binding {
+            instance.config[key] ?? ""
+        } set: { value in
+            LayoutStore.shared.update(instance.id) { $0.config[key] = value }
+        }
+    }
+
+    private var countdownDate: Binding<Date> {
+        Binding {
+            Countdown.target(instance)
+        } set: { date in
+            LayoutStore.shared.update(instance.id) { $0.config["date"] = String(date.timeIntervalSince1970) }
+        }
     }
 }
 

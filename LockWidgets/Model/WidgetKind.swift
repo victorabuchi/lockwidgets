@@ -42,95 +42,102 @@ enum WidgetCategory: String, CaseIterable {
     case information = "Information"
 }
 
+/// Everything that describes a widget kind, kept together so adding one is a single edit.
+struct WidgetMeta {
+    let title: String
+    let symbol: String
+    let color: Color
+    let summary: String
+    let category: WidgetCategory
+    let styles: [WidgetStyle]
+}
+
 enum WidgetKind: String, Codable, CaseIterable, Identifiable {
-    case weather
-    case nowPlaying
-    case lyrics
-    case calendar
-    case clock
-    case battery
+    // Sidebar order.
+    case weather, nowPlaying, lyrics, calendar, clock, countdown, pomodoro, stopwatch, battery
 
     var id: String { rawValue }
+    var title: String { meta.title }
+    var symbol: String { meta.symbol }
+    var color: Color { meta.color }
+    var summary: String { meta.summary }
+    var category: WidgetCategory { meta.category }
+    var styles: [WidgetStyle] { meta.styles }
 
-    var title: String {
+    var meta: WidgetMeta {
         switch self {
-        case .weather: "Weather"
-        case .nowPlaying: "Now Playing"
-        case .lyrics: "Live Lyrics"
-        case .calendar: "Calendar"
-        case .clock: "Clock"
-        case .battery: "Battery"
-        }
-    }
-
-    var symbol: String {
-        switch self {
-        case .weather: "cloud.sun"
-        case .nowPlaying: "music.note"
-        case .lyrics: "quote.bubble"
-        case .calendar: "calendar"
-        case .clock: "clock"
-        case .battery: "battery.75"
-        }
-    }
-
-    var color: Color {
-        switch self {
-        case .weather: .cyan
-        case .nowPlaying: .pink
-        case .lyrics: .purple
-        case .calendar: .red
-        case .clock: .orange
-        case .battery: .green
-        }
-    }
-
-    var summary: String {
-        switch self {
-        case .weather: "Current conditions and the forecast ahead."
-        case .nowPlaying: "The song playing in Apple Music or Spotify."
-        case .lyrics: "Time-synced lyrics that follow the song."
-        case .calendar: "Today's date, your month and what's next."
-        case .clock: "Digital, analog and world clocks."
-        case .battery: "Charge level and time remaining."
-        }
-    }
-
-    var category: WidgetCategory {
-        switch self {
-        case .clock, .weather, .calendar, .battery: .essentials
-        case .nowPlaying, .lyrics: .music
-        }
-    }
-
-    var styles: [WidgetStyle] {
-        switch self {
-        case .clock: [
-            WidgetStyle(id: "digital", name: "Digital", summary: "The time in large type, with the date.", sizes: [.small, .medium, .wide]),
-            WidgetStyle(id: "analog", name: "Analog", summary: "A classic clock face.", sizes: [.small, .medium]),
-            WidgetStyle(id: "world", name: "World Clock", summary: "The time in the cities you care about.", sizes: [.medium, .wide, .ultraWide]),
-        ]
-        case .weather: [
-            WidgetStyle(id: "current", name: "Current", summary: "Conditions right now.", sizes: [.small, .medium]),
-            WidgetStyle(id: "hourly", name: "Hourly", summary: "Now and the next few hours.", sizes: [.medium, .wide, .ultraWide]),
-            WidgetStyle(id: "daily", name: "Five Day", summary: "The week ahead at a glance.", sizes: [.wide, .large]),
-        ]
-        case .calendar: [
-            WidgetStyle(id: "date", name: "Date", summary: "Today's date, big and bold.", sizes: [.small, .medium]),
-            WidgetStyle(id: "monthly", name: "Monthly", summary: "The full month with today highlighted.", sizes: [.small, .medium, .large]),
-            WidgetStyle(id: "upNext", name: "Up Next", summary: "Your next events with times and colours.", sizes: [.small, .medium, .wide, .large]),
-        ]
-        case .nowPlaying: [
-            WidgetStyle(id: "player", name: "Player", summary: "Artwork, song and progress.", sizes: [.medium, .wide]),
-            WidgetStyle(id: "artwork", name: "Artwork", summary: "Album art front and centre.", sizes: [.small, .large]),
-        ]
-        case .lyrics: [
-            WidgetStyle(id: "lyrics", name: "Lyrics", summary: "Follow along line by line.", sizes: [.medium, .wide, .large]),
-        ]
-        case .battery: [
-            WidgetStyle(id: "ring", name: "Ring", summary: "A charge ring with the percentage.", sizes: [.small]),
-            WidgetStyle(id: "bar", name: "Bar", summary: "Charge, status and time remaining.", sizes: [.medium, .wide]),
-        ]
+        case .weather: WidgetMeta(
+            title: "Weather", symbol: "cloud.sun", color: .cyan,
+            summary: "Current conditions and the forecast ahead.", category: .essentials,
+            styles: [
+                WidgetStyle(id: "current", name: "Current", summary: "Conditions right now.", sizes: [.small, .medium]),
+                WidgetStyle(id: "hourly", name: "Hourly", summary: "Now and the next few hours.", sizes: [.medium, .wide, .ultraWide]),
+                WidgetStyle(id: "daily", name: "Five Day", summary: "The week ahead at a glance.", sizes: [.wide, .large]),
+            ]
+        )
+        case .nowPlaying: WidgetMeta(
+            title: "Now Playing", symbol: "music.note", color: .pink,
+            summary: "The song playing in Apple Music or Spotify.", category: .music,
+            styles: [
+                WidgetStyle(id: "player", name: "Player", summary: "Artwork, song and progress.", sizes: [.medium, .wide]),
+                WidgetStyle(id: "artwork", name: "Artwork", summary: "Album art front and centre.", sizes: [.small, .large]),
+            ]
+        )
+        case .lyrics: WidgetMeta(
+            title: "Live Lyrics", symbol: "quote.bubble", color: .purple,
+            summary: "Time-synced lyrics that follow the song.", category: .music,
+            styles: [
+                WidgetStyle(id: "lyrics", name: "Lyrics", summary: "Follow along line by line.", sizes: [.medium, .wide, .large]),
+            ]
+        )
+        case .calendar: WidgetMeta(
+            title: "Calendar", symbol: "calendar", color: .red,
+            summary: "Today's date, your month and what's next.", category: .essentials,
+            styles: [
+                WidgetStyle(id: "date", name: "Date", summary: "Today's date, big and bold.", sizes: [.small, .medium]),
+                WidgetStyle(id: "monthly", name: "Monthly", summary: "The full month with today highlighted.", sizes: [.small, .medium, .large]),
+                WidgetStyle(id: "upNext", name: "Up Next", summary: "Your next events with times and colours.", sizes: [.small, .medium, .wide, .large]),
+            ]
+        )
+        case .clock: WidgetMeta(
+            title: "Clock", symbol: "clock", color: .orange,
+            summary: "Digital, analog and world clocks.", category: .essentials,
+            styles: [
+                WidgetStyle(id: "digital", name: "Digital", summary: "The time in large type, with the date.", sizes: [.small, .medium, .wide]),
+                WidgetStyle(id: "analog", name: "Analog", summary: "A classic clock face.", sizes: [.small, .medium]),
+                WidgetStyle(id: "world", name: "World Clock", summary: "The time in the cities you care about.", sizes: [.medium, .wide, .ultraWide]),
+            ]
+        )
+        case .countdown: WidgetMeta(
+            title: "Countdown", symbol: "hourglass", color: Color(red: 0.95, green: 0.4, blue: 0.35),
+            summary: "Days, hours and minutes until something you're waiting for.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "days", name: "Days", summary: "A big day count.", sizes: [.small, .medium]),
+                WidgetStyle(id: "units", name: "Flip", summary: "Days, hours, minutes and seconds.", sizes: [.medium, .wide]),
+            ]
+        )
+        case .pomodoro: WidgetMeta(
+            title: "Pomodoro", symbol: "timer", color: Color(red: 0.98, green: 0.45, blue: 0.3),
+            summary: "Focus sessions with breaks in between.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "ring", name: "Ring", summary: "Time left in the current session.", sizes: [.small, .medium]),
+            ]
+        )
+        case .stopwatch: WidgetMeta(
+            title: "Stopwatch", symbol: "stopwatch", color: .teal,
+            summary: "Time anything. Start and stop it from the menu bar.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "digits", name: "Digits", summary: "Elapsed time in large type.", sizes: [.small, .medium]),
+            ]
+        )
+        case .battery: WidgetMeta(
+            title: "Battery", symbol: "battery.75", color: .green,
+            summary: "Charge level and time remaining.", category: .essentials,
+            styles: [
+                WidgetStyle(id: "ring", name: "Ring", summary: "A charge ring with the percentage.", sizes: [.small]),
+                WidgetStyle(id: "bar", name: "Bar", summary: "Charge, status and time remaining.", sizes: [.medium, .wide]),
+            ]
+        )
         }
     }
 
