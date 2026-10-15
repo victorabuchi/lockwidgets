@@ -20,6 +20,8 @@ struct Bubble: View {
                 Image(systemName: "video.fill").foregroundStyle(.green)
             case .hotspot:
                 Image(systemName: "personalhotspot").foregroundStyle(.green)
+            case .musicPeek:
+                Artwork(image: music.artwork, size: notch.height - 10, cornerRadius: (notch.height - 10) / 2)
             default:
                 EmptyView()
             }

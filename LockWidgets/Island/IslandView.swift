@@ -103,6 +103,7 @@ struct IslandView: View {
             case (.hotspot, false): HotspotCompact(notch: notch)
             case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
             case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
+            case (.musicPeek, _): MusicCompact(notch: notch, namespace: namespace)
             case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
             case let (.event(title, start, color), _): EventBanner(notch: notch, title: title, start: start, color: color)
             case let (.device(name, symbol, connected), _): DeviceCompact(notch: notch, name: name, symbol: symbol, connected: connected)

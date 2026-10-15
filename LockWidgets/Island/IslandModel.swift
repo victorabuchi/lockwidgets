@@ -13,6 +13,8 @@ enum IslandActivity: Equatable {
     case charging(level: Int, pluggedIn: Bool)
     case lowBattery(level: Int)
     case notification(NotificationStore.Item)
+    /// A song starting or changing: the music activity peeks out beside the notch for a moment.
+    case musicPeek
     case event(title: String, start: Date, color: NSColor)
     case device(name: String, symbol: String, connected: Bool)
     case volume(level: Double, muted: Bool)
@@ -37,6 +39,7 @@ enum IslandActivity: Equatable {
     /// Width either side of the notch in the compact island.
     var compactSide: CGFloat {
         switch self {
+        case .musicPeek: 34
         case .charging, .lowBattery, .device, .focus: 86
         case .volume, .brightness: 74
         case .timer, .meeting: 52
@@ -97,6 +100,17 @@ final class IslandModel: ObservableObject {
         .receive(on: DispatchQueue.main)
         .sink { [weak self] in self?.refresh() }
         .store(in: &subscriptions)
+
+        // Announce a song when it starts or changes, the way the iPhone island blooms for a new activity.
+        music.$track.map { $0?.id }.removeDuplicates()
+            .combineLatest(music.$isPlaying.removeDuplicates())
+            .dropFirst()
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] id, playing in
+                guard let self, id != nil, playing, setting(SettingsKey.islandMusic), !showsSides, !isExpanded else { return }
+                show(.musicPeek, for: 4)
+            }
+            .store(in: &subscriptions)
 
         battery.$isPluggedIn.removeDuplicates().dropFirst()
             .receive(on: DispatchQueue.main)
