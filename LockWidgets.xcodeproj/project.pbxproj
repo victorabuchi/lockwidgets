@@ -17,6 +17,8 @@
 		5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */; };
 		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
+		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
+		8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */; };
 		940693083BF27989A43B197B /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166765275AD20B49E4DCDBE /* WeatherWidget.swift */; };
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
@@ -29,12 +31,14 @@
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
 		33D67D8F04957B4191B11B16 /* WidgetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBoard.swift; sourceTree = "<group>"; };
 		51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
 		8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStore.swift; sourceTree = "<group>"; };
 		8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetsApp.swift; sourceTree = "<group>"; };
 		944261E2F34003592A329E1D /* ClockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockWidget.swift; sourceTree = "<group>"; };
+		A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingWidget.swift; sourceTree = "<group>"; };
 		A78DAF013E95E14A143A0322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		AE88B71190D9CDAAB2651E6E /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
@@ -62,6 +66,7 @@
 				6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */,
 				76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */,
 				944261E2F34003592A329E1D /* ClockWidget.swift */,
+				A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */,
 				C166765275AD20B49E4DCDBE /* WeatherWidget.swift */,
 				33D67D8F04957B4191B11B16 /* WidgetBoard.swift */,
 				E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */,
@@ -90,6 +95,7 @@
 			children = (
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
+				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
 				8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */,
 			);
 			path = Services;
@@ -201,6 +207,8 @@
 				AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */,
 				5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
+				8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */,
+				8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */,
 				39E518C35F86EC2D472747C0 /* OverlayManager.swift in Sources */,
 				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,
 				2995A1022826B75A05437494 /* SettingsView.swift in Sources */,

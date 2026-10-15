@@ -19,6 +19,7 @@ targets:
       properties:
         LSUIElement: true
         CFBundleDisplayName: LockWidgets
+        NSAppleEventsUsageDescription: LockWidgets reads the current song from Music and Spotify to show it on the lock screen.
         NSLocationUsageDescription: LockWidgets uses your location to show local weather.
         NSLocationWhenInUseUsageDescription: LockWidgets uses your location to show local weather.
         NSCalendarsFullAccessUsageDescription: LockWidgets shows your upcoming events on the lock screen.
@@ -29,6 +30,10 @@ targets:
         com.apple.security.personal-information.calendars: true
         com.apple.security.personal-information.location: true
         com.apple.security.network.client: true
+        com.apple.security.automation.apple-events: true
+        com.apple.security.temporary-exception.apple-events:
+          - com.apple.Music
+          - com.spotify.client
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.victorabuchi.LockWidgets

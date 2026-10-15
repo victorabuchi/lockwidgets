@@ -45,5 +45,6 @@ final class OverlayManager: ObservableObject {
         BatteryMonitor.shared.refresh()
         CalendarStore.shared.reload()
         WeatherStore.shared.refresh()
+        NowPlayingStore.shared.poll()
     }
 }
