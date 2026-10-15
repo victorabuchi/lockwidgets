@@ -28,6 +28,7 @@ targets:
         NSLocationWhenInUseUsageDescription: LockWidgets uses your location to show local weather.
         NSRemindersFullAccessUsageDescription: LockWidgets shows your open reminders on the lock screen.
         NSPhotoLibraryUsageDescription: LockWidgets shows your favourite photos on the lock screen.
+        NSBluetoothAlwaysUsageDescription: LockWidgets shows when your AirPods and other Bluetooth devices connect.
         NSCalendarsFullAccessUsageDescription: LockWidgets shows your upcoming events on the lock screen.
     entitlements:
       path: LockWidgets/LockWidgets.entitlements

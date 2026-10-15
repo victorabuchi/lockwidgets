@@ -9,6 +9,10 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandHotspot) private var hotspot = true
     @AppStorage(SettingsKey.islandBattery) private var battery = true
     @AppStorage(SettingsKey.islandNotifications) private var notifications = true
+    @AppStorage(SettingsKey.islandCalendar) private var calendar = true
+    @AppStorage(SettingsKey.islandDevices) private var devices = true
+    @AppStorage(SettingsKey.islandHUD) private var hud = true
+    @AppStorage(SettingsKey.islandFocus) private var focus = true
     @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
@@ -74,6 +78,22 @@ struct IslandSettingsPage: View {
                 Toggle(isOn: $battery) {
                     Text("Charging and low battery")
                     Text("When you plug in or unplug, and at 20% and 10%.")
+                }
+                Toggle(isOn: $calendar) {
+                    Text("Upcoming events")
+                    Text("A heads-up five minutes before each event.")
+                }
+                Toggle(isOn: $devices) {
+                    Text("AirPods and Bluetooth")
+                    Text("When headphones, keyboards and other devices connect or disconnect.")
+                }
+                Toggle(isOn: $hud) {
+                    Text("Volume and brightness")
+                    Text("Levels in the island as you change them.")
+                }
+                Toggle(isOn: $focus) {
+                    Text("Focus")
+                    Text("When a Focus such as Do Not Disturb turns on or off. Needs Full Disk Access.")
                 }
             }
             Section {

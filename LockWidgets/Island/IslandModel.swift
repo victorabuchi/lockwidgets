@@ -13,24 +13,32 @@ enum IslandActivity: Equatable {
     case charging(level: Int, pluggedIn: Bool)
     case lowBattery(level: Int)
     case notification(NotificationStore.Item)
+    case event(title: String, start: Date, color: NSColor)
+    case device(name: String, symbol: String, connected: Bool)
+    case volume(level: Double, muted: Bool)
+    case brightness(level: Double)
+    case focus(name: String, symbol: String, on: Bool)
 
     var isTransient: Bool {
         switch self {
-        case .charging, .lowBattery, .notification: true
-        default: false
+        case .meeting, .timer, .music, .hotspot: false
+        default: true
         }
     }
 
     /// Banners drop down below the notch instead of sitting beside it.
     var isBanner: Bool {
-        if case .notification = self { return true }
-        return false
+        switch self {
+        case .notification, .event: true
+        default: false
+        }
     }
 
     /// Width either side of the notch in the compact island.
     var compactSide: CGFloat {
         switch self {
-        case .charging, .lowBattery: 96
+        case .charging, .lowBattery, .device, .focus: 100
+        case .volume, .brightness: 90
         case .timer, .meeting: 60
         default: 44
         }
@@ -116,6 +124,40 @@ final class IslandModel: ObservableObject {
             guard self?.setting(SettingsKey.islandNotifications) == true else { return }
             self?.show(.notification(item), for: 5)
         }
+
+        DeviceMonitor.shared.onEvent = { [weak self] event in
+            guard let self else { return }
+            switch event {
+            case let .device(name, symbol, connected):
+                if setting(SettingsKey.islandDevices) { show(.device(name: name, symbol: symbol, connected: connected), for: 3.5) }
+            case let .volume(level, muted):
+                if setting(SettingsKey.islandHUD) { show(.volume(level: level, muted: muted), for: 1.6) }
+            case let .brightness(level):
+                if setting(SettingsKey.islandHUD) { show(.brightness(level: level), for: 1.6) }
+            case let .focus(name, symbol, on):
+                if setting(SettingsKey.islandFocus) { show(.focus(name: name, symbol: symbol, on: on), for: 3) }
+            }
+        }
+        DeviceMonitor.shared.start()
+
+        Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
+            self?.checkUpcomingEvents()
+        }
+    }
+
+    /// Events already announced, so each gets one "starting soon" alert.
+    private var announcedEvents: Set<String> = []
+
+    private func checkUpcomingEvents() {
+        guard setting(SettingsKey.islandCalendar) else { return }
+        let now = Date.now
+        for event in CalendarStore.shared.events where !event.isAllDay {
+            let minutes = event.startDate.timeIntervalSince(now) / 60
+            let key = "\(event.calendarItemIdentifier)-\(event.startDate.timeIntervalSince1970)"
+            guard minutes > 0, minutes <= 5, !announcedEvents.contains(key) else { continue }
+            announcedEvents.insert(key)
+            show(.event(title: event.title ?? "Event", start: event.startDate, color: event.calendar.color), for: 8)
+        }
     }
 
     private func setting(_ key: String) -> Bool {
@@ -155,8 +197,8 @@ final class IslandModel: ObservableObject {
 
     /// Shows a brief activity over everything else, then returns to what was there.
     func show(_ activity: IslandActivity, for seconds: Double) {
-        // Notifications queue behind one another; status alerts replace whatever brief thing is showing.
-        if transient != nil, activity.isBanner {
+        // Banners queue behind whatever brief thing is showing; quick status alerts replace each other.
+        if let current = transient, current.isBanner || activity.isBanner {
             pending.append((activity, seconds))
             return
         }

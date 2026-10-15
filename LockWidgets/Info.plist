@@ -26,6 +26,8 @@
 	<true/>
 	<key>NSAppleEventsUsageDescription</key>
 	<string>LockWidgets reads the current song from Music and Spotify to show it on the lock screen.</string>
+	<key>NSBluetoothAlwaysUsageDescription</key>
+	<string>LockWidgets shows when your AirPods and other Bluetooth devices connect.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
 	<string>LockWidgets shows your upcoming events on the lock screen.</string>
 	<key>NSLocationUsageDescription</key>

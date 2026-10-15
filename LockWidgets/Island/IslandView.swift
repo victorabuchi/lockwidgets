@@ -88,6 +88,11 @@ struct IslandView: View {
             case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
             case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
             case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
+            case let (.event(title, start, color), _): EventBanner(notch: notch, title: title, start: start, color: color)
+            case let (.device(name, symbol, connected), _): DeviceCompact(notch: notch, name: name, symbol: symbol, connected: connected)
+            case let (.volume(level, muted), _): LevelCompact(notch: notch, symbol: muted ? "speaker.slash.fill" : level < 0.34 ? "speaker.wave.1.fill" : level < 0.67 ? "speaker.wave.2.fill" : "speaker.wave.3.fill", level: muted ? 0 : level)
+            case let (.brightness(level), _): LevelCompact(notch: notch, symbol: level < 0.5 ? "sun.min.fill" : "sun.max.fill", level: level)
+            case let (.focus(name, symbol, on), _): FocusCompact(notch: notch, name: name, symbol: symbol, on: on)
             case (nil, _): EmptyView()
             }
         }
