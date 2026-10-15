@@ -32,22 +32,21 @@ struct StickyNotesPage: View {
                 ForEach(notes) { note in
                     Panel {
                         HStack(alignment: .top, spacing: 18) {
-                            FittedWidget(instance: note, box: CGSize(width: 240, height: 200))
-                                .frame(width: 240)
+                            FittedWidget(instance: note, box: CGSize(width: 220, height: 180))
+                                .frame(width: 220)
                             VStack(alignment: .leading, spacing: 10) {
                                 NoteEditor(instance: note)
+                                Picker("Size", selection: binding(note, \.size)) {
+                                    ForEach(WidgetKind.stickyNote.style(note.style).sizes) { Text($0.title).tag($0) }
+                                }
+                                .pickerStyle(.segmented)
                                 HStack {
-                                    Picker("Size", selection: binding(note, \.size)) {
-                                        ForEach(WidgetKind.stickyNote.style(note.style).sizes) { Text($0.title).tag($0) }
-                                    }
-                                    .pickerStyle(.segmented)
-                                    .fixedSize()
                                     Picker("Style", selection: binding(note, \.style)) {
                                         ForEach(WidgetKind.stickyNote.styles) { Text($0.name).tag($0.id) }
                                     }
                                     .fixedSize()
                                     Spacer()
-                                    Button("Delete", role: .destructive) { layout.remove(note.id) }
+                                    Button("Delete Note", role: .destructive) { layout.remove(note.id) }
                                 }
                             }
                         }

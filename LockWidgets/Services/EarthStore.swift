@@ -79,6 +79,9 @@ final class EarthStore: ObservableObject {
 
         let result = NSImage(size: size)
         result.lockFocus()
+        // Keep only the globe, so the widget's own card (or none, in Minimal) shows around it.
+        let clipRadius = size.width * (globeRadius - 0.003)
+        NSBezierPath(ovalIn: NSRect(x: size.width / 2 - clipRadius, y: size.height / 2 - clipRadius, width: clipRadius * 2, height: clipRadius * 2)).addClip()
         globe.draw(in: NSRect(origin: .zero, size: size))
         if let mask, let context = NSGraphicsContext.current?.cgContext {
             context.saveGState()

@@ -48,9 +48,9 @@ private struct WidgetHeader: View {
         let placed = layout.instances.filter { $0.kind == kind }.count
         HStack(alignment: .top, spacing: 22) {
             PreviewStage(height: 230) {
-                FittedWidget(instance: kind.sample(style: current.id, size: size), box: CGSize(width: 340, height: 200))
+                FittedWidget(instance: kind.sample(style: current.id, size: size), box: CGSize(width: 300, height: 200))
             }
-            .frame(width: 380)
+            .frame(minWidth: 260, maxWidth: 360)
 
             VStack(alignment: .leading, spacing: 12) {
                 HStack(spacing: 10) {
@@ -64,7 +64,6 @@ private struct WidgetHeader: View {
                     }
                     .pickerStyle(.segmented)
                     .labelsHidden()
-                    .fixedSize()
                 }
                 HStack(spacing: 6) {
                     ForEach(current.sizes) { option in
@@ -89,7 +88,9 @@ private struct WidgetHeader: View {
                 Text(placed == 0 ? "Not on your lock screen yet." : "\(placed) on your lock screen. Move them in Layout Studio.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
+                    .fixedSize(horizontal: false, vertical: true)
             }
+            .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(.vertical, 6)
         .onAppear {
@@ -139,7 +140,8 @@ private struct ClockOptions: View {
             Toggle("Show seconds", isOn: $showSeconds)
         }
         Section {
-            TextField("Cities", text: $zones, prompt: Text(WorldClock.defaultZones))
+            TextField("Cities", text: $zones, prompt: Text(WorldClock.defaultZones), axis: .vertical)
+                .lineLimit(1 ... 3)
         } header: {
             Text("World Clock")
         } footer: {

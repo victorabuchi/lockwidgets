@@ -68,10 +68,16 @@ struct SettingsWindow: View {
             case let .widget(kind): WidgetPage(kind: kind)
             }
         }
-        .frame(minWidth: 820, minHeight: 600)
+        .frame(minWidth: 1000, minHeight: 640)
         .onAppear {
             #if DEBUG
             if let launchPage = SettingsPage.launchPage { router.page = launchPage }
+            let width = UserDefaults.standard.double(forKey: "windowWidth")
+            if width > 0 {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    NSApp.windows.first { $0.title == "LockWidgets" }?.setContentSize(NSSize(width: width, height: 760))
+                }
+            }
             #endif
             DockPolicy.update()
         }

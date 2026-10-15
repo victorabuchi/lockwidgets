@@ -6,18 +6,16 @@ struct EarthWidget: View {
     @ObservedObject private var weather = WeatherStore.shared
 
     var body: some View {
-        WidgetCard(size: instance.size, padding: 0) {
+        WidgetCard(size: instance.size, padding: instance.size == .medium ? 8 : 6) {
             HStack(spacing: 0) {
                 globe
                     .frame(width: instance.size.points.height, height: instance.size.points.height)
-                    .clipped()
                 if instance.size == .medium {
                     details
                         .padding(.trailing, 16)
                 }
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity)
-            .background(Color.black)
         }
         .onAppear { if earth.image == nil { earth.refresh() } }
     }
@@ -27,8 +25,10 @@ struct EarthWidget: View {
         if let image = earth.image {
             Image(nsImage: image)
                 .resizable()
-                .aspectRatio(contentMode: .fill)
-                .scaleEffect(1.15)
+                .aspectRatio(contentMode: .fit)
+                // The snapshot's globe spans 77% of the image; enlarge it to fill ~90% of the widget.
+                .scaleEffect(1.17)
+                .shadow(color: .black.opacity(0.4), radius: 8)
         } else {
             ProgressView().controlSize(.small)
         }
