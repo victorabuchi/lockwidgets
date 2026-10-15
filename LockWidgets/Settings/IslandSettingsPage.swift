@@ -22,7 +22,7 @@ struct IslandSettingsPage: View {
                 PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("A song or your hotspot shows beside the notch, like the iPhone. Point at it to open the card.")
+                        Text("A song or your hotspot shows beside the notch, like the iPhone. Click it to open the app; press and hold for the full card.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }

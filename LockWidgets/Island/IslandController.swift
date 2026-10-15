@@ -12,8 +12,11 @@ final class IslandController {
     private var lastPointer = NSPoint(x: -1, y: -1)
     private var subscriptions: Set<AnyCancellable> = []
     private var collapseWork: DispatchWorkItem?
-    private var expandWork: DispatchWorkItem?
+    private var holdWork: DispatchWorkItem?
+    private var pressTarget: PressTarget?
     private let canvas = CGSize(width: 760, height: 320)
+
+    private enum PressTarget { case island, bubble }
 
     private var enabled: Bool {
         UserDefaults.standard.object(forKey: SettingsKey.islandEnabled) as? Bool ?? true
@@ -47,26 +50,56 @@ final class IslandController {
         RunLoop.main.add(timer, forMode: .common)
         pointerTimer = timer
 
-        // Open the island on mouse-down at the AppKit level, so the first click always counts
-        // even though LockWidgets is in the background. Clicks inside the open card go to its buttons.
-        if let clicks = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown, handler: { [weak self] event in
+        // Read presses at the AppKit level, so the first click always counts even though LockWidgets is
+        // in the background. As on the iPhone, a click on the closed island opens the app behind it and
+        // holding it opens the full card. Clicks inside the open card go to its buttons.
+        if let presses = NSEvent.addLocalMonitorForEvents(matching: [.leftMouseDown, .leftMouseUp], handler: { [weak self] event in
             guard let self, event.window === panel else { return event }
-            return handleClick(event) ? nil : event
+            let handled = event.type == .leftMouseDown ? pressBegan() : pressEnded()
+            return handled ? nil : event
         }) {
-            monitors.append(clicks)
+            monitors.append(presses)
         }
         update()
     }
 
-    /// Returns true when the click was used to open the island.
-    private func handleClick(_: NSEvent) -> Bool {
+    /// Returns true when the press belongs to the island or its circle rather than to the open card.
+    private func pressBegan() -> Bool {
         let model = IslandModel.shared
-        guard !model.isExpanded else { return false }
-        if hoverRect.insetBy(dx: -4, dy: -4).contains(NSEvent.mouseLocation) {
-            model.toggleExpanded()
+        guard model.primary != nil else { return false }
+        let point = NSEvent.mouseLocation
+        if model.showsBubble, bubbleRect.insetBy(dx: -3, dy: -3).contains(point) {
+            pressTarget = .bubble
             return true
         }
-        return false
+        guard !model.isExpanded, rect(model.size).insetBy(dx: -4, dy: -4).contains(point) else { return false }
+        pressTarget = .island
+        holdWork?.cancel()
+        if model.primary?.canExpand == true {
+            let work = DispatchWorkItem { [weak self] in
+                self?.pressTarget = nil
+                model.isExpanded = true
+            }
+            holdWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.4, execute: work)
+        }
+        return true
+    }
+
+    /// A quick click opens the app behind what was clicked, unless the pointer slid off it first.
+    private func pressEnded() -> Bool {
+        holdWork?.cancel()
+        holdWork = nil
+        guard let target = pressTarget else { return false }
+        pressTarget = nil
+        let model = IslandModel.shared
+        let area = target == .bubble ? bubbleRect : rect(model.size)
+        guard area.insetBy(dx: -8, dy: -8).contains(NSEvent.mouseLocation),
+              let activity = target == .bubble ? model.secondary : model.primary
+        else { return true }
+        IslandActions.open(activity)
+        if activity.isTransient { model.dismissTransient() }
+        return true
     }
 
     private func update() {
@@ -109,6 +142,13 @@ final class IslandController {
         return NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
     }
 
+    /// The circle beside the island for a second live activity.
+    private var bubbleRect: NSRect {
+        let model = IslandModel.shared
+        let island = rect(model.size)
+        return NSRect(x: island.maxX + IslandModel.bubbleGap, y: island.maxY - model.bubbleSize, width: model.bubbleSize, height: model.bubbleSize)
+    }
+
     /// Where the pointer counts as on the island: the island, its closed size while the card is open, and
     /// the circle beside it for a second live activity.
     private var hoverRect: NSRect {
@@ -131,21 +171,6 @@ final class IslandController {
         if panel.ignoresMouseEvents != !inside { panel.ignoresMouseEvents = !inside }
         if model.isHovering != inside { model.isHovering = inside }
 
-        // Resting on the island opens it, as macOS keeps clicks in the menu bar strip for itself.
-        if inside, !model.isExpanded, model.primary?.canExpand == true {
-            if expandWork == nil {
-                let work = DispatchWorkItem { [weak self] in
-                    model.isExpanded = true
-                    self?.expandWork = nil
-                }
-                expandWork = work
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: work)
-            }
-        } else {
-            expandWork?.cancel()
-            expandWork = nil
-        }
-
         // Close the full card shortly after the pointer leaves, however much it moves meanwhile.
         if model.isExpanded, !inside {
             if collapseWork == nil {
@@ -166,4 +191,47 @@ final class IslandController {
 /// Lets the first click on the island act immediately, without activating LockWidgets first.
 private final class FirstClickHostingView<Content: View>: NSHostingView<Content> {
     override func acceptsFirstMouse(for _: NSEvent?) -> Bool { true }
+}
+
+/// What clicking the island opens, as tapping the iPhone's island does: the app behind the song, call or
+/// notification, or the settings for the hotspot, a Bluetooth device, Focus, battery, sound or display.
+enum IslandActions {
+    static func open(_ activity: IslandActivity) {
+        switch activity {
+        case .music:
+            openApp((NowPlayingStore.shared.track?.player ?? .music).rawValue)
+        case .meeting:
+            if let bundleID = StatusMonitor.shared.meeting?.bundleID { openApp(bundleID) }
+        case .timer:
+            // The Pomodoro and Stopwatch are LockWidgets' own.
+            NotificationCenter.default.post(name: AppDelegate.openSettings, object: nil)
+        case .hotspot:
+            openSettings("com.apple.wifi-settings-extension")
+        case let .notification(item):
+            openApp(item.bundleID)
+        case .event:
+            openApp("com.apple.iCal")
+        case .device:
+            openSettings("com.apple.BluetoothSettings")
+        case .focus:
+            openSettings("com.apple.Focus-Settings.extension")
+        case .charging, .lowBattery:
+            openSettings("com.apple.Battery-Settings.extension")
+        case .volume:
+            openSettings("com.apple.Sound-Settings.extension")
+        case .brightness:
+            openSettings("com.apple.Displays-Settings.extension")
+        }
+    }
+
+    private static func openApp(_ bundleID: String) {
+        guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }
+        NSWorkspace.shared.openApplication(at: url, configuration: .init())
+    }
+
+    private static func openSettings(_ pane: String) {
+        if let url = URL(string: "x-apple.systempreferences:\(pane)") {
+            NSWorkspace.shared.open(url)
+        }
+    }
 }

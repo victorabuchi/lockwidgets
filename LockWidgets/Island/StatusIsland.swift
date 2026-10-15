@@ -14,7 +14,7 @@ struct Bubble: View {
             Circle().fill(fill)
             switch activity {
             case .music:
-                Artwork(image: music.artwork, size: size * 0.78, cornerRadius: size * 0.39)
+                Artwork(image: music.artwork, size: size * 0.62, cornerRadius: size * 0.13)
             case .timer:
                 Image(systemName: "timer").foregroundStyle(.orange)
             case .meeting:

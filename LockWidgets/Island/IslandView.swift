@@ -58,7 +58,12 @@ struct IslandView: View {
             }
         }
         .contentShape(Rectangle())
-        .onTapGesture { model.toggleExpanded() }
+        .onTapGesture {
+            // Clicks on the closed island are handled by IslandController; a click on the open card,
+            // outside its buttons, opens the app behind it and closes the card, as on the iPhone.
+            if let primary = model.primary { IslandActions.open(primary) }
+            model.isExpanded = false
+        }
     }
 
     private var content: some View {

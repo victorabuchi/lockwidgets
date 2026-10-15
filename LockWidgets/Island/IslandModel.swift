@@ -240,7 +240,7 @@ final class IslandModel: ObservableObject {
     /// The circle for a second live activity, such as the hotspot while a song plays, beside the island on
     /// the right as on the iPhone, and the gap before it.
     var bubbleSize: CGFloat { notch.height }
-    static let bubbleGap: CGFloat = 6
+    static let bubbleGap: CGFloat = 10
 
     var showsBubble: Bool { secondary != nil && primary?.isTransient == false }
 
@@ -271,10 +271,5 @@ final class IslandModel: ObservableObject {
         guard let primary else { return Self.notchRadius }
         if isExpanded || primary.isBanner { return 24 }
         return 16
-    }
-
-    func toggleExpanded() {
-        guard primary?.canExpand == true else { return }
-        isExpanded.toggle()
     }
 }

@@ -28,13 +28,6 @@ struct NotificationBanner: View {
                 .foregroundStyle(.white.opacity(0.75))
                 .lineLimit(2)
         }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: item.bundleID) {
-                NSWorkspace.shared.openApplication(at: url, configuration: .init())
-            }
-            IslandModel.shared.dismissTransient()
-        }
     }
 
     @ViewBuilder
