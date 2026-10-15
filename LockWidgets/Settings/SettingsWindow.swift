@@ -1,7 +1,7 @@
 import SwiftUI
 
 enum SettingsPage: Hashable {
-    case general, layout, appearance, about
+    case general, layoutStudio, appearance, about
     case widget(WidgetKind)
 
     #if DEBUG
@@ -9,29 +9,35 @@ enum SettingsPage: Hashable {
     static var launchPage: SettingsPage? {
         guard let name = UserDefaults.standard.string(forKey: "settingsPage") else { return nil }
         if let kind = WidgetKind(rawValue: name) { return .widget(kind) }
-        return ["general": .general, "layout": .layout, "appearance": .appearance, "about": .about][name]
+        return ["general": .general, "studio": .layoutStudio, "appearance": .appearance, "about": .about][name]
     }
     #endif
 }
 
+/// Which settings page is showing, so the menu bar can open a specific one.
+final class SettingsRouter: ObservableObject {
+    static let shared = SettingsRouter()
+    @Published var page: SettingsPage? = .general
+}
+
 struct SettingsWindow: View {
     @ObservedObject var overlay: OverlayManager
-    @State private var page: SettingsPage? = .general
+    @ObservedObject private var router = SettingsRouter.shared
 
     var body: some View {
         NavigationSplitView {
-            List(selection: $page) {
+            List(selection: $router.page) {
                 SidebarRow(title: "General", symbol: "gearshape.fill", color: .gray)
                     .tag(SettingsPage.general)
 
                 Section("Lock Screen") {
-                    SidebarRow(title: "Layout", symbol: "rectangle.3.group.fill", color: .blue)
-                        .tag(SettingsPage.layout)
+                    SidebarRow(title: "Layout Studio", symbol: "rectangle.3.group.fill", color: .blue)
+                        .tag(SettingsPage.layoutStudio)
                     SidebarRow(title: "Appearance", symbol: "paintpalette.fill", color: .teal)
                         .tag(SettingsPage.appearance)
                 }
 
-                Section("Widgets") {
+                Section("Widget Settings") {
                     ForEach(WidgetKind.allCases) { kind in
                         SidebarRow(title: kind.title, symbol: kind.symbol, color: kind.color)
                             .tag(SettingsPage.widget(kind))
@@ -45,9 +51,9 @@ struct SettingsWindow: View {
             }
             .navigationSplitViewColumnWidth(min: 200, ideal: 220)
         } detail: {
-            switch page ?? .general {
+            switch router.page ?? .general {
             case .general: GeneralPage(overlay: overlay)
-            case .layout: LayoutPage()
+            case .layoutStudio: LayoutStudioPage()
             case .appearance: AppearancePage()
             case .about: AboutPage()
             case let .widget(kind): WidgetPage(kind: kind)
@@ -56,7 +62,7 @@ struct SettingsWindow: View {
         .frame(minWidth: 820, minHeight: 600)
         .onAppear {
             #if DEBUG
-            if let launchPage = SettingsPage.launchPage { page = launchPage }
+            if let launchPage = SettingsPage.launchPage { router.page = launchPage }
             #endif
             // Show in the Dock and app switcher only while settings are open.
             NSApp.setActivationPolicy(.regular)
@@ -142,5 +148,23 @@ struct PageHeader: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
+struct SliderValue: View {
+    @Binding var value: Double
+    let range: ClosedRange<Double>
+    let step: Double
+    let label: (Double) -> String
+
+    var body: some View {
+        HStack {
+            Slider(value: $value, in: range, step: step)
+                .frame(minWidth: 160)
+            Text(label(value))
+                .monospacedDigit()
+                .foregroundStyle(.secondary)
+                .frame(width: 48, alignment: .trailing)
+        }
     }
 }

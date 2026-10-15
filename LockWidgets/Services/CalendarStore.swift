@@ -6,6 +6,8 @@ final class CalendarStore: ObservableObject {
     static let shared = CalendarStore()
 
     @Published private(set) var events: [EKEvent] = []
+    /// "yyyy-MM-dd" for every day from the start of this month to six weeks on that has an event.
+    @Published private(set) var eventDays: Set<String> = []
     @Published private(set) var status = EKEventStore.authorizationStatus(for: .event)
 
     private let store = EKEventStore()
@@ -38,6 +40,7 @@ final class CalendarStore: ObservableObject {
         status = EKEventStore.authorizationStatus(for: .event)
         guard hasAccess else {
             events = []
+            eventDays = []
             return
         }
         let now = Date()
@@ -50,5 +53,18 @@ final class CalendarStore: ObservableObject {
                 if lhs.isAllDay != rhs.isAllDay { return lhs.isAllDay }
                 return lhs.startDate < rhs.startDate
             }
+
+        let monthStart = calendar.date(from: calendar.dateComponents([.year, .month], from: now))!
+        let monthEnd = calendar.date(byAdding: .day, value: 42, to: monthStart)!
+        var days = Set<String>()
+        for event in store.events(matching: store.predicateForEvents(withStart: monthStart, end: monthEnd, calendars: nil)) {
+            days.insert(Self.dayKey(event.startDate))
+        }
+        eventDays = days
+    }
+
+    static func dayKey(_ date: Date) -> String {
+        let parts = Calendar.current.dateComponents([.year, .month, .day], from: date)
+        return String(format: "%04d-%02d-%02d", parts.year!, parts.month!, parts.day!)
     }
 }

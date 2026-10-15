@@ -13,6 +13,13 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
         let isDay: Bool
     }
 
+    struct Day: Identifiable {
+        let id: Date
+        let high: Double
+        let low: Double
+        let code: Int
+    }
+
     struct Report {
         let place: String
         let timeZone: TimeZone
@@ -22,6 +29,7 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
         let high: Double
         let low: Double
         let hours: [Hour]
+        let days: [Day]
     }
 
     @Published private(set) var report: Report?
@@ -126,9 +134,9 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
             .init(name: "longitude", value: String(longitude)),
             .init(name: "current", value: "temperature_2m,weather_code,is_day"),
             .init(name: "hourly", value: "temperature_2m,weather_code,is_day"),
-            .init(name: "daily", value: "temperature_2m_max,temperature_2m_min"),
-            .init(name: "forecast_days", value: "2"),
-            .init(name: "forecast_hours", value: "6"),
+            .init(name: "daily", value: "weather_code,temperature_2m_max,temperature_2m_min"),
+            .init(name: "forecast_days", value: "6"),
+            .init(name: "forecast_hours", value: "8"),
             .init(name: "timezone", value: "auto"),
             .init(name: "temperature_unit", value: fahrenheit ? "fahrenheit" : "celsius"),
         ]
@@ -151,6 +159,20 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
                     isDay: hourly.is_day[index] == 1
                 )
             }
+            let dayParser = DateFormatter()
+            dayParser.locale = Locale(identifier: "en_US_POSIX")
+            dayParser.timeZone = timeZone
+            dayParser.dateFormat = "yyyy-MM-dd"
+            let daily = forecast.daily
+            let days = daily.time.indices.compactMap { index -> Day? in
+                guard let date = dayParser.date(from: daily.time[index]) else { return nil }
+                return Day(
+                    id: date,
+                    high: daily.temperature_2m_max[index],
+                    low: daily.temperature_2m_min[index],
+                    code: daily.weather_code[index]
+                )
+            }
             let report = Report(
                 place: place,
                 timeZone: timeZone,
@@ -159,7 +181,8 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
                 isDay: forecast.current.is_day == 1,
                 high: forecast.daily.temperature_2m_max.first ?? forecast.current.temperature_2m,
                 low: forecast.daily.temperature_2m_min.first ?? forecast.current.temperature_2m,
-                hours: hours
+                hours: hours,
+                days: days
             )
             await MainActor.run {
                 self.report = report
@@ -200,6 +223,8 @@ private struct ForecastResponse: Decodable {
     }
 
     struct Daily: Decodable {
+        let time: [String]
+        let weather_code: [Int]
         let temperature_2m_max: [Double]
         let temperature_2m_min: [Double]
     }

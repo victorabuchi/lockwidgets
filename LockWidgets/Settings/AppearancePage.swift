@@ -10,8 +10,8 @@ struct AppearancePage: View {
                 PageHeader(title: "Appearance", subtitle: "Applies to every widget.")
                 PreviewStage(height: 300) {
                     HStack(alignment: .top, spacing: 14) {
-                        ClockWidget()
-                        WeatherWidget()
+                        WidgetView(instance: WidgetKind.clock.sample(size: .medium))
+                        WidgetView(instance: WidgetKind.weather.sample(style: "hourly", size: .medium))
                     }
                     .scaleEffect(0.85)
                 }

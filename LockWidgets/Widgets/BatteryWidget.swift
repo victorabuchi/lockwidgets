@@ -1,42 +1,67 @@
 import SwiftUI
 
 struct BatteryWidget: View {
+    let instance: WidgetInstance
     @ObservedObject private var battery = BatteryMonitor.shared
-    @Environment(\.isWidgetPreview) private var isPreview
 
     var body: some View {
         if let level = battery.level {
-            WidgetCard(title: "Battery", symbol: symbol(level)) {
-                VStack(alignment: .leading, spacing: 10) {
-                    HStack(alignment: .firstTextBaseline) {
-                        Text("\(level)%")
-                            .font(.system(size: 34, weight: .semibold, design: .rounded))
-                            .monospacedDigit()
-                        Spacer()
-                        Text(status)
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(Theme.secondary)
-                    }
-                    bar(level)
-                }
+            if instance.style == "ring" {
+                ring(level)
+            } else {
+                bar(level)
             }
-        } else if isPreview {
-            WidgetCard(title: "Battery", symbol: "powerplug") {
-                WidgetPlaceholder(symbol: "powerplug", message: "This Mac has no battery, so the widget stays hidden.")
+        } else {
+            WidgetCard(size: instance.size, title: "Battery", symbol: "powerplug") {
+                WidgetPlaceholder(symbol: "powerplug", message: "This Mac has no battery.")
             }
         }
     }
 
+    private func ring(_ level: Int) -> some View {
+        WidgetCard(size: instance.size) {
+            VStack(spacing: 8) {
+                ZStack {
+                    Circle().stroke(Color.white.opacity(0.14), lineWidth: 9)
+                    Circle()
+                        .trim(from: 0, to: CGFloat(level) / 100)
+                        .stroke(color(level), style: StrokeStyle(lineWidth: 9, lineCap: .round))
+                        .rotationEffect(.degrees(-90))
+                    VStack(spacing: 0) {
+                        Image(systemName: battery.isCharging ? "bolt.fill" : "battery.75")
+                            .font(.system(size: 13, weight: .semibold))
+                            .foregroundStyle(Theme.secondary)
+                        Text("\(level)%")
+                            .font(.system(size: 24, weight: .semibold, design: .rounded))
+                            .monospacedDigit()
+                    }
+                }
+                .padding(4)
+                Text(status)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundStyle(Theme.secondary)
+                    .lineLimit(1)
+            }
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
+    }
+
     private func bar(_ level: Int) -> some View {
-        GeometryReader { proxy in
-            ZStack(alignment: .leading) {
-                Capsule().fill(Color.white.opacity(0.14))
-                Capsule()
-                    .fill(color(level))
-                    .frame(width: proxy.size.width * CGFloat(level) / 100)
+        WidgetCard(size: instance.size, title: "Battery", symbol: symbol(level)) {
+            VStack(alignment: .leading, spacing: 12) {
+                Spacer(minLength: 0)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("\(level)%")
+                        .font(.system(size: 44, weight: .semibold, design: .rounded))
+                        .monospacedDigit()
+                    Spacer()
+                    Text(status)
+                        .font(.system(size: 13, weight: .medium))
+                        .foregroundStyle(Theme.secondary)
+                }
+                ProgressBar(fraction: Double(level) / 100, color: color(level), height: 8)
             }
         }
-        .frame(height: 8)
     }
 
     private var status: String {
