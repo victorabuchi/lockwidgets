@@ -13,8 +13,6 @@ enum IslandActivity: Equatable {
     case charging(level: Int, pluggedIn: Bool)
     case lowBattery(level: Int)
     case notification(NotificationStore.Item)
-    /// A song starting or changing: the music activity peeks out beside the notch for a moment.
-    case musicPeek
     case event(title: String, start: Date, color: NSColor)
     case device(name: String, symbol: String, connected: Bool)
     case volume(level: Double, muted: Bool)
@@ -36,17 +34,6 @@ enum IslandActivity: Equatable {
         }
     }
 
-    /// Width either side of the notch in the compact island.
-    var compactSide: CGFloat {
-        switch self {
-        case .musicPeek: 34
-        case .charging, .lowBattery, .device, .focus: 86
-        case .volume, .brightness: 74
-        case .timer, .meeting: 52
-        default: 34
-        }
-    }
-
     /// Height of the full card below the notch.
     var expandedHeight: CGFloat {
         switch self {
@@ -65,7 +52,7 @@ final class IslandModel: ObservableObject {
     static let shared = IslandModel()
 
     @Published private(set) var primary: IslandActivity?
-    /// A second ongoing activity, shown as a small bubble beside the island like the iPhone's split island.
+    /// A second ongoing activity, shown as a small icon at the top of the open card; tap it to switch.
     @Published private(set) var secondary: IslandActivity?
     @Published var isExpanded = false
     @Published var isHovering = false
@@ -100,17 +87,6 @@ final class IslandModel: ObservableObject {
         .receive(on: DispatchQueue.main)
         .sink { [weak self] in self?.refresh() }
         .store(in: &subscriptions)
-
-        // Announce a song when it starts or changes, the way the iPhone island blooms for a new activity.
-        music.$track.map { $0?.id }.removeDuplicates()
-            .combineLatest(music.$isPlaying.removeDuplicates())
-            .dropFirst()
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] id, playing in
-                guard let self, id != nil, playing, setting(SettingsKey.islandMusic), !showsSides, !isExpanded else { return }
-                show(.musicPeek, for: 4)
-            }
-            .store(in: &subscriptions)
 
         battery.$isPluggedIn.removeDuplicates().dropFirst()
             .receive(on: DispatchQueue.main)
@@ -239,12 +215,12 @@ final class IslandModel: ObservableObject {
         transientWork?.perform()
     }
 
-    /// Tapping the bubble brings its activity into the island.
+    /// Tapping the icon of the other live activity switches the open card to it.
     func promoteSecondary() {
         guard let secondary, transient == nil else { return }
         pinned = secondary
-        isExpanded = false
         refresh()
+        isExpanded = true
     }
 
     // MARK: Geometry
@@ -266,6 +242,9 @@ final class IslandModel: ObservableObject {
         }
     }
 
+    /// Height of the row that brief alerts add below the notch.
+    static let dropHeight: CGFloat = 32
+
     /// Size of the black shape for the current state.
     var size: CGSize {
         guard let primary else { return notch }
@@ -278,34 +257,26 @@ final class IslandModel: ObservableObject {
             if primary == .music { return CGSize(width: cardWidth, height: 210) }
             return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
         }
-        // Closed, the island is exactly the notch. Brief alerts, and ongoing activities when the user
-        // opts in, widen it to the notch's sides at the notch's height.
-        guard primary.isTransient || showsSides else { return notch }
-        return CGSize(width: notch.width + primary.compactSide * 2, height: notch.height)
+        // Brief alerts hang below the notch at the notch's own width, as if the notch grew downwards.
+        if primary.isTransient {
+            return CGSize(width: notch.width + IslandShape.shoulderSize * 2, height: notch.height + Self.dropHeight)
+        }
+        // Closed, the island is exactly the notch.
+        return notch
     }
 
-    /// Diameter of the side bubble, and the gap before it.
-    var bubble: CGFloat { notch.height }
-    static let bubbleGap: CGFloat = 6
-
-    /// Whether ongoing activities show beside the notch while closed (off by default: the closed island is the notch).
-    var showsSides: Bool {
-        UserDefaults.standard.object(forKey: SettingsKey.islandShowSides) as? Bool ?? false
-    }
-
-    /// True when the closed island is exactly the notch, with nothing drawn beside it.
+    /// True when the closed island is exactly the notch, with nothing drawn.
     var isNotchOnly: Bool {
         guard let primary else { return true }
-        return !isExpanded && !primary.isTransient && !showsSides
+        return !isExpanded && !primary.isTransient
     }
-
-    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isBanner != true && showsSides }
 
     /// The notch's own bottom corner radius, used whenever the island is closed.
     static let notchRadius: CGFloat = 10
 
     var bottomRadius: CGFloat {
         if isExpanded || primary?.isBanner == true { return 30 }
+        if primary?.isTransient == true { return 18 }
         return Self.notchRadius
     }
 

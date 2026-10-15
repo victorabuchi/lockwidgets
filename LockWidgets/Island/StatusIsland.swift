@@ -2,31 +2,31 @@ import SwiftUI
 
 // MARK: Bubble
 
-/// The small circle beside the island showing a second ongoing activity.
+/// A small round icon for a second live activity, shown at the top of the open card.
 struct Bubble: View {
     let activity: IslandActivity
-    let notch: CGSize
+    let size: CGFloat
     @ObservedObject private var music = NowPlayingStore.shared
 
     var body: some View {
         ZStack {
-            Circle().fill(Color.black)
+            Circle().fill(Color.white.opacity(0.14))
             switch activity {
             case .music:
-                Artwork(image: music.artwork, size: notch.height - 10, cornerRadius: (notch.height - 10) / 2)
+                Artwork(image: music.artwork, size: size - 4, cornerRadius: (size - 4) / 2)
             case .timer:
                 Image(systemName: "timer").foregroundStyle(.orange)
             case .meeting:
                 Image(systemName: "video.fill").foregroundStyle(.green)
             case .hotspot:
                 Image(systemName: "personalhotspot").foregroundStyle(.green)
-            case .musicPeek:
-                Artwork(image: music.artwork, size: notch.height - 10, cornerRadius: (notch.height - 10) / 2)
             default:
                 EmptyView()
             }
         }
-        .font(.system(size: 13, weight: .semibold))
+        .font(.system(size: size * 0.46, weight: .semibold))
+        .frame(width: size, height: size)
+        .contentShape(Circle())
     }
 }
 
@@ -45,26 +45,6 @@ private func activeTimer(_ timers: TimerStore) -> ActiveTimer {
         return ActiveTimer(symbol: "timer", title: timers.phase.title, color: color) { timers.pomodoroRemaining(at: $0).clockText }
     }
     return ActiveTimer(symbol: "stopwatch", title: "Stopwatch", color: .orange) { timers.stopwatchElapsed(at: $0).clockText }
-}
-
-struct TimerCompact: View {
-    let notch: CGSize
-    @ObservedObject private var timers = TimerStore.shared
-
-    var body: some View {
-        let timer = activeTimer(timers)
-        CompactSlots(notch: notch, side: IslandActivity.timer.compactSide) {
-            Image(systemName: timer.symbol)
-                .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(timer.color)
-        } trailing: {
-            TimelineView(.periodic(from: .now, by: 1)) { context in
-                Text(timer.text(context.date))
-                    .font(.system(size: 14, weight: .semibold, design: .rounded).monospacedDigit())
-                    .foregroundStyle(timer.color)
-            }
-        }
-    }
 }
 
 struct TimerExpanded: View {
@@ -114,25 +94,6 @@ func round(_ symbol: String, _ color: Color, action: @escaping () -> Void) -> so
 }
 
 // MARK: Meeting
-
-struct MeetingCompact: View {
-    let notch: CGSize
-    @ObservedObject private var status = StatusMonitor.shared
-
-    var body: some View {
-        CompactSlots(notch: notch, side: IslandActivity.meeting.compactSide) {
-            Image(systemName: status.meeting?.camera == true ? "video.fill" : "phone.fill")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(.green)
-        } trailing: {
-            TimelineView(.periodic(from: .now, by: 1)) { context in
-                Text(Date.now.timeIntervalSince(status.meeting?.started ?? context.date).clockText)
-                    .font(.system(size: 14, weight: .semibold, design: .rounded).monospacedDigit())
-                    .foregroundStyle(.green)
-            }
-        }
-    }
-}
 
 struct MeetingExpanded: View {
     let notch: CGSize
@@ -184,22 +145,6 @@ struct MeetingExpanded: View {
 
 // MARK: Hotspot
 
-struct HotspotCompact: View {
-    let notch: CGSize
-
-    var body: some View {
-        CompactSlots(notch: notch) {
-            Image(systemName: "personalhotspot")
-                .font(.system(size: 13, weight: .bold))
-                .foregroundStyle(.green)
-        } trailing: {
-            Image(systemName: "iphone.gen3")
-                .font(.system(size: 13, weight: .semibold))
-                .foregroundStyle(.green)
-        }
-    }
-}
-
 struct HotspotExpanded: View {
     let notch: CGSize
     @ObservedObject private var status = StatusMonitor.shared
@@ -234,7 +179,7 @@ struct ChargingCompact: View {
     let pluggedIn: Bool
 
     var body: some View {
-        CompactSlots(notch: notch, side: 96) {
+        DropRow(notch: notch) {
             Text(pluggedIn ? "Charging" : "On Battery")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(pluggedIn ? .green : .white)
@@ -255,7 +200,7 @@ struct LowBatteryCompact: View {
     let level: Int
 
     var body: some View {
-        CompactSlots(notch: notch, side: 96) {
+        DropRow(notch: notch) {
             Text("Low Battery")
                 .font(.system(size: 13, weight: .semibold))
                 .foregroundStyle(.red)

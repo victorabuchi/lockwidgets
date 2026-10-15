@@ -13,17 +13,16 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandDevices) private var devices = true
     @AppStorage(SettingsKey.islandHUD) private var hud = true
     @AppStorage(SettingsKey.islandFocus) private var focus = true
-    @AppStorage(SettingsKey.islandShowSides) private var showSides = false
     @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
         Form {
             Section {
                 PageHeader(title: "Dynamic Island", subtitle: "Live activity around your MacBook's notch, like the iPhone. Tap the island to open the full card.")
-                PreviewStage(height: 200) {
+                PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("Hover to nudge it, tap to expand. It hides while your Mac is locked.")
+                        Text("Closed, it is exactly your notch. Point at the notch to open it.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }
@@ -31,10 +30,6 @@ struct IslandSettingsPage: View {
             }
             Section {
                 Toggle("Show the Dynamic Island", isOn: $enabled)
-                Toggle(isOn: $showSides) {
-                    Text("Show live activities beside the notch")
-                    Text("Off: the closed island is exactly the notch, and opens when you point at it. On: artwork, timers and calls sit either side of the notch.")
-                }
             }
             Section {
                 Toggle(isOn: $notifications) {
@@ -102,7 +97,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When two things are live, the second sits in a bubble beside the island. Tap the bubble to swap.")
+                Text("When two things are live, the other one waits as a small icon at the top of the open card. Tap it to switch.")
                     .foregroundStyle(.secondary)
             }
         }
@@ -110,18 +105,17 @@ struct IslandSettingsPage: View {
     }
 }
 
-/// A static drawing of the compact island for the settings page.
+/// The open music card in miniature, for the settings page.
 private struct IslandPreview: View {
-    @ObservedObject private var music = NowPlayingStore.shared
-    @Namespace private var namespace
-
     var body: some View {
         let notch = CGSize(width: 190, height: 32)
-        ZStack {
-            IslandShape(bottomRadius: 14)
-                .fill(Color.black)
-                .frame(width: notch.width + IslandActivity.music.compactSide * 2, height: notch.height)
-            MusicCompact(notch: notch, namespace: namespace)
+        ZStack(alignment: .top) {
+            IslandShape(bottomRadius: 30).fill(Color.black)
+            MusicExpanded(notch: notch)
         }
+        .frame(width: 360, height: 210)
+        .environment(\.colorScheme, .dark)
+        .scaleEffect(0.75)
+        .frame(width: 270, height: 158)
     }
 }

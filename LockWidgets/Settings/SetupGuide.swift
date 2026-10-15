@@ -327,7 +327,17 @@ enum DockPolicy {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             let hasWindow = NSApp.windows.contains { $0.isVisible && $0.styleMask.contains(.titled) }
             NSApp.setActivationPolicy(hasWindow ? .regular : .accessory)
-            if hasWindow { NSApp.activate() }
+            if hasWindow { bringWindowsForward() }
+        }
+    }
+
+    /// Puts LockWidgets' windows in front of the app the user was in. macOS no longer lets an app simply
+    /// activate itself, so the windows are ordered to the front directly as well.
+    static func bringWindowsForward() {
+        NSApp.activate()
+        for window in NSApp.windows where window.isVisible && window.styleMask.contains(.titled) {
+            window.orderFrontRegardless()
+            window.makeKeyAndOrderFront(nil)
         }
     }
 }

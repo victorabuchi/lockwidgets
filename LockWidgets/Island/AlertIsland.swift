@@ -38,21 +38,18 @@ struct DeviceCompact: View {
     let connected: Bool
 
     var body: some View {
-        CompactSlots(notch: notch, side: 100) {
-            HStack(spacing: 6) {
-                Image(systemName: symbol)
-                    .font(.system(size: 15, weight: .semibold))
-                Text(connected ? "Connected" : "Off")
-                    .font(.system(size: 12, weight: .semibold))
-            }
-            .foregroundStyle(connected ? .white : .white.opacity(0.5))
-        } trailing: {
+        DropRow(notch: notch) {
+            Image(systemName: symbol)
+                .font(.system(size: 14, weight: .semibold))
             Text(name)
                 .font(.system(size: 12, weight: .semibold))
+                .truncationMode(.tail)
+        } trailing: {
+            Text(connected ? "Connected" : "Disconnected")
+                .font(.system(size: 12, weight: .semibold))
                 .foregroundStyle(connected ? Color.green : Color.white.opacity(0.5))
-                .lineLimit(1)
-                .truncationMode(.middle)
         }
+        .foregroundStyle(.white)
     }
 }
 
@@ -63,14 +60,15 @@ struct LevelCompact: View {
     let level: Double
 
     var body: some View {
-        CompactSlots(notch: notch, side: 90) {
+        DropRow(notch: notch) {
             Image(systemName: symbol)
                 .font(.system(size: 14, weight: .semibold))
                 .foregroundStyle(.white)
                 .contentTransition(.symbolEffect(.replace))
+                .frame(width: 22)
         } trailing: {
             ProgressBar(fraction: level, color: .white, height: 6)
-                .frame(width: 66)
+                .frame(width: max(notch.width - 66, 60))
                 .animation(.easeOut(duration: 0.15), value: level)
         }
     }
@@ -83,7 +81,7 @@ struct FocusCompact: View {
     let on: Bool
 
     var body: some View {
-        CompactSlots(notch: notch, side: 100) {
+        DropRow(notch: notch) {
             HStack(spacing: 6) {
                 Image(systemName: symbol)
                     .font(.system(size: 14, weight: .semibold))

@@ -87,10 +87,11 @@ private struct MenuBarLabel: View {
                 } else if !AppDelegate.launchedAtLogin {
                     openWindow(id: "settings")
                 }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.4) { DockPolicy.bringWindowsForward() }
             }
             .onReceive(NotificationCenter.default.publisher(for: AppDelegate.openSettings)) { _ in
                 openWindow(id: hasLaunched ? "settings" : "setup")
-                NSApp.activate()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
             }
     }
 }
@@ -169,7 +170,7 @@ private struct MenuContent: View {
         Menu("Help & Support") {
             Button("Setup Guide…") {
                 openWindow(id: "setup")
-                NSApp.activate()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
             }
             Button("LockWidgets on GitHub") {
                 NSWorkspace.shared.open(URL(string: "https://github.com/victorabuchi/lockwidgets")!)
@@ -194,6 +195,6 @@ private struct MenuContent: View {
     private func open(_ page: SettingsPage) {
         SettingsRouter.shared.page = page
         openWindow(id: "settings")
-        NSApp.activate()
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
     }
 }

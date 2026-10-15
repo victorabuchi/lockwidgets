@@ -1,27 +1,9 @@
 import SwiftUI
 
-struct MusicCompact: View {
-    let notch: CGSize
-    var namespace: Namespace.ID
-    @ObservedObject private var music = NowPlayingStore.shared
-
-    var body: some View {
-        CompactSlots(notch: notch, side: IslandActivity.music.compactSide) {
-            Artwork(image: music.artwork, size: notch.height - 14, cornerRadius: 5)
-                .matchedGeometryEffect(id: "artwork", in: namespace)
-        } trailing: {
-            Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
-                .frame(width: 18, height: 12)
-                .matchedGeometryEffect(id: "waveform", in: namespace)
-        }
-    }
-}
-
-/// The full card. Like the iPhone's, the artwork and waveform grow out of the compact island into the
-/// top corners, beside the camera, and the song, progress and controls appear beneath them.
+/// The full card. Like the iPhone's, the artwork and waveform sit in the top corners beside the camera,
+/// with the song, progress and controls beneath them.
 struct MusicExpanded: View {
     let notch: CGSize
-    var namespace: Namespace.ID
     @ObservedObject private var music = NowPlayingStore.shared
     @ObservedObject private var lyrics = LyricsStore.shared
     @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
@@ -33,11 +15,9 @@ struct MusicExpanded: View {
             VStack(alignment: .leading, spacing: 0) {
                 HStack(alignment: .top) {
                     Artwork(image: music.artwork, size: 46, cornerRadius: 10)
-                        .matchedGeometryEffect(id: "artwork", in: namespace)
                     Spacer()
                     Waveform(color: tint, playing: music.isPlaying)
                         .frame(width: 22, height: 16)
-                        .matchedGeometryEffect(id: "waveform", in: namespace)
                         .padding(.top, 6)
                 }
                 .frame(height: 46)

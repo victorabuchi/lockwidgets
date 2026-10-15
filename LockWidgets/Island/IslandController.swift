@@ -8,6 +8,8 @@ final class IslandController {
 
     private var panel: NSPanel?
     private var monitors: [Any] = []
+    private var pointerTimer: Timer?
+    private var lastPointer = NSPoint(x: -1, y: -1)
     private var subscriptions: Set<AnyCancellable> = []
     private var collapseWork: DispatchWorkItem?
     private var expandWork: DispatchWorkItem?
@@ -36,16 +38,15 @@ final class IslandController {
             .sink { [weak self] _ in self?.position() }
             .store(in: &subscriptions)
 
-        let track: (NSEvent) -> Void = { [weak self] _ in self?.trackMouse() }
-        if let global = NSEvent.addGlobalMonitorForEvents(matching: [.mouseMoved, .leftMouseDragged], handler: track) {
-            monitors.append(global)
+        // Follow the pointer by sampling its position rather than subscribing to every mouse movement:
+        // global and local mouse-moved monitors stop clicks reaching LockWidgets' own windows on this macOS.
+        let timer = Timer(timeInterval: 1.0 / 30, repeats: true) { [weak self] _ in
+            self?.trackMouse()
         }
-        if let local = NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved, .leftMouseDragged], handler: { event in
-            track(event)
-            return event
-        }) {
-            monitors.append(local)
-        }
+        timer.tolerance = 0.01
+        RunLoop.main.add(timer, forMode: .common)
+        pointerTimer = timer
+
         // Open the island on mouse-down at the AppKit level, so the first click always counts
         // even though LockWidgets is in the background. Clicks inside the open card go to its buttons.
         if let clicks = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown, handler: { [weak self] event in
@@ -57,7 +58,7 @@ final class IslandController {
         update()
     }
 
-    /// Returns true when the click was used to open the island or swap in the bubble.
+    /// Returns true when the click was used to open the island.
     private func handleClick(_: NSEvent) -> Bool {
         let model = IslandModel.shared
         guard !model.isExpanded, let screen = IslandModel.screen else { return false }
@@ -66,10 +67,6 @@ final class IslandController {
         let island = NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
         if island.insetBy(dx: -4, dy: -4).contains(location) {
             model.toggleExpanded()
-            return true
-        }
-        if model.showsBubble, location.x > island.maxX {
-            model.promoteSecondary()
             return true
         }
         return false
@@ -99,9 +96,6 @@ final class IslandController {
         panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .fullScreenAuxiliary, .ignoresCycle]
         panel.isMovable = false
         panel.ignoresMouseEvents = true
-        // Pointer moves over the panel must reach the tracker too, so the empty area around the island
-        // goes back to passing clicks through the moment the pointer leaves the island.
-        panel.acceptsMouseMovedEvents = true
         panel.contentView = FirstClickHostingView(rootView: IslandView())
         self.panel = panel
     }
@@ -112,23 +106,23 @@ final class IslandController {
         panel.setFrame(NSRect(x: frame.midX - canvas.width / 2, y: frame.maxY - canvas.height, width: canvas.width, height: canvas.height), display: true)
     }
 
-    /// The island's current rectangle in screen coordinates, including the side bubble.
+    /// The island's current rectangle in screen coordinates.
     private var islandRect: NSRect {
         guard let screen = IslandModel.screen else { return .zero }
         let model = IslandModel.shared
         let size = model.size
-        var rect = NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
-        if model.showsBubble {
-            rect.size.width += IslandModel.bubbleGap + model.bubble
-        }
-        return rect
+        return NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
     }
 
     private func trackMouse() {
         guard let panel, panel.isVisible else { return }
         let model = IslandModel.shared
-        let inside = islandRect.insetBy(dx: -4, dy: -4).contains(NSEvent.mouseLocation) && model.primary != nil
-        panel.ignoresMouseEvents = !inside
+        let pointer = NSEvent.mouseLocation
+        let inside = islandRect.insetBy(dx: -4, dy: -4).contains(pointer) && model.primary != nil
+        // Nothing to do while the pointer rests elsewhere.
+        if pointer == lastPointer, panel.ignoresMouseEvents == !inside { return }
+        lastPointer = pointer
+        if panel.ignoresMouseEvents != !inside { panel.ignoresMouseEvents = !inside }
         if model.isHovering != inside { model.isHovering = inside }
 
         // Resting on the island opens it, as macOS keeps clicks in the menu bar strip for itself.
