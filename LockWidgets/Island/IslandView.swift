@@ -48,6 +48,15 @@ struct IslandView: View {
         .animation(.spring(response: 0.48, dampingFraction: 0.82), value: size.height)
         .frame(width: size.width)
         .animation(.spring(response: 0.32, dampingFraction: 0.86), value: size.width)
+        .overlay(alignment: .topTrailing) {
+            // A second live activity, such as the hotspot while a song plays, waits in its own circle
+            // on the right, as on the iPhone.
+            if model.showsBubble, let secondary = model.secondary {
+                Bubble(activity: secondary, size: model.bubbleSize, fill: .black)
+                    .offset(x: IslandModel.bubbleGap + model.bubbleSize)
+                    .transition(.scale(scale: 0.4, anchor: .leading).combined(with: .opacity))
+            }
+        }
         .contentShape(Rectangle())
         .onTapGesture { model.toggleExpanded() }
     }
@@ -65,9 +74,13 @@ struct IslandView: View {
     private func activityContent(_ notch: CGSize) -> some View {
         switch (model.primary, model.isExpanded) {
         case (.music, true): MusicExpanded(notch: notch)
+        case (.music, false): MusicCompact(notch: notch)
         case (.timer, true): TimerExpanded(notch: notch)
+        case (.timer, false): TimerCompact(notch: notch)
         case (.meeting, true): MeetingExpanded(notch: notch)
+        case (.meeting, false): MeetingCompact(notch: notch)
         case (.hotspot, true): HotspotExpanded(notch: notch)
+        case (.hotspot, false): HotspotCompact(notch: notch)
         case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
         case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
         case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
@@ -76,13 +89,33 @@ struct IslandView: View {
         case let (.volume(level, muted), _): LevelCompact(notch: notch, symbol: muted ? "speaker.slash.fill" : level < 0.34 ? "speaker.wave.1.fill" : level < 0.67 ? "speaker.wave.2.fill" : "speaker.wave.3.fill", level: muted ? 0 : level)
         case let (.brightness(level), _): LevelCompact(notch: notch, symbol: level < 0.5 ? "sun.min.fill" : "sun.max.fill", level: level)
         case let (.focus(name, symbol, on), _): FocusCompact(notch: notch, name: name, symbol: symbol, on: on)
-        // Closed, a live activity is exactly the notch, with nothing drawn.
         default: EmptyView()
         }
     }
 
     private var contentID: String {
         "\(String(describing: model.primary))-\(model.isExpanded)"
+    }
+}
+
+/// Live activities sit either side of the camera at the notch's own height, like the iPhone's compact island.
+/// Each side runs from the island's edge to the notch, so nothing is hidden by the camera.
+struct CompactRow<Leading: View, Trailing: View>: View {
+    let notch: CGSize
+    @ViewBuilder var leading: Leading
+    @ViewBuilder var trailing: Trailing
+
+    var body: some View {
+        let side = IslandModel.wing(notch)
+        HStack(spacing: 0) {
+            leading
+                .frame(width: side, height: notch.height)
+            Spacer(minLength: notch.width)
+            trailing
+                .frame(width: side, height: notch.height)
+        }
+        .lineLimit(1)
+        .frame(height: notch.height)
     }
 }
 

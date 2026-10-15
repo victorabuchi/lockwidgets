@@ -230,11 +230,23 @@ final class IslandModel: ObservableObject {
     /// Height of the row that brief alerts add below the notch.
     static let dropHeight: CGFloat = 32
 
+    /// How far a live activity reaches out on each side of the notch while closed, like the iPhone's
+    /// compact island. The notch has no screen under it, so the artwork can only show beside it.
+    static func wing(_ notch: CGSize) -> CGFloat { notch.height + 2 }
+
     /// Width of the open card and banners: wider than the notch, so their top row sits either side of it.
     var cardWidth: CGFloat { max(notch.width + 170, 360) }
 
-    /// Size of the black shape for the current state. Closed, it is exactly the notch whatever is live;
-    /// brief alerts hang below it at its width; only the open card and banners are wider.
+    /// The circle for a second live activity, such as the hotspot while a song plays, beside the island on
+    /// the right as on the iPhone, and the gap before it.
+    var bubbleSize: CGFloat { notch.height }
+    static let bubbleGap: CGFloat = 6
+
+    var showsBubble: Bool { secondary != nil && primary?.isTransient == false }
+
+    /// Size of the black shape for the current state. With nothing live it is exactly the notch; a live
+    /// activity sits either side of it at its height; brief alerts hang below it at its width; the open
+    /// card and banners are wider.
     var size: CGSize {
         guard let primary else { return notch }
         if isExpanded || primary.isBanner {
@@ -243,16 +255,22 @@ final class IslandModel: ObservableObject {
         if primary.isTransient {
             return CGSize(width: notch.width, height: notch.height + Self.dropHeight)
         }
-        return notch
+        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
     }
 
-    /// The notch's own bottom corner radius, used whenever the island is closed.
+    /// The size the island returns to when the open card closes.
+    var closedSize: CGSize {
+        guard let primary, !primary.isTransient else { return size }
+        return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
+    }
+
+    /// The notch's own bottom corner radius, used when nothing is live.
     static let notchRadius: CGFloat = 10
 
     var bottomRadius: CGFloat {
         guard let primary else { return Self.notchRadius }
         if isExpanded || primary.isBanner { return 24 }
-        return primary.isTransient ? 16 : Self.notchRadius
+        return 16
     }
 
     func toggleExpanded() {

@@ -109,9 +109,15 @@ final class IslandController {
         return NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
     }
 
-    /// Where the pointer counts as on the island.
+    /// Where the pointer counts as on the island: the island, its closed size while the card is open, and
+    /// the circle beside it for a second live activity.
     private var hoverRect: NSRect {
-        rect(IslandModel.shared.size)
+        let model = IslandModel.shared
+        var area = rect(model.size).union(rect(model.closedSize))
+        if model.showsBubble {
+            area.size.width += IslandModel.bubbleGap + model.bubbleSize
+        }
+        return area
     }
 
     private func trackMouse() {

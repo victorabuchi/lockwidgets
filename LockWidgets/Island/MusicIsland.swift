@@ -1,13 +1,27 @@
 import SwiftUI
 
-/// The open card. The artwork sits beside the camera on the left and the waveform on the right, with
-/// the hotspot next to it when it is on, as on the iPhone; the song, its Apple Music lyric, progress and
-/// controls run full width below the notch.
+/// While closed, the song sits either side of the camera: artwork on the left, waveform on the right.
+struct MusicCompact: View {
+    let notch: CGSize
+    @ObservedObject private var music = NowPlayingStore.shared
+
+    var body: some View {
+        let artwork = (notch.height * 0.63).rounded()
+        CompactRow(notch: notch) {
+            Artwork(image: music.artwork, size: artwork, cornerRadius: artwork / 4)
+        } trailing: {
+            Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
+                .frame(width: artwork * 0.67, height: artwork * 0.55)
+        }
+    }
+}
+
+/// The open card. The artwork sits beside the camera on the left and the waveform on the right; the song,
+/// its Apple Music lyric, progress and controls run full width below the notch.
 struct MusicExpanded: View {
     let notch: CGSize
     @ObservedObject private var music = NowPlayingStore.shared
     @ObservedObject private var lyrics = LyricsStore.shared
-    @ObservedObject private var island = IslandModel.shared
     @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
 
     /// Height of the card below the notch. The rows in `body` add up to it.
@@ -22,9 +36,6 @@ struct MusicExpanded: View {
             } right: {
                 Waveform(color: tint, playing: music.isPlaying)
                     .frame(width: 18, height: 14)
-                if let other = island.secondary {
-                    Bubble(activity: other, size: 24)
-                }
             } below: {
                 Text(track.title)
                     .font(.system(size: 13.5, weight: .bold))

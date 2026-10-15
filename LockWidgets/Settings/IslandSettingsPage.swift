@@ -22,7 +22,7 @@ struct IslandSettingsPage: View {
                 PreviewStage(height: 240) {
                     VStack(spacing: 14) {
                         IslandPreview()
-                        Text("Closed, it is exactly your notch. Point at the notch to open it.")
+                        Text("A song or your hotspot shows beside the notch, like the iPhone. Point at it to open the card.")
                             .font(.callout)
                             .foregroundStyle(.white.opacity(0.8))
                     }
@@ -56,7 +56,7 @@ struct IslandSettingsPage: View {
             Section("Activities") {
                 Toggle(isOn: $music) {
                     Text("Now Playing")
-                    Text("The song, its lyric, progress and controls when you open the island.")
+                    Text("Artwork and waveform beside the notch; the song, lyric and controls when you open it.")
                 }
                 Toggle(isOn: $lyrics) {
                     Text("Lyrics in the full card")
@@ -97,7 +97,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When two things are live, the open card shows the second as a small icon on its right, like the iPhone. Calls come first, then timers, music and the hotspot.")
+                Text("When two things are live, the second waits in its own circle on the right, like the iPhone. Calls come first, then timers, music and the hotspot.")
                     .foregroundStyle(.secondary)
             }
         }
