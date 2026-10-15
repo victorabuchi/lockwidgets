@@ -18,6 +18,8 @@ targets:
       path: LockWidgets/Info.plist
       properties:
         LSUIElement: true
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.utilities
         CFBundleDisplayName: LockWidgets
         NSAppleEventsUsageDescription: LockWidgets reads the current song from Music and Spotify to show it on the lock screen.
