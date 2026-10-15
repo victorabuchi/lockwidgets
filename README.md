@@ -8,27 +8,40 @@ LockWidgets lives in the menu bar. When you lock your Mac, it draws your widgets
 
 1. Download `LockWidgets-<version>.dmg` from [Releases](../../releases).
 2. Open it and drag **LockWidgets** into **Applications**.
-3. Open LockWidgets. Settings open on first launch; afterwards use the grid icon in the menu bar.
+3. Open LockWidgets. The Setup Guide runs on first launch. Afterwards, open the app again or use its menu bar icon.
 
 Requires macOS 15 or later.
 
 ## Widgets
 
-| Widget | Source |
-| --- | --- |
-| Clock | System time, 12 or 24 hour |
-| Weather | [Open-Meteo](https://open-meteo.com), from your location or a city you choose |
-| Up Next | Your calendars, via EventKit |
-| Now Playing | Apple Music and Spotify |
-| Live Lyrics | Time-synced lyrics from [LRCLIB](https://lrclib.net) |
-| Battery | Charge and time remaining |
+| Widget | Styles | Source |
+| --- | --- | --- |
+| Weather | Current, Hourly, Five Day | [Open-Meteo](https://open-meteo.com) |
+| Earth | Globe with live day and night | Apple Maps satellite imagery |
+| News | Headlines | Any RSS or Atom feed |
+| Stock Ticker | Watchlist, Spotlight | Yahoo Finance |
+| Now Playing | Player, Artwork | Apple Music and Spotify |
+| Photos | Photo, Framed | Photos library or a folder |
+| Live Lyrics | Lyrics | [LRCLIB](https://lrclib.net) |
+| Calendar | Date, Monthly, Up Next | Your calendars |
+| Clock | Digital, Analog, World Clock | System time |
+| Countdown | Days, Flip | Your date |
+| Pomodoro | Ring | Built in |
+| Stopwatch | Digits | Built in |
+| Reminders | List | Your reminders |
+| Battery | Ring, Bar | System |
+| System | Gauges, Monitor | CPU, memory, network, disk |
+| Daily Brief | Brief | Weather, calendar, reminders, news |
+| Sticky Note | Paper, Glass | Your text |
 
-Each widget can be shown or hidden and reordered. Position, size, spacing, card style and corner radius are set in **Settings → Layout** and **Appearance**.
+Widgets come in Small, Medium, Wide, Ultra Wide and Large sizes. Drag them anywhere in **Layout Studio**, start from a design in **Layout Gallery**, and set the card style in **Appearance**.
 
 ## Permissions
 
 - **Calendar**: for Up Next.
 - **Location**: for local weather. Not needed if you set a city.
+- **Reminders**: for the Reminders widget.
+- **Photos**: for the Photos widget, unless you pick a folder.
 - **Automation**: to read the current song from Music or Spotify. LockWidgets only talks to a player that is already open.
 
 ## Development
