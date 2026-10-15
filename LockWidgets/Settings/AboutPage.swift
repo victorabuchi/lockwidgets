@@ -28,7 +28,6 @@ struct AboutPage: View {
             Section("Built with") {
                 credit("SkyLightWindow", "Draws windows above the lock screen.", "https://github.com/Lakr233/SkyLightWindow")
                 credit("Open-Meteo", "Weather forecasts.", "https://open-meteo.com")
-                credit("LRCLIB", "Time-synced lyrics.", "https://lrclib.net")
             }
 
             Section {

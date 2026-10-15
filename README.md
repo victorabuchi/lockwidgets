@@ -1,20 +1,25 @@
 # LockWidgets
 
-Widgets for the macOS lock screen: clock, weather, calendar, now playing, live lyrics and battery.
+Widgets for the macOS lock screen.
 
-LockWidgets lives in the menu bar. When you lock your Mac, it draws your widgets above the lock screen using [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow).
+LockWidgets puts live widgets on your Mac's lock screen: the weather, your next meeting, the song playing with Apple Music's own synced lyrics, your notes, a live globe and more. Glance at your Mac without unlocking it. Arrange the widgets wherever you like in Layout Studio, start from a ready-made layout in the Gallery, and pick the look that suits your wallpaper.
 
-## Install
+It runs from the menu bar. When you lock your Mac, it draws your widgets in a layer above the lock screen using [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow), and removes them when you sign back in.
 
-1. Download `LockWidgets-<version>.dmg` from [Releases](../../releases).
-2. Open it and drag **LockWidgets** into **Applications**.
-3. Open LockWidgets. The Setup Guide runs on first launch. Afterwards, open the app again or use its menu bar icon.
+## Features
 
-Requires macOS 15 or later.
+- **17 widgets** in Small, Medium, Wide, Ultra Wide and Large sizes, most with several styles
+- **Layout Studio**: drag widgets anywhere on a life-size preview of your lock screen, with a warning when one covers the system clock or login area
+- **Layout Gallery**: seven ready-made layouts to start from
+- **Apple Music lyrics**: Apple's own time-synced lyrics, line by line, exactly as Music shows them
+- **Appearance**: Glass, Frosted, Solid or Minimal cards, with adjustable corner radius
+- **Sticky Notes**: notes to yourself in five paper colours
+- **Menu bar controls**: hide widgets, preview them on the desktop, and run the Pomodoro and Stopwatch
+- **Setup Guide** on first launch
 
 ## Widgets
 
-| Widget | Styles | Source |
+| Widget | Styles | Data |
 | --- | --- | --- |
 | Weather | Current, Hourly, Five Day | [Open-Meteo](https://open-meteo.com) |
 | Earth | Globe with live day and night | Apple Maps satellite imagery |
@@ -22,10 +27,10 @@ Requires macOS 15 or later.
 | Stock Ticker | Watchlist, Spotlight | Yahoo Finance |
 | Now Playing | Player, Artwork | Apple Music and Spotify |
 | Photos | Photo, Framed | Photos library or a folder |
-| Live Lyrics | Lyrics | [LRCLIB](https://lrclib.net) |
+| Live Lyrics | Lyrics | Apple Music, from Music on your Mac |
 | Calendar | Date, Monthly, Up Next | Your calendars |
 | Clock | Digital, Analog, World Clock | System time |
-| Countdown | Days, Flip | Your date |
+| Countdown | Days, Flip | A date you choose |
 | Pomodoro | Ring | Built in |
 | Stopwatch | Digits | Built in |
 | Reminders | List | Your reminders |
@@ -34,15 +39,32 @@ Requires macOS 15 or later.
 | Daily Brief | Brief | Weather, calendar, reminders, news |
 | Sticky Note | Paper, Glass | Your text |
 
-Widgets come in Small, Medium, Wide, Ultra Wide and Large sizes. Drag them anywhere in **Layout Studio**, start from a design in **Layout Gallery**, and set the card style in **Appearance**.
+## Install
+
+1. Download `LockWidgets-<version>.dmg` from [Releases](../../releases).
+2. Open it and drag **LockWidgets** into **Applications**.
+3. Open LockWidgets. The Setup Guide runs on first launch. Afterwards, open the app again or use its menu bar icon.
+4. Lock your Mac with **Control + Command + Q** to see your widgets.
+
+Requires macOS 15 or later. Builds are signed with a Developer ID and notarized by Apple.
 
 ## Permissions
 
-- **Calendar**: for Up Next.
-- **Location**: for local weather. Not needed if you set a city.
-- **Reminders**: for the Reminders widget.
-- **Photos**: for the Photos widget, unless you pick a folder.
-- **Automation**: to read the current song from Music or Spotify. LockWidgets only talks to a player that is already open.
+LockWidgets asks only when a widget needs something:
+
+- **Calendar** for Calendar and Daily Brief
+- **Reminders** for Reminders
+- **Location** for local weather (not needed if you set a city)
+- **Photos** for the Photos widget (not needed if you pick a folder)
+- **Automation** to read the current song from Music or Spotify. LockWidgets only talks to a player that is already open.
+
+## Privacy
+
+LockWidgets collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and LockWidgets reads Music's local copy. Nothing is sent anywhere else.
+
+## How lyrics work
+
+Apple doesn't offer Apple Music lyrics to other apps. Music does keep the lyrics it downloads, Apple's time-synced TTML, in its cache at `~/Library/Caches/com.apple.Music`. LockWidgets finds the entry for the playing song by title and length and highlights each line at Apple's timestamps against Music's playback position. If Music has no lyrics for a song, the widget says so. Spotify tracks show Now Playing but no lyrics.
 
 ## Development
 
@@ -56,6 +78,16 @@ open LockWidgets.xcodeproj
 
 Run `xcodegen generate` again after adding files outside Xcode.
 
+| Folder | Contents |
+| --- | --- |
+| `LockWidgets/Model` | Widget kinds, styles and sizes; the saved layout and gallery presets |
+| `LockWidgets/Widgets` | One SwiftUI view per widget, plus the shared card |
+| `LockWidgets/Services` | Data sources: weather, calendar, music, lyrics, system and so on |
+| `LockWidgets/Settings` | The settings window, Layout Studio, Gallery and Setup Guide |
+| `scripts` | Release script and app icon renderer |
+
+Debug builds accept launch arguments for screenshots, such as `-settingsPage studio` or `-previewAtLaunch YES`.
+
 ### Releasing
 
 ```sh
@@ -63,10 +95,15 @@ scripts/release.sh            # signed DMG in dist/
 scripts/release.sh --publish  # also create or update the GitHub release
 ```
 
-The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
+Bump `MARKETING_VERSION` in `project.yml` first. The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
 
 ```sh
 xcrun notarytool store-credentials lockwidgets-notary --apple-id <apple-id> --team-id 4T4AXT6P7X
 ```
 
 The app icon is drawn by `scripts/make-icon.swift`.
+
+## Credits
+
+- [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow) by Lakr Aream, for drawing above the lock screen
+- [Open-Meteo](https://open-meteo.com) for weather

@@ -12,6 +12,7 @@ struct WhatsNewPage: View {
             version: "1.1",
             summary: "Place widgets anywhere, in the size and style you like, with ten new widgets to choose from.",
             items: [
+                ("quote.bubble", "Apple Music lyrics", "Live Lyrics now shows Apple Music's own synced lyrics, timed exactly as in Music."),
                 ("rectangle.3.group", "Layout Studio", "Drag widgets anywhere on the lock screen. Select one to change its size, its style or to remove it."),
                 ("square.grid.2x2", "Layout Gallery", "Seven ready-made layouts, from After Hours to Mission Control."),
                 ("plus.rectangle.on.rectangle", "Widget sizes and styles", "Small, Medium, Wide, Ultra Wide and Large, with live previews when you add a widget."),
@@ -26,7 +27,7 @@ struct WhatsNewPage: View {
             summary: "The first release.",
             items: [
                 ("lock.display", "Widgets on the lock screen", "Clock, Weather, Calendar, Now Playing, Live Lyrics and Battery."),
-                ("quote.bubble", "Live Lyrics", "Time-synced lyrics for Apple Music and Spotify."),
+                ("quote.bubble", "Live Lyrics", "Time-synced lyrics on the lock screen."),
                 ("checkmark.seal", "Signed and notarized", "Installs and opens like any app from the App Store."),
             ]
         ),
