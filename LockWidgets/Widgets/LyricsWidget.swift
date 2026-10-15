@@ -36,26 +36,28 @@ struct LyricsWidget: View {
     private var content: some View {
         switch lyrics.state {
         case .found:
-            TimelineView(.periodic(from: .now, by: 0.25)) { context in
+            TimelineView(.periodic(from: .now, by: 0.2)) { context in
                 lines(current: lyrics.currentIndex(at: music.position(at: context.date)))
             }
         case .loading, .idle:
-            WidgetPlaceholder(symbol: "ellipsis", message: "Finding lyrics…")
-        case .instrumental:
-            WidgetPlaceholder(symbol: "music.note", message: "Instrumental")
-        case .notFound:
-            WidgetPlaceholder(symbol: "text.badge.xmark", message: "No synced lyrics for this song.")
+            WidgetPlaceholder(symbol: "ellipsis", message: "Getting lyrics from Apple Music…")
+        case .unavailable:
+            WidgetPlaceholder(symbol: "quote.bubble", message: "Apple Music has no lyrics for this song.")
+        case .otherPlayer:
+            WidgetPlaceholder(symbol: "music.note", message: "Lyrics come from Apple Music.")
         }
     }
 
     private func lines(current: Int?) -> some View {
         let all = lyrics.lines
+        guard !all.isEmpty else { return AnyView(EmptyView()) }
+        // Between lines (an instrumental break) nothing is lit, like in Music.
         let index = current ?? -1
         let before = instance.size == .medium ? 0 : 1
         let window = all[max(index - before, 0) ..< min(index + 1 + upcomingLines, all.count)]
 
         // Keyed by line so a change slides lines up instead of swapping text in place.
-        return VStack(alignment: .leading, spacing: 8) {
+        return AnyView(VStack(alignment: .leading, spacing: 8) {
             ForEach(window) { item in
                 // Same font for every line so nothing re-wraps mid-animation; only brightness changes.
                 Text(item.text.isEmpty ? "♪" : item.text)
@@ -67,6 +69,6 @@ struct LyricsWidget: View {
                     .transition(.opacity)
             }
         }
-        .animation(.easeInOut(duration: 0.35), value: index)
+        .animation(.easeInOut(duration: 0.35), value: index))
     }
 }

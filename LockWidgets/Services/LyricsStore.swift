@@ -1,26 +1,34 @@
 import Combine
 import Foundation
 
-/// Time-synced lyrics for the current track from LRCLIB (free, no API key).
+/// Apple Music's synced lyrics for the current track, timed against the playback position.
 final class LyricsStore: ObservableObject {
     static let shared = LyricsStore()
 
     struct Line: Identifiable, Equatable {
         let id: Int
-        let time: Double
+        let begin: Double
+        let end: Double
         let text: String
     }
 
     enum State: Equatable {
-        case idle, loading, found, notFound, instrumental
+        case idle
+        case loading
+        case found
+        /// Music has no lyrics for this song.
+        case unavailable
+        /// Lyrics only come from Apple Music.
+        case otherPlayer
     }
 
     @Published private(set) var lines: [Line] = []
     @Published private(set) var state = State.idle
 
-    private var cache: [String: (State, [Line])] = [:]
     private var subscription: AnyCancellable?
-    private var task: Task<Void, Never>?
+    private var retry: Timer?
+    private var cache: [String: [Line]] = [:]
+    private let queue = DispatchQueue(label: "LockWidgets.Lyrics")
 
     private init() {
         subscription = NowPlayingStore.shared.$track
@@ -29,127 +37,58 @@ final class LyricsStore: ObservableObject {
             .sink { [weak self] track in self?.load(track) }
     }
 
-    /// Index of the line being sung at `position`, nil before the first line.
+    /// Index of the line being sung at `position`; nil before the first line and during instrumental breaks.
     func currentIndex(at position: Double) -> Int? {
-        // Show each line a moment early; it reads better than lagging behind the singer.
-        let target = position + 0.3
-        var low = 0
-        var high = lines.count - 1
-        var result: Int?
-        while low <= high {
-            let mid = (low + high) / 2
-            if lines[mid].time <= target {
-                result = mid
-                low = mid + 1
-            } else {
-                high = mid - 1
-            }
-        }
-        return result
+        guard let index = lines.lastIndex(where: { $0.begin <= position + 0.15 }) else { return nil }
+        let line = lines[index]
+        let nextBegin = index + 1 < lines.count ? lines[index + 1].begin : .infinity
+        // A long gap after a line has ended is a break, as Music shows it.
+        if position > line.end + 0.6, nextBegin - line.end > 4 { return nil }
+        return index
     }
 
     private func load(_ track: NowPlayingStore.Track?) {
-        task?.cancel()
+        retry?.invalidate()
         guard let track else {
             lines = []
             state = .idle
             return
         }
-        let key = "\(track.player.rawValue):\(track.id)"
+        guard track.player == .music else {
+            lines = []
+            state = .otherPlayer
+            return
+        }
+        let key = track.id
         if let cached = cache[key] {
-            (state, lines) = cached
+            lines = cached
+            state = .found
             return
         }
         lines = []
         state = .loading
-        task = Task { @MainActor [weak self] in
-            let result = await Self.fetch(track)
-            guard !Task.isCancelled, let self else { return }
-            cache[key] = result
-            (state, lines) = result
-        }
+        attempt(track, key: key, remaining: 10)
     }
 
-    // MARK: LRCLIB
-
-    private struct Record: Decodable {
-        let duration: Double?
-        let instrumental: Bool?
-        let syncedLyrics: String?
-    }
-
-    private static func fetch(_ track: NowPlayingStore.Track) async -> (State, [Line]) {
-        let exact = await request("get", [
-            "artist_name": track.artist,
-            "track_name": track.title,
-            "album_name": track.album,
-            "duration": String(Int(track.duration.rounded())),
-        ]).flatMap { try? JSONDecoder().decode(Record.self, from: $0) }
-
-        if let exact, let result = parse(exact) { return result }
-
-        // Fall back to a looser search: titles often differ by "(feat. …)" or "- Remastered".
-        let records = await request("search", [
-            "artist_name": track.artist,
-            "track_name": simplified(track.title),
-        ]).flatMap { try? JSONDecoder().decode([Record].self, from: $0) } ?? []
-
-        let closest = records
-            .filter { $0.syncedLyrics?.isEmpty == false || $0.instrumental == true }
-            .filter { abs(($0.duration ?? track.duration) - track.duration) < 8 }
-            .min { abs(($0.duration ?? 0) - track.duration) < abs(($1.duration ?? 0) - track.duration) }
-
-        if let closest, let result = parse(closest) { return result }
-        return (.notFound, [])
-    }
-
-    private static func parse(_ record: Record) -> (State, [Line])? {
-        if record.instrumental == true { return (.instrumental, []) }
-        guard let synced = record.syncedLyrics, !synced.isEmpty else { return nil }
-        let lines = parseLRC(synced)
-        return lines.isEmpty ? nil : (.found, lines)
-    }
-
-    private static func request(_ endpoint: String, _ query: [String: String]) async -> Data? {
-        var components = URLComponents(string: "https://lrclib.net/api/\(endpoint)")!
-        components.queryItems = query.map { URLQueryItem(name: $0.key, value: $0.value) }
-        var request = URLRequest(url: components.url!)
-        request.setValue("LockWidgets/1.0 (https://github.com/victorabuchi/lockwidgets)", forHTTPHeaderField: "User-Agent")
-        guard let (data, response) = try? await URLSession.shared.data(for: request),
-              (response as? HTTPURLResponse)?.statusCode == 200
-        else { return nil }
-        return data
-    }
-
-    private static func simplified(_ title: String) -> String {
-        var result = title
-        for marker in [" (feat", " [feat", " (with", " - "] {
-            if let range = result.range(of: marker, options: .caseInsensitive) {
-                result = String(result[..<range.lowerBound])
+    /// Music fetches lyrics a moment after a song starts, so look a few times before giving up.
+    private func attempt(_ track: NowPlayingStore.Track, key: String, remaining: Int) {
+        queue.async { [weak self] in
+            let found = AppleMusicLyrics.lyrics(title: track.title, artist: track.artist, duration: track.duration)
+            DispatchQueue.main.async {
+                guard let self, NowPlayingStore.shared.track?.id == key else { return }
+                if let found {
+                    let lines = found.enumerated().map { Line(id: $0.offset, begin: $0.element.begin, end: $0.element.end, text: $0.element.text) }
+                    self.cache[key] = lines
+                    self.lines = lines
+                    self.state = .found
+                } else if remaining > 0 {
+                    self.retry = Timer.scheduledTimer(withTimeInterval: 2, repeats: false) { _ in
+                        self.attempt(track, key: key, remaining: remaining - 1)
+                    }
+                } else {
+                    self.state = .unavailable
+                }
             }
         }
-        return result
-    }
-
-    /// Parses "[01:23.45] text" lines. A line may carry several timestamps.
-    static func parseLRC(_ text: String) -> [Line] {
-        let pattern = try! NSRegularExpression(pattern: #"\[(\d+):(\d+(?:\.\d+)?)\]"#)
-        var entries: [(Double, String)] = []
-        for raw in text.components(separatedBy: .newlines) {
-            let range = NSRange(raw.startIndex..., in: raw)
-            let matches = pattern.matches(in: raw, range: range)
-            guard let last = matches.last, let textRange = Range(last.range, in: raw) else { continue }
-            let lyric = raw[textRange.upperBound...].trimmingCharacters(in: .whitespaces)
-            for match in matches {
-                guard let minutes = Range(match.range(at: 1), in: raw).flatMap({ Double(raw[$0]) }),
-                      let seconds = Range(match.range(at: 2), in: raw).flatMap({ Double(raw[$0]) })
-                else { continue }
-                entries.append((minutes * 60 + seconds, lyric))
-            }
-        }
-        return entries
-            .sorted { $0.0 < $1.0 }
-            .enumerated()
-            .map { Line(id: $0.offset, time: $0.element.0, text: $0.element.1) }
     }
 }

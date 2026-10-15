@@ -245,15 +245,25 @@ private struct NowPlayingOptions: View {
 }
 
 private struct LyricsOptions: View {
+    @ObservedObject private var lyrics = LyricsStore.shared
     @AppStorage(SettingsKey.hideMusicWhenIdle) private var hideWhenIdle = true
 
     var body: some View {
         Section {
+            LabeledContent("Now") {
+                switch lyrics.state {
+                case .found: Text("\(lyrics.lines.count) lines for this song").foregroundStyle(.secondary)
+                case .loading: Text("Getting lyrics…").foregroundStyle(.secondary)
+                case .unavailable: Text("No lyrics for this song").foregroundStyle(.secondary)
+                case .otherPlayer: Text("Play something in Apple Music").foregroundStyle(.secondary)
+                case .idle: Text("Nothing playing").foregroundStyle(.secondary)
+                }
+            }
             Toggle("Hide when nothing is playing", isOn: $hideWhenIdle)
         } header: {
-            Text("Lyrics")
+            Text("Apple Music Lyrics")
         } footer: {
-            Text("Time-synced lyrics come from LRCLIB, a free community database. Some songs have no synced lyrics yet.")
+            Text("These are Apple Music's own lyrics, timed line by line exactly as in Music. LockWidgets reads them from Music on this Mac; nothing comes from anywhere else.")
                 .foregroundStyle(.secondary)
         }
     }

@@ -14,6 +14,7 @@ targets:
     sources: [LockWidgets]
     dependencies:
       - package: SkyLightWindow
+      - sdk: libsqlite3.tbd
     info:
       path: LockWidgets/Info.plist
       properties:

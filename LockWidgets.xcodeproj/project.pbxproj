@@ -31,12 +31,14 @@
 		5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50667F8A2F064584A76D173F /* AboutPage.swift */; };
 		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
 		6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88EF4BD9D335A452A827616 /* WidgetPage.swift */; };
+		6E4BE27AABD66521AF6476B8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 91176FBA3F631868316D68E2 /* libsqlite3.tbd */; };
 		7ACEECE3847CAC6E737786F1 /* StickyNotesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F49A7E02926DB1B13364F2 /* StickyNotesPage.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
 		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
 		8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */; };
 		8EE9ADA9CB9906AF5DEE5112 /* LayoutGalleryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */; };
 		8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */; };
+		93F84A20251CE797468415BC /* AppleMusicLyrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */; };
 		940693083BF27989A43B197B /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166765275AD20B49E4DCDBE /* WeatherWidget.swift */; };
 		96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520B6BC02944014CAB7788 /* SettingsWindow.swift */; };
 		9F649597321F6665DB1D7129 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B592C7B3AE19D5764E21A15 /* WidgetView.swift */; };
@@ -46,7 +48,6 @@
 		B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0898E2431D9B5E4809FB335 /* PhotosStore.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */; };
-		CFCEFD4AAE833D1677DDB1D9 /* MusicLyricsReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */; };
 		D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */; };
 		E269AFCAC0D00F660729B5BA /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FB388C82226A174F836470 /* PreferencesMigration.swift */; };
 		E6A7094B55903D1451A0D767 /* PhotosWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = E247A3444F4E8B1630533277 /* PhotosWidget.swift */; };
@@ -64,6 +65,7 @@
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFDEB25E245827A7F447F5B /* DailyBriefWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBriefWidget.swift; sourceTree = "<group>"; };
 		19685DDC575424AFEFDC10DB /* EarthWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthWidget.swift; sourceTree = "<group>"; };
+		1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppleMusicLyrics.swift; sourceTree = "<group>"; };
 		2093942A97379D147BCAD0A4 /* RemindersWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersWidget.swift; sourceTree = "<group>"; };
 		241AC26A12C04E385F4ABA7E /* WidgetKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetKind.swift; sourceTree = "<group>"; };
 		28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = LockWidgets.entitlements; sourceTree = "<group>"; };
@@ -86,11 +88,11 @@
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
 		842E3889C5A24B2CAA914CBF /* WidgetPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPicker.swift; sourceTree = "<group>"; };
-		853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicLyricsReader.swift; sourceTree = "<group>"; };
 		87979B3677A77236CBF7E633 /* AppearancePage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePage.swift; sourceTree = "<group>"; };
 		8A513FE231239454ED6ED159 /* StocksStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksStore.swift; sourceTree = "<group>"; };
 		8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherStore.swift; sourceTree = "<group>"; };
 		8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockWidgetsApp.swift; sourceTree = "<group>"; };
+		91176FBA3F631868316D68E2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		944261E2F34003592A329E1D /* ClockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockWidget.swift; sourceTree = "<group>"; };
 		A0898E2431D9B5E4809FB335 /* PhotosStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosStore.swift; sourceTree = "<group>"; };
 		A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingWidget.swift; sourceTree = "<group>"; };
@@ -120,6 +122,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */,
+				6E4BE27AABD66521AF6476B8 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -168,10 +171,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		285307FFD2059E8FC72021F9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				91176FBA3F631868316D68E2 /* libsqlite3.tbd */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4662FE3686624BD2F9ED9C72 = {
 			isa = PBXGroup;
 			children = (
 				4BD2B4859C13787F71997E6C /* LockWidgets */,
+				285307FFD2059E8FC72021F9 /* Frameworks */,
 				207F3E4DB7C3A9F38C6B190D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -179,11 +191,11 @@
 		4B39CE92D5FC6523795D11A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */,
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
 				406E0CD205C3061CF6EFE586 /* EarthStore.swift */,
 				EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */,
-				853290AF1F5B996C3DA8FEB4 /* MusicLyricsReader.swift */,
 				51BC3ABA91FF75E22A9622A7 /* NewsStore.swift */,
 				5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */,
 				A0898E2431D9B5E4809FB335 /* PhotosStore.swift */,
@@ -310,6 +322,7 @@
 			files = (
 				5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */,
 				F251FDA54218560388619A49 /* AppearancePage.swift in Sources */,
+				93F84A20251CE797468415BC /* AppleMusicLyrics.swift in Sources */,
 				518E03FAE3F3E7B82E76716F /* BatteryMonitor.swift in Sources */,
 				2FFC8D696E8C781E6B2C6D42 /* BatteryWidget.swift in Sources */,
 				07AE050F531B1D09BB61F393 /* CalendarStore.swift in Sources */,
@@ -325,7 +338,6 @@
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
 				072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */,
 				D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */,
-				CFCEFD4AAE833D1677DDB1D9 /* MusicLyricsReader.swift in Sources */,
 				32752994212DB888A0358D54 /* NewsStore.swift in Sources */,
 				FDCBF09357F365705EEB40C7 /* NewsWidget.swift in Sources */,
 				8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */,
