@@ -23,6 +23,7 @@ enum SettingsKey {
     static let islandHotspot = "islandHotspot"
     static let islandMeetings = "islandMeetings"
     static let islandBattery = "islandBattery"
+    static let islandNotifications = "islandNotifications"
 
     /// Follows the region (°F in the US) until the user picks a unit.
     static var defaultFahrenheit: Bool { Locale.current.measurementSystem == .us }

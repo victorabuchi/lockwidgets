@@ -55,13 +55,13 @@ struct IslandView: View {
 
     private func island(_ size: CGSize) -> some View {
         ZStack(alignment: .top) {
-            IslandShape(bottomRadius: model.isExpanded ? 42 : size.height * 0.42)
+            IslandShape(bottomRadius: model.isExpanded || model.primary?.isBanner == true ? 36 : size.height * 0.42)
                 .fill(Color.black)
                 .frame(width: size.width, height: size.height)
                 .shadow(color: .black.opacity(model.isExpanded ? 0.5 : 0), radius: 20, y: 8)
             content
                 .frame(width: size.width, height: size.height, alignment: .top)
-                .clipShape(IslandShape(bottomRadius: model.isExpanded ? 42 : size.height * 0.42))
+                .clipShape(IslandShape(bottomRadius: model.isExpanded || model.primary?.isBanner == true ? 36 : size.height * 0.42))
         }
         .frame(width: size.width, height: size.height)
         .contentShape(Rectangle())
@@ -83,6 +83,7 @@ struct IslandView: View {
             case (.hotspot, false): HotspotCompact(notch: notch)
             case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
             case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
+            case let (.notification(item), _): NotificationBanner(notch: notch, item: item)
             case (nil, _): EmptyView()
             }
         }

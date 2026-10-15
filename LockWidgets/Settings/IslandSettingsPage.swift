@@ -8,6 +8,8 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandTimers) private var timers = true
     @AppStorage(SettingsKey.islandHotspot) private var hotspot = true
     @AppStorage(SettingsKey.islandBattery) private var battery = true
+    @AppStorage(SettingsKey.islandNotifications) private var notifications = true
+    @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
         Form {
@@ -25,6 +27,28 @@ struct IslandSettingsPage: View {
             Section {
                 Toggle("Show the Dynamic Island", isOn: $enabled)
             }
+            Section {
+                Toggle(isOn: $notifications) {
+                    Text("Notifications")
+                    Text("Every app's notifications drop down from the island.")
+                }
+                LabeledContent {
+                    switch notificationStore.status {
+                    case .connected:
+                        Label("Connected", systemImage: "checkmark.circle.fill").foregroundStyle(.green)
+                    case .needsAccess:
+                        Button("Open Full Disk Access") { notificationStore.openFullDiskAccessSettings() }
+                    case let .failed(message):
+                        Text(message).foregroundStyle(.orange).textSelection(.enabled)
+                    }
+                } label: {
+                    Text("Full Disk Access")
+                    Text("macOS keeps notifications in a protected file. Turn on LockWidgets in Full Disk Access, then reopen LockWidgets.")
+                }
+            } header: {
+                Text("Notifications")
+            }
+
             Section("Activities") {
                 Toggle(isOn: $music) {
                     Text("Now Playing")

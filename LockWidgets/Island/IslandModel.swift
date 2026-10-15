@@ -12,12 +12,19 @@ enum IslandActivity: Equatable {
     // Brief, shown for a few seconds over everything else.
     case charging(level: Int, pluggedIn: Bool)
     case lowBattery(level: Int)
+    case notification(NotificationStore.Item)
 
     var isTransient: Bool {
         switch self {
-        case .charging, .lowBattery: true
+        case .charging, .lowBattery, .notification: true
         default: false
         }
+    }
+
+    /// Banners drop down below the notch instead of sitting beside it.
+    var isBanner: Bool {
+        if case .notification = self { return true }
+        return false
     }
 
     /// Width either side of the notch in the compact island.
@@ -58,6 +65,8 @@ final class IslandModel: ObservableObject {
 
     private var transient: IslandActivity?
     private var transientWork: DispatchWorkItem?
+    /// Brief activities waiting their turn, so a burst of notifications plays one after another.
+    private var pending: [(IslandActivity, Double)] = []
     /// The activity the user brought forward by tapping the bubble.
     private var pinned: IslandActivity?
     private var subscriptions: Set<AnyCancellable> = []
@@ -102,6 +111,11 @@ final class IslandModel: ObservableObject {
         NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
             .sink { [weak self] _ in self?.updateNotch() }
             .store(in: &subscriptions)
+
+        NotificationStore.shared.onNotification = { [weak self] item in
+            guard self?.setting(SettingsKey.islandNotifications) == true else { return }
+            self?.show(.notification(item), for: 5)
+        }
     }
 
     private func setting(_ key: String) -> Bool {
@@ -141,15 +155,32 @@ final class IslandModel: ObservableObject {
 
     /// Shows a brief activity over everything else, then returns to what was there.
     func show(_ activity: IslandActivity, for seconds: Double) {
+        // Notifications queue behind one another; status alerts replace whatever brief thing is showing.
+        if transient != nil, activity.isBanner {
+            pending.append((activity, seconds))
+            return
+        }
         transientWork?.cancel()
+        isExpanded = false
         transient = activity
         refresh()
         let work = DispatchWorkItem { [weak self] in
-            self?.transient = nil
-            self?.refresh()
+            guard let self else { return }
+            transient = nil
+            if !pending.isEmpty {
+                let (next, duration) = pending.removeFirst()
+                show(next, for: duration)
+            } else {
+                refresh()
+            }
         }
         transientWork = work
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds, execute: work)
+    }
+
+    /// Dismisses the current banner early, as when it is tapped.
+    func dismissTransient() {
+        transientWork?.perform()
     }
 
     /// Tapping the bubble brings its activity into the island.
@@ -182,6 +213,9 @@ final class IslandModel: ObservableObject {
     /// Size of the black shape for the current state.
     var size: CGSize {
         guard let primary else { return notch }
+        if primary.isBanner {
+            return CGSize(width: max(notch.width + 250, 450), height: notch.height + 74)
+        }
         if isExpanded {
             // Music uses the space beside the camera, so its card is measured from the top edge.
             if primary == .music { return CGSize(width: max(notch.width + 250, 450), height: 248) }
