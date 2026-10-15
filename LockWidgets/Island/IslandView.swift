@@ -49,21 +49,25 @@ struct IslandView: View {
         .animation(.spring(response: 0.5, dampingFraction: 0.72), value: model.isExpanded)
         .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.primary)
         .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.secondary)
-        .animation(.spring(response: 0.3, dampingFraction: 0.7), value: model.isHovering)
-        .environment(\.colorScheme, .dark)
+                .environment(\.colorScheme, .dark)
     }
 
     private func island(_ size: CGSize) -> some View {
         ZStack(alignment: .top) {
-            IslandShape(bottomRadius: model.isExpanded || model.primary?.isBanner == true ? 36 : size.height * 0.42)
+            IslandShape(bottomRadius: model.bottomRadius)
                 .fill(Color.black)
                 .frame(width: size.width, height: size.height)
                 .shadow(color: .black.opacity(model.isExpanded ? 0.5 : 0), radius: 20, y: 8)
             content
                 .frame(width: size.width, height: size.height, alignment: .top)
-                .clipShape(IslandShape(bottomRadius: model.isExpanded || model.primary?.isBanner == true ? 36 : size.height * 0.42))
+                .clipShape(IslandShape(bottomRadius: model.bottomRadius))
         }
-        .frame(width: size.width, height: size.height)
+        // Width and height move on different springs: closing, the card narrows first and then rises
+        // into the notch (a genie-like pull); opening, it widens first and then drops down.
+        .frame(height: size.height)
+        .animation(.spring(response: 0.48, dampingFraction: 0.82), value: size.height)
+        .frame(width: size.width)
+        .animation(.spring(response: 0.32, dampingFraction: 0.86), value: size.width)
         .contentShape(Rectangle())
         .onTapGesture { model.toggleExpanded() }
     }

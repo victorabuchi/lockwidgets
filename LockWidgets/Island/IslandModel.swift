@@ -221,14 +221,23 @@ final class IslandModel: ObservableObject {
             if primary == .music { return CGSize(width: max(notch.width + 250, 450), height: 248) }
             return CGSize(width: max(notch.width + 260, 470), height: notch.height + primary.expandedHeight)
         }
-        return CGSize(width: notch.width + primary.compactSide * 2 + (isHovering ? 8 : 0), height: notch.height + (isHovering ? 3 : 0))
+        // Exactly the notch's height, only widened, so it reads as the notch itself growing.
+        return CGSize(width: notch.width + primary.compactSide * 2, height: notch.height)
     }
 
     /// Diameter of the side bubble, and the gap before it.
     var bubble: CGFloat { notch.height }
     static let bubbleGap: CGFloat = 6
 
-    var showsBubble: Bool { secondary != nil && !isExpanded }
+    var showsBubble: Bool { secondary != nil && !isExpanded && primary?.isBanner != true }
+
+    /// The notch's own bottom corner radius, used whenever the island is closed.
+    static let notchRadius: CGFloat = 10
+
+    var bottomRadius: CGFloat {
+        if isExpanded || primary?.isBanner == true { return 36 }
+        return Self.notchRadius
+    }
 
     func toggleExpanded() {
         guard primary?.canExpand == true else { return }
