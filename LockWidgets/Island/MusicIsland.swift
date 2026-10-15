@@ -2,64 +2,87 @@ import SwiftUI
 
 struct MusicCompact: View {
     let notch: CGSize
+    var namespace: Namespace.ID
     @ObservedObject private var music = NowPlayingStore.shared
 
     var body: some View {
-        CompactSlots(notch: notch) {
+        CompactSlots(notch: notch, side: IslandActivity.music.compactSide) {
             Artwork(image: music.artwork, size: notch.height - 12, cornerRadius: 6)
+                .matchedGeometryEffect(id: "artwork", in: namespace)
         } trailing: {
             Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
                 .frame(width: 22, height: 14)
+                .matchedGeometryEffect(id: "waveform", in: namespace)
         }
     }
 }
 
+/// The full card. Like the iPhone's, the artwork and waveform grow out of the compact island into the
+/// top corners, beside the camera, and the song, progress and controls appear beneath them.
 struct MusicExpanded: View {
     let notch: CGSize
+    var namespace: Namespace.ID
     @ObservedObject private var music = NowPlayingStore.shared
     @ObservedObject private var lyrics = LyricsStore.shared
     @AppStorage(SettingsKey.islandLyrics) private var showLyrics = true
 
+    private var tint: Color { Color(nsColor: music.artworkColor ?? .systemPink) }
+
     var body: some View {
         if let track = music.track {
-            VStack(spacing: 10) {
-                HStack(alignment: .center, spacing: 14) {
-                    Artwork(image: music.artwork, size: 64, cornerRadius: 14)
-                    VStack(alignment: .leading, spacing: 2) {
-                        Text(track.title)
-                            .font(.system(size: 15, weight: .semibold))
-                            .lineLimit(1)
-                        Text(track.artist)
-                            .font(.system(size: 13, weight: .medium))
-                            .foregroundStyle(.white.opacity(0.6))
-                            .lineLimit(1)
-                        if showLyrics {
-                            lyricLine
-                        }
-                    }
-                    Spacer(minLength: 0)
-                    Waveform(color: Color(nsColor: music.artworkColor ?? .systemPink), playing: music.isPlaying)
-                        .frame(width: 26, height: 18)
+            VStack(alignment: .leading, spacing: 0) {
+                HStack(alignment: .top) {
+                    Artwork(image: music.artwork, size: 58, cornerRadius: 13)
+                        .matchedGeometryEffect(id: "artwork", in: namespace)
+                    Spacer()
+                    Waveform(color: tint, playing: music.isPlaying)
+                        .frame(width: 26, height: 20)
+                        .matchedGeometryEffect(id: "waveform", in: namespace)
+                        .padding(.top, 8)
                 }
+                .frame(height: 58)
+
+                VStack(alignment: .leading, spacing: 1) {
+                    Text(track.title)
+                        .font(.system(size: 17, weight: .bold))
+                        .lineLimit(1)
+                    Text(track.artist)
+                        .font(.system(size: 15, weight: .medium))
+                        .foregroundStyle(.white.opacity(0.55))
+                        .lineLimit(1)
+                    if showLyrics {
+                        lyricLine
+                    }
+                }
+                .padding(.top, 12)
+
                 TimelineView(.periodic(from: .now, by: 0.5)) { context in
                     let position = music.position(at: context.date)
-                    HStack(spacing: 8) {
+                    HStack(spacing: 10) {
                         Text(position.playbackTime)
-                        ProgressBar(fraction: track.duration > 0 ? position / track.duration : 0, height: 5)
+                        ProgressBar(fraction: track.duration > 0 ? position / track.duration : 0, height: 4)
                         Text("-" + (track.duration - position).playbackTime)
                     }
                     .font(.system(size: 11, weight: .semibold).monospacedDigit())
-                    .foregroundStyle(.white.opacity(0.55))
+                    .foregroundStyle(.white.opacity(0.5))
                 }
-                HStack(spacing: 44) {
-                    control("backward.fill", 18) { music.send(.previous) }
-                    control(music.isPlaying ? "pause.fill" : "play.fill", 26) { music.send(.playPause) }
-                    control("forward.fill", 18) { music.send(.next) }
+                .padding(.top, 12)
+
+                HStack {
+                    Spacer()
+                    control("backward.fill", 22) { music.send(.previous) }
+                    Spacer()
+                    control(music.isPlaying ? "pause.fill" : "play.fill", 30) { music.send(.playPause) }
+                    Spacer()
+                    control("forward.fill", 22) { music.send(.next) }
+                    Spacer()
                 }
+                .padding(.top, 10)
             }
             .foregroundStyle(.white)
-            .padding(.horizontal, 26)
-            .padding(.top, notch.height + 8)
+            .padding(.horizontal, 24)
+            .padding(.top, 10)
+            .padding(.bottom, 16)
         }
     }
 
@@ -68,23 +91,24 @@ struct MusicExpanded: View {
         TimelineView(.periodic(from: .now, by: 0.25)) { context in
             if lyrics.state == .found, let index = lyrics.currentIndex(at: music.position(at: context.date)) {
                 Text(lyrics.lines[index].text)
-                    .font(.system(size: 12, weight: .semibold))
-                    .foregroundStyle(Color(nsColor: music.artworkColor ?? .white))
+                    .font(.system(size: 13, weight: .semibold))
+                    .foregroundStyle(tint)
                     .lineLimit(1)
                     .id(index)
                     .transition(.push(from: .bottom))
                     .animation(.easeInOut(duration: 0.3), value: index)
             }
         }
-        .frame(height: 16, alignment: .leading)
+        .frame(height: 18, alignment: .leading)
         .clipped()
+        .padding(.top, 3)
     }
 
     private func control(_ symbol: String, _ size: CGFloat, action: @escaping () -> Void) -> some View {
         Button(action: action) {
             Image(systemName: symbol)
-                .font(.system(size: size, weight: .semibold))
-                .frame(width: 40, height: 32)
+                .font(.system(size: size, weight: .bold))
+                .frame(width: 52, height: 40)
                 .contentShape(Rectangle())
         }
         .buttonStyle(IslandButtonStyle())

@@ -28,58 +28,90 @@ struct IslandShape: Shape {
 
 struct IslandView: View {
     @ObservedObject private var model = IslandModel.shared
+    @Namespace private var namespace
 
     var body: some View {
         let size = model.size
-        ZStack(alignment: .top) {
-            IslandShape(bottomRadius: model.isExpanded ? 34 : size.height * 0.42)
-                .fill(Color.black)
-                .frame(width: size.width, height: size.height)
-                .shadow(color: .black.opacity(model.isExpanded ? 0.45 : 0), radius: 16, y: 6)
-            content
-                .frame(width: size.width, height: size.height, alignment: .top)
-                .clipShape(IslandShape(bottomRadius: model.isExpanded ? 34 : size.height * 0.42))
+        HStack(alignment: .top, spacing: IslandModel.bubbleGap) {
+            // Keeps the island centred on the notch when the bubble shows.
+            if model.showsBubble {
+                Color.clear.frame(width: model.bubble, height: 1)
+            }
+            island(size)
+            if model.showsBubble, let secondary = model.secondary {
+                Bubble(activity: secondary, notch: model.notch)
+                    .frame(width: model.bubble, height: model.bubble)
+                    .onTapGesture { model.promoteSecondary() }
+                    .transition(.scale(scale: 0.3, anchor: .leading).combined(with: .opacity))
+            }
         }
-        .frame(width: size.width, height: size.height)
-        .contentShape(Rectangle())
-        .onTapGesture { model.toggleExpanded() }
         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
-        .animation(.spring(response: 0.42, dampingFraction: 0.8), value: model.isExpanded)
+        .animation(.spring(response: 0.5, dampingFraction: 0.72), value: model.isExpanded)
         .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.primary)
+        .animation(.spring(response: 0.35, dampingFraction: 0.75), value: model.secondary)
         .animation(.spring(response: 0.3, dampingFraction: 0.7), value: model.isHovering)
         .environment(\.colorScheme, .dark)
     }
 
+    private func island(_ size: CGSize) -> some View {
+        ZStack(alignment: .top) {
+            IslandShape(bottomRadius: model.isExpanded ? 42 : size.height * 0.42)
+                .fill(Color.black)
+                .frame(width: size.width, height: size.height)
+                .shadow(color: .black.opacity(model.isExpanded ? 0.5 : 0), radius: 20, y: 8)
+            content
+                .frame(width: size.width, height: size.height, alignment: .top)
+                .clipShape(IslandShape(bottomRadius: model.isExpanded ? 42 : size.height * 0.42))
+        }
+        .frame(width: size.width, height: size.height)
+        .contentShape(Rectangle())
+        .onTapGesture { model.toggleExpanded() }
+    }
+
     @ViewBuilder
     private var content: some View {
-        switch model.primary {
-        case .music:
-            if model.isExpanded {
-                MusicExpanded(notch: model.notch)
-                    .transition(.opacity.combined(with: .scale(scale: 0.9, anchor: .top)))
-            } else {
-                MusicCompact(notch: model.notch)
-                    .transition(.opacity)
+        let notch = model.notch
+        Group {
+            switch (model.primary, model.isExpanded) {
+            case (.music, true): MusicExpanded(notch: notch, namespace: namespace)
+            case (.music, false): MusicCompact(notch: notch, namespace: namespace)
+            case (.timer, true): TimerExpanded(notch: notch)
+            case (.timer, false): TimerCompact(notch: notch)
+            case (.meeting, true): MeetingExpanded(notch: notch)
+            case (.meeting, false): MeetingCompact(notch: notch)
+            case (.hotspot, true): HotspotExpanded(notch: notch)
+            case (.hotspot, false): HotspotCompact(notch: notch)
+            case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
+            case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
+            case (nil, _): EmptyView()
             }
-        case nil:
-            EmptyView()
         }
+        .transition(.asymmetric(
+            insertion: .opacity.animation(.easeOut(duration: 0.25).delay(0.08)),
+            removal: .opacity.animation(.easeIn(duration: 0.12))
+        ))
+        .id(contentID)
+    }
+
+    private var contentID: String {
+        "\(String(describing: model.primary))-\(model.isExpanded)"
     }
 }
 
 /// Left and right of the notch, the way the iPhone island splits around the camera.
 struct CompactSlots<Leading: View, Trailing: View>: View {
     let notch: CGSize
+    var side: CGFloat = 44
     @ViewBuilder var leading: Leading
     @ViewBuilder var trailing: Trailing
 
     var body: some View {
         HStack(spacing: 0) {
             leading
-                .frame(width: IslandModel.compactSide, alignment: .center)
+                .frame(width: side, alignment: .center)
             Spacer(minLength: notch.width)
             trailing
-                .frame(width: IslandModel.compactSide, alignment: .center)
+                .frame(width: side, alignment: .center)
         }
         .padding(.horizontal, 6)
         .frame(height: notch.height)

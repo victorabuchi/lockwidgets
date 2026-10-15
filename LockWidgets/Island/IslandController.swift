@@ -42,7 +42,33 @@ final class IslandController {
         }) {
             monitors.append(local)
         }
+        // Open the island on mouse-down at the AppKit level, so the first click always counts
+        // even though LockWidgets is in the background. Clicks inside the open card go to its buttons.
+        if let clicks = NSEvent.addLocalMonitorForEvents(matching: .leftMouseDown, handler: { [weak self] event in
+            guard let self, event.window === panel else { return event }
+            return handleClick(event) ? nil : event
+        }) {
+            monitors.append(clicks)
+        }
         update()
+    }
+
+    /// Returns true when the click was used to open the island or swap in the bubble.
+    private func handleClick(_: NSEvent) -> Bool {
+        let model = IslandModel.shared
+        guard !model.isExpanded, let screen = IslandModel.screen else { return false }
+        let location = NSEvent.mouseLocation
+        let size = model.size
+        let island = NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
+        if island.insetBy(dx: -4, dy: -4).contains(location) {
+            model.toggleExpanded()
+            return true
+        }
+        if model.showsBubble, location.x > island.maxX {
+            model.promoteSecondary()
+            return true
+        }
+        return false
     }
 
     private func update() {
@@ -79,11 +105,16 @@ final class IslandController {
         panel.setFrame(NSRect(x: frame.midX - canvas.width / 2, y: frame.maxY - canvas.height, width: canvas.width, height: canvas.height), display: true)
     }
 
-    /// The island's current rectangle in screen coordinates.
+    /// The island's current rectangle in screen coordinates, including the side bubble.
     private var islandRect: NSRect {
         guard let screen = IslandModel.screen else { return .zero }
-        let size = IslandModel.shared.size
-        return NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
+        let model = IslandModel.shared
+        let size = model.size
+        var rect = NSRect(x: screen.frame.midX - size.width / 2, y: screen.frame.maxY - size.height, width: size.width, height: size.height)
+        if model.showsBubble {
+            rect.size.width += IslandModel.bubbleGap + model.bubble
+        }
+        return rect
     }
 
     private func trackMouse() {

@@ -4,6 +4,10 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandEnabled) private var enabled = true
     @AppStorage(SettingsKey.islandMusic) private var music = true
     @AppStorage(SettingsKey.islandLyrics) private var lyrics = true
+    @AppStorage(SettingsKey.islandMeetings) private var meetings = true
+    @AppStorage(SettingsKey.islandTimers) private var timers = true
+    @AppStorage(SettingsKey.islandHotspot) private var hotspot = true
+    @AppStorage(SettingsKey.islandBattery) private var battery = true
 
     var body: some View {
         Form {
@@ -31,6 +35,26 @@ struct IslandSettingsPage: View {
                     Text("The current Apple Music lyric under the song title.")
                 }
                 .disabled(!music)
+                Toggle(isOn: $meetings) {
+                    Text("Calls and meetings")
+                    Text("Zoom meetings, plus FaceTime, Teams, Meet and others while the mic or camera is on.")
+                }
+                Toggle(isOn: $timers) {
+                    Text("Timers")
+                    Text("The Pomodoro and Stopwatch while they run.")
+                }
+                Toggle(isOn: $hotspot) {
+                    Text("Personal Hotspot")
+                    Text("While your Mac is on your iPhone's hotspot.")
+                }
+                Toggle(isOn: $battery) {
+                    Text("Charging and low battery")
+                    Text("When you plug in or unplug, and at 20% and 10%.")
+                }
+            }
+            Section {
+                Text("When two things are live, the second sits in a bubble beside the island. Tap the bubble to swap.")
+                    .foregroundStyle(.secondary)
             }
         }
         .formStyle(.grouped)
@@ -40,14 +64,15 @@ struct IslandSettingsPage: View {
 /// A static drawing of the compact island for the settings page.
 private struct IslandPreview: View {
     @ObservedObject private var music = NowPlayingStore.shared
+    @Namespace private var namespace
 
     var body: some View {
         let notch = CGSize(width: 190, height: 32)
         ZStack {
             IslandShape(bottomRadius: 14)
                 .fill(Color.black)
-                .frame(width: notch.width + IslandModel.compactSide * 2, height: notch.height)
-            MusicCompact(notch: notch)
+                .frame(width: notch.width + IslandActivity.music.compactSide * 2, height: notch.height)
+            MusicCompact(notch: notch, namespace: namespace)
         }
     }
 }

@@ -35,6 +35,7 @@
 		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
 		6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88EF4BD9D335A452A827616 /* WidgetPage.swift */; };
 		6E4BE27AABD66521AF6476B8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 91176FBA3F631868316D68E2 /* libsqlite3.tbd */; };
+		72622F7F7AD016E9591D15C9 /* StatusIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */; };
 		7ACEECE3847CAC6E737786F1 /* StickyNotesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F49A7E02926DB1B13364F2 /* StickyNotesPage.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
 		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
@@ -52,6 +53,7 @@
 		B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0898E2431D9B5E4809FB335 /* PhotosStore.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */; };
+		CD51DB4356E8C25BAA8591CB /* StatusMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D20AD676D5BD191B77CCEB /* StatusMonitor.swift */; };
 		D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */; };
 		E269AFCAC0D00F660729B5BA /* PreferencesMigration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FB388C82226A174F836470 /* PreferencesMigration.swift */; };
 		E3A39614A198C8D439541BDD /* IslandModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D896622CD53F80E294F62C /* IslandModel.swift */; };
@@ -109,11 +111,13 @@
 		A99106C5F26776FAC5A68FE4 /* StocksWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksWidget.swift; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C072D9FA5183B596ABFBA02B /* MusicIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicIsland.swift; sourceTree = "<group>"; };
+		C0D20AD676D5BD191B77CCEB /* StatusMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMonitor.swift; sourceTree = "<group>"; };
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
 		C6C4166E066E91470CCA71C3 /* RemindersStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersStore.swift; sourceTree = "<group>"; };
 		C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGalleryPage.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidget.swift; sourceTree = "<group>"; };
+		DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIsland.swift; sourceTree = "<group>"; };
 		E1A65F02971426C626E09C01 /* SetupGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupGuide.swift; sourceTree = "<group>"; };
 		E247A3444F4E8B1630533277 /* PhotosWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosWidget.swift; sourceTree = "<group>"; };
 		E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetCard.swift; sourceTree = "<group>"; };
@@ -211,6 +215,7 @@
 				A0898E2431D9B5E4809FB335 /* PhotosStore.swift */,
 				00FB388C82226A174F836470 /* PreferencesMigration.swift */,
 				C6C4166E066E91470CCA71C3 /* RemindersStore.swift */,
+				C0D20AD676D5BD191B77CCEB /* StatusMonitor.swift */,
 				8A513FE231239454ED6ED159 /* StocksStore.swift */,
 				3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */,
 				59D421F3DF3559273A21EB63 /* TimerStore.swift */,
@@ -243,6 +248,7 @@
 				23D896622CD53F80E294F62C /* IslandModel.swift */,
 				E76A8A810247D9D17F9128BA /* IslandView.swift */,
 				C072D9FA5183B596ABFBA02B /* MusicIsland.swift */,
+				DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */,
 			);
 			path = Island;
 			sourceTree = "<group>";
@@ -379,6 +385,8 @@
 				5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */,
 				96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */,
 				28444C241B56E75429328FED /* SetupGuide.swift in Sources */,
+				72622F7F7AD016E9591D15C9 /* StatusIsland.swift in Sources */,
+				CD51DB4356E8C25BAA8591CB /* StatusMonitor.swift in Sources */,
 				498525240AF04CC22C138ECB /* StickyNoteWidget.swift in Sources */,
 				7ACEECE3847CAC6E737786F1 /* StickyNotesPage.swift in Sources */,
 				576D5B2ABF3B13EF4189F685 /* StocksStore.swift in Sources */,
