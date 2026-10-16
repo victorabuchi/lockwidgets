@@ -13,19 +13,21 @@
 <meta property="og:description" content="Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island, with Apple Music's own lyrics. Free for macOS 15 and later.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/icon.png">
-<meta name="theme-color" content="#08091a">
+<meta name="theme-color" content="#090a1c">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <style>
-/* Layout: the page is a Mac at night. The header is its menu bar with the notch in the middle; the hero is
-   the lock screen itself, on a silky wallpaper, with the island at the notch. */
+/* Layout: the page is a Mac at night, in the colours of the Notchlight icon (blue into violet into orange).
+   The header is its menu bar with the notch in the middle; the hero is the lock screen itself. */
 :root {
-  --night: #08091a;
-  --night-2: #0f1129;
+  --night: #090a1c;
+  --night-2: #10122c;
   --ink: #eef0ff;
-  --muted: #a7abcd;
-  --faint: #70749e;
-  --cream: #f3e7d8;
-  --violet: #8c6bff;
+  --muted: #a9add0;
+  --faint: #73779f;
+  --blue: #3d6bff;
+  --violet: #8c4dff;
+  --orange: #ff7a45;
+  --glow: linear-gradient(115deg, #3d6bff, #8c4dff 50%, #ff7a45);
   --line: rgba(220, 228, 255, 0.12);
   --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --body: "Figtree", -apple-system, "Helvetica Neue", sans-serif;
@@ -46,8 +48,9 @@ h2 { font-size: clamp(32px, 4.6vw, 52px); font-weight: 750; }
 h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.01em; }
 p { margin: 0; }
 .lede { color: var(--muted); font-size: clamp(17px, 1.6vw, 20px); max-width: 60ch; }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); }
-:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; border-radius: 6px; }
+.eyebrow { justify-self: start; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.glow-text { background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:focus-visible { outline: 2px solid #b39cff; outline-offset: 3px; border-radius: 6px; }
 
 /* Menu bar: the brand on the left, links and download on the right, the notch between them. */
 .bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 80%, transparent); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-bottom: 1px solid var(--line); }
@@ -59,41 +62,39 @@ p { margin: 0; }
 .nav { display: flex; gap: 20px; font-size: 15px; font-weight: 500; }
 .nav a { text-decoration: none; color: var(--muted); }
 .nav a:hover { color: var(--ink); }
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 650; text-decoration: none; white-space: nowrap; }
-.button.small { padding: 8px 16px; font-size: 15px; background: var(--ink); color: var(--night); }
-.button.big { padding: 15px 28px; font-size: 18px; background: var(--ink); color: var(--night); }
-.button:hover { filter: brightness(0.94); }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 650; text-decoration: none; white-space: nowrap; color: #fff; background: var(--glow); box-shadow: 0 8px 30px rgba(140, 77, 255, 0.35); }
+.button.small { padding: 8px 16px; font-size: 15px; box-shadow: none; }
+.button.big { padding: 15px 28px; font-size: 18px; }
+.button:hover { filter: brightness(1.08); }
 .button svg { width: 20px; height: 20px; }
 
 /* Hero. */
 .hero { padding-block: 72px 40px; text-align: center; }
 .hero .wrap { display: grid; justify-items: center; gap: 22px; }
+.hero .eyebrow { justify-self: center; }
 .hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 800; max-width: 13ch; }
 .hero .lede { margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 6px; }
 .brew { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 18px; background: rgba(255, 255, 255, 0.04); max-width: 100%; min-width: 0; }
-.brew code { font-family: var(--mono); font-size: 14px; color: var(--cream); overflow-x: auto; white-space: nowrap; }
+.brew code { font-family: var(--mono); font-size: 14px; color: #d9ccff; overflow-x: auto; white-space: nowrap; }
 .copy { border: 0; border-radius: 999px; padding: 7px 14px; background: rgba(255, 255, 255, 0.08); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
 .copy:hover { background: rgba(255, 255, 255, 0.14); }
 .facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; color: var(--faint); font-size: 14px; margin-top: 4px; }
-.facts span::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); margin-right: 8px; vertical-align: middle; }
+.facts span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--glow); margin-right: 8px; vertical-align: middle; }
 
 /* The silky wallpaper, drawn once and reused. */
 .silk { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
 /* The MacBook and its lock screen. */
 .mac { width: 100%; max-width: 1000px; margin-top: 34px; }
-.lid { background: #0a0a0d; border-radius: 22px 22px 8px 8px; padding: 1.4% 1.4% 0; box-shadow: 0 0 0 1px #2a2b35, 0 50px 100px rgba(0, 0, 0, 0.55); }
+.lid { background: #0a0a0d; border-radius: 22px 22px 8px 8px; padding: 1.4% 1.4% 0; box-shadow: 0 0 0 1px #2a2b35, 0 50px 100px rgba(0, 0, 0, 0.55), 0 0 120px rgba(140, 77, 255, 0.18); }
 .display { position: relative; aspect-ratio: 1.54; border-radius: 12px 12px 0 0; overflow: hidden; container-type: inline-size; text-align: left; color: #fff; font-family: var(--system); }
 .base { height: 16px; margin: 0 -5%; border-radius: 0 0 16px 16px; background: linear-gradient(#cfd2db, #8c909c); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); position: relative; }
 .base::after { content: ""; position: absolute; left: 50%; top: 0; width: 15%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #a7abb6; }
 .display .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(30, 20, 12, 0.26), rgba(30, 20, 12, 0.14) 35%, rgba(10, 10, 20, 0.24)); }
-
 .lock-date { position: absolute; top: 9.8cqw; width: 100%; text-align: center; font: 600 1.75cqw var(--rounded); color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); }
 .lock-time { position: absolute; top: 11.6cqw; width: 100%; text-align: center; font: 700 11cqw/1 var(--rounded); letter-spacing: -0.01em;
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(214, 230, 255, 0.78)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 14px rgba(40, 30, 20, 0.25)); }
-
-/* Widgets in the Minimal look: text straight on the wallpaper. */
 .w { position: absolute; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); font-size: 1.2cqw; line-height: 1.35; }
 .w .label { display: flex; align-items: center; gap: 0.5cqw; font-size: 0.85cqw; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); }
 .w .label svg { width: 1cqw; height: 1cqw; }
@@ -124,7 +125,6 @@ p { margin: 0; }
 .w-battery svg { width: 9cqw; height: 9cqw; }
 .w-battery small { display: block; font-size: 0.85cqw; color: rgba(255, 255, 255, 0.75); }
 .w-todo { right: 5.5%; top: 62%; font-weight: 600; font-size: 1.45cqw; line-height: 1.4; }
-
 .login { position: absolute; bottom: 4.2%; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 0.7cqw; }
 .login .avatar { width: 4.6cqw; height: 4.6cqw; border-radius: 50%; background: #cfeec8; display: grid; place-items: center; font-size: 3cqw; line-height: 1; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
 .login .name { font: 600 1.3cqw var(--system); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
@@ -132,17 +132,18 @@ p { margin: 0; }
 .login .password { width: 14cqw; height: 2.3cqw; border-radius: 99px; background: rgba(255, 255, 255, 0.24); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: rgba(255, 255, 255, 0.72); font-size: 1.05cqw; display: flex; align-items: center; padding-left: 1cqw; }
 .login .help { width: 2.1cqw; height: 2.1cqw; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.7); display: grid; place-items: center; font-size: 1.1cqw; font-weight: 700; }
 
-/* Album artwork: a real photograph. */
+/* Pieces of the island. */
 .cover { background: #333 url("assets/cover.jpg") center / cover; border-radius: 22%; flex: none; }
+.cover.two { background-image: url("assets/cover2.jpg"); }
 .wave { display: flex; align-items: center; gap: 14%; flex: none; }
-.wave i { flex: 1; height: 100%; border-radius: 99px; background: linear-gradient(#f5cfa6, #e2836a); transform-origin: center; animation: bounce 1s ease-in-out infinite; }
+.wave i { flex: 1; height: 100%; border-radius: 99px; background: linear-gradient(#5ee6d0, #b46bff); transform-origin: center; animation: bounce 1s ease-in-out infinite; }
 .wave i:nth-child(2) { animation-duration: 0.8s; animation-delay: -0.3s; }
 .wave i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.6s; }
 .wave i:nth-child(4) { animation-duration: 0.9s; animation-delay: -0.15s; }
 @keyframes bounce { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
 .link-icon { fill: none; stroke: #34d27b; stroke-width: 2.4; stroke-linecap: round; }
 
-/* The island at the notch: closed it sits beside the notch; open it becomes the song card. */
+/* The hero island: closed it sits beside the notch; open it becomes the song card. */
 .island { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 20cqw; height: 2.6cqw; background: #000; border-radius: 0 0 1.2cqw 1.2cqw; transition: width 0.45s cubic-bezier(.3, 1.3, .5, 1), height 0.5s cubic-bezier(.3, 1.25, .5, 1), border-radius 0.4s; overflow: hidden; z-index: 2; }
 .island .compact { position: absolute; left: 0; right: 0; top: 0; height: 2.6cqw; display: flex; align-items: center; justify-content: space-between; padding: 0 0.55cqw; }
 .island .compact .cover { width: 1.7cqw; height: 1.7cqw; transition: width 0.4s, height 0.4s; }
@@ -153,7 +154,7 @@ p { margin: 0; }
 .island .card .artist { color: rgba(255, 255, 255, 0.55); }
 .island .card .controls { margin-left: auto; display: flex; gap: 1.1cqw; }
 .island .card .controls svg { width: 1.2cqw; height: 1.2cqw; fill: #fff; }
-.island .card .lyric { color: #f4b892; font-weight: 600; }
+.island .card .lyric { color: #c9b6ff; font-weight: 600; }
 .island .card .progress { height: 0.25cqw; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) 46%, rgba(255, 255, 255, 0.18) 46%); }
 .island.open { width: 30cqw; height: 9cqw; border-radius: 0 0 2cqw 2cqw; }
 .island.open .compact .cover { width: 2.1cqw; height: 2.1cqw; }
@@ -166,43 +167,71 @@ p { margin: 0; }
 section { padding-block: 96px; border-top: 1px solid var(--line); }
 .split { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
 .stack { display: grid; gap: 18px; align-content: start; }
-.chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
-.chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 15px; color: var(--muted); }
 
-/* The top of a Mac screen: wallpaper, menu bar, and the island at the notch. */
-.shots { display: grid; gap: 18px; }
-.shot { position: relative; margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); height: 168px; font-family: var(--system); color: #fff; }
-.shot.tall { height: 196px; }
+/* Island showcase: pick an activity, see it at the notch. */
+.showcase { display: grid; grid-template-columns: minmax(0, 290px) minmax(0, 1fr); gap: 28px; margin-top: 44px; align-items: start; }
+.acts { display: grid; gap: 4px; }
+.acts .group { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); padding: 14px 12px 6px; }
+.acts .group:first-child { padding-top: 0; }
+.act { display: flex; align-items: center; gap: 12px; width: 100%; border: 1px solid transparent; border-radius: 12px; padding: 7px 12px; background: none; color: var(--muted); font: 500 15px var(--body); text-align: left; cursor: pointer; }
+.act img, .act .glyph { width: 28px; height: 28px; border-radius: 22%; flex: none; }
+.act .glyph { display: grid; place-items: center; background: #1d2046; }
+.act .glyph svg { width: 17px; height: 17px; }
+.act:hover { background: rgba(255, 255, 255, 0.04); color: var(--ink); }
+.act[aria-selected="true"] { background: rgba(140, 77, 255, 0.14); border-color: rgba(140, 77, 255, 0.45); color: var(--ink); }
+.stage-wrap { position: sticky; top: 80px; display: grid; gap: 14px; }
+.stage { position: relative; margin: 0; height: 250px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); font-family: var(--system); color: #fff; }
 .menubar { position: absolute; left: 0; right: 0; top: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 13px; font-weight: 600; background: rgba(40, 30, 25, 0.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); }
 .menubar .apps { display: flex; gap: 16px; align-items: center; }
 .menubar .apps b { font-weight: 800; }
-.menubar .status { display: flex; gap: 14px; align-items: center; font-variant-numeric: tabular-nums; }
-.menubar .status svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 1.6; }
-.shot .cap { position: absolute; left: 18px; bottom: 14px; font-size: 14px; font-family: var(--body); color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
-.mini { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #000; z-index: 2; }
-.mini.compact-mini { width: 290px; height: 34px; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; }
-.mini.compact-mini .cover { width: 22px; height: 22px; }
-.mini.compact-mini .wave { width: 20px; height: 14px; }
-.mini-bubble { position: absolute; top: 0; left: calc(50% + 153px); width: 34px; height: 34px; border-radius: 50%; background: #000; display: grid; place-items: center; z-index: 2; }
-.mini-bubble svg { width: 20px; height: 20px; }
-.mini.card-mini, .mini.banner-mini { width: 390px; height: 98px; border-radius: 0 0 24px 24px; padding: 0 16px; }
-.card-mini .top, .banner-mini .top { height: 34px; display: flex; align-items: center; justify-content: space-between; }
-.card-mini .top .cover { width: 26px; height: 26px; }
-.card-mini .top .wave { width: 18px; height: 14px; }
-.card-mini .row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
-.card-mini .row b { font-weight: 700; }
-.card-mini .row span { color: rgba(255, 255, 255, 0.55); }
-.card-mini .row .controls { margin-left: auto; display: flex; gap: 14px; }
-.card-mini .row .controls svg { width: 13px; height: 13px; fill: #fff; }
-.card-mini .lyric { color: #f4b892; font-weight: 600; font-size: 12.5px; margin-top: 2px; }
-.card-mini .progress { display: flex; align-items: center; gap: 8px; font: 500 10px var(--mono); color: rgba(255, 255, 255, 0.5); margin-top: 3px; }
-.card-mini .progress i { flex: 1; height: 3px; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) 46%, rgba(255, 255, 255, 0.18) 46%); }
-.banner-mini .top { font-size: 11.5px; }
-.banner-mini .top .app { display: flex; align-items: center; gap: 6px; font-weight: 600; color: rgba(255, 255, 255, 0.85); }
-.banner-mini .top .app img { width: 20px; height: 20px; }
-.banner-mini .top .when { color: rgba(255, 255, 255, 0.45); }
-.banner-mini b { display: block; font-size: 13px; margin-top: 2px; }
-.banner-mini p { font-size: 12px; color: rgba(255, 255, 255, 0.75); line-height: 1.4; }
+.menubar .status { display: flex; gap: 12px; align-items: center; font-variant-numeric: tabular-nums; }
+.menubar .status svg { width: 18px; height: 18px; }
+.slot { position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 2; transform-origin: top center; }
+.isl { background: #000; color: #fff; animation: drop 0.4s cubic-bezier(.3, 1.3, .5, 1); }
+@keyframes drop { from { opacity: 0.4; transform: scale(0.94, 0.7); transform-origin: top center; } to { opacity: 1; transform: none; } }
+.isl.compact { width: 290px; height: 34px; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; }
+.isl.compact .cover { width: 22px; height: 22px; }
+.isl.compact .wave { width: 20px; height: 14px; }
+.isl .side { min-width: 26px; display: flex; justify-content: center; align-items: center; font: 600 12.5px var(--rounded); font-variant-numeric: tabular-nums; }
+.isl .side svg { width: 17px; height: 17px; }
+.isl.card { width: 370px; border-radius: 0 0 24px 24px; padding: 0 16px 12px; }
+.isl.card .top { height: 34px; display: flex; align-items: center; justify-content: space-between; }
+.isl.card .top .cover, .isl.card .top img { width: 26px; height: 26px; border-radius: 22%; }
+.isl.card .top .wave { width: 18px; height: 14px; }
+.isl .row { display: flex; align-items: center; gap: 8px; font-size: 13px; min-height: 22px; }
+.isl .row b { font-weight: 700; }
+.isl .row .soft { color: rgba(255, 255, 255, 0.55); }
+.isl .controls { margin-left: auto; display: flex; gap: 14px; }
+.isl .controls svg { width: 13px; height: 13px; fill: #fff; }
+.isl .lyric { color: #c9b6ff; font-weight: 600; font-size: 12.5px; margin-top: 2px; }
+.isl .bar-line { display: flex; align-items: center; gap: 8px; font: 500 10px var(--mono); color: rgba(255, 255, 255, 0.5); margin-top: 5px; }
+.isl .bar-line i { flex: 1; height: 3px; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) var(--p, 46%), rgba(255, 255, 255, 0.18) var(--p, 46%)); }
+.isl .buttons { display: flex; gap: 10px; margin-left: auto; }
+.isl .round { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.16); }
+.isl .round svg { width: 13px; height: 13px; }
+.isl .round.green { background: rgba(52, 210, 123, 0.22); }
+.isl .round.orange { background: rgba(255, 159, 67, 0.22); }
+.isl .meta { display: grid; gap: 1px; }
+.isl .meta small { font-size: 11px; color: rgba(255, 255, 255, 0.6); display: flex; gap: 8px; align-items: center; }
+.isl .meta small svg { width: 11px; height: 11px; }
+.isl .appicon { width: 30px; height: 30px; border-radius: 22%; flex: none; }
+.isl.banner { width: 370px; border-radius: 0 0 24px 24px; padding: 0 16px 12px; }
+.isl.banner .top { height: 34px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; }
+.isl.banner .top .app { display: flex; align-items: center; gap: 6px; font-weight: 600; color: rgba(255, 255, 255, 0.85); }
+.isl.banner .top .app img { width: 20px; height: 20px; border-radius: 22%; }
+.isl.banner .when { color: rgba(255, 255, 255, 0.45); }
+.isl.banner b { display: block; font-size: 13px; margin-top: 2px; }
+.isl.banner p { font-size: 12px; color: rgba(255, 255, 255, 0.75); line-height: 1.4; }
+.isl.drop { width: 200px; height: 66px; border-radius: 0 0 16px 16px; display: flex; align-items: flex-end; }
+.isl.drop .row { width: 100%; height: 32px; padding: 0 13px; justify-content: space-between; font-weight: 600; }
+.isl.drop .row svg { width: 15px; height: 15px; }
+.isl.drop .level { flex: 1; height: 6px; border-radius: 9px; margin-left: 10px; background: linear-gradient(to right, #fff var(--p), rgba(255, 255, 255, 0.2) var(--p)); }
+.isl-bubble { position: absolute; top: 0; left: calc(100% + 8px); width: 34px; height: 34px; border-radius: 50%; background: #000; display: grid; place-items: center; }
+.isl-bubble svg { width: 20px; height: 20px; }
+.stage-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
+.stage-bar p { color: var(--muted); font-size: 15px; min-width: 0; }
+.toggle { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; background: rgba(255, 255, 255, 0.05); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
+.toggle:hover { background: rgba(255, 255, 255, 0.1); }
 
 /* Widgets. */
 .widget-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; border-top: 1px solid var(--line); }
@@ -212,14 +241,19 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
 .tool { border: 1px solid var(--line); border-radius: 20px; padding: 24px; background: var(--night-2); display: grid; gap: 8px; align-content: start; }
 .tool p { color: var(--muted); font-size: 16px; }
-.sizes { font: 500 13px var(--mono); color: var(--cream); letter-spacing: 0.02em; }
+.sizes { font: 500 13px var(--mono); color: #d9ccff; letter-spacing: 0.02em; }
 
-/* Lyrics. */
+/* Music. */
+.players { display: flex; flex-wrap: wrap; gap: 12px; }
+.player { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px 6px 6px; font-weight: 600; font-size: 15px; }
+.player img { width: 30px; height: 30px; border-radius: 22%; }
 .lyrics-panel { position: relative; border-radius: 24px; padding: 36px; overflow: hidden; display: grid; gap: 14px; color: #fff; }
-.lyrics-panel > * { position: relative; }
-.lyrics-panel .song { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
-.lyrics-panel .song .cover { width: 44px; height: 44px; }
-.lyrics-panel p { font: 700 clamp(22px, 2.6vw, 32px)/1.25 var(--system); color: rgba(255, 255, 255, 0.42); transition: color 0.4s; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2); }
+.lyrics-panel > :not(.silk) { position: relative; }
+.lyrics-panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(20, 14, 10, 0.25), rgba(10, 10, 26, 0.45)); }
+.lyrics-panel .song { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.9); z-index: 1; }
+.lyrics-panel .song .cover { width: 46px; height: 46px; }
+.lyrics-panel .song img { width: 22px; height: 22px; border-radius: 22%; margin-left: auto; }
+.lyrics-panel p { z-index: 1; font: 700 clamp(22px, 2.6vw, 32px)/1.25 var(--system); color: rgba(255, 255, 255, 0.42); transition: color 0.4s; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.25); }
 .lyrics-panel p.now { color: #fff; }
 
 /* Trust. */
@@ -230,7 +264,7 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 /* Install. */
 .steps { display: grid; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.steps li::before { content: counter(step); font: 700 22px var(--display); color: var(--cream); }
+.steps li::before { content: counter(step); font: 700 22px var(--display); background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
 .steps kbd { font: 500 14px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; }
 .install-side { border: 1px solid var(--line); border-radius: 24px; padding: 32px; background: var(--night-2); display: grid; gap: 16px; align-content: start; }
 .install-side .brew { justify-self: start; }
@@ -244,7 +278,7 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font: 400 26px var(--body); color: var(--muted); }
 .faq details[open] summary::after { content: "–"; }
 .faq details p { color: var(--muted); padding: 0 0 18px; max-width: 68ch; }
-.faq code { font: 500 14px var(--mono); color: var(--cream); }
+.faq code { font: 500 14px var(--mono); color: #d9ccff; }
 
 .closing { text-align: center; padding-block: 110px; }
 .closing .wrap { display: grid; gap: 22px; justify-items: center; }
@@ -259,6 +293,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 @media (max-width: 980px) {
   .nav { display: none; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 36px; }
+  .showcase { grid-template-columns: minmax(0, 1fr); }
+  .acts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .acts .group { grid-column: 1 / -1; }
+  .stage-wrap { position: static; order: -1; }
   .widget-grid, .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tools { grid-template-columns: minmax(0, 1fr); }
 }
@@ -273,13 +311,13 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   .notch { display: none; }
   .brew code { font-size: 12.5px; }
   .menubar .status { display: none; }
-  .mini.card-mini, .mini.banner-mini { transform: translateX(-50%) scale(0.8); transform-origin: top center; }
-  .mini.compact-mini { transform: translateX(-50%) scale(0.85); transform-origin: top center; }
-  .mini-bubble { left: calc(50% + 130px); transform: scale(0.85); transform-origin: top left; }
+  .slot { transform: translateX(-50%) scale(0.8); }
+  .stage { height: 210px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .wave i { animation: none; transform: scaleY(0.7); }
+  .isl { animation: none; }
   .island, .bubble, .lyrics-panel p, .island .compact .cover { transition: none; }
 }
 </style>
@@ -326,7 +364,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <nav class="nav" aria-label="Sections">
         <a href="#island">Island</a>
         <a href="#widgets">Widgets</a>
-        <a href="#lyrics">Lyrics</a>
+        <a href="#music">Music</a>
         <a href="#faq">FAQ</a>
       </nav>
       <a class="button small" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download</a>
@@ -338,7 +376,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   <div class="hero">
     <div class="wrap">
       <span class="eyebrow">Free for Mac</span>
-      <h1>Your lock screen and your notch, lit up.</h1>
+      <h1>Your lock screen and your notch, <span class="glow-text">lit up.</span></h1>
       <p class="lede">Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island: the song that's playing with Apple Music's own lyrics, your calls, notifications and more.</p>
       <div class="actions">
         <a class="button big" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">
@@ -362,7 +400,6 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="display">
             <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
             <div class="shade"></div>
-
             <div class="island" id="hero-island">
               <div class="compact"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
               <div class="card">
@@ -379,22 +416,18 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               </div>
             </div>
             <div class="bubble" aria-hidden="true"><svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
-
             <div class="lock-date">Friday 16 October</div>
             <div class="lock-time">9:41</div>
-
             <div class="w w-next">
               <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 6.5h12M5 1.5v3M11 1.5v3"/></svg>Up next</div>
               <svg class="check" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.3 3 3 6-6.3"/></svg>
               <span class="dim">Nothing else today or tomorrow.</span>
             </div>
-
             <div class="w w-world">
               <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c2 2 2 11 0 13M8 1.5c-2 2-2 11 0 13"/></svg>World clock</div>
               <div><span class="dim">New York</span><b>3:41</b><small>−6 h</small></div>
               <div><span class="dim">London</span><b>8:41</b><small>−1 h</small></div>
             </div>
-
             <div class="w w-brief">
               <div class="day">Friday 16 October</div>
               <div class="hello">Good morning, Alex</div>
@@ -403,22 +436,18 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
                 <span>Design review at 10:30</span><span>Night trains are back in Europe</span>
               </div>
             </div>
-
             <div class="w w-lyrics">
               <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3h10v7H7l-3 3v-3H3z"/></svg>Low Orbit · Mira Vale</div>
               <div class="line" data-lyric>City lights are spelling out your name</div>
               <div class="next" data-next>We drove until the morning found us</div>
             </div>
-
             <div class="w w-system">
               <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="10" rx="2"/><path d="M6 1v2M10 1v2M6 13v2M10 13v2M1 6h2M1 10h2M13 6h2M13 10h2"/></svg>System</div>
               <div class="row"><span>CPU</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#d07cff" stroke-width="1.6" points="0,14 8,8 16,12 24,6 32,11 40,9 48,13 56,7 64,12 72,10 80,14 88,9 100,11"/></svg><span>16%</span></div>
               <div class="row"><span>Memory</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#7ee08a" stroke-width="1.6" points="0,9 20,9 40,8 60,9 80,8 100,8"/></svg><span>64%</span></div>
               <div class="row"><span>Network</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#7cc6ff" stroke-width="1.6" points="0,17 20,17 40,16 55,17 62,6 68,16 80,17 100,16"/></svg><span>↓ 2 MB/s</span></div>
             </div>
-
             <div class="w w-note">Before Friday<br><span class="dim">— Pick up the camera<br>— Book the train<br>— Call Mum</span></div>
-
             <div class="w w-stock">
               <div class="label">S&amp;P 500</div>
               <b>6 412,30</b>
@@ -430,7 +459,6 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
                 <line x1="0" y1="20" x2="120" y2="20" stroke="rgba(255,255,255,.4)" stroke-dasharray="2 2" stroke-width=".6"/>
               </svg>
             </div>
-
             <div class="w w-battery">
               <svg viewBox="0 0 40 40" aria-hidden="true">
                 <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="3"/>
@@ -439,9 +467,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               </svg>
               <small>4 h 49 min left</small>
             </div>
-
             <div class="w w-todo">Finish the slides<br>— Robotics project<br>— Reading list</div>
-
             <div class="login">
               <div class="avatar" role="img" aria-label="Panda avatar">🐼</div>
               <div class="name">Alex</div>
@@ -455,50 +481,22 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   </div>
 
   <section id="island">
-    <div class="wrap split">
+    <div class="wrap">
       <div class="stack">
         <span class="eyebrow">Dynamic Island</span>
         <h2>The notch, doing something useful.</h2>
-        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island. A second one waits in its own circle. Point at the island to see more; click it to open the app.</p>
-        <div class="chips">
-          <span>Now Playing</span><span>Zoom, Meet, Teams and FaceTime calls</span><span>Notifications</span><span>Personal Hotspot</span><span>Pomodoro and Stopwatch</span><span>Charging</span><span>AirPods</span><span>Volume and brightness</span><span>Focus</span><span>Upcoming events</span>
-        </div>
+        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island, and alerts drop out of it. Pick one to see it at the notch; point at a live activity to open it.</p>
       </div>
-      <div class="shots">
-        <figure class="shot">
-          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
-          <div class="menubar"><span class="apps"><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
-          <div class="mini compact-mini"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
-          <div class="mini-bubble"><svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
-          <figcaption class="cap">A song beside the notch, with your hotspot in its own circle</figcaption>
-        </figure>
-        <figure class="shot tall">
-          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
-          <div class="menubar"><span class="apps"><b>Music</b><span>File</span></span><span class="status">9:41</span></div>
-          <div class="mini card-mini">
-            <div class="top"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
-            <div class="row"><b>Low Orbit</b><span>Mira Vale</span>
-              <span class="controls" aria-hidden="true">
-                <svg viewBox="0 0 24 24"><path d="M11 6v12L2 12zm11 0v12l-9-6z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
-                <svg viewBox="0 0 24 24"><path d="M13 6v12l9-6zM2 6v12l9-6z"/></svg>
-              </span>
-            </div>
-            <div class="lyric" data-lyric>City lights are spelling out your name</div>
-            <div class="progress"><span>1:42</span><i></i><span>-2:04</span></div>
-          </div>
-          <figcaption class="cap">Point at it for the lyric and controls</figcaption>
-        </figure>
-        <figure class="shot tall">
-          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
-          <div class="menubar"><span class="apps"><b>Mail</b><span>File</span></span><span class="status">9:41</span></div>
-          <div class="mini banner-mini">
-            <div class="top"><span class="app"><img src="assets/mail.png" alt="">Mail</span><span class="when">now</span></div>
-            <b>Your order has shipped</b>
-            <p>Arriving Friday between 9 and 12. Track it from the link in this email.</p>
-          </div>
-          <figcaption class="cap">Notifications drop down as they arrive</figcaption>
-        </figure>
+      <div class="showcase">
+        <div class="acts" role="tablist" aria-label="What the island shows" id="acts"></div>
+        <div class="stage-wrap">
+          <figure class="stage" id="stage">
+            <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+            <div class="menubar"><span class="apps" id="stage-apps"><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
+            <div class="slot" id="slot" role="tabpanel" aria-live="polite"></div>
+          </figure>
+          <div class="stage-bar"><p id="caption"></p><button class="toggle" type="button" id="toggle">Open</button></div>
+        </div>
       </div>
     </div>
   </section>
@@ -538,16 +536,20 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     </div>
   </section>
 
-  <section id="lyrics">
+  <section id="music">
     <div class="wrap split">
       <div class="stack">
-        <span class="eyebrow">Apple Music lyrics</span>
-        <h2>The lyrics Music shows, line for line.</h2>
-        <p class="lede">Notchlight reads the time-synced lyrics Apple Music already downloaded for the song you're playing, so every line lands exactly when it does in Music. On the lock screen and in the island.</p>
+        <span class="eyebrow">Music</span>
+        <h2>Apple Music and Spotify, with the lyrics Music shows.</h2>
+        <p class="lede">The song that's playing in Apple Music or Spotify shows on the lock screen and in the island. Lyrics come from Apple Music: Notchlight reads the time-synced lyrics Music already downloaded, so every line lands exactly when it does in Music.</p>
+        <div class="players">
+          <span class="player"><img src="assets/apps/music.png" alt="">Apple Music</span>
+          <span class="player"><img src="assets/apps/spotify.png" alt="">Spotify</span>
+        </div>
       </div>
       <div class="lyrics-panel" aria-label="Lyrics in sync with the song">
         <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
-        <span class="song"><span class="cover"></span>Low Orbit · Mira Vale</span>
+        <span class="song"><span class="cover"></span>Low Orbit · Mira Vale<img src="assets/apps/music.png" alt="Apple Music"></span>
         <p data-line>City lights are spelling out your name</p>
         <p data-line>We drove until the morning found us</p>
         <p data-line>Hold the moment, let the record play</p>
@@ -602,6 +604,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <details><summary>Why isn't it on the Mac App Store?</summary><p>Mac App Store apps run in Apple's sandbox, which doesn't allow drawing over the lock screen or reading notifications. Notchlight is signed with a Developer ID and notarized by Apple instead, so it installs and opens like any other app.</p></details>
         <details><summary>Is it safe?</summary><p>Apple scans every release for malware before notarizing it, and updates are signed so your Mac only installs ones that come from Notchlight. The source code is on GitHub.</p></details>
         <details><summary>Which Macs does it work on?</summary><p>Any Mac with macOS 15 or later. The Dynamic Island is made for MacBooks with a notch; on other Macs it shows up only while something is live.</p></details>
+        <details><summary>Does it work with Spotify?</summary><p>Yes: the song playing in Spotify shows in the island and on the lock screen, with its artwork and controls. Synced lyrics come from Apple Music only.</p></details>
         <details><summary>What permissions does it ask for?</summary><p>Only what your widgets use: Calendar, Reminders, Location for weather, Photos, and Automation to read the song in Music or Spotify. Notifications on the island need Full Disk Access, because macOS keeps them in a protected file. The Setup Guide takes you to each one.</p></details>
         <details><summary>How do updates work?</summary><p>Notchlight looks for a new version once a day and asks before installing it. Choose Check for Updates… in its menu to look now. With Homebrew, <code>brew upgrade</code> works too.</p></details>
         <details><summary>How do I uninstall it?</summary><p>Quit Notchlight from its menu bar icon and drag it from Applications to the Trash. With Homebrew, run <code>brew uninstall --cask notchlight</code>.</p></details>
@@ -627,7 +630,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <a href="https://github.com/victorabuchi/notchlight/releases">Releases</a>
       <a href="https://github.com/victorabuchi/notchlight/issues/new">Report a problem</a>
     </nav>
-    <p class="legal">© 2026 Victor Abuchi. Album cover photo by <a href="https://unsplash.com/photos/LyeduBb2Auk">Roksolana Zasiadko</a> on Unsplash. Mac, macOS, Apple Music, Mail and Dynamic Island are trademarks of Apple Inc. Notchlight is not affiliated with or endorsed by Apple.</p>
+    <p class="legal">© 2026 Victor Abuchi. Album cover photos by <a href="https://unsplash.com/photos/LyeduBb2Auk">Roksolana Zasiadko</a> and <a href="https://unsplash.com/photos/YMVCseSYVXI">Joshua Earle</a> on Unsplash. Mac, macOS, Apple Music, FaceTime, Mail, Messages and Dynamic Island are trademarks of Apple Inc.; Spotify, Zoom, Microsoft Teams, Google Meet and WhatsApp are trademarks of their owners. Notchlight is not affiliated with or endorsed by any of them.</p>
   </div>
 </footer>
 
@@ -650,6 +653,120 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       });
     });
   });
+
+  // Small drawings for system alerts and island controls.
+  const icon = {
+    video: '<svg viewBox="0 0 24 24" fill="#34d27b"><rect x="2" y="6" width="13" height="12" rx="3"/><path d="m16 10 6-3.5v11L16 14z"/></svg>',
+    phone: '<svg viewBox="0 0 24 24" fill="#34d27b"><path d="M6.6 2.8 9 6.6c.4.7.3 1.6-.3 2.1L7.3 10a12 12 0 0 0 6.7 6.7l1.3-1.4c.5-.6 1.4-.7 2.1-.3l3.8 2.4c.7.4 1 1.3.6 2-1 2-3 3.1-5.1 2.4A18 18 0 0 1 2.2 7.8C1.5 5.7 2.6 3.7 4.6 2.6c.7-.4 1.6-.2 2 .2Z"/></svg>',
+    link: '<svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg>',
+    timer: '<svg viewBox="0 0 24 24" fill="none" stroke="#ff9f43" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M10 2h4"/></svg>',
+    stopwatch: '<svg viewBox="0 0 24 24" fill="none" stroke="#ff9f43" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 13l3-3M10 2h4M19 5l1.5 1.5"/></svg>',
+    mic: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0zM11 18h2v4h-2z"/></svg>',
+    cam: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="6" width="13" height="12" rx="3"/><path d="m16 10 6-3.5v11L16 14z"/></svg>',
+    open: '<svg viewBox="0 0 24 24" fill="none" stroke="#34d27b" stroke-width="2.4" stroke-linecap="round"><path d="M9 5h10v10M19 5 6 18"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="#ff9f43"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>',
+    skip: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M4 5v14l11-7zM17 5h3v14h-3z"/></svg>',
+    reset: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 3-6.3M4 4v4h4"/></svg>',
+    battery: (fill, color) => `<svg viewBox="0 0 28 14" fill="none" stroke="${color}" stroke-width="1.4"><rect x="1" y="1.5" width="22" height="11" rx="3"/><path d="M25.5 5v4"/><rect x="3" y="3.5" width="${18 * fill}" height="7" rx="1.5" fill="${color}" stroke="none"/></svg>`,
+    airpods: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M7.5 3A3.5 3.5 0 0 0 4 6.5c0 1.6 1.1 3 2.6 3.4V20a1.4 1.4 0 0 0 2.8 0V6.5A3.5 3.5 0 0 0 7.5 3Zm9 0A3.5 3.5 0 0 1 20 6.5c0 1.6-1.1 3-2.6 3.4V20a1.4 1.4 0 0 1-2.8 0V6.5A3.5 3.5 0 0 1 16.5 3Z"/></svg>',
+    speaker: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h4l5-4v14l-5-4H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
+    sun: '<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" fill="#8f86ff"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>',
+  };
+  const controls = '<span class="controls" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 6v12L2 12zm11 0v12l-9-6z"/></svg><svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg><svg viewBox="0 0 24 24"><path d="M13 6v12l9-6zM2 6v12l9-6z"/></svg></span>';
+  const wave = '<span class="wave"><i></i><i></i><i></i><i></i></span>';
+  const app = (name) => `assets/apps/${name}.png`;
+
+  const compact = (left, right, extra = "") => `<div class="isl compact"><span class="side">${left}</span><span class="side">${right}</span>${extra}</div>`;
+  const song = (cover, title, artist, lyric, bubble) => ({
+    closed: compact(`<span class="cover ${cover}"></span>`, wave, bubble ? `<span class="isl-bubble">${icon.link}</span>` : ""),
+    open: `<div class="isl card"><div class="top"><span class="cover ${cover}"></span>${wave}</div><div class="row"><b>${title}</b><span class="soft">${artist}</span>${controls}</div>${lyric ? `<div class="lyric">${lyric}</div>` : ""}<div class="bar-line"><span>1:42</span><i></i><span>-2:04</span></div></div>`,
+  });
+  const call = (logo, title, glyph, zoom) => ({
+    closed: compact(icon[glyph], '<span style="color:#34d27b">12:04</span>'),
+    open: `<div class="isl card"><div class="top"><img src="${app(logo)}" alt=""><span style="color:#34d27b;font:600 13px var(--rounded)">12:04</span></div><div class="row"><span class="meta"><b>${title}</b><small>${icon.mic} Mic on ${icon.cam} Camera on</small></span><span class="buttons">${zoom ? `<span class="round">${icon.mic}</span><span class="round">${icon.cam}</span>` : ""}<span class="round green">${icon.open}</span></span></div></div>`,
+  });
+  const banner = (logo, name, title, body, when = "now") => ({
+    closed: `<div class="isl banner"><div class="top"><span class="app"><img src="${app(logo)}" alt="">${name}</span><span class="when">${when}</span></div><b>${title}</b><p>${body}</p></div>`,
+  });
+  const drop = (left, right) => ({ closed: `<div class="isl drop"><div class="row">${left}${right}</div></div>` });
+
+  const activities = [
+    { group: "Live activities" },
+    { id: "music", name: "Apple Music", logo: "music", menu: "Music", caption: "The song sits beside the notch with its artwork and a live waveform; point at it for the lyric and controls. Your hotspot waits in its own circle.", ...song("", "Low Orbit", "Mira Vale", "City lights are spelling out your name", true) },
+    { id: "spotify", name: "Spotify", logo: "spotify", menu: "Spotify", caption: "Spotify songs show the same way, with artwork, progress and controls.", ...song("two", "Night Drive", "Sundial Youth", "") },
+    { id: "zoom", name: "Zoom", logo: "zoom", menu: "zoom.us", caption: "A Zoom meeting shows how long you've been on. Open it to mute, stop your video or go back to Zoom.", ...call("zoom", "Zoom Meeting", "video", true) },
+    { id: "facetime", name: "FaceTime", logo: "facetime", menu: "FaceTime", caption: "FaceTime calls show their time beside the notch.", ...call("facetime", "FaceTime Call", "phone") },
+    { id: "teams", name: "Microsoft Teams", logo: "teams", menu: "Teams", caption: "Teams calls, from the app or the browser.", ...call("teams", "Teams Call", "video") },
+    { id: "meet", name: "Google Meet", logo: "meet", menu: "Chrome", caption: "Meetings in Chrome, Safari or Firefox are recognised from the browser using your microphone.", ...call("chrome", "Google Meet", "video") },
+    { id: "hotspot", name: "Personal Hotspot", glyph: icon.link, menu: "Finder", caption: "While your Mac is on your iPhone's hotspot. Open it to see which iPhone.",
+      closed: compact(icon.link, ""),
+      open: `<div class="isl card"><div class="top"><span class="round green" style="width:26px;height:26px">${icon.link}</span><span></span></div><div class="row"><span class="meta"><b>Personal Hotspot</b><small>Connected to Alex's iPhone</small></span></div></div>` },
+    { id: "pomodoro", name: "Pomodoro", logo: "clock", menu: "Notchlight", caption: "Focus sessions count down beside the notch. Pause or skip from the card.",
+      closed: compact(icon.timer, '<span style="color:#ff9f43">24:59</span>'),
+      open: `<div class="isl card"><div class="top"><span class="round orange" style="width:26px;height:26px">${icon.timer}</span><span style="color:#ff9f43;font:600 18px var(--rounded)">24:59</span></div><div class="row"><b style="color:rgba(255,255,255,.75)">Focus</b><span class="buttons"><span class="round orange">${icon.pause}</span><span class="round">${icon.skip}</span></span></div></div>` },
+    { id: "stopwatch", name: "Stopwatch", logo: "clock", menu: "Notchlight", caption: "The stopwatch keeps running beside the notch.",
+      closed: compact(icon.stopwatch, '<span style="color:#ff9f43">03:12</span>'),
+      open: `<div class="isl card"><div class="top"><span class="round orange" style="width:26px;height:26px">${icon.stopwatch}</span><span style="color:#ff9f43;font:600 18px var(--rounded)">03:12</span></div><div class="row"><b style="color:rgba(255,255,255,.75)">Stopwatch</b><span class="buttons"><span class="round orange">${icon.pause}</span><span class="round">${icon.reset}</span></span></div></div>` },
+    { group: "Alerts" },
+    { id: "messages", name: "Messages", logo: "messages", menu: "Safari", caption: "Notifications from every app drop down from the notch as they arrive. Click one to open the app.", ...banner("messages", "Messages", "Mira", "Running five minutes late. Save me a seat by the window?") },
+    { id: "whatsapp", name: "WhatsApp", logo: "whatsapp", menu: "Safari", caption: "WhatsApp, Slack, Mail or anything else that posts a notification.", ...banner("whatsapp", "WhatsApp", "Study group", "Jonas: I've uploaded the notes for chapter 4 to the shared folder.") },
+    { id: "mail", name: "Mail", logo: "mail", menu: "Safari", caption: "Mail shows the sender's subject and the start of the message.", ...banner("mail", "Mail", "Your order has shipped", "Arriving Friday between 9 and 12. Track it from the link in this email.") },
+    { id: "event", name: "Upcoming events", logo: "calendar", menu: "Safari", caption: "A heads-up five minutes before each event on your calendars.", ...banner("calendar", "Calendar", "Design review", "Starts in 5 minutes · Room 4B", "10:30") },
+    { id: "charging", name: "Charging", glyph: icon.battery(0.84, "#34d27b"), menu: "Finder", caption: "When you plug in or unplug.", ...drop('<span style="color:#34d27b">Charging</span>', `<span style="display:flex;gap:6px;align-items:center;color:#34d27b">84% ${icon.battery(0.84, "#34d27b")}</span>`) },
+    { id: "lowbattery", name: "Low battery", glyph: icon.battery(0.15, "#ff5a52"), menu: "Finder", caption: "At 20% and again at 10%.", ...drop('<span style="color:#ff5a52">Low Battery</span>', `<span style="display:flex;gap:6px;align-items:center;color:#ff5a52">10% ${icon.battery(0.15, "#ff5a52")}</span>`) },
+    { id: "airpods", name: "AirPods", glyph: icon.airpods, menu: "Finder", caption: "When AirPods, keyboards and other Bluetooth devices connect or disconnect.", ...drop(`<span style="display:flex;gap:7px;align-items:center">${icon.airpods} AirPods Pro</span>`, '<span style="color:#34d27b">Connected</span>') },
+    { id: "volume", name: "Volume", glyph: icon.speaker, menu: "Finder", caption: "The level as you change it, in place of the system's own.", closed: `<div class="isl drop"><div class="row">${icon.speaker}<span class="level" style="--p:62%"></span></div></div>` },
+    { id: "brightness", name: "Brightness", glyph: icon.sun, menu: "Finder", caption: "Screen brightness as you change it.", closed: `<div class="isl drop"><div class="row">${icon.sun}<span class="level" style="--p:40%"></span></div></div>` },
+    { id: "focus", name: "Focus", glyph: icon.moon, menu: "Finder", caption: "When a Focus such as Do Not Disturb turns on or off.", ...drop(`<span style="display:flex;gap:7px;align-items:center;color:#a49cff">${icon.moon} Do Not Disturb</span>`, '<span style="color:#a49cff">On</span>') },
+  ];
+
+  const list = document.getElementById("acts");
+  const slot = document.getElementById("slot");
+  const caption = document.getElementById("caption");
+  const toggle = document.getElementById("toggle");
+  const stage = document.getElementById("stage");
+  const menuApps = document.getElementById("stage-apps");
+  let current = null;
+  let open = false;
+
+  for (const item of activities) {
+    if (item.group) {
+      const heading = document.createElement("span");
+      heading.className = "group";
+      heading.textContent = item.group;
+      list.append(heading);
+      continue;
+    }
+    const button = document.createElement("button");
+    button.className = "act";
+    button.type = "button";
+    button.setAttribute("role", "tab");
+    button.dataset.id = item.id;
+    button.innerHTML = (item.logo ? `<img src="${app(item.logo)}" alt="">` : `<span class="glyph">${item.glyph}</span>`) + item.name;
+    button.addEventListener("click", () => show(item, false));
+    list.append(button);
+  }
+
+  function render() {
+    slot.innerHTML = open && current.open ? current.open : current.closed;
+    toggle.hidden = !current.open;
+    toggle.textContent = open ? "Close" : "Open";
+  }
+
+  function show(item, keepOpen) {
+    current = item;
+    open = keepOpen && !!item.open;
+    list.querySelectorAll(".act").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === item.id)));
+    caption.textContent = item.caption;
+    menuApps.innerHTML = `<b>${item.menu}</b><span>File</span><span>Edit</span>`;
+    render();
+  }
+
+  toggle.addEventListener("click", () => { open = !open; render(); });
+  stage.addEventListener("mouseenter", () => { if (current.open && !open) { open = true; render(); } });
+  stage.addEventListener("mouseleave", () => { if (open) { open = false; render(); } });
+  show(activities[1], false);
 
   if (reduce) return;
 
