@@ -1,86 +1,117 @@
 // Renders the app icon: swift scripts/make-icon.swift [out.png]
-// A night-blue screen with the notch at the top, lit at its edge and casting a soft beam of light.
+// A lock screen in miniature: the island with a song at the top, the time, and a Now Playing card.
 import AppKit
 
 let size: CGFloat = 1024
-let image = NSImage(size: NSSize(width: size, height: size))
-image.lockFocus()
-let ctx = NSGraphicsContext.current!.cgContext
-
-// macOS icon grid: 824pt body centred on a 1024 canvas.
 let body = CGRect(x: 100, y: 100, width: 824, height: 824)
-let bodyPath = NSBezierPath(roundedRect: body, xRadius: 185, yRadius: 185)
 
-ctx.saveGState()
-ctx.setShadow(offset: CGSize(width: 0, height: -12), blur: 28, color: NSColor.black.withAlphaComponent(0.35).cgColor)
-NSColor.black.setFill()
-bodyPath.fill()
-ctx.restoreGState()
-
-ctx.saveGState()
-bodyPath.addClip()
-
-// The screen: deep night blue, a little warmer towards the bottom.
-NSGradient(colors: [
-    NSColor(red: 0.04, green: 0.05, blue: 0.14, alpha: 1),
-    NSColor(red: 0.10, green: 0.08, blue: 0.30, alpha: 1),
-    NSColor(red: 0.22, green: 0.12, blue: 0.42, alpha: 1),
-])!.draw(in: body, angle: -90)
-
-// The notch hangs from the top edge.
-let notch = CGRect(x: 362, y: 924 - 122, width: 300, height: 122)
-let radius: CGFloat = 50
-func notchOutline(_ rect: CGRect) -> NSBezierPath {
-    let path = NSBezierPath()
-    path.move(to: CGPoint(x: rect.minX, y: rect.maxY + 2))
-    path.line(to: CGPoint(x: rect.minX, y: rect.minY + radius))
-    path.appendArc(withCenter: CGPoint(x: rect.minX + radius, y: rect.minY + radius), radius: radius, startAngle: 180, endAngle: 270)
-    path.line(to: CGPoint(x: rect.maxX - radius, y: rect.minY))
-    path.appendArc(withCenter: CGPoint(x: rect.maxX - radius, y: rect.minY + radius), radius: radius, startAngle: 270, endAngle: 360)
-    path.line(to: CGPoint(x: rect.maxX, y: rect.maxY + 2))
-    return path
+func bitmap(_ draw: (CGContext) -> Void) -> NSBitmapImageRep {
+    let rep = NSBitmapImageRep(bitmapDataPlanes: nil, pixelsWide: Int(size), pixelsHigh: Int(size), bitsPerSample: 8, samplesPerPixel: 4, hasAlpha: true, isPlanar: false, colorSpaceName: .deviceRGB, bytesPerRow: 0, bitsPerPixel: 0)!
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: rep)
+    draw(NSGraphicsContext.current!.cgContext)
+    NSGraphicsContext.restoreGraphicsState()
+    return rep
 }
 
-// A beam of light falling from the notch, widening as it goes.
-let beam = NSBezierPath()
-beam.move(to: CGPoint(x: notch.minX + 30, y: notch.minY + 10))
-beam.line(to: CGPoint(x: notch.maxX - 30, y: notch.minY + 10))
-beam.line(to: CGPoint(x: 924 + 40, y: 100))
-beam.line(to: CGPoint(x: 100 - 40, y: 100))
-beam.close()
-ctx.saveGState()
-beam.addClip()
-NSGradient(colors: [
-    NSColor(red: 0.72, green: 0.86, blue: 1.0, alpha: 0.55),
-    NSColor(red: 0.55, green: 0.55, blue: 1.0, alpha: 0.18),
-    NSColor(red: 0.45, green: 0.35, blue: 0.95, alpha: 0.0),
-])!.draw(in: CGRect(x: 100, y: 100, width: 824, height: notch.minY - 90), angle: -90)
-ctx.restoreGState()
+func capsule(_ rect: CGRect) -> NSBezierPath {
+    NSBezierPath(roundedRect: rect, xRadius: rect.height / 2, yRadius: rect.height / 2)
+}
 
-// The glow right under the notch.
-NSGradient(colors: [NSColor(red: 0.80, green: 0.92, blue: 1.0, alpha: 0.75), NSColor(red: 0.55, green: 0.6, blue: 1.0, alpha: 0)])!
-    .draw(fromCenter: CGPoint(x: 512, y: notch.minY + 4), radius: 0, toCenter: CGPoint(x: 512, y: notch.minY + 4), radius: 300, options: [])
+func color(_ hex: UInt32, _ alpha: CGFloat = 1) -> NSColor {
+    NSColor(srgbRed: CGFloat((hex >> 16) & 0xff) / 255, green: CGFloat((hex >> 8) & 0xff) / 255, blue: CGFloat(hex & 0xff) / 255, alpha: alpha)
+}
 
-// A pool of light where the beam lands.
-NSGradient(colors: [NSColor(red: 0.62, green: 0.70, blue: 1.0, alpha: 0.35), NSColor(red: 0.5, green: 0.4, blue: 1.0, alpha: 0)])!
-    .draw(fromCenter: CGPoint(x: 512, y: 150), radius: 0, toCenter: CGPoint(x: 512, y: 150), radius: 380, options: [])
+/// A black island with a song's artwork on the left and its waveform on the right.
+func drawIsland(_ ctx: CGContext, _ island: CGRect) {
+    NSColor.black.setFill()
+    capsule(island).fill()
+    let edge = capsule(island.insetBy(dx: 2, dy: 2))
+    edge.lineWidth = 3
+    NSColor.white.withAlphaComponent(0.10).setStroke()
+    edge.stroke()
+    let h = island.height
+    drawArtwork(ctx, CGRect(x: island.minX + h * 0.2, y: island.minY + h * 0.2, width: h * 0.6, height: h * 0.6), radius: h * 0.16)
+    let wave = CGRect(x: island.maxX - h * 0.82, y: island.minY + h * 0.24, width: h * 0.62, height: h * 0.52)
+    let bars = NSBezierPath()
+    let barWidth = wave.width / 7
+    for (i, height) in [0.45, 1, 0.7, 0.9].enumerated() {
+        let barHeight = wave.height * height
+        bars.append(capsule(CGRect(x: wave.minX + CGFloat(i) * 2 * barWidth, y: wave.midY - barHeight / 2, width: barWidth, height: barHeight)))
+    }
+    ctx.saveGState()
+    bars.addClip()
+    NSGradient(colors: [color(0x5EE6D0), color(0xB46BFF)])!.draw(in: wave, angle: 90)
+    ctx.restoreGState()
+}
 
-// The notch itself, with a lit rim.
-ctx.saveGState()
-ctx.setShadow(offset: .zero, blur: 40, color: NSColor(red: 0.6, green: 0.85, blue: 1.0, alpha: 0.9).cgColor)
-let rim = notchOutline(notch)
-rim.lineWidth = 12
-NSColor(red: 0.78, green: 0.92, blue: 1.0, alpha: 1).setStroke()
-rim.stroke()
-ctx.restoreGState()
-let fill = notchOutline(notch)
-fill.close()
-NSColor.black.setFill()
-fill.fill()
+/// Album artwork: a warm gradient with a soft shine.
+func drawArtwork(_ ctx: CGContext, _ rect: CGRect, radius: CGFloat) {
+    ctx.saveGState()
+    NSBezierPath(roundedRect: rect, xRadius: radius, yRadius: radius).addClip()
+    NSGradient(colors: [color(0xFF8A3D), color(0xFF3D7F), color(0x8B3DFF)])!.draw(in: rect, angle: -45)
+    let shine = CGPoint(x: rect.minX + rect.width * 0.3, y: rect.maxY - rect.height * 0.3)
+    NSGradient(colors: [NSColor.white.withAlphaComponent(0.55), NSColor.white.withAlphaComponent(0)])!
+        .draw(fromCenter: shine, radius: 0, toCenter: shine, radius: rect.width * 0.7, options: [])
+    ctx.restoreGState()
+}
 
-ctx.restoreGState()
-image.unlockFocus()
+// A lock screen in miniature: the island at the top, the time, and a Now Playing card.
+let icon = bitmap { ctx in
+    let squircle = NSBezierPath(roundedRect: body, xRadius: 185, yRadius: 185)
+    ctx.saveGState()
+    ctx.setShadow(offset: CGSize(width: 0, height: -12), blur: 28, color: NSColor.black.withAlphaComponent(0.35).cgColor)
+    NSColor.black.setFill()
+    squircle.fill()
+    ctx.restoreGState()
+
+    ctx.saveGState()
+    squircle.addClip()
+    // The wallpaper.
+    NSGradient(colors: [color(0x1D3CB0), color(0x6A2FD8), color(0xF0663A)])!.draw(in: body, angle: -60)
+    for (x, y, r, glow) in [(260.0, 300.0, 420.0, color(0xFF7A45, 0.55)), (820.0, 820.0, 460.0, color(0x3D7BFF, 0.6)), (700.0, 260.0, 380.0, color(0xC24BFF, 0.45))] {
+        NSGradient(colors: [glow, glow.withAlphaComponent(0)])!
+            .draw(fromCenter: CGPoint(x: x, y: y), radius: 0, toCenter: CGPoint(x: x, y: y), radius: r, options: [])
+    }
+
+    drawIsland(ctx, CGRect(x: 312, y: 760, width: 400, height: 112))
+
+    let time = NSAttributedString(string: "9:41", attributes: [
+        .font: NSFont.systemFont(ofSize: 250, weight: .semibold).rounded,
+        .foregroundColor: NSColor.white.withAlphaComponent(0.92),
+    ])
+    time.draw(at: CGPoint(x: 512 - time.size().width / 2, y: 430))
+
+    // A frosted Now Playing card.
+    let card = NSBezierPath(roundedRect: CGRect(x: 210, y: 190, width: 604, height: 190), xRadius: 56, yRadius: 56)
+    NSColor.white.withAlphaComponent(0.22).setFill()
+    card.fill()
+    card.lineWidth = 4
+    NSColor.white.withAlphaComponent(0.4).setStroke()
+    card.stroke()
+    drawArtwork(ctx, CGRect(x: 250, y: 230, width: 110, height: 110), radius: 26)
+    NSColor.white.withAlphaComponent(0.95).setFill()
+    capsule(CGRect(x: 395, y: 300, width: 300, height: 26)).fill()
+    NSColor.white.withAlphaComponent(0.55).setFill()
+    capsule(CGRect(x: 395, y: 248, width: 200, height: 22)).fill()
+
+    // Glass sheen across the top half.
+    NSGradient(colors: [NSColor.white.withAlphaComponent(0.14), NSColor.white.withAlphaComponent(0)])!
+        .draw(in: CGRect(x: 100, y: 560, width: 824, height: 364), angle: -90)
+    ctx.restoreGState()
+
+    let rim = NSBezierPath(roundedRect: body.insetBy(dx: 1.5, dy: 1.5), xRadius: 184, yRadius: 184)
+    rim.lineWidth = 3
+    NSColor.white.withAlphaComponent(0.18).setStroke()
+    rim.stroke()
+}
+
+extension NSFont {
+    var rounded: NSFont {
+        guard let descriptor = fontDescriptor.withDesign(.rounded) else { return self }
+        return NSFont(descriptor: descriptor, size: pointSize) ?? self
+    }
+}
 
 let out = URL(fileURLWithPath: CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "icon-1024.png")
-let rep = NSBitmapImageRep(data: image.tiffRepresentation!)!
-try! rep.representation(using: .png, properties: [:])!.write(to: out)
+try! icon.representation(using: .png, properties: [:])!.write(to: out)

@@ -96,26 +96,20 @@ private struct MenuBarLabel: View {
     }
 }
 
-/// A screen with the notch at its top edge, in one shape, drawn as a template so it tints with the menu bar.
+/// The island playing a song: a capsule with the artwork and waveform cut out of it, in one shape, drawn
+/// as a template so it tints with the menu bar.
 enum MenuBarIcon {
     static let image: NSImage = {
-        let image = NSImage(size: NSSize(width: 18, height: 18), flipped: true) { _ in
-            NSColor.black.setStroke()
+        // As wide as the battery icon beside it, so it holds its own in the menu bar.
+        let image = NSImage(size: NSSize(width: 26, height: 18), flipped: true) { _ in
             NSColor.black.setFill()
-            // The screen, for the lock screen.
-            let screen = NSBezierPath(roundedRect: NSRect(x: 1.75, y: 3.75, width: 14.5, height: 10.5), xRadius: 2.4, yRadius: 2.4)
-            screen.lineWidth = 1.5
-            screen.stroke()
-            // The notch hanging from its top edge, for the island.
-            let notch = NSBezierPath()
-            notch.move(to: NSPoint(x: 6, y: 3.5))
-            notch.line(to: NSPoint(x: 6, y: 5.6))
-            notch.appendArc(withCenter: NSPoint(x: 7.4, y: 5.6), radius: 1.4, startAngle: 180, endAngle: 90, clockwise: true)
-            notch.line(to: NSPoint(x: 10.6, y: 7))
-            notch.appendArc(withCenter: NSPoint(x: 10.6, y: 5.6), radius: 1.4, startAngle: 90, endAngle: 0, clockwise: true)
-            notch.line(to: NSPoint(x: 12, y: 3.5))
-            notch.close()
-            notch.fill()
+            let island = NSBezierPath(roundedRect: NSRect(x: 1, y: 4, width: 24, height: 10), xRadius: 5, yRadius: 5)
+            island.append(NSBezierPath(roundedRect: NSRect(x: 3.5, y: 6.25, width: 5.5, height: 5.5), xRadius: 1.5, yRadius: 1.5).reversed)
+            for (i, height) in [3.4, 6.0, 4.4, 5.2].enumerated() {
+                let bar = NSRect(x: 13.05 + CGFloat(i) * 2.8, y: 9 - height / 2, width: 1.5, height: height)
+                island.append(NSBezierPath(roundedRect: bar, xRadius: 0.75, yRadius: 0.75).reversed)
+            }
+            island.fill()
             return true
         }
         image.isTemplate = true

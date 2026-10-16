@@ -84,7 +84,9 @@ struct StudioCanvas: View {
     var interactive = true
 
     @ObservedObject private var layout = LayoutStore.shared
+    @ObservedObject private var island = IslandModel.shared
     @AppStorage(SettingsKey.scale) private var scale = 1.0
+    @AppStorage(SettingsKey.islandEnabled) private var islandEnabled = true
     @State private var wallpaperImage: NSImage?
 
     var body: some View {
@@ -101,6 +103,13 @@ struct StudioCanvas: View {
                     .frame(width: screen.width, height: screen.height)
                     .scaleEffect(factor, anchor: .topLeading)
                     .allowsHitTesting(false)
+                // The Dynamic Island at the notch, live, as it shows on the lock screen.
+                if island.hasNotch, islandEnabled {
+                    IslandView()
+                        .frame(width: screen.width, height: 240)
+                        .scaleEffect(factor, anchor: .topLeading)
+                        .allowsHitTesting(false)
+                }
                 ForEach(layout.instances) { instance in
                     StudioItem(
                         instance: instance,
