@@ -7,6 +7,7 @@ struct GeneralPage: View {
     @ObservedObject var overlay: OverlayManager
     @ObservedObject private var calendar = CalendarStore.shared
     @ObservedObject private var music = NowPlayingStore.shared
+    @ObservedObject private var updater = Updater.shared
 
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.showOnLockScreen) private var showOnLockScreen = true
@@ -15,7 +16,7 @@ struct GeneralPage: View {
     var body: some View {
         Form {
             Section {
-                PageHeader(title: "General", subtitle: "Turn LockWidgets on or off and manage permissions.")
+                PageHeader(title: "General", subtitle: "Turn Notchlight on or off and manage permissions.")
             }
 
             Section {
@@ -45,9 +46,21 @@ struct GeneralPage: View {
             Section("Startup") {
                 Toggle(isOn: $launchAtLogin) {
                     Text("Launch at login")
-                    Text("Keep LockWidgets running so widgets appear whenever you lock your Mac.")
+                    Text("Keep Notchlight running so widgets appear whenever you lock your Mac.")
                 }
                 .onChange(of: launchAtLogin) { _, enabled in setLaunchAtLogin(enabled) }
+            }
+
+            Section("Updates") {
+                Toggle(isOn: Binding(get: { updater.automaticallyChecks }, set: { updater.automaticallyChecks = $0 })) {
+                    Text("Check for updates automatically")
+                    Text("Notchlight looks for a new version once a day and asks before installing it.")
+                }
+                LabeledContent {
+                    Button("Check Now") { updater.checkForUpdates() }
+                } label: {
+                    Text("Version \(Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "")")
+                }
             }
 
             Section {

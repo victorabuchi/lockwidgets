@@ -69,7 +69,7 @@ final class PhotosStore: ObservableObject {
 
     private func nextFromLibrary() {
         guard PHPhotoLibrary.authorizationStatus(for: .readWrite) == .authorized else {
-            publish(problem: "Allow Photos access in LockWidgets settings.")
+            publish(problem: "Allow Photos access in Notchlight settings.")
             return
         }
         let options = PHFetchOptions()
@@ -122,7 +122,7 @@ final class PhotosStore: ObservableObject {
 
     private func nextFromFolder() {
         guard let folder = resolveFolder() else {
-            publish(problem: "Choose a folder in LockWidgets settings.")
+            publish(problem: "Choose a folder in Notchlight settings.")
             return
         }
         DispatchQueue.global(qos: .utility).async { [weak self] in

@@ -82,10 +82,10 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
     private func requestLocation() {
         switch manager.authorizationStatus {
         case .notDetermined:
-            publish(problem: "Allow location access, or set a city in LockWidgets settings.")
+            publish(problem: "Allow location access, or set a city in Notchlight settings.")
             manager.requestWhenInUseAuthorization()
         case .denied, .restricted:
-            publish(problem: "Location is off. Set a city in LockWidgets settings.")
+            publish(problem: "Location is off. Set a city in Notchlight settings.")
         default:
             manager.requestLocation()
         }
@@ -111,7 +111,7 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
     }
 
     func locationManager(_: CLLocationManager, didFailWithError _: Error) {
-        publish(problem: "Couldn't find your location. Set a city in LockWidgets settings.")
+        publish(problem: "Couldn't find your location. Set a city in Notchlight settings.")
     }
 
     // MARK: Open-Meteo

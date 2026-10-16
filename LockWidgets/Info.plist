@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>LockWidgets</string>
+	<string>Notchlight</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -25,18 +25,24 @@
 	<key>LSUIElement</key>
 	<true/>
 	<key>NSAppleEventsUsageDescription</key>
-	<string>LockWidgets reads the current song from Music and Spotify to show it on the lock screen.</string>
+	<string>Notchlight reads the current song from Music and Spotify to show it on the lock screen.</string>
 	<key>NSBluetoothAlwaysUsageDescription</key>
-	<string>LockWidgets shows when your AirPods and other Bluetooth devices connect.</string>
+	<string>Notchlight shows when your AirPods and other Bluetooth devices connect.</string>
 	<key>NSCalendarsFullAccessUsageDescription</key>
-	<string>LockWidgets shows your upcoming events on the lock screen.</string>
+	<string>Notchlight shows your upcoming events on the lock screen.</string>
 	<key>NSLocationUsageDescription</key>
-	<string>LockWidgets uses your location to show local weather.</string>
+	<string>Notchlight uses your location to show local weather.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>LockWidgets uses your location to show local weather.</string>
+	<string>Notchlight uses your location to show local weather.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>LockWidgets shows your favourite photos on the lock screen.</string>
+	<string>Notchlight shows your favourite photos on the lock screen.</string>
 	<key>NSRemindersFullAccessUsageDescription</key>
-	<string>LockWidgets shows your open reminders on the lock screen.</string>
+	<string>Notchlight shows your open reminders on the lock screen.</string>
+	<key>SUEnableAutomaticChecks</key>
+	<true/>
+	<key>SUFeedURL</key>
+	<string>https://github.com/victorabuchi/notchlight/releases/latest/download/appcast.xml</string>
+	<key>SUPublicEDKey</key>
+	<string>498SXsdJ48ah9tTKm3XgT0qVJ85yBu3uWBHyapiSTUo=</string>
 </dict>
 </plist>

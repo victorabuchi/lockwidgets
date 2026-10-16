@@ -47,7 +47,7 @@ struct IslandSettingsPage: View {
                     }
                 } label: {
                     Text("Full Disk Access")
-                    Text("macOS keeps notifications in a protected file. Turn on LockWidgets in Full Disk Access, then reopen LockWidgets.")
+                    Text("macOS keeps notifications in a protected file. Turn on Notchlight in Full Disk Access, then reopen Notchlight.")
                 }
             } header: {
                 Text("Notifications")

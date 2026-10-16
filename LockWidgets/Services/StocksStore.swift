@@ -84,7 +84,7 @@ final class StocksStore: ObservableObject {
         let encoded = symbol.addingPercentEncoding(withAllowedCharacters: .urlPathAllowed) ?? symbol
         guard let url = URL(string: "https://query1.finance.yahoo.com/v8/finance/chart/\(encoded)?range=1d&interval=15m") else { return nil }
         var request = URLRequest(url: url)
-        request.setValue("Mozilla/5.0 (Macintosh) LockWidgets", forHTTPHeaderField: "User-Agent")
+        request.setValue("Mozilla/5.0 (Macintosh) Notchlight", forHTTPHeaderField: "User-Agent")
         guard let (data, _) = try? await URLSession.shared.data(for: request),
               let result = try? JSONDecoder().decode(Response.self, from: data).chart.result?.first,
               let price = result.meta.regularMarketPrice

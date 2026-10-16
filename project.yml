@@ -7,6 +7,9 @@ packages:
   SkyLightWindow:
     url: https://github.com/Lakr233/SkyLightWindow
     from: 1.0.0
+  Sparkle:
+    url: https://github.com/sparkle-project/Sparkle
+    from: 2.6.0
 targets:
   LockWidgets:
     type: application
@@ -14,6 +17,7 @@ targets:
     sources: [LockWidgets]
     dependencies:
       - package: SkyLightWindow
+      - package: Sparkle
       - sdk: libsqlite3.tbd
     info:
       path: LockWidgets/Info.plist
@@ -22,14 +26,17 @@ targets:
         CFBundleShortVersionString: $(MARKETING_VERSION)
         CFBundleVersion: $(CURRENT_PROJECT_VERSION)
         LSApplicationCategoryType: public.app-category.utilities
-        CFBundleDisplayName: LockWidgets
-        NSAppleEventsUsageDescription: LockWidgets reads the current song from Music and Spotify to show it on the lock screen.
-        NSLocationUsageDescription: LockWidgets uses your location to show local weather.
-        NSLocationWhenInUseUsageDescription: LockWidgets uses your location to show local weather.
-        NSRemindersFullAccessUsageDescription: LockWidgets shows your open reminders on the lock screen.
-        NSPhotoLibraryUsageDescription: LockWidgets shows your favourite photos on the lock screen.
-        NSBluetoothAlwaysUsageDescription: LockWidgets shows when your AirPods and other Bluetooth devices connect.
-        NSCalendarsFullAccessUsageDescription: LockWidgets shows your upcoming events on the lock screen.
+        CFBundleDisplayName: Notchlight
+        SUFeedURL: https://github.com/victorabuchi/notchlight/releases/latest/download/appcast.xml
+        SUEnableAutomaticChecks: true
+        SUPublicEDKey: 498SXsdJ48ah9tTKm3XgT0qVJ85yBu3uWBHyapiSTUo=
+        NSAppleEventsUsageDescription: Notchlight reads the current song from Music and Spotify to show it on the lock screen.
+        NSLocationUsageDescription: Notchlight uses your location to show local weather.
+        NSLocationWhenInUseUsageDescription: Notchlight uses your location to show local weather.
+        NSRemindersFullAccessUsageDescription: Notchlight shows your open reminders on the lock screen.
+        NSPhotoLibraryUsageDescription: Notchlight shows your favourite photos on the lock screen.
+        NSBluetoothAlwaysUsageDescription: Notchlight shows when your AirPods and other Bluetooth devices connect.
+        NSCalendarsFullAccessUsageDescription: Notchlight shows your upcoming events on the lock screen.
     entitlements:
       path: LockWidgets/LockWidgets.entitlements
       properties:
@@ -41,8 +48,9 @@ targets:
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.victorabuchi.LockWidgets
-        MARKETING_VERSION: "1.2"
-        CURRENT_PROJECT_VERSION: "3"
+        PRODUCT_NAME: Notchlight
+        MARKETING_VERSION: "1.3"
+        CURRENT_PROJECT_VERSION: "4"
         SWIFT_VERSION: "5.0"
         CODE_SIGN_STYLE: Automatic
         CODE_SIGN_IDENTITY: Apple Development

@@ -34,7 +34,9 @@
 		5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */; };
 		5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50667F8A2F064584A76D173F /* AboutPage.swift */; };
 		5DB39BA63B65E1585327A015 /* ClockWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 944261E2F34003592A329E1D /* ClockWidget.swift */; };
+		67D54EFF88C0DFAF14C606AC /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = CD0FB75D1A1B2C3527A1C0FA /* Sparkle */; };
 		6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F88EF4BD9D335A452A827616 /* WidgetPage.swift */; };
+		6E47A89FDBD2624A239D1DBD /* Updater.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DCE04B03437C9A51DC657C6 /* Updater.swift */; };
 		6E4BE27AABD66521AF6476B8 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 91176FBA3F631868316D68E2 /* libsqlite3.tbd */; };
 		72622F7F7AD016E9591D15C9 /* StatusIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */; };
 		737D83A9FCB45DC03F1545DC /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1232187C31444AB12322EDB /* NotificationStore.swift */; };
@@ -85,6 +87,7 @@
 		33D67D8F04957B4191B11B16 /* WidgetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBoard.swift; sourceTree = "<group>"; };
 		340B9D05531D1298D3305788 /* LayoutStudioPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutStudioPage.swift; sourceTree = "<group>"; };
 		3A520B6BC02944014CAB7788 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
+		3DCE04B03437C9A51DC657C6 /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMonitor.swift; sourceTree = "<group>"; };
 		406E0CD205C3061CF6EFE586 /* EarthStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthStore.swift; sourceTree = "<group>"; };
 		45227B1790D28DA62C5833A6 /* IslandSettingsPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandSettingsPage.swift; sourceTree = "<group>"; };
@@ -144,6 +147,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */,
+				67D54EFF88C0DFAF14C606AC /* Sparkle in Frameworks */,
 				6E4BE27AABD66521AF6476B8 /* libsqlite3.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -229,6 +233,7 @@
 				8A513FE231239454ED6ED159 /* StocksStore.swift */,
 				3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */,
 				59D421F3DF3559273A21EB63 /* TimerStore.swift */,
+				3DCE04B03437C9A51DC657C6 /* Updater.swift */,
 				8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */,
 			);
 			path = Services;
@@ -303,6 +308,7 @@
 			name = LockWidgets;
 			packageProductDependencies = (
 				971F8C6EB6525354011681E8 /* SkyLightWindow */,
+				CD0FB75D1A1B2C3527A1C0FA /* Sparkle */,
 			);
 			productName = LockWidgets;
 			productReference = 0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */;
@@ -334,6 +340,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				20F97F3AED6E031D7A2E9FB8 /* XCRemoteSwiftPackageReference "SkyLightWindow" */,
+				403CF87420E5219F4AA81D65 /* XCRemoteSwiftPackageReference "Sparkle" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 207F3E4DB7C3A9F38C6B190D /* Products */;
@@ -411,6 +418,7 @@
 				FBB750C184D9FD02F78B8B5C /* SystemWidget.swift in Sources */,
 				2C595B1CAC6C05B014363646 /* TimerStore.swift in Sources */,
 				317CB231FCB0BB0D5938E03B /* TimerWidgets.swift in Sources */,
+				6E47A89FDBD2624A239D1DBD /* Updater.swift in Sources */,
 				4469748AF58F07A1B94D7510 /* WeatherStore.swift in Sources */,
 				940693083BF27989A43B197B /* WeatherWidget.swift in Sources */,
 				185BB4FA517C57C21E146968 /* WhatsNewPage.swift in Sources */,
@@ -434,7 +442,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 4T4AXT6P7X;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -443,8 +451,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.victorabuchi.LockWidgets;
+				PRODUCT_NAME = Notchlight;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -458,7 +467,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = 4T4AXT6P7X;
 				ENABLE_HARDENED_RUNTIME = YES;
 				GENERATE_INFOPLIST_FILE = NO;
@@ -467,8 +476,9 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.victorabuchi.LockWidgets;
+				PRODUCT_NAME = Notchlight;
 				SDKROOT = macosx;
 				SWIFT_VERSION = 5.0;
 			};
@@ -625,6 +635,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		403CF87420E5219F4AA81D65 /* XCRemoteSwiftPackageReference "Sparkle" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sparkle-project/Sparkle";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -632,6 +650,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 20F97F3AED6E031D7A2E9FB8 /* XCRemoteSwiftPackageReference "SkyLightWindow" */;
 			productName = SkyLightWindow;
+		};
+		CD0FB75D1A1B2C3527A1C0FA /* Sparkle */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 403CF87420E5219F4AA81D65 /* XCRemoteSwiftPackageReference "Sparkle" */;
+			productName = Sparkle;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

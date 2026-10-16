@@ -15,7 +15,7 @@ struct NowPlayingWidget: View {
             }
         } else if music.needsPermission {
             WidgetCard(size: instance.size, title: "Now Playing", symbol: "music.note") {
-                WidgetPlaceholder(symbol: "lock", message: "Allow LockWidgets under Privacy & Security → Automation.")
+                WidgetPlaceholder(symbol: "lock", message: "Allow Notchlight under Privacy & Security → Automation.")
             }
         } else if !hideWhenIdle || isPreview {
             WidgetCard(size: instance.size, title: "Now Playing", symbol: "music.note") {

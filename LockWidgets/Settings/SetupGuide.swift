@@ -71,7 +71,7 @@ struct SetupGuide: View {
                 Image(nsImage: NSApp.applicationIconImage)
                     .resizable()
                     .frame(width: 34, height: 34)
-                Text("LockWidgets").font(.system(size: 17, weight: .bold))
+                Text("Notchlight").font(.system(size: 17, weight: .bold))
             }
             .frame(width: 220, alignment: .leading)
             Spacer()
@@ -156,7 +156,7 @@ struct SetupGuide: View {
                 feature("rectangle.3.group", "Arrange them your way")
                 feature("lock", "See them whenever you lock")
             }
-            Text("LockWidgets collects no data. Weather, lyrics, news and prices come straight from their public sources.")
+            Text("Notchlight collects no data. Weather, lyrics, news and prices come straight from their public sources.")
                 .font(.callout)
                 .foregroundStyle(.secondary)
                 .fixedSize(horizontal: false, vertical: true)

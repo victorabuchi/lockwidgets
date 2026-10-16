@@ -238,7 +238,7 @@ private struct NowPlayingOptions: View {
         } header: {
             Text("Now Playing")
         } footer: {
-            Text("Works with Apple Music and Spotify. LockWidgets only reads from a player that is already open and never launches one.")
+            Text("Works with Apple Music and Spotify. Notchlight only reads from a player that is already open and never launches one.")
                 .foregroundStyle(.secondary)
         }
     }
@@ -263,7 +263,7 @@ private struct LyricsOptions: View {
         } header: {
             Text("Apple Music Lyrics")
         } footer: {
-            Text("These are Apple Music's own lyrics, timed line by line exactly as in Music. LockWidgets reads them from Music on this Mac; nothing comes from anywhere else.")
+            Text("These are Apple Music's own lyrics, timed line by line exactly as in Music. Notchlight reads them from Music on this Mac; nothing comes from anywhere else.")
                 .foregroundStyle(.secondary)
         }
     }

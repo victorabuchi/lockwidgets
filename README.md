@@ -1,12 +1,12 @@
-# LockWidgets
+# Notchlight
 
-Widgets for the macOS lock screen.
+Your Mac's lock screen and notch, lit up: widgets on the lock screen and a Dynamic Island around the notch.
 
-LockWidgets puts live widgets on your Mac's lock screen: the weather, your next meeting, the song playing with Apple Music's own synced lyrics, your notes, a live globe and more. Glance at your Mac without unlocking it. Arrange the widgets wherever you like in Layout Studio, start from a ready-made layout in the Gallery, and pick the look that suits your wallpaper.
+Notchlight puts live widgets on your Mac's lock screen: the weather, your next meeting, the song playing with Apple Music's own synced lyrics, your notes, a live globe and more. Glance at your Mac without unlocking it. Arrange the widgets wherever you like in Layout Studio, start from a ready-made layout in the Gallery, and pick the look that suits your wallpaper.
 
 It runs from the menu bar. When you lock your Mac, it draws your widgets in a layer above the lock screen using [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow), and removes them when you sign back in.
 
-On a MacBook with a notch, LockWidgets also turns the notch into a Dynamic Island, like the iPhone's: the song that's playing, your calls, notifications and system alerts, on the desktop and on the lock screen.
+On a MacBook with a notch, Notchlight also turns the notch into a Dynamic Island, like the iPhone's: the song that's playing, your calls, notifications and system alerts, on the desktop and on the lock screen.
 
 ## Features
 
@@ -59,32 +59,38 @@ Point at the island to see more. Click it to open the app behind it: Music or Sp
 
 ## Install
 
-1. Download `LockWidgets-<version>.dmg` from [Releases](../../releases).
-2. Open it and drag **LockWidgets** into **Applications**.
-3. Open LockWidgets. The Setup Guide runs on first launch. Afterwards, open the app again or use its menu bar icon.
+1. Download `Notchlight-<version>.dmg` from [Releases](../../releases).
+2. Open it and drag **Notchlight** into **Applications**.
+3. Open Notchlight. The Setup Guide runs on first launch. Afterwards, open the app again or use its menu bar icon.
 4. Lock your Mac with **Control + Command + Q** to see your widgets.
 
-Requires macOS 15 or later. Builds are signed with a Developer ID and notarized by Apple.
+Or install it with [Homebrew](https://brew.sh):
+
+```sh
+brew install --cask victorabuchi/tap/notchlight
+```
+
+Requires macOS 15 or later. Builds are signed with a Developer ID and notarized by Apple. Notchlight checks for updates once a day and asks before installing one; choose **Check for Updates…** in its menu to look now.
 
 ## Permissions
 
-LockWidgets asks only when a widget needs something:
+Notchlight asks only when a widget needs something:
 
 - **Calendar** for Calendar and Daily Brief
 - **Reminders** for Reminders
 - **Location** for local weather (not needed if you set a city)
 - **Photos** for the Photos widget (not needed if you pick a folder)
-- **Automation** to read the current song from Music or Spotify. LockWidgets only talks to a player that is already open.
+- **Automation** to read the current song from Music or Spotify. Notchlight only talks to a player that is already open.
 - **Full Disk Access** for notifications and Focus on the Dynamic Island. macOS keeps both in protected files; the Setup Guide links to the setting.
 - **Accessibility** (optional) to name a call in your browser, such as Zoom or Google Meet, from the window title.
 
 ## Privacy
 
-LockWidgets collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and LockWidgets reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Nothing is sent anywhere else.
+Notchlight collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and Notchlight reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Nothing is sent anywhere else.
 
 ## How lyrics work
 
-Apple doesn't offer Apple Music lyrics to other apps. Music does keep the lyrics it downloads, Apple's time-synced TTML, in its cache at `~/Library/Caches/com.apple.Music`. LockWidgets finds the entry for the playing song by title and length and highlights each line at Apple's timestamps against Music's playback position. If Music has no lyrics for a song, the widget says so. Spotify tracks show Now Playing but no lyrics.
+Apple doesn't offer Apple Music lyrics to other apps. Music does keep the lyrics it downloads, Apple's time-synced TTML, in its cache at `~/Library/Caches/com.apple.Music`. Notchlight finds the entry for the playing song by title and length and highlights each line at Apple's timestamps against Music's playback position. If Music has no lyrics for a song, the widget says so. Spotify tracks show Now Playing but no lyrics.
 
 ## Development
 
@@ -113,18 +119,21 @@ Debug builds accept launch arguments for screenshots, such as `-settingsPage stu
 
 ```sh
 scripts/release.sh            # signed DMG in dist/
-scripts/release.sh --publish  # also create or update the GitHub release
+scripts/release.sh --publish  # also the GitHub release, its update feed and the Homebrew cask
 ```
 
-Bump `MARKETING_VERSION` in `project.yml` first. The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
+Bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` first. The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
 
 ```sh
 xcrun notarytool store-credentials lockwidgets-notary --apple-id <apple-id> --team-id 4T4AXT6P7X
 ```
+
+Updates reach installed copies through [Sparkle](https://sparkle-project.org). Each release uploads an `appcast.xml` describing the new version, and its download is signed with the EdDSA key in `~/.config/notchlight/sparkle-ed25519.key`, whose public half is `SUPublicEDKey` in `project.yml`. Keep a backup of that key: without it, installed copies won't accept new versions.
 
 The app icon is drawn by `scripts/make-icon.swift`.
 
 ## Credits
 
 - [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow) by Lakr Aream, for drawing above the lock screen
+- [Sparkle](https://sparkle-project.org), for updates
 - [Open-Meteo](https://open-meteo.com) for weather

@@ -8,7 +8,7 @@ struct RemindersWidget: View {
         let limit = instance.size == .large ? 8 : instance.size == .medium ? 3 : 2
         WidgetCard(size: instance.size, title: "Reminders", symbol: "checklist") {
             if !reminders.hasAccess {
-                WidgetPlaceholder(symbol: "lock", message: "Allow Reminders access in LockWidgets settings.")
+                WidgetPlaceholder(symbol: "lock", message: "Allow Reminders access in Notchlight settings.")
             } else if reminders.items.isEmpty {
                 WidgetPlaceholder(symbol: "checkmark.circle", message: "All done.")
             } else {

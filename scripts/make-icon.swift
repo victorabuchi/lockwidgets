@@ -1,4 +1,5 @@
-// Renders the app icon into the asset catalog: swift scripts/make-icon.swift
+// Renders the app icon: swift scripts/make-icon.swift [out.png]
+// A night-blue screen with the notch at the top, lit at its edge and casting a soft beam of light.
 import AppKit
 
 let size: CGFloat = 1024
@@ -16,71 +17,69 @@ NSColor.black.setFill()
 bodyPath.fill()
 ctx.restoreGState()
 
+ctx.saveGState()
 bodyPath.addClip()
+
+// The screen: deep night blue, a little warmer towards the bottom.
 NSGradient(colors: [
-    NSColor(red: 0.55, green: 0.42, blue: 0.98, alpha: 1),
-    NSColor(red: 0.30, green: 0.22, blue: 0.78, alpha: 1),
-    NSColor(red: 0.10, green: 0.08, blue: 0.34, alpha: 1),
-])!.draw(in: body, angle: -60)
-NSGradient(colors: [NSColor(red: 0.85, green: 0.7, blue: 1, alpha: 0.55), .clear])!
-    .draw(fromCenter: CGPoint(x: 330, y: 760), radius: 0, toCenter: CGPoint(x: 330, y: 760), radius: 520, options: [])
+    NSColor(red: 0.04, green: 0.05, blue: 0.14, alpha: 1),
+    NSColor(red: 0.10, green: 0.08, blue: 0.30, alpha: 1),
+    NSColor(red: 0.22, green: 0.12, blue: 0.42, alpha: 1),
+])!.draw(in: body, angle: -90)
 
-// Light sweep, a nod to the macOS wallpaper.
-let sweep = NSBezierPath()
-sweep.move(to: CGPoint(x: 560, y: 924))
-sweep.curve(to: CGPoint(x: 924, y: 380), controlPoint1: CGPoint(x: 700, y: 760), controlPoint2: CGPoint(x: 760, y: 470))
-sweep.lineWidth = 10
-NSColor.white.withAlphaComponent(0.5).setStroke()
-sweep.stroke()
-
-func card(_ rect: CGRect, _ draw: (CGRect) -> Void) {
-    let path = NSBezierPath(roundedRect: rect, xRadius: 44, yRadius: 44)
-    NSColor.white.withAlphaComponent(0.2).setFill()
-    path.fill()
-    NSColor.white.withAlphaComponent(0.35).setStroke()
-    path.lineWidth = 4
-    path.stroke()
-    draw(rect)
+// The notch hangs from the top edge.
+let notch = CGRect(x: 362, y: 924 - 122, width: 300, height: 122)
+let radius: CGFloat = 50
+func notchOutline(_ rect: CGRect) -> NSBezierPath {
+    let path = NSBezierPath()
+    path.move(to: CGPoint(x: rect.minX, y: rect.maxY + 2))
+    path.line(to: CGPoint(x: rect.minX, y: rect.minY + radius))
+    path.appendArc(withCenter: CGPoint(x: rect.minX + radius, y: rect.minY + radius), radius: radius, startAngle: 180, endAngle: 270)
+    path.line(to: CGPoint(x: rect.maxX - radius, y: rect.minY))
+    path.appendArc(withCenter: CGPoint(x: rect.maxX - radius, y: rect.minY + radius), radius: radius, startAngle: 270, endAngle: 360)
+    path.line(to: CGPoint(x: rect.maxX, y: rect.maxY + 2))
+    return path
 }
 
-func bar(_ x: CGFloat, _ y: CGFloat, _ w: CGFloat, _ h: CGFloat, _ alpha: CGFloat) {
-    NSColor.white.withAlphaComponent(alpha).setFill()
-    NSBezierPath(roundedRect: CGRect(x: x, y: y, width: w, height: h), xRadius: h / 2, yRadius: h / 2).fill()
-}
+// A beam of light falling from the notch, widening as it goes.
+let beam = NSBezierPath()
+beam.move(to: CGPoint(x: notch.minX + 30, y: notch.minY + 10))
+beam.line(to: CGPoint(x: notch.maxX - 30, y: notch.minY + 10))
+beam.line(to: CGPoint(x: 924 + 40, y: 100))
+beam.line(to: CGPoint(x: 100 - 40, y: 100))
+beam.close()
+ctx.saveGState()
+beam.addClip()
+NSGradient(colors: [
+    NSColor(red: 0.72, green: 0.86, blue: 1.0, alpha: 0.55),
+    NSColor(red: 0.55, green: 0.55, blue: 1.0, alpha: 0.18),
+    NSColor(red: 0.45, green: 0.35, blue: 0.95, alpha: 0.0),
+])!.draw(in: CGRect(x: 100, y: 100, width: 824, height: notch.minY - 90), angle: -90)
+ctx.restoreGState()
 
-// Clock card
-card(CGRect(x: 200, y: 620, width: 460, height: 200)) { r in
-    let attributes: [NSAttributedString.Key: Any] = [
-        .font: NSFont.systemFont(ofSize: 120, weight: .bold).rounded,
-        .foregroundColor: NSColor.white,
-    ]
-    NSAttributedString(string: "9:41", attributes: attributes).draw(at: CGPoint(x: r.minX + 40, y: r.minY + 40))
-}
-// Weather card
-card(CGRect(x: 200, y: 400, width: 460, height: 190)) { r in
-    let config = NSImage.SymbolConfiguration(pointSize: 90, weight: .regular)
-        .applying(.init(paletteColors: [.white, NSColor(red: 1, green: 0.8, blue: 0.2, alpha: 1)]))
-    NSImage(systemSymbolName: "cloud.sun.fill", accessibilityDescription: nil)!
-        .withSymbolConfiguration(config)!
-        .draw(in: CGRect(x: r.minX + 40, y: r.minY + 45, width: 120, height: 100))
-    bar(r.minX + 200, r.minY + 110, 200, 30, 0.9)
-    bar(r.minX + 200, r.minY + 60, 140, 26, 0.5)
-}
-// Lyrics card
-card(CGRect(x: 200, y: 180, width: 460, height: 190)) { r in
-    bar(r.minX + 40, r.minY + 125, 300, 22, 0.4)
-    bar(r.minX + 40, r.minY + 80, 380, 30, 1)
-    bar(r.minX + 40, r.minY + 40, 260, 22, 0.4)
-}
+// The glow right under the notch.
+NSGradient(colors: [NSColor(red: 0.80, green: 0.92, blue: 1.0, alpha: 0.75), NSColor(red: 0.55, green: 0.6, blue: 1.0, alpha: 0)])!
+    .draw(fromCenter: CGPoint(x: 512, y: notch.minY + 4), radius: 0, toCenter: CGPoint(x: 512, y: notch.minY + 4), radius: 300, options: [])
 
+// A pool of light where the beam lands.
+NSGradient(colors: [NSColor(red: 0.62, green: 0.70, blue: 1.0, alpha: 0.35), NSColor(red: 0.5, green: 0.4, blue: 1.0, alpha: 0)])!
+    .draw(fromCenter: CGPoint(x: 512, y: 150), radius: 0, toCenter: CGPoint(x: 512, y: 150), radius: 380, options: [])
+
+// The notch itself, with a lit rim.
+ctx.saveGState()
+ctx.setShadow(offset: .zero, blur: 40, color: NSColor(red: 0.6, green: 0.85, blue: 1.0, alpha: 0.9).cgColor)
+let rim = notchOutline(notch)
+rim.lineWidth = 12
+NSColor(red: 0.78, green: 0.92, blue: 1.0, alpha: 1).setStroke()
+rim.stroke()
+ctx.restoreGState()
+let fill = notchOutline(notch)
+fill.close()
+NSColor.black.setFill()
+fill.fill()
+
+ctx.restoreGState()
 image.unlockFocus()
-
-extension NSFont {
-    var rounded: NSFont {
-        guard let descriptor = fontDescriptor.withDesign(.rounded) else { return self }
-        return NSFont(descriptor: descriptor, size: pointSize) ?? self
-    }
-}
 
 let out = URL(fileURLWithPath: CommandLine.arguments.count > 1 ? CommandLine.arguments[1] : "icon-1024.png")
 let rep = NSBitmapImageRep(data: image.tiffRepresentation!)!

@@ -9,6 +9,15 @@ struct WhatsNewPage: View {
 
     private let releases = [
         Release(
+            version: "1.3",
+            summary: "LockWidgets is now Notchlight, with a new icon and automatic updates.",
+            items: [
+                ("sparkles", "A new name", "LockWidgets is now Notchlight: your lock screen and your notch, lit up. Your widgets, settings and permissions carry over."),
+                ("arrow.down.circle", "Automatic updates", "Notchlight checks for a new version once a day and asks before installing it. Check any time from the menu bar."),
+                ("shippingbox", "Install with Homebrew", "brew install --cask victorabuchi/tap/notchlight"),
+            ]
+        ),
+        Release(
             version: "1.2",
             summary: "A Dynamic Island for your MacBook's notch: the song, your calls, notifications and more, like the iPhone.",
             items: [
@@ -58,7 +67,7 @@ struct WhatsNewPage: View {
                         .frame(width: 84, height: 84)
                     VStack(alignment: .leading, spacing: 6) {
                         Text("What's New").font(.system(size: 26, weight: .bold))
-                        Text("What's changed in recent LockWidgets updates.").foregroundStyle(.secondary)
+                        Text("What's changed in recent Notchlight updates.").foregroundStyle(.secondary)
                         Label("Installed version: \(installed)", systemImage: "checkmark.circle.fill")
                             .font(.callout.weight(.medium))
                             .foregroundStyle(Color.accentColor)
@@ -71,7 +80,7 @@ struct WhatsNewPage: View {
                     Divider()
                     VStack(alignment: .leading, spacing: 16) {
                         VStack(alignment: .leading, spacing: 4) {
-                            Text("LockWidgets \(release.version)").font(.system(size: 20, weight: .bold))
+                            Text("Notchlight \(release.version)").font(.system(size: 20, weight: .bold))
                             Text(release.summary).foregroundStyle(.secondary)
                         }
                         ForEach(release.items, id: \.title) { item in

@@ -16,7 +16,7 @@ struct AboutPage: View {
                         .resizable()
                         .frame(width: 72, height: 72)
                     VStack(alignment: .leading, spacing: 4) {
-                        Text("LockWidgets")
+                        Text("Notchlight")
                             .font(.system(size: 22, weight: .bold))
                         Text(version)
                             .foregroundStyle(.secondary)
@@ -31,7 +31,7 @@ struct AboutPage: View {
             }
 
             Section {
-                Link("Source on GitHub", destination: URL(string: "https://github.com/victorabuchi/lockwidgets")!)
+                Link("Source on GitHub", destination: URL(string: "https://github.com/victorabuchi/notchlight")!)
             }
         }
         .formStyle(.grouped)

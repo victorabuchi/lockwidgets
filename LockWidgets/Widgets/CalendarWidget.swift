@@ -81,7 +81,7 @@ struct CalendarWidget: View {
         let events = Array(upcoming(now).prefix(limit))
         return WidgetCard(size: instance.size, title: "Up Next", symbol: "calendar") {
             if !calendar.hasAccess {
-                WidgetPlaceholder(symbol: "lock", message: "Allow calendar access in LockWidgets settings.")
+                WidgetPlaceholder(symbol: "lock", message: "Allow calendar access in Notchlight settings.")
             } else if events.isEmpty {
                 WidgetPlaceholder(symbol: "checkmark.circle", message: includeTomorrow ? "Nothing else today or tomorrow." : "Nothing else today.")
             } else if instance.size == .wide {

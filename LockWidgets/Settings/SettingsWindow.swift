@@ -81,7 +81,7 @@ struct SettingsWindow: View {
             let width = UserDefaults.standard.double(forKey: "windowWidth")
             if width > 0 {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    NSApp.windows.first { $0.title == "LockWidgets" }?.setContentSize(NSSize(width: width, height: 760))
+                    NSApp.windows.first { $0.title == "Notchlight" }?.setContentSize(NSSize(width: width, height: 760))
                 }
             }
             #endif

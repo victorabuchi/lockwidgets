@@ -20,13 +20,13 @@ struct LockWidgetsApp: App {
             MenuBarLabel()
         }
 
-        Window("LockWidgets", id: "settings") {
+        Window("Notchlight", id: "settings") {
             SettingsWindow(overlay: overlay)
         }
         .defaultSize(width: 1100, height: 740)
         .defaultLaunchBehavior(.suppressed)
 
-        Window("Welcome to LockWidgets", id: "setup") {
+        Window("Welcome to Notchlight", id: "setup") {
             SetupGuide()
         }
         .windowStyle(.hiddenTitleBar)
@@ -52,6 +52,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private var activity: NSObjectProtocol?
 
     func applicationDidFinishLaunching(_: Notification) {
+        Updater.shared.start()
         activity = ProcessInfo.processInfo.beginActivity(
             options: [.userInitiatedAllowingIdleSystemSleep, .latencyCritical],
             reason: "Live widgets and the Dynamic Island"
@@ -95,22 +96,26 @@ private struct MenuBarLabel: View {
     }
 }
 
-/// A padlock with a widget-shaped window in its body, drawn as a template so it tints with the menu bar.
+/// A screen with the notch at its top edge, in one shape, drawn as a template so it tints with the menu bar.
 enum MenuBarIcon {
     static let image: NSImage = {
         let image = NSImage(size: NSSize(width: 18, height: 18), flipped: true) { _ in
             NSColor.black.setStroke()
             NSColor.black.setFill()
-            let shackle = NSBezierPath()
-            shackle.move(to: NSPoint(x: 5, y: 8))
-            shackle.line(to: NSPoint(x: 5, y: 5.5))
-            shackle.appendArc(withCenter: NSPoint(x: 9, y: 5.5), radius: 4, startAngle: 180, endAngle: 0, clockwise: false)
-            shackle.line(to: NSPoint(x: 13, y: 8))
-            shackle.lineWidth = 1.7
-            shackle.stroke()
-            let body = NSBezierPath(roundedRect: NSRect(x: 2.5, y: 7.5, width: 13, height: 9.5), xRadius: 2.6, yRadius: 2.6)
-            body.append(NSBezierPath(roundedRect: NSRect(x: 5.5, y: 10.2, width: 7, height: 4), xRadius: 1.2, yRadius: 1.2).reversed)
-            body.fill()
+            // The screen, for the lock screen.
+            let screen = NSBezierPath(roundedRect: NSRect(x: 1.75, y: 3.75, width: 14.5, height: 10.5), xRadius: 2.4, yRadius: 2.4)
+            screen.lineWidth = 1.5
+            screen.stroke()
+            // The notch hanging from its top edge, for the island.
+            let notch = NSBezierPath()
+            notch.move(to: NSPoint(x: 6, y: 3.5))
+            notch.line(to: NSPoint(x: 6, y: 5.6))
+            notch.appendArc(withCenter: NSPoint(x: 7.4, y: 5.6), radius: 1.4, startAngle: 180, endAngle: 90, clockwise: true)
+            notch.line(to: NSPoint(x: 10.6, y: 7))
+            notch.appendArc(withCenter: NSPoint(x: 10.6, y: 5.6), radius: 1.4, startAngle: 90, endAngle: 0, clockwise: true)
+            notch.line(to: NSPoint(x: 12, y: 3.5))
+            notch.close()
+            notch.fill()
             return true
         }
         image.isTemplate = true
@@ -121,6 +126,7 @@ enum MenuBarIcon {
 private struct MenuContent: View {
     @ObservedObject var overlay: OverlayManager
     @ObservedObject private var timers = TimerStore.shared
+    @ObservedObject private var updater = Updater.shared
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.showOnLockScreen) private var showOnLockScreen = true
     @AppStorage(SettingsKey.islandEnabled) private var islandEnabled = true
@@ -130,7 +136,10 @@ private struct MenuContent: View {
     }
 
     var body: some View {
-        Text("LockWidgets \(version)")
+        Text("Notchlight \(version)")
+        if let available = updater.availableVersion {
+            Button("Update to Notchlight \(available)…") { updater.checkForUpdates() }
+        }
 
         Divider()
 
@@ -166,16 +175,17 @@ private struct MenuContent: View {
         Divider()
 
         Button("What's New…") { open(.whatsNew) }
+        Button("Check for Updates…") { updater.checkForUpdates() }
         Menu("Help & Support") {
             Button("Setup Guide…") {
                 openWindow(id: "setup")
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
             }
-            Button("LockWidgets on GitHub") {
-                NSWorkspace.shared.open(URL(string: "https://github.com/victorabuchi/lockwidgets")!)
+            Button("Notchlight on GitHub") {
+                NSWorkspace.shared.open(URL(string: "https://github.com/victorabuchi/notchlight")!)
             }
             Button("Report a Problem…") {
-                NSWorkspace.shared.open(URL(string: "https://github.com/victorabuchi/lockwidgets/issues/new")!)
+                NSWorkspace.shared.open(URL(string: "https://github.com/victorabuchi/notchlight/issues/new")!)
             }
         }
         Toggle("Launch at Login", isOn: Binding(
@@ -187,7 +197,7 @@ private struct MenuContent: View {
 
         Divider()
 
-        Button("Quit LockWidgets") { NSApp.terminate(nil) }
+        Button("Quit Notchlight") { NSApp.terminate(nil) }
             .keyboardShortcut("q")
     }
 
