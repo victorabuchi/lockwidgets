@@ -216,7 +216,8 @@ struct LockCompact: View {
     }
 }
 
-/// The dot beside the island while something uses the microphone (orange), the camera (green) or records (red).
+/// The dot beside the island while something uses the microphone (yellow) or the camera (green), or records or
+/// shares the screen (red).
 struct PrivacyDot: View {
     let privacy: StatusMonitor.Privacy
     let size: CGFloat
@@ -234,9 +235,9 @@ struct PrivacyDot: View {
 
     private var color: Color {
         switch privacy {
-        case .microphone: Color(red: 1, green: 0.62, blue: 0.04)
+        case .microphone: Color(red: 1, green: 0.84, blue: 0.04)
         case .camera: Color(red: 0.19, green: 0.82, blue: 0.35)
-        case .recording: Color(red: 1, green: 0.27, blue: 0.23)
+        case .screenRecording: Color(red: 1, green: 0.27, blue: 0.23)
         }
     }
 }

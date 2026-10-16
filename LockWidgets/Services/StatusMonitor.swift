@@ -31,9 +31,10 @@ final class StatusMonitor: ObservableObject {
 
     @Published private(set) var meeting: Meeting?
 
-    /// What the dot beside the island shows: a recording comes first, then the camera, then the microphone.
+    /// What the dot beside the island shows: the screen being recorded or shared comes first, then the camera,
+    /// then the microphone.
     enum Privacy: Equatable {
-        case microphone, camera, recording
+        case microphone, camera, screenRecording
     }
 
     @Published private(set) var privacy: Privacy?
@@ -56,15 +57,16 @@ final class StatusMonitor: ObservableObject {
             let name = onHotspot ? (CWWiFiClient.shared().interface()?.ssid() ?? "iPhone") : nil
             let listening = Self.appsUsingMicrophone()
             let camera = Self.cameraInUse()
+            let screenRecording = Self.screenWatcherPresent?() ?? false
             let zoomMeeting = Self.processRunning("CptHost")
             let call = zoomMeeting ? nil : Self.call(listening: listening)
             DispatchQueue.main.async {
-                self.apply(onHotspot: onHotspot, name: name, listening: listening, camera: camera, zoomMeeting: zoomMeeting, call: call)
+                self.apply(onHotspot: onHotspot, name: name, listening: listening, camera: camera, screenRecording: screenRecording, zoomMeeting: zoomMeeting, call: call)
             }
         }
     }
 
-    private func apply(onHotspot: Bool, name: String?, listening: [String], camera: Bool, zoomMeeting: Bool, call: (name: String, bundleID: String?)?) {
+    private func apply(onHotspot: Bool, name: String?, listening: [String], camera: Bool, screenRecording: Bool, zoomMeeting: Bool, call: (name: String, bundleID: String?)?) {
         // iPhone hotspots hand out addresses in 172.20.10.0/28.
         if onHotspot != isOnHotspot { isOnHotspot = onHotspot }
         if name != hotspot { hotspot = name }
@@ -80,7 +82,7 @@ final class StatusMonitor: ObservableObject {
         if next != meeting { meeting = next }
 
         let users = listening.filter { app in !Self.backgroundListeners.contains { app.hasPrefix($0) } }
-        let dot: Privacy? = users.contains { app in Self.recorders.contains { app.hasPrefix($0) } } ? .recording
+        let dot: Privacy? = screenRecording ? .screenRecording
             : camera ? .camera
             : users.isEmpty ? nil : .microphone
         if dot != privacy { privacy = dot }
@@ -89,12 +91,14 @@ final class StatusMonitor: ObservableObject {
     /// Listeners that are always on, such as "Hey Siri"; macOS shows no dot for them either.
     private static let backgroundListeners = ["com.apple.corespeechd", "com.apple.siri", "com.apple.assistantd", "com.apple.SpeechRecognitionCore"]
 
-    /// Apps that record sound or the screen. Their use of the microphone shows as a red recording dot.
-    private static let recorders = [
-        "com.apple.VoiceMemos", "com.apple.QuickTimePlayerX", "com.apple.screencapture", "com.apple.garageband",
-        "com.apple.logic", "com.obsproject.obs-studio", "com.loom.desktop", "pl.maketheweb.cleanshotx",
-        "com.timpler.screenstudio", "com.rogueamoeba.audiohijack", "com.wulkano.kap",
-    ]
+    /// Whether anything is recording or sharing the screen. SkyLight is private, but this is the check macOS
+    /// itself offers, and it covers screenshots' screen recording, QuickTime, screen sharing and meeting apps.
+    private static let screenWatcherPresent: (@convention(c) () -> Bool)? = {
+        guard let handle = dlopen("/System/Library/PrivateFrameworks/SkyLight.framework/SkyLight", RTLD_NOW),
+              let symbol = dlsym(handle, "SLSIsScreenWatcherPresent")
+        else { return nil }
+        return unsafeBitCast(symbol, to: (@convention(c) () -> Bool).self)
+    }()
 
     /// Calls and meeting apps that may be using the mic or camera, most specific first. Browsers record
     /// from helper processes: Chrome's helpers share its identifier, Firefox records from its content

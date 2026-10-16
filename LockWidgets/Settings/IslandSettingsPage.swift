@@ -99,11 +99,11 @@ struct IslandSettingsPage: View {
                 }
                 Toggle(isOn: $lock) {
                     Text("Lock")
-                    Text("A lock beside the camera while your Mac is locked. It opens as you unlock.")
+                    Text("A lock beside the camera while your Mac is locked, with anything live in the circle beside it. It opens as you unlock.")
                 }
                 Toggle(isOn: $privacy) {
-                    Text("Microphone and camera")
-                    Text("A dot beside the island while an app uses the microphone (orange) or camera (green), or records (red).")
+                    Text("Microphone, camera and screen recording")
+                    Text("A dot beside the island while an app uses the microphone (yellow) or the camera (green), or records or shares the screen (red).")
                 }
             }
             Section {

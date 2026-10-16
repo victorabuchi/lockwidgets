@@ -9,7 +9,8 @@ enum IslandActivity: Equatable {
     case timer
     case music
     case hotspot
-    /// The Mac is locked, with nothing else live; `open` for a moment as you unlock, as on the iPhone.
+    /// The Mac is locked; anything live waits in the circle beside it. `open` for a moment as you unlock, as
+    /// on the iPhone.
     case lock(open: Bool)
     // Brief, shown for a few seconds over everything else.
     case charging(level: Int, pluggedIn: Bool)
@@ -214,7 +215,7 @@ final class IslandModel: ObservableObject {
         if setting(SettingsKey.islandTimers), timers.pomodoroRunning || timers.stopwatchRunning { list.append(.timer) }
         if setting(SettingsKey.islandMusic), NowPlayingStore.shared.track != nil { list.append(.music) }
         if setting(SettingsKey.islandHotspot), StatusMonitor.shared.isOnHotspot { list.append(.hotspot) }
-        if setting(SettingsKey.islandLock), isLocked, list.isEmpty { list.append(.lock(open: false)) }
+        if setting(SettingsKey.islandLock), isLocked { list.insert(.lock(open: false), at: 0) }
         return list
     }
 
