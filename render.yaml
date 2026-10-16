@@ -1,0 +1,25 @@
+# Render Blueprint for the Notchlight website. In the Render dashboard: New, Blueprint, then pick this repo.
+# It serves the docs folder as a static site and redeploys only when something in docs changes.
+# Custom domains (notchlight.app and www.notchlight.app) are added in the dashboard once the domain is bought.
+services:
+  - type: web
+    name: notchlight
+    runtime: static
+    branch: main
+    buildCommand: echo "The website is plain files; nothing to build."
+    staticPublishPath: ./docs
+    autoDeploy: true
+    buildFilter:
+      paths:
+        - docs/**
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
+      # Pictures and icons change only with a new build of the site, so browsers may keep them for a week.
+      - path: /assets/*
+        name: Cache-Control
+        value: public, max-age=604800
