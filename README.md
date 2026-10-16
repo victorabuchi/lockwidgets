@@ -11,7 +11,7 @@ On a MacBook with a notch, Notchlight also turns the notch into a Dynamic Island
 ## Features
 
 - **Dynamic Island** around the MacBook notch, with Now Playing, calls, notifications, Personal Hotspot, timers and system alerts
-- **17 widgets** in Small, Medium, Wide, Ultra Wide and Large sizes, most with several styles
+- **21 widgets** in Small, Medium, Wide, Ultra Wide and Large sizes, most with several styles
 - **Layout Studio**: drag widgets anywhere on a life-size preview of your lock screen, with a warning when one covers the system clock or login area
 - **Layout Gallery**: seven ready-made layouts to start from
 - **Apple Music lyrics**: Apple's own time-synced lyrics, line by line, exactly as Music shows them
@@ -26,9 +26,11 @@ On a MacBook with a notch, Notchlight also turns the notch into a Dynamic Island
 | --- | --- | --- |
 | Weather | Current, Hourly, Five Day | [Open-Meteo](https://open-meteo.com) |
 | Earth | Globe with live day and night | Apple Maps satellite imagery |
+| Location | Map | Apple Maps, at the same place as Weather |
 | News | Headlines | Any RSS or Atom feed |
 | Stock Ticker | Watchlist, Spotlight | Yahoo Finance |
 | Now Playing | Player, Artwork | Apple Music and Spotify |
+| Music Card | Glass, shown only while a song plays | Apple Music and Spotify |
 | Photos | Photo, Framed | Photos library or a folder |
 | Live Lyrics | Lyrics | Apple Music, from Music on your Mac |
 | Calendar | Date, Monthly, Up Next | Your calendars |
@@ -37,6 +39,8 @@ On a MacBook with a notch, Notchlight also turns the notch into a Dynamic Island
 | Pomodoro | Ring | Built in |
 | Stopwatch | Digits | Built in |
 | Reminders | List | Your reminders |
+| Favourite Apps | Grid; click an app while widgets show on the desktop | Apps you choose |
+| Recent Activity | Today | Time in each app, counted on your Mac |
 | Battery | Ring, Bar | System |
 | System | Gauges, Monitor | CPU, memory, network, disk |
 | Daily Brief | Brief | Weather, calendar, reminders, news |
@@ -86,7 +90,7 @@ Notchlight asks only when a widget needs something:
 
 ## Privacy
 
-Notchlight collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and Notchlight reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Nothing is sent anywhere else.
+Notchlight collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and Notchlight reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Recent Activity notes which app is in front to add up today's time, and keeps that in a file on your Mac. Nothing is sent anywhere else.
 
 ## How lyrics work
 
@@ -111,9 +115,9 @@ Run `xcodegen generate` again after adding files outside Xcode.
 | `LockWidgets/Island` | The Dynamic Island: its window, state and the view for each activity |
 | `LockWidgets/Services` | Data sources: weather, calendar, music, lyrics, system and so on |
 | `LockWidgets/Settings` | The settings window, Layout Studio, Gallery and Setup Guide |
-| `scripts` | Release script and app icon renderer |
+| `scripts` | Install, release and widget gallery scripts, and the app icon renderer |
 
-Debug builds accept launch arguments for screenshots, such as `-settingsPage studio` or `-previewAtLaunch YES`.
+Debug builds accept launch arguments for screenshots, such as `-settingsPage studio` or `-previewAtLaunch YES`. `scripts/widget-gallery.sh <folder>` draws every widget, in each style and size, with sample data to PNG files for the website; it reads none of your data and changes no settings.
 
 ### Releasing
 
