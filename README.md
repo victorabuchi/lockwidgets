@@ -2,6 +2,8 @@
 
 Your Mac's lock screen and notch, lit up: widgets on the lock screen and a Dynamic Island around the notch.
 
+Website: [notchlight.com](https://notchlight.com)
+
 Notchlight puts live widgets on your Mac's lock screen: the weather, your next meeting, the song playing with Apple Music's own synced lyrics, your notes, a live globe and more. Glance at your Mac without unlocking it. Arrange the widgets wherever you like in Layout Studio, start from a ready-made layout in the Gallery, and pick the look that suits your wallpaper.
 
 It runs from the menu bar. When you lock your Mac, it draws your widgets in a layer above the lock screen using [SkyLightWindow](https://github.com/Lakr233/SkyLightWindow), and removes them when you sign back in.

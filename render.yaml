@@ -1,6 +1,6 @@
 # Render Blueprint for the Notchlight website. In the Render dashboard: New, Blueprint, then pick this repo.
 # It serves the docs folder as a static site and redeploys only when something in docs changes.
-# Custom domains (notchlight.app and www.notchlight.app) are added in the dashboard once the domain is bought.
+# The domain notchlight.com (www redirects to it) is connected in the dashboard, with its DNS at the registrar.
 services:
   - type: web
     name: notchlight
