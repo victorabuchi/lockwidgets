@@ -72,6 +72,7 @@
 		F251FDA54218560388619A49 /* AppearancePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87979B3677A77236CBF7E633 /* AppearancePage.swift */; };
 		F417D8902F974CAC202619E4 /* StocksWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99106C5F26776FAC5A68FE4 /* StocksWidget.swift */; };
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
+		FA09CC2667BC4C7A5B6DF040 /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 04501F04CE05FBA71D60D282 /* AppIcon.icon */; };
 		FABC1813C4E41EB8D9FAB1E7 /* ActivityTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7B4AC3C487672B6DE67D62 /* ActivityTracker.swift */; };
 		FBB750C184D9FD02F78B8B5C /* SystemWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */; };
 		FC7F4EC20A8E4A3F2710F938 /* ActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89DD3FFD2031BE341D7A0DC /* ActivityWidget.swift */; };
@@ -81,6 +82,7 @@
 
 /* Begin PBXFileReference section */
 		00FB388C82226A174F836470 /* PreferencesMigration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesMigration.swift; sourceTree = "<group>"; };
+		04501F04CE05FBA71D60D282 /* AppIcon.icon */ = {isa = PBXFileReference; lastKnownFileType = wrapper.icon; path = AppIcon.icon; sourceTree = "<group>"; };
 		0B8083C3AC3D25B4F7FD8DD8 /* LockWidgets.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LockWidgets.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFDEB25E245827A7F447F5B /* DailyBriefWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyBriefWidget.swift; sourceTree = "<group>"; };
 		19685DDC575424AFEFDC10DB /* EarthWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EarthWidget.swift; sourceTree = "<group>"; };
@@ -260,6 +262,7 @@
 		4BD2B4859C13787F71997E6C /* LockWidgets */ = {
 			isa = PBXGroup;
 			children = (
+				04501F04CE05FBA71D60D282 /* AppIcon.icon */,
 				51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */,
 				A78DAF013E95E14A143A0322 /* Info.plist */,
 				28C9716F73C3072D1DC956AF /* LockWidgets.entitlements */,
@@ -375,6 +378,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FA09CC2667BC4C7A5B6DF040 /* AppIcon.icon in Resources */,
 				848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

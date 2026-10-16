@@ -136,7 +136,7 @@ xcrun notarytool store-credentials lockwidgets-notary --apple-id <apple-id> --te
 
 Updates reach installed copies through [Sparkle](https://sparkle-project.org). Each release uploads an `appcast.xml` describing the new version, and its download is signed with the EdDSA key in `~/.config/notchlight/sparkle-ed25519.key`, whose public half is `SUPublicEDKey` in `project.yml`. Keep a backup of that key: without it, installed copies won't accept new versions.
 
-The app icon is drawn by `scripts/make-icon.swift`.
+The app icon is `LockWidgets/AppIcon.icon`, an Icon Composer document (open it in Icon Composer, which comes with Xcode, to change it); macOS draws its Dark, Clear and Tinted versions from it. `scripts/render-icon.sh` renders the website's copies.
 
 ## Credits
 
