@@ -13,82 +13,98 @@
 <meta name="theme-color" content="#090a1c">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <style>
-/* Layout: the page is a Mac at night, in the colours of the Notchlight icon (blue into violet into orange).
-   The header is its menu bar with the notch in the middle; the hero is the lock screen itself. */
+/* Layout: a light page in Apple's own type. White and soft-grey bands carry near-black text, and the icon's
+   blue-violet-orange glow is the one accent. The colour lives in the product: every lock screen, island and
+   widget sits on a real macOS wallpaper with real glass, while the page around it stays quiet. */
 :root {
-  --night: #090a1c;
-  --night-2: #10122c;
-  --ink: #eef0ff;
-  --muted: #a9add0;
-  --faint: #73779f;
-  --blue: #3d6bff;
-  --violet: #8c4dff;
-  --orange: #ff7a45;
-  --glow: linear-gradient(115deg, #3d6bff, #8c4dff 50%, #ff7a45);
-  --line: rgba(220, 228, 255, 0.12);
+  --paper: #ffffff;
+  --paper-2: #f5f5f7;
+  --card: #ffffff;
+  --ink: #1d1d1f;
+  --muted: #56565c;
+  --faint: #86868b;
+  --line: rgba(0, 0, 0, 0.08);
+  --line-strong: rgba(0, 0, 0, 0.15);
+  --hover: rgba(0, 0, 0, 0.045);
+  --bar: rgba(255, 255, 255, 0.82);
+  --well: #e8e8ed;
+  --violet: #6a35d8;
+  --select: rgba(106, 53, 216, 0.4);
+  --glow: linear-gradient(115deg, #2a5bf6, #7a3cef 50%, #f2622b);
+  --glow-text: linear-gradient(115deg, #2550e0, #6a2fd6 50%, #d4501b);
+  --shadow: 0 24px 60px -26px rgba(24, 24, 60, 0.38);
+  --mac-blue: #0a84ff;
+  --mac-orange: #ff9f0a;
+  --green: #30d158;
+  --ease: cubic-bezier(.45, 0, .2, 1);
+  --wall: url("assets/walls/macos-light.webp");
   /* Apple's own type: SF Pro on a Mac or iPhone (sized optically, like macOS), the system font elsewhere. */
   --display: -apple-system, BlinkMacSystemFont, "SF Pro Display", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --body: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
   --rounded: ui-rounded, "SF Pro Rounded", -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
   --system: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, "Helvetica Neue", sans-serif;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--night); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.6; -webkit-font-smoothing: antialiased; }
+body { margin: 0; background: var(--paper); color: var(--ink); font-family: var(--body); font-size: 17px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 img { max-width: 100%; }
 .wrap { width: 100%; max-width: 1120px; margin: 0 auto; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
-h1, h2, h3 { font-family: var(--display); line-height: 1.05; letter-spacing: -0.02em; margin: 0; text-wrap: balance; }
+h1, h2, h3 { font-family: var(--display); line-height: 1.07; letter-spacing: -0.022em; margin: 0; text-wrap: balance; }
 h2 { font-size: clamp(32px, 4.6vw, 52px); font-weight: 700; }
-h3 { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; }
+h3 { font-size: 21px; font-weight: 600; letter-spacing: -0.012em; }
 p { margin: 0; }
-.lede { color: var(--muted); font-size: clamp(17px, 1.6vw, 20px); max-width: 60ch; }
-.eyebrow { justify-self: start; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.glow-text { background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
-:focus-visible { outline: 2px solid #b39cff; outline-offset: 3px; border-radius: 6px; }
+.lede { color: var(--muted); font-size: clamp(17px, 1.6vw, 21px); max-width: 62ch; }
+.eyebrow { justify-self: start; font-size: 13px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; background: var(--glow-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.glow-text { background: var(--glow-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+:focus-visible { outline: 2px solid var(--violet); outline-offset: 3px; border-radius: 6px; }
+
+/* The macOS wallpaper behind every lock screen, and SF Symbols drawn as masks so they take any colour. */
+.silk { position: absolute; inset: 0; display: block; background: #b9aa98 var(--wall) center / cover no-repeat; }
+.sym { display: inline-block; width: 1em; height: 1em; flex: none; background: currentColor; -webkit-mask: var(--sym) center / contain no-repeat; mask: var(--sym) center / contain no-repeat; }
+.sym.hotspot { --sym: url("data:image/png;base64,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"); color: var(--green); }
+.sym.timer { --sym: url("data:image/png;base64,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"); color: var(--mac-orange); }
+.sym.stopwatch { --sym: url("data:image/png;base64,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"); color: var(--mac-orange); }
 
 /* Menu bar: the brand on the left, links and download on the right, the notch between them. */
-.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 80%, transparent); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-bottom: 1px solid var(--line); }
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
 .bar .wrap { height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr); align-items: center; }
 .brand { justify-self: start; display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.01em; }
 .brand img { width: 28px; height: 28px; }
-.notch { justify-self: center; align-self: start; width: 176px; height: 32px; background: #000; border-radius: 0 0 14px 14px; box-shadow: 0 0 0 1px rgba(220, 228, 255, 0.14); }
+.notch { justify-self: center; align-self: start; width: 176px; height: 32px; background: #000; border-radius: 0 0 14px 14px; }
 .right { justify-self: end; display: flex; align-items: center; gap: 22px; min-width: 0; }
 .nav { display: flex; gap: 20px; font-size: 15px; font-weight: 500; }
 .nav a { text-decoration: none; color: var(--muted); }
 .nav a:hover { color: var(--ink); }
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; text-decoration: none; white-space: nowrap; color: #fff; background: var(--glow); box-shadow: 0 8px 30px rgba(140, 77, 255, 0.35); }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; text-decoration: none; white-space: nowrap; color: #fff; background: var(--glow); box-shadow: 0 12px 30px -12px rgba(106, 53, 216, 0.6); }
 .button.small { padding: 8px 16px; font-size: 15px; box-shadow: none; }
 .button.big { padding: 15px 28px; font-size: 18px; }
-.button:hover { filter: brightness(1.08); }
+.button:hover { filter: brightness(1.06); }
 .button svg { width: 20px; height: 20px; }
 
 /* Hero. */
-.hero { padding-block: 72px 40px; text-align: center; }
+.hero { padding-block: 72px 64px; text-align: center; background: radial-gradient(60% 46% at 50% 94%, rgba(122, 60, 239, 0.09), transparent 70%); }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 22px; }
 .hero .eyebrow { justify-self: center; }
 .hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 700; max-width: 13ch; }
 .hero .lede { margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 6px; width: 100%; }
-.brew { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 18px; background: rgba(255, 255, 255, 0.04); max-width: 100%; min-width: 0; }
-.brew code { font-family: var(--mono); font-size: 14px; color: #d9ccff; overflow-x: auto; white-space: nowrap; min-width: 0; scrollbar-width: none; }
-.copy { border: 0; border-radius: 999px; padding: 7px 14px; background: rgba(255, 255, 255, 0.08); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
-.copy:hover { background: rgba(255, 255, 255, 0.14); }
-.facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; color: var(--faint); font-size: 14px; margin-top: 4px; }
+.brew { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 6px 6px 18px; background: var(--card); max-width: 100%; min-width: 0; }
+.brew code { font-family: var(--mono); font-size: 14px; color: var(--violet); overflow-x: auto; white-space: nowrap; min-width: 0; scrollbar-width: none; }
+.copy { border: 0; border-radius: 999px; padding: 7px 14px; background: var(--paper-2); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
+.copy:hover { background: var(--well); }
+.facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; color: var(--muted); font-size: 14px; margin-top: 4px; }
 .facts span::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--glow); margin-right: 8px; vertical-align: middle; }
-
-/* The silky wallpaper, drawn once and reused. */
-.silk { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
 
 /* The MacBook and its lock screen. */
 .mac { width: 100%; max-width: 1000px; margin-top: 34px; }
-.lid { background: #0a0a0d; border-radius: 22px 22px 8px 8px; padding: 1.4% 1.4% 0; box-shadow: 0 0 0 1px #2a2b35, 0 50px 100px rgba(0, 0, 0, 0.55), 0 0 120px rgba(140, 77, 255, 0.18); }
+.lid { background: #0b0b0f; border-radius: 22px 22px 8px 8px; padding: 1.4% 1.4% 0; box-shadow: 0 0 0 1px #2b2c33, 0 50px 90px -34px rgba(20, 20, 50, 0.5); }
 .display { position: relative; aspect-ratio: 1.54; border-radius: 12px 12px 0 0; overflow: hidden; container-type: inline-size; text-align: left; color: #fff; font-family: var(--system); }
-.base { height: 16px; margin: 0 -5%; border-radius: 0 0 16px 16px; background: linear-gradient(#cfd2db, #8c909c); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); position: relative; }
-.base::after { content: ""; position: absolute; left: 50%; top: 0; width: 15%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #a7abb6; }
+.base { height: 16px; margin: 0 -5%; border-radius: 0 0 16px 16px; background: linear-gradient(#e6e7ec, #a3a7b2); box-shadow: 0 22px 30px -18px rgba(20, 20, 50, 0.45); position: relative; }
+.base::after { content: ""; position: absolute; left: 50%; top: 0; width: 15%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #b4b8c3; }
 .display .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(30, 20, 12, 0.26), rgba(30, 20, 12, 0.14) 35%, rgba(10, 10, 20, 0.24)); }
 .lock-date { position: absolute; top: 9.8cqw; width: 100%; text-align: center; font: 600 1.75cqw var(--rounded); color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); }
 .lock-time { position: absolute; top: 11.6cqw; width: 100%; text-align: center; font: 700 11cqw/1 var(--rounded); letter-spacing: -0.01em;
@@ -139,7 +155,6 @@ p { margin: 0; }
 .wave i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.6s; }
 .wave i:nth-child(4) { animation-duration: 0.9s; animation-delay: -0.15s; }
 @keyframes bounce { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
-.link-icon { fill: none; stroke: #34d27b; stroke-width: 2.4; stroke-linecap: round; }
 
 /* The hero island: closed it sits beside the notch; open it becomes the song card. */
 .island { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 20cqw; height: 2.6cqw; background: #000; border-radius: 0 0 1.2cqw 1.2cqw; transition: width 0.45s cubic-bezier(.3, 1.3, .5, 1), height 0.5s cubic-bezier(.3, 1.25, .5, 1), border-radius 0.4s; overflow: hidden; z-index: 2; }
@@ -158,27 +173,27 @@ p { margin: 0; }
 .island.open .compact .cover { width: 2.1cqw; height: 2.1cqw; }
 .island.open .card { opacity: 1; transition-delay: 0.18s; }
 .bubble { position: absolute; top: 0; left: calc(50% + 10cqw + 0.8cqw); width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: #000; display: grid; place-items: center; transition: left 0.45s cubic-bezier(.3, 1.3, .5, 1); z-index: 2; }
-.bubble svg { width: 1.5cqw; height: 1.5cqw; }
+.bubble .sym { width: 1.5cqw; height: 1.5cqw; }
 .island.open + .bubble { left: calc(50% + 15cqw + 0.8cqw); }
 
-/* Sections. */
-section { padding-block: 96px; border-top: 1px solid var(--line); }
+/* Sections alternate white and soft grey, like Apple's own pages. */
+section { padding-block: 104px; }
+.band { background: var(--paper-2); }
 .split { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
 .stack { display: grid; gap: 18px; align-content: start; }
 
-/* Island showcase: pick an activity, see it at the notch. */
-.showcase { display: grid; grid-template-columns: minmax(0, 290px) minmax(0, 1fr); gap: 28px; margin-top: 44px; align-items: start; }
-.acts { display: grid; gap: 4px; }
-.acts .group { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); padding: 14px 12px 6px; }
-.acts .group:first-child { padding-top: 0; }
+/* Island showcase: live activities on the left, alerts on the right, the notch between them. */
+.showcase { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 2.15fr) minmax(0, 1fr); gap: 22px; margin-top: 44px; align-items: start; }
+.acts { display: grid; gap: 2px; align-content: start; }
+.acts .group { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); padding: 0 12px 8px; }
 .act { display: flex; align-items: center; gap: 12px; width: 100%; border: 1px solid transparent; border-radius: 12px; padding: 7px 12px; background: none; color: var(--muted); font: 500 15px var(--body); text-align: left; cursor: pointer; }
 .act img, .act .glyph { width: 28px; height: 28px; border-radius: 22%; flex: none; }
-.act .glyph { display: grid; place-items: center; background: #1d2046; }
-.act .glyph svg { width: 17px; height: 17px; }
-.act:hover { background: rgba(255, 255, 255, 0.04); color: var(--ink); }
-.act[aria-selected="true"] { background: rgba(140, 77, 255, 0.14); border-color: rgba(140, 77, 255, 0.45); color: var(--ink); }
-.stage-wrap { position: sticky; top: 80px; display: grid; gap: 14px; }
-.stage { position: relative; margin: 0; height: 250px; border-radius: 22px; overflow: hidden; border: 1px solid var(--line); font-family: var(--system); color: #fff; }
+.act .glyph { display: grid; place-items: center; background: #1c1c1e; color: #fff; }
+.act .glyph svg, .act .glyph .sym { width: 17px; height: 17px; }
+.act:hover { background: var(--hover); color: var(--ink); }
+.act[aria-selected="true"] { background: var(--card); border-color: var(--select); color: var(--ink); box-shadow: 0 8px 18px -12px rgba(40, 30, 90, 0.45); }
+.stage-wrap { position: sticky; top: 76px; display: grid; gap: 14px; }
+.stage { position: relative; margin: 0; height: 250px; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow), 0 0 0 1px var(--line); font-family: var(--system); color: #fff; }
 .menubar { position: absolute; left: 0; right: 0; top: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 13px; font-weight: 600; background: rgba(40, 30, 25, 0.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); }
 .menubar .apps { display: flex; gap: 16px; align-items: center; }
 .menubar .apps b { font-weight: 700; }
@@ -191,7 +206,7 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .isl.compact .cover { width: 22px; height: 22px; }
 .isl.compact .wave { width: 20px; height: 14px; }
 .isl .side { min-width: 26px; display: flex; justify-content: center; align-items: center; font: 600 12.5px var(--rounded); font-variant-numeric: tabular-nums; }
-.isl .side svg { width: 17px; height: 17px; }
+.isl .side svg, .isl .side .sym { width: 17px; height: 17px; }
 .isl.card { width: 370px; border-radius: 0 0 24px 24px; padding: 0 16px 12px; }
 .isl.card .top { height: 34px; display: flex; align-items: center; justify-content: space-between; }
 .isl.card .top .cover, .isl.card .top img { width: 26px; height: 26px; border-radius: 22%; }
@@ -206,9 +221,9 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .isl .bar-line i { flex: 1; height: 3px; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) var(--p, 46%), rgba(255, 255, 255, 0.18) var(--p, 46%)); }
 .isl .buttons { display: flex; gap: 10px; margin-left: auto; }
 .isl .round { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.16); }
-.isl .round svg { width: 13px; height: 13px; }
-.isl .round.green { background: rgba(52, 210, 123, 0.22); }
-.isl .round.orange { background: rgba(255, 159, 67, 0.22); }
+.isl .round svg, .isl .round .sym { width: 13px; height: 13px; }
+.isl .round.green { background: rgba(48, 209, 88, 0.22); }
+.isl .round.orange { background: rgba(255, 159, 10, 0.22); }
 .isl .meta { display: grid; gap: 1px; }
 .isl .meta small { font-size: 11px; color: rgba(255, 255, 255, 0.6); display: flex; gap: 8px; align-items: center; }
 .isl .meta small svg { width: 11px; height: 11px; }
@@ -225,23 +240,21 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .isl.drop .row svg { width: 15px; height: 15px; }
 .isl.drop .level { flex: 1; height: 6px; border-radius: 9px; margin-left: 10px; background: linear-gradient(to right, #fff var(--p), rgba(255, 255, 255, 0.2) var(--p)); }
 .isl-bubble { position: absolute; top: 0; left: calc(100% + 8px); width: 34px; height: 34px; border-radius: 50%; background: #000; display: grid; place-items: center; }
-.isl-bubble svg { width: 20px; height: 20px; }
+.isl-bubble svg, .isl-bubble .sym { width: 18px; height: 18px; }
 .stage-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
 .stage-bar p { color: var(--muted); font-size: 15px; min-width: 0; }
-.toggle { flex: none; border: 1px solid var(--line); border-radius: 999px; padding: 7px 14px; background: rgba(255, 255, 255, 0.05); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
-.toggle:hover { background: rgba(255, 255, 255, 0.1); }
+.toggle { flex: none; border: 1px solid var(--line-strong); border-radius: 999px; padding: 7px 14px; background: var(--card); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
+.toggle:hover { background: var(--paper-2); }
 
-/* Widgets. */
-/* Each card is a patch of lock screen with the real widget on it. The pictures come from the app with the
-   blur left out, so the glass here is the page blurring its own wallpaper, as macOS does. */
+/* Widgets. Each card is a patch of lock screen with the real widget on it. The pictures come from the app with
+   the blur left out, so the glass here is the page blurring the wallpaper behind it, as macOS does. */
 .wfilter { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 36px; }
-.wfilter button, .wstyles button { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; background: rgba(255, 255, 255, 0.04); color: var(--muted); font: 600 14px var(--body); cursor: pointer; }
-.wfilter button:hover, .wstyles button:hover { background: rgba(255, 255, 255, 0.1); color: var(--ink); }
-.wfilter button[aria-pressed="true"], .wstyles button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: var(--night); }
+.wfilter button, .wstyles button { border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 14px; background: var(--card); color: var(--muted); font: 600 14px var(--body); cursor: pointer; }
+.wfilter button:hover, .wstyles button:hover { color: var(--ink); background: var(--paper-2); }
+.wfilter button[aria-pressed="true"], .wstyles button[aria-pressed="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
 .wgallery { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; margin-top: 20px; }
-.wcard { border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: var(--night-2); display: grid; grid-template-rows: auto 1fr; min-width: 0; }
-.wcard[hidden] { display: none; }
-.wstage { aspect-ratio: 10 / 7; display: grid; place-items: center; background: #6f6a72 url("assets/silk.webp") var(--spot, 50% 50%) / 300% auto no-repeat; font-family: var(--system); }
+.wcard { border: 1px solid var(--line); border-radius: 24px; overflow: hidden; background: var(--card); display: grid; grid-template-rows: auto 1fr; min-width: 0; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); }
+.wstage { aspect-ratio: 10 / 7; display: grid; place-items: center; background: #b9aa98 var(--wall) var(--spot, 50% 50%) / 300% auto no-repeat; font-family: var(--system); }
 .shot { display: block; height: auto; background-color: rgba(26, 26, 32, 0.3); backdrop-filter: blur(22px) saturate(160%); -webkit-backdrop-filter: blur(22px) saturate(160%); }
 .shot.small { width: 40%; border-radius: 14.634%; }
 .shot.medium { width: 82%; border-radius: 6.977% / 14.634%; }
@@ -257,16 +270,168 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .wstyles { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
 .wstyles button { padding: 4px 12px; font-size: 13px; }
 .wsizes { margin-top: auto; padding-top: 10px; font: 500 12.5px var(--mono); color: var(--faint); letter-spacing: 0.02em; }
-.tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
-.tool { border: 1px solid var(--line); border-radius: 20px; padding: 24px; background: var(--night-2); display: grid; gap: 8px; align-content: start; }
-.tool p { color: var(--muted); font-size: 16px; }
-.sizes { font: 500 13px var(--mono); color: #d9ccff; letter-spacing: 0.02em; }
+.sizes { font: 500 13px var(--mono); color: var(--violet); letter-spacing: 0.02em; }
+
+/* A lock screen in miniature. Positions and sizes are points on the 1512 × 982 screen the app lays widgets out
+   on, so each one sits exactly where the app puts it, at any width. */
+.screen { position: relative; container-type: inline-size; aspect-ratio: 1512 / 982; max-width: 100%; overflow: hidden; background: #b9aa98 var(--wall) center / cover no-repeat; color: #fff; font-family: var(--system); }
+.screen[data-wall="macos-light"] { --wall: url("assets/walls/macos-light.webp"); }
+.screen[data-wall="macos-dark"] { --wall: url("assets/walls/macos-dark.webp"); }
+.screen[data-wall="golden-gate"] { --wall: url("assets/walls/golden-gate.webp"); }
+.screen[data-wall="golden-gate-night"] { --wall: url("assets/walls/golden-gate-night.webp"); }
+.screen[data-wall="sonoma"] { --wall: url("assets/walls/sonoma.webp"); }
+.screen[data-wall="mac-purple"] { --wall: url("assets/walls/mac-purple.webp"); }
+.layer { position: absolute; inset: 0; }
+.sw { position: absolute; display: block; left: calc((var(--cx) - var(--w) / 2) * 100% / 1512); top: calc((var(--cy) - var(--h) / 2) * 100% / 982); width: calc(var(--w) * 100% / 1512); height: auto; border-radius: calc(2400% / var(--w)) / calc(2400% / var(--h)); }
+.sw.glass { background-color: rgba(26, 26, 32, 0.3); backdrop-filter: blur(1.45cqw) saturate(160%); -webkit-backdrop-filter: blur(1.45cqw) saturate(160%); }
+.sw.frosted { background-color: rgba(30, 30, 36, 0.5); backdrop-filter: blur(2.6cqw) saturate(140%); -webkit-backdrop-filter: blur(2.6cqw) saturate(140%); }
+.sw.r26 { border-radius: calc(2600% / var(--w)) / calc(2600% / var(--h)); background-color: rgba(60, 60, 70, 0.2); }
+.sw.bare { border-radius: 0; background: none; backdrop-filter: none; -webkit-backdrop-filter: none; }
+.screen .clock { position: absolute; left: 0; right: 0; top: 4.6cqw; display: grid; justify-items: center; line-height: 1; text-shadow: 0 0.1cqw 0.8cqw rgba(0, 0, 0, 0.2); }
+.screen .clock b { font: 600 1.72cqw var(--system); }
+.screen .clock span { font: 700 7.94cqw/1 var(--rounded); letter-spacing: -0.01em; margin-top: 0.5cqw; }
+.screen .faint { color: rgba(255, 255, 255, 0.3); text-shadow: none; }
+.screen .seat { position: absolute; left: 50%; bottom: 5.9cqw; transform: translateX(-50%); display: grid; justify-items: center; gap: 0.66cqw; font: 600 1.19cqw var(--system); }
+.screen .seat i { width: 4.23cqw; height: 4.23cqw; border-radius: 50%; background: currentColor; }
+.screen .login { bottom: 3.6%; }
+.screen .notchling { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 17cqw; height: 2.15cqw; background: #000; border-radius: 0 0 0.7cqw 0.7cqw; display: flex; align-items: center; justify-content: space-between; padding: 0 0.4cqw; z-index: 1; }
+.screen .notchling .cover { width: 1.45cqw; height: 1.45cqw; }
+.screen .notchling .wave { width: 1.3cqw; height: 0.95cqw; }
+
+/* Layout Studio film: the Studio window in macOS's light look, acted out with the real widget pictures. */
+.film { container: film / inline-size; max-width: 1000px; margin: 44px auto 0; }
+.film-stage { position: relative; }
+.fw { --u: 1cqw; position: relative; display: grid; grid-template-columns: 21cqw minmax(0, 1fr); border-radius: 1.4cqw; overflow: hidden; background: #fff; color: #1d1d1f; font: 400 calc(var(--u) * 1.3) / 1.3 var(--system); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 3cqw 7cqw -2.5cqw rgba(20, 20, 60, 0.42); user-select: none; -webkit-user-select: none; }
+.fw-side { background: #ececf1; border-right: 1px solid rgba(0, 0, 0, 0.08); padding: 1.3cqw 0.9cqw; display: flex; flex-direction: column; gap: 0.15cqw; min-width: 0; }
+.fw-lights { display: flex; gap: 0.7cqw; padding: 0 0.4cqw 1.8cqw; }
+.fw-lights i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #ff5f57; }
+.fw-lights i:nth-child(2) { background: #febc2e; }
+.fw-lights i:nth-child(3) { background: #28c840; }
+.fw-row { display: flex; align-items: center; gap: 0.75cqw; padding: 0.42cqw 0.7cqw; border-radius: 0.65cqw; font-size: calc(var(--u) * 1.25); white-space: nowrap; overflow: hidden; }
+.fw-row img { width: calc(var(--u) * 2); height: calc(var(--u) * 2); flex: none; }
+.fw-row.on { background: var(--mac-blue); color: #fff; }
+.fw-head { font-size: calc(var(--u) * 1.05); font-weight: 600; color: #8a8a8e; padding: 1.1cqw 0.7cqw 0.3cqw; }
+.fw-main { padding: 2.2cqw 2.6cqw 2.4cqw; display: flex; flex-direction: column; gap: 1.5cqw; min-width: 0; }
+.fw-title { display: grid; gap: 0.3cqw; }
+.fw-title b { font-size: calc(var(--u) * 2.3); font-weight: 700; letter-spacing: -0.01em; }
+.fw-title span { color: #6e6e73; }
+.fw-canvas { border-radius: 1.2cqw; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08); }
+.fw-w { transition: left 0.9s var(--ease), top 0.9s var(--ease), transform 0.25s, box-shadow 0.25s, outline-color 0.2s; outline: 0.28cqw solid transparent; outline-offset: 0.3cqw; }
+.fw-w.sel { outline-color: var(--mac-blue); }
+.fw-w.warn { outline-color: var(--mac-orange); }
+.fw-w.lift { transform: scale(1.04); box-shadow: 0 1.6cqw 3cqw rgba(0, 0, 0, 0.4); z-index: 3; }
+.fw-w.pop { animation: pop 0.4s var(--ease); }
+@keyframes pop { from { transform: scale(0.92); opacity: 0.6; } to { transform: none; opacity: 1; } }
+.fw-controls { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; }
+.fw-add { display: inline-flex; align-items: center; gap: 0.6cqw; padding: calc(var(--u) * 0.65) calc(var(--u) * 1.4); border-radius: calc(var(--u) * 0.7); background: var(--mac-blue); color: #fff; font-weight: 600; }
+.fw-seg { display: inline-flex; padding: 0.2cqw; border-radius: 0.7cqw; background: #e5e5ea; font-size: calc(var(--u) * 1.15); }
+.fw-seg span { padding: 0.32cqw 1cqw; border-radius: 0.5cqw; color: #3a3a3c; white-space: nowrap; }
+.fw-seg span.on { background: #fff; color: #1d1d1f; box-shadow: 0 0.1cqw 0.3cqw rgba(0, 0, 0, 0.18); }
+.fw-insp { position: relative; min-height: calc(var(--u) * 13.5); }
+.fw-hint { color: #6e6e73; }
+.fw-panel { position: absolute; inset: 0 0 auto; display: grid; gap: 0.9cqw; padding: 1.2cqw 1.4cqw; border-radius: 1cqw; background: #f2f2f6; opacity: 0; transform: translateY(0.4cqw); transition: opacity 0.25s, transform 0.25s; }
+.fw-insp.on .fw-panel { opacity: 1; transform: none; }
+.fw-insp.on .fw-hint { visibility: hidden; }
+.fw-ihead { display: flex; align-items: center; gap: 1cqw; }
+.fw-ihead img { width: calc(var(--u) * 3); height: calc(var(--u) * 3); flex: none; }
+.fw-ihead .who { display: grid; flex: 1; min-width: 0; }
+.fw-ihead b { font-size: calc(var(--u) * 1.4); }
+.fw-ihead small { color: #6e6e73; font-size: calc(var(--u) * 1.15); }
+.fw-remove { color: #ff3b30; font-weight: 600; }
+.fw-irow { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; padding-top: 0.9cqw; border-top: 1px solid rgba(0, 0, 0, 0.08); }
+.fw-popup { position: relative; display: inline-flex; align-items: center; gap: 0.6cqw; padding: 0.3cqw 0.6cqw 0.3cqw 1cqw; border-radius: 0.55cqw; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 0.1cqw 0.2cqw rgba(0, 0, 0, 0.08); }
+.fw-popup i { font-style: normal; color: #6e6e73; font-size: 0.85em; }
+.fw-menu { position: absolute; right: 0; top: calc(100% + 0.4cqw); z-index: 5; min-width: 12cqw; padding: 0.4cqw; border-radius: 0.8cqw; background: rgba(250, 250, 252, 0.97); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1), 0 1cqw 3cqw rgba(0, 0, 0, 0.25); display: grid; }
+.fw-menu span { position: relative; padding: 0.35cqw 0.8cqw 0.35cqw 1.9cqw; border-radius: 0.45cqw; white-space: nowrap; }
+.fw-menu span.on::before { content: "✓"; position: absolute; left: 0.55cqw; }
+.fw-menu span.hover { background: var(--mac-blue); color: #fff; }
+.fw-warn { display: none; color: #b45800; font-weight: 600; }
+.fw-warn.on { display: block; }
+.fw-sheet { position: absolute; z-index: 6; top: 0; left: 50%; width: 76cqw; height: calc(var(--u) * 50); transform: translate(-50%, -104%); transition: transform 0.45s var(--ease); display: grid; grid-template-columns: 21cqw minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; background: #fff; border-radius: 0 0 1.2cqw 1.2cqw; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 2cqw 5cqw rgba(0, 0, 0, 0.3); overflow: hidden; }
+.fw-sheet.open { transform: translate(-50%, 0); }
+.fw-plist { padding: 1cqw; display: flex; flex-direction: column; gap: 0.15cqw; border-right: 1px solid rgba(0, 0, 0, 0.08); background: #f7f7f9; overflow: hidden; min-width: 0; }
+.fw-search { margin-bottom: 0.6cqw; padding: 0.45cqw 0.8cqw; border-radius: 0.6cqw; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12); color: #8a8a8e; font-size: calc(var(--u) * 1.2); }
+.fw-gal { position: relative; padding: 1.8cqw 2cqw; overflow: hidden; color: #fff; background: #6f6a72 var(--wall) center / cover; }
+.fw-gal::before { content: ""; position: absolute; inset: 0; background: rgba(20, 16, 12, 0.3); }
+.fw-gal > * { position: relative; }
+.fw-gal h4 { margin: 0; font: 700 calc(var(--u) * 2.2) / 1.2 var(--system); }
+.fw-gal p { color: rgba(255, 255, 255, 0.8); margin: 0.3cqw 0 2.2cqw; }
+.fw-prev { display: flex; flex-wrap: wrap; gap: 2.4cqw; align-items: flex-end; }
+.fw-prev figure { margin: 0; display: grid; justify-items: center; gap: 0.7cqw; }
+.fw-prev .pic { position: relative; }
+.fw-prev img { display: block; height: 9cqw; width: auto; border-radius: 1.317cqw; background-color: rgba(26, 26, 32, 0.3); backdrop-filter: blur(1.2cqw) saturate(160%); -webkit-backdrop-filter: blur(1.2cqw) saturate(160%); }
+.fw-plus { position: absolute; top: -0.9cqw; right: -0.9cqw; width: 2.4cqw; height: 2.4cqw; border-radius: 50%; display: grid; place-items: center; background: rgba(255, 255, 255, 0.92); color: #1d1d1f; font-weight: 700; font-size: 1.5cqw; line-height: 1; box-shadow: 0 0.2cqw 0.6cqw rgba(0, 0, 0, 0.3); }
+.fw-prev figcaption { font-size: calc(var(--u) * 1.1); font-weight: 600; text-align: center; }
+.fw-pfoot { grid-column: 1 / -1; display: flex; align-items: center; justify-content: space-between; gap: 1cqw; padding: 1cqw 1.4cqw; border-top: 1px solid rgba(0, 0, 0, 0.08); }
+.fw-pfoot .msg { color: #6e6e73; }
+.fw-pfoot .msg.ok { color: #1f9d48; font-weight: 600; }
+.fw-done { padding: 0.45cqw 1.6cqw; border-radius: 0.6cqw; background: var(--mac-blue); color: #fff; font-weight: 600; }
+.fw-lock { position: absolute; inset: 0; z-index: 8; display: grid; place-items: center; background: #000; opacity: 0; transition: opacity 0.6s; pointer-events: none; }
+.fw-lock .screen { width: 100%; transform: scale(0.92); transition: transform 0.9s var(--ease); }
+.fw-lock.on { opacity: 1; }
+.fw-lock.on .screen { transform: none; }
+.film-cursor { position: absolute; left: 0; top: 0; z-index: 10; width: 2.2cqw; height: 2.6cqw; margin: -0.2cqw 0 0 -0.2cqw; opacity: 0; pointer-events: none; transition: transform 0.9s var(--ease), opacity 0.3s; filter: drop-shadow(0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.35)); }
+.film-cursor svg { display: block; width: 100%; height: 100%; }
+.film-ripple { position: absolute; left: -1cqw; top: -1cqw; width: 2.8cqw; height: 2.8cqw; border-radius: 50%; border: 0.2cqw solid var(--mac-blue); opacity: 0; }
+.film-ripple.go { animation: ripple 0.5s ease-out; }
+@keyframes ripple { from { transform: scale(0.3); opacity: 1; } to { transform: scale(1.4); opacity: 0; } }
+.film-play { position: absolute; right: 14px; bottom: 14px; z-index: 12; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.12); background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--ink); display: grid; place-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
+.film-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 22px; }
+.film-tab { position: relative; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 999px; padding: 8px 18px; background: var(--card); color: var(--muted); font: 600 14px var(--body); cursor: pointer; }
+.film-tab:hover { color: var(--ink); }
+.film-tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.film-progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--glow); transition: width 0.1s linear; }
+.film-caption { margin: 16px auto 0; max-width: 640px; text-align: center; color: var(--muted); min-height: 3.2em; text-wrap: balance; }
+.film-caption b { color: var(--ink); }
+@container film (max-width: 620px) {
+  .fw { --u: 1.7cqw; grid-template-columns: minmax(0, 1fr); }
+  .fw-side { display: none; }
+  .fw-sheet { width: 96cqw; height: calc(var(--u) * 46); grid-template-columns: 30cqw minmax(0, 1fr); }
+  .fw-plist .fw-row img { width: calc(var(--u) * 1.6); height: calc(var(--u) * 1.6); }
+  .fw-prev img { height: 11cqw; border-radius: 1.6cqw; }
+  .film-cursor { width: 3.4cqw; height: 4cqw; }
+}
+
+/* Layout Gallery: the seven ready-made layouts, each on a macOS wallpaper. */
+.lgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; margin-top: 44px; }
+.lcard { border: 1px solid var(--line); border-radius: 22px; overflow: hidden; background: var(--card); display: grid; grid-template-rows: auto 1fr; box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); min-width: 0; }
+.linfo { padding: 16px 20px 18px; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 12px; align-items: baseline; }
+.linfo p { grid-column: 1; color: var(--muted); font-size: 15px; }
+.linfo span { grid-column: 2; grid-row: 1; font: 500 12.5px var(--mono); color: var(--faint); white-space: nowrap; }
+.lcard.own { border: 1.5px dashed var(--line-strong); background: none; box-shadow: none; grid-template-rows: 1fr; place-items: center; text-align: center; padding: 32px; }
+.lcard.own div { display: grid; gap: 10px; justify-items: center; max-width: 34ch; }
+.lcard.own p { color: var(--muted); font-size: 15px; }
+.lcard.own a { font-weight: 600; color: var(--violet); text-decoration: none; }
+.lcard.own a:hover { text-decoration: underline; }
+
+/* Appearance: one card style for every widget, tried on different wallpapers. */
+.look { display: grid; gap: 22px; margin-top: 40px; }
+.look-controls { display: flex; flex-wrap: wrap; gap: 18px 40px; align-items: flex-start; justify-content: space-between; }
+.look-group { display: grid; gap: 10px; min-width: 0; }
+.look-label { font-size: 12px; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--faint); }
+.seg { display: inline-flex; flex-wrap: wrap; gap: 4px; padding: 4px; border-radius: 12px; background: var(--well); justify-self: start; }
+.seg button { border: 0; border-radius: 9px; padding: 7px 15px; background: none; color: var(--muted); font: 600 14px var(--body); cursor: pointer; }
+.seg button:hover { color: var(--ink); }
+.seg button[aria-pressed="true"] { background: var(--card); color: var(--ink); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.14); }
+.look-detail { color: var(--muted); font-size: 15px; min-height: 1.5em; }
+.swatches { display: flex; flex-wrap: wrap; gap: 12px; }
+.swatch { display: grid; gap: 6px; justify-items: center; border: 0; background: none; padding: 0; cursor: pointer; color: var(--muted); font: 500 12.5px var(--body); }
+.swatch span { width: 74px; aspect-ratio: 1512 / 982; border-radius: 9px; background: #ccc center / cover no-repeat; box-shadow: 0 0 0 1px var(--line-strong); }
+.swatch:hover { color: var(--ink); }
+.swatch[aria-pressed="true"] { color: var(--ink); }
+.swatch[aria-pressed="true"] span { box-shadow: 0 0 0 2px var(--paper-2), 0 0 0 4px var(--violet); }
+.look .screen { border-radius: 18px; box-shadow: var(--shadow), 0 0 0 1px var(--line); }
+.look .screen .sw { display: none; }
+.look .screen[data-style="glass"] .sw[data-style="glass"],
+.look .screen[data-style="frosted"] .sw[data-style="frosted"],
+.look .screen[data-style="solid"] .sw[data-style="solid"],
+.look .screen[data-style="minimal"] .sw[data-style="minimal"] { display: block; }
 
 /* Music. */
 .players { display: flex; flex-wrap: wrap; gap: 12px; }
-.player { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 16px 6px 6px; font-weight: 600; font-size: 15px; }
+.player { display: flex; align-items: center; gap: 10px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 16px 6px 6px; font-weight: 600; font-size: 15px; background: var(--card); }
 .player img { width: 30px; height: 30px; border-radius: 22%; }
-.lyrics-panel { position: relative; border-radius: 24px; padding: 36px; overflow: hidden; display: grid; gap: 14px; color: #fff; }
+.lyrics-panel { position: relative; border-radius: 24px; padding: 36px; overflow: hidden; display: grid; gap: 14px; color: #fff; box-shadow: var(--shadow); }
 .lyrics-panel > :not(.silk) { position: relative; }
 .lyrics-panel::after { content: ""; position: absolute; inset: 0; background: linear-gradient(160deg, rgba(20, 14, 10, 0.25), rgba(10, 10, 26, 0.45)); }
 .lyrics-panel .song { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.9); z-index: 1; }
@@ -283,26 +448,26 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 /* Install. */
 .steps { display: grid; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.steps li::before { content: counter(step); font: 700 22px var(--display); background: var(--glow); -webkit-background-clip: text; background-clip: text; color: transparent; }
-.steps kbd { font: 500 14px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; }
-.install-side { border: 1px solid var(--line); border-radius: 24px; padding: 32px; background: var(--night-2); display: grid; gap: 16px; align-content: start; }
+.steps li::before { content: counter(step); font: 700 22px var(--display); background: var(--glow-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.steps kbd { font: 500 14px var(--mono); border: 1px solid var(--line-strong); border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; background: var(--card); }
+.install-side { border: 1px solid var(--line); border-radius: 24px; padding: 32px; background: var(--card); display: grid; gap: 16px; align-content: start; box-shadow: var(--shadow); }
 .install-side .brew { justify-self: start; }
 .install-side p { color: var(--muted); font-size: 16px; }
 
 /* FAQ. */
-.faq { display: grid; margin-top: 32px; border-top: 1px solid var(--line); max-width: 820px; }
-.faq details { border-bottom: 1px solid var(--line); padding: 4px 0; }
+.faq { display: grid; margin-top: 32px; border-top: 1px solid var(--line-strong); max-width: 820px; }
+.faq details { border-bottom: 1px solid var(--line-strong); padding: 4px 0; }
 .faq summary { cursor: pointer; list-style: none; padding: 16px 32px 16px 0; font-weight: 600; font-size: 18px; position: relative; }
 .faq summary::-webkit-details-marker { display: none; }
-.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font: 400 26px var(--body); color: var(--muted); }
+.faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font: 400 26px var(--body); color: var(--faint); }
 .faq details[open] summary::after { content: "–"; }
 .faq details p { color: var(--muted); padding: 0 0 18px; max-width: 68ch; }
-.faq code { font: 500 14px var(--mono); color: #d9ccff; }
+.faq code { font: 500 14px var(--mono); color: var(--violet); }
 
 .closing { text-align: center; padding-block: 110px; }
 .closing .wrap { display: grid; gap: 22px; justify-items: center; }
 
-footer { border-top: 1px solid var(--line); padding-block: 36px 44px; color: var(--faint); font-size: 14px; }
+footer { border-top: 1px solid var(--line); background: var(--paper-2); padding-block: 36px 44px; color: var(--faint); font-size: 14px; }
 footer .wrap { display: flex; flex-wrap: wrap; gap: 14px 28px; align-items: center; }
 footer nav { display: flex; flex-wrap: wrap; gap: 18px; margin-left: auto; }
 footer a { text-decoration: none; color: var(--muted); }
@@ -312,12 +477,14 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 @media (max-width: 980px) {
   .nav { display: none; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 36px; }
-  .showcase { grid-template-columns: minmax(0, 1fr); }
-  .acts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .acts .group { grid-column: 1 / -1; }
-  .stage-wrap { position: static; order: -1; }
   .wgallery, .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .tools { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 900px) {
+  .showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .stage-wrap { grid-column: 1 / -1; order: -1; position: static; }
+}
+@media (max-width: 760px) {
+  .lgrid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
   section { padding-block: 64px; }
@@ -332,49 +499,21 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   .menubar .status { display: none; }
   .slot { transform: translateX(-50%) scale(0.8); }
   .stage { height: 210px; }
+  .act { gap: 9px; padding: 7px 8px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .wave i { animation: none; transform: scaleY(0.7); }
   .isl { animation: none; }
   .island, .bubble, .lyrics-panel p, .island .compact .cover { transition: none; }
+  .fw-w, .fw-panel, .fw-sheet, .fw-lock, .fw-lock .screen, .film-cursor { transition: none; }
+  .fw-w.pop, .film-ripple.go { animation: none; }
 }
+[hidden] { display: none !important; }
 </style>
 </head>
 <body>
 
-<!-- The wallpaper: soft folds of silk in cream, brown and slate. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="silk-base" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#5a473b"/>
-      <stop offset="0.3" stop-color="#cbb7a2"/>
-      <stop offset="0.48" stop-color="#a28f80"/>
-      <stop offset="0.72" stop-color="#6d6a7c"/>
-      <stop offset="1" stop-color="#2c3047"/>
-    </linearGradient>
-    <linearGradient id="silk-fold" x1="0" y1="0" x2="1" y2="0">
-      <stop offset="0" stop-color="#f6ecdf" stop-opacity="0"/>
-      <stop offset="0.35" stop-color="#f6ecdf" stop-opacity="0.85"/>
-      <stop offset="1" stop-color="#e9e4ee" stop-opacity="0.25"/>
-    </linearGradient>
-    <linearGradient id="silk-slate" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0" stop-color="#55566e"/>
-      <stop offset="1" stop-color="#1f2236"/>
-    </linearGradient>
-    <filter id="silk-soft" filterUnits="userSpaceOnUse" x="-400" y="-400" width="2400" height="1840"><feGaussianBlur stdDeviation="24"/></filter>
-    <filter id="silk-edge" filterUnits="userSpaceOnUse" x="-400" y="-400" width="2400" height="1840"><feGaussianBlur stdDeviation="2.5"/></filter>
-    <symbol id="silk" viewBox="0 0 1600 1040" preserveAspectRatio="xMidYMid slice">
-      <rect width="1600" height="1040" fill="url(#silk-base)"/>
-      <path d="M-80 170 C 320 -70, 520 760, 980 520 S 1560 110, 1720 -70" stroke="url(#silk-fold)" stroke-width="220" fill="none" filter="url(#silk-soft)"/>
-      <path d="M-120 620 C 260 420, 420 1000, 760 1120" stroke="#e8d6c2" stroke-opacity="0.45" stroke-width="160" fill="none" filter="url(#silk-soft)"/>
-      <path d="M520 1100 C 760 760, 1120 640, 1700 560 L 1700 1100 Z" fill="url(#silk-slate)" opacity="0.85" filter="url(#silk-soft)"/>
-      <path d="M-60 250 C 330 10, 540 810, 1000 590 S 1560 190, 1720 10" stroke="#fffaf2" stroke-opacity="0.75" stroke-width="5" fill="none" filter="url(#silk-edge)"/>
-      <path d="M560 1100 C 800 790, 1150 680, 1720 610" stroke="#f3f0ff" stroke-opacity="0.55" stroke-width="4" fill="none" filter="url(#silk-edge)"/>
-      <path d="M-100 700 C 250 500, 430 1010, 700 1110" stroke="#fff7ec" stroke-opacity="0.5" stroke-width="4" fill="none" filter="url(#silk-edge)"/>
-    </symbol>
-  </defs>
-</svg>
 
 <header class="bar">
   <div class="wrap">
@@ -384,6 +523,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <nav class="nav" aria-label="Sections">
         <a href="#island">Island</a>
         <a href="#widgets">Widgets</a>
+        <a href="#studio">Studio</a>
         <a href="#music">Music</a>
         <a href="#faq">FAQ</a>
       </nav>
@@ -418,7 +558,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <figure class="mac" aria-label="Notchlight on a MacBook lock screen: the island at the notch shows a song with the hotspot in a circle beside it, above the time, widgets and the login">
         <div class="lid">
           <div class="display">
-            <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+            <span class="silk" aria-hidden="true"></span>
             <div class="shade"></div>
             <div class="island" id="hero-island">
               <div class="compact"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
@@ -435,7 +575,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
                 <div class="progress"></div>
               </div>
             </div>
-            <div class="bubble" aria-hidden="true"><svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
+            <div class="bubble" aria-hidden="true"><span class="sym hotspot"></span></div>
             <div class="lock-date">Friday 16 October</div>
             <div class="lock-time">9:41</div>
             <div class="w w-next">
@@ -500,23 +640,24 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     </div>
   </div>
 
-  <section id="island">
+  <section id="island" class="band">
     <div class="wrap">
       <div class="stack">
         <span class="eyebrow">Dynamic Island</span>
         <h2>The notch, doing something useful.</h2>
-        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island, and alerts drop out of it. Pick one to see it at the notch; point at a live activity to open it.</p>
+        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island, and alerts drop out of it. Pick a live activity on the left or an alert on the right to see it at the notch; point at a live activity to open it.</p>
       </div>
       <div class="showcase">
-        <div class="acts" role="tablist" aria-label="What the island shows" id="acts"></div>
+        <div class="acts" role="tablist" aria-label="Live activities" id="acts-live"></div>
         <div class="stage-wrap">
           <figure class="stage" id="stage">
-            <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+            <span class="silk" aria-hidden="true"></span>
             <div class="menubar"><span class="apps" id="stage-apps"><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
             <div class="slot" id="slot" role="tabpanel" aria-live="polite"></div>
           </figure>
           <div class="stage-bar"><p id="caption"></p><button class="toggle" type="button" id="toggle">Open</button></div>
         </div>
+        <div class="acts" role="tablist" aria-label="Alerts" id="acts-alerts"></div>
       </div>
     </div>
   </section>
@@ -752,10 +893,260 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         </div>
       </article>
       </div>
-      <div class="tools">
-        <div class="tool"><h3>Layout Studio</h3><p>Drag widgets anywhere on a life-size preview of your lock screen, with the island live at the notch.</p></div>
-        <div class="tool"><h3>Layout Gallery</h3><p>Seven ready-made layouts to start from, from a quiet clock to a full dashboard.</p></div>
-        <div class="tool"><h3>Appearance</h3><p>Glass, Frosted, Solid or Minimal cards, with the corner radius you like.</p></div>
+    </div>
+  </section>
+
+  <section id="studio" class="band">
+    <div class="wrap">
+      <div class="stack">
+        <span class="eyebrow">Layout Studio</span>
+        <h2>Drag your widgets where you want them.</h2>
+        <p class="lede">Layout Studio is your lock screen in miniature, with the real widgets on it. Add one, drag it into place, change its style or size, and see exactly how your Mac will look when you lock it.</p>
+      </div>
+      <div class="film" id="studio-film">
+        <div class="film-stage">
+          <div class="fw" aria-hidden="true">
+            <aside class="fw-side">
+              <span class="fw-lights"><i></i><i></i><i></i></span>
+              <span class="fw-row"><img src="assets/icons/page-general.webp" alt="">General</span>
+              <span class="fw-row"><img src="assets/icons/page-whatsNew.webp" alt="">What's New</span>
+              <span class="fw-head">Lock Screen</span>
+              <span class="fw-row on"><img src="assets/icons/page-layoutStudio.webp" alt="">Layout Studio</span>
+              <span class="fw-row"><img src="assets/icons/page-layoutGallery.webp" alt="">Layout Gallery</span>
+              <span class="fw-row"><img src="assets/icons/page-appearance.webp" alt="">Appearance</span>
+              <span class="fw-row"><img src="assets/icons/page-stickyNotes.webp" alt="">Sticky Notes</span>
+              <span class="fw-head">Desktop</span>
+              <span class="fw-row"><img src="assets/icons/page-island.webp" alt="">Dynamic Island</span>
+              <span class="fw-head">Widget Settings</span>
+              <span class="fw-row"><img src="assets/icons/weather.webp" alt="">Weather</span>
+              <span class="fw-row"><img src="assets/icons/earth.webp" alt="">Earth</span>
+              <span class="fw-row"><img src="assets/icons/location.webp" alt="">Location</span>
+              <span class="fw-row"><img src="assets/icons/news.webp" alt="">News</span>
+              <span class="fw-row"><img src="assets/icons/stocks.webp" alt="">Stock Ticker</span>
+            </aside>
+            <div class="fw-main">
+              <div class="fw-title"><b>Layout Studio</b><span>Drag widgets to place them. Select one to change its size or style.</span></div>
+              <div class="screen fw-canvas" data-canvas>
+                <div class="clock faint"><b>Fri 16 Oct</b><span>9:41</span></div>
+                <div class="seat faint"><i></i>Alex</div>
+                <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+                <img class="sw glass fw-w" data-w="clock" src="assets/widgets/clock-analog-small.webp" alt="" width="164" height="164" style="--cx:138;--cy:342;--w:164;--h:164">
+                <img class="sw glass fw-w" data-w="battery" src="assets/widgets/battery-ring-small.webp" alt="" width="164" height="164" style="--cx:482;--cy:702;--w:164;--h:164">
+                <img class="sw glass fw-w" data-w="calendar" src="assets/widgets/calendar-upNext-medium.webp" alt="" width="344" height="164" style="--cx:1284;--cy:342;--w:344;--h:164">
+                <img class="sw glass r26 fw-w" data-w="music" src="assets/widgets/musicCard-glass-medium.webp" alt="" width="344" height="164" style="--cx:1284;--cy:522;--w:344;--h:164">
+                <img class="sw glass fw-w" data-w="weather" alt="" hidden>
+              </div>
+              <div class="fw-controls">
+                <span class="fw-add" data-target="add">+ Add Widget</span>
+                <span class="fw-seg"><span>Dark</span><span class="on">Wallpaper</span></span>
+              </div>
+              <div class="fw-insp" data-insp>
+                <p class="fw-hint">Select a widget to resize, restyle or remove it.</p>
+                <div class="fw-panel">
+                  <div class="fw-ihead"><img data-insp-icon src="assets/icons/weather.webp" alt=""><span class="who"><b data-insp-name>Weather</b><small data-insp-detail>Current · Medium</small></span><span class="fw-remove">Remove</span></div>
+                  <div class="fw-irow" data-style-row><span>Style</span><span class="fw-popup" data-target="style"><span data-insp-style>Current</span><i>⌃⌄</i><span class="fw-menu" data-menu hidden></span></span></div>
+                  <div class="fw-irow"><span>Size</span><span class="fw-seg" data-insp-sizes></span></div>
+                  <div class="fw-warn" data-warn>⚠︎ This widget covers the system clock or login area.</div>
+                </div>
+              </div>
+            </div>
+            <div class="fw-sheet" data-sheet>
+              <div class="fw-plist">
+                <span class="fw-search">Search Widgets</span>
+                <span class="fw-head">Essentials</span>
+                <span class="fw-row" data-pick="weather" data-target="pick-weather"><img src="assets/icons/weather.webp" alt="">Weather</span>
+                <span class="fw-row" data-pick="calendar"><img src="assets/icons/calendar.webp" alt="">Calendar</span>
+                <span class="fw-row on" data-pick="clock"><img src="assets/icons/clock.webp" alt="">Clock</span>
+                <span class="fw-row" data-pick="battery"><img src="assets/icons/battery.webp" alt="">Battery</span>
+                <span class="fw-head">Music</span>
+                <span class="fw-row" data-pick="nowPlaying"><img src="assets/icons/nowPlaying.webp" alt="">Now Playing</span>
+                <span class="fw-row" data-pick="musicCard"><img src="assets/icons/musicCard.webp" alt="">Music Card</span>
+                <span class="fw-row" data-pick="lyrics"><img src="assets/icons/lyrics.webp" alt="">Live Lyrics</span>
+              </div>
+              <div class="fw-gal">
+                <div data-group="clock">
+                  <h4>Clock</h4>
+                  <p>Digital, analog and world clocks.</p>
+                  <div class="fw-prev">
+                    <figure><span class="pic"><img src="assets/widgets/clock-digital-small.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Small</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/clock-digital-medium.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Medium</figcaption></figure>
+                  </div>
+                </div>
+                <div data-group="weather" hidden>
+                  <h4>Weather</h4>
+                  <p>Current conditions and the forecast ahead.</p>
+                  <div class="fw-prev">
+                    <figure><span class="pic"><img src="assets/widgets/weather-current-small.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Current · Small</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/weather-current-medium.webp" alt="" loading="lazy"><b class="fw-plus" data-target="plus-weather-medium">+</b></span><figcaption>Current · Medium</figcaption></figure>
+                  </div>
+                </div>
+              </div>
+              <div class="fw-pfoot"><span class="msg" data-added>Double-click a preview or use + to add it</span><span class="fw-done" data-target="done">Done</span></div>
+            </div>
+            <div class="fw-lock" data-lock>
+              <div class="screen">
+                <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+                <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+                <div class="layer" data-lock-widgets></div>
+                <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div><div class="field"><div class="password">Enter Password</div><div class="help">?</div></div></div>
+              </div>
+            </div>
+            <div class="film-cursor" data-cursor><i class="film-ripple" data-ripple></i><svg viewBox="0 0 18 22"><path d="M1 1L1 17L5 13L8 20L10.5 19L7.5 12L13 12Z" fill="#111" stroke="#fff" stroke-width="1.5" stroke-linejoin="round"/></svg></div>
+          </div>
+          <button type="button" class="film-play" data-play aria-label="Pause the film"></button>
+        </div>
+        <div class="film-tabs" role="tablist" aria-label="Scenes" data-tabs></div>
+        <p class="film-caption" data-caption><b>Add a widget.</b> Pick any of the 21 widgets, in the style and size you want, and it lands on your lock screen.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="layouts">
+    <div class="wrap">
+      <div class="stack">
+        <span class="eyebrow">Layout Gallery</span>
+        <h2>Start from a layout.</h2>
+        <p class="lede">Seven ready-made layouts, from a quiet clock to a full dashboard. Use one as it is, or make it your own in Layout Studio.</p>
+      </div>
+      <div class="lgrid">
+        <article class="lcard">
+          <div class="screen" data-wall="macos-light" role="img" aria-label="Everyday: Weather, Calendar, Now Playing and Battery on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/battery-bar-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>Everyday</h3><span>4 widgets</span><p>A little of everything</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="golden-gate-night" role="img" aria-label="After Hours: Live Lyrics, Now Playing, Clock and Weather on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/lyrics-lyrics-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/nowPlaying-player-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:524;--h:164">
+            <img class="sw glass" src="assets/widgets/clock-analog-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:362;--w:164;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-current-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:542;--w:164;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>After Hours</h3><span>4 widgets</span><p>Let the music take over</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="macos-dark" role="img" aria-label="In the Zone: Pomodoro, a Sticky Note and Reminders on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/pomodoro-ring-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:362;--w:344;--h:164">
+            <img class="sw bare" src="assets/widgets/stickyNote-paper-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:542;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/reminders-list-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>In the Zone</h3><span>3 widgets</span><p>Find your focus</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="sonoma" role="img" aria-label="Day Ahead: Daily Brief, Calendar and Weather on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/dailyBrief-brief-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:452;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/calendar-monthly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:362;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-daily-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:1194;--cy:542;--w:524;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>Day Ahead</h3><span>3 widgets</span><p>Catch up. Look ahead.</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="mac-purple" role="img" aria-label="Mission Control: Stock Ticker, News, System and Earth on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/stocks-watchlist-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/news-headlines-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:602;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/system-list-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:422;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/earth-globe-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:692;--w:164;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>Mission Control</h3><span>4 widgets</span><p>The bigger picture</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="golden-gate" role="img" aria-label="Traveller: Weather, Earth and World Clock on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/weather-daily-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:422;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/earth-globe-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/clock-world-ultraWide.webp" alt="" width="704" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:704;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>Traveller</h3><span>3 widgets</span><p>Time and weather wherever you are</p></div>
+        </article>
+        <article class="lcard">
+          <div class="screen" data-wall="macos-light" role="img" aria-label="Minimal: Clock and Weather on the lock screen">
+            <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+            <img class="sw glass" src="assets/widgets/clock-digital-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:318;--cy:842;--w:524;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-current-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:842;--w:164;--h:164">
+            <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+          </div>
+          <div class="linfo"><h3>Minimal</h3><span>2 widgets</span><p>Just the essentials, out of the way</p></div>
+        </article>
+        <article class="lcard own">
+          <div><h3>Or start from nothing</h3><p>Begin with an empty lock screen in Layout Studio and add any of the 21 widgets, in any size.</p><a href="#studio">See Layout Studio</a></div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section id="appearance" class="band">
+    <div class="wrap">
+      <div class="stack">
+        <span class="eyebrow">Appearance</span>
+        <h2>Make your widgets match your wallpaper.</h2>
+        <p class="lede">Choose one card style for every widget, from see-through glass to no card at all, and the corner radius you like. Try each style on a few macOS wallpapers.</p>
+      </div>
+      <div class="look">
+        <div class="look-controls">
+          <div class="look-group">
+            <span class="look-label" id="look-style-label">Card style</span>
+            <div class="seg" role="group" aria-labelledby="look-style-label">
+              <button type="button" aria-pressed="true" data-pick-style="glass" data-detail="See-through blur that picks up your wallpaper.">Glass</button>
+              <button type="button" aria-pressed="false" data-pick-style="frosted" data-detail="Heavier blur with a darker tint for busy wallpapers.">Frosted</button>
+              <button type="button" aria-pressed="false" data-pick-style="solid" data-detail="Opaque dark cards.">Solid</button>
+              <button type="button" aria-pressed="false" data-pick-style="minimal" data-detail="No card at all, just text with a soft shadow.">Minimal</button>
+            </div>
+            <p class="look-detail" id="look-detail" aria-live="polite">See-through blur that picks up your wallpaper.</p>
+          </div>
+          <div class="look-group">
+            <span class="look-label" id="look-wall-label">Wallpaper</span>
+            <div class="swatches" role="group" aria-labelledby="look-wall-label">
+              <button type="button" class="swatch" aria-pressed="true" data-pick-wall="macos-light"><span style="background-image:url('assets/walls/macos-light-thumb.webp')"></span>macOS Light</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="macos-dark"><span style="background-image:url('assets/walls/macos-dark-thumb.webp')"></span>macOS Dark</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate"><span style="background-image:url('assets/walls/golden-gate-thumb.webp')"></span>Golden Gate</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate-night"><span style="background-image:url('assets/walls/golden-gate-night-thumb.webp')"></span>Golden Gate Night</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="sonoma"><span style="background-image:url('assets/walls/sonoma-thumb.webp')"></span>Sonoma</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="mac-purple"><span style="background-image:url('assets/walls/mac-purple-thumb.webp')"></span>Mac Purple</button>
+            </div>
+          </div>
+        </div>
+        <div class="screen" data-look data-style="glass" data-wall="macos-light" role="img" aria-label="A lock screen with Clock, Weather, Calendar and Now Playing widgets in the chosen card style and wallpaper">
+          <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+          <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
+          <img data-style="glass" class="sw glass" src="assets/look/glass/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
+        </div>
       </div>
     </div>
   </section>
@@ -772,7 +1163,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         </div>
       </div>
       <div class="lyrics-panel" aria-label="Lyrics in sync with the song">
-        <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+        <span class="silk" aria-hidden="true"></span>
         <span class="song"><span class="cover"></span>Low Orbit · Mira Vale<img src="assets/apps/music.png" alt="Apple Music"></span>
         <p data-line>City lights are spelling out your name</p>
         <p data-line>We drove until the morning found us</p>
@@ -782,7 +1173,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     </div>
   </section>
 
-  <section>
+  <section class="band">
     <div class="wrap">
       <div class="stack">
         <span class="eyebrow">Private and safe</span>
@@ -820,7 +1211,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     </div>
   </section>
 
-  <section id="faq">
+  <section id="faq" class="band">
     <div class="wrap">
       <span class="eyebrow">Questions</span>
       <div class="faq">
@@ -854,7 +1245,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <a href="https://github.com/victorabuchi/notchlight/releases">Releases</a>
       <a href="https://github.com/victorabuchi/notchlight/issues/new">Report a problem</a>
     </nav>
-    <p class="legal">© 2026 Victor Abuchi. Album cover photos by <a href="https://unsplash.com/photos/LyeduBb2Auk">Roksolana Zasiadko</a> and <a href="https://unsplash.com/photos/YMVCseSYVXI">Joshua Earle</a> on Unsplash. Mac, macOS, Apple Music, FaceTime, Mail, Messages and Dynamic Island are trademarks of Apple Inc.; Spotify, Zoom, Microsoft Teams, Google Meet and WhatsApp are trademarks of their owners. Notchlight is not affiliated with or endorsed by any of them.</p>
+    <p class="legal">© 2026 Victor Abuchi. Album cover photos by <a href="https://unsplash.com/photos/LyeduBb2Auk">Roksolana Zasiadko</a> and <a href="https://unsplash.com/photos/YMVCseSYVXI">Joshua Earle</a>, and the sample photo in the Photos widget by <a href="https://unsplash.com/photos/-oWyJoSqBRM">Alexey Topolyanskiy</a>, on Unsplash. The wallpapers are macOS wallpapers by Apple. Mac, macOS, Apple Music, FaceTime, Mail, Messages and Dynamic Island are trademarks of Apple Inc.; Spotify, Zoom, Microsoft Teams, Google Meet and WhatsApp are trademarks of their owners. Notchlight is not affiliated with or endorsed by any of them.</p>
   </div>
 </footer>
 
@@ -882,9 +1273,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   const icon = {
     video: '<svg viewBox="0 0 24 24" fill="#34d27b"><rect x="2" y="6" width="13" height="12" rx="3"/><path d="m16 10 6-3.5v11L16 14z"/></svg>',
     phone: '<svg viewBox="0 0 24 24" fill="#34d27b"><path d="M6.6 2.8 9 6.6c.4.7.3 1.6-.3 2.1L7.3 10a12 12 0 0 0 6.7 6.7l1.3-1.4c.5-.6 1.4-.7 2.1-.3l3.8 2.4c.7.4 1 1.3.6 2-1 2-3 3.1-5.1 2.4A18 18 0 0 1 2.2 7.8C1.5 5.7 2.6 3.7 4.6 2.6c.7-.4 1.6-.2 2 .2Z"/></svg>',
-    link: '<svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg>',
-    timer: '<svg viewBox="0 0 24 24" fill="none" stroke="#ff9f43" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 13V9M10 2h4"/></svg>',
-    stopwatch: '<svg viewBox="0 0 24 24" fill="none" stroke="#ff9f43" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="13" r="8"/><path d="M12 13l3-3M10 2h4M19 5l1.5 1.5"/></svg>',
+    // Apple's own symbols, as the island draws them.
+    hotspot: '<span class="sym hotspot" aria-hidden="true"></span>',
+    timer: '<span class="sym timer" aria-hidden="true"></span>',
+    stopwatch: '<span class="sym stopwatch" aria-hidden="true"></span>',
     mic: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0h-2a5 5 0 0 1-10 0zM11 18h2v4h-2z"/></svg>',
     cam: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="2" y="6" width="13" height="12" rx="3"/><path d="m16 10 6-3.5v11L16 14z"/></svg>',
     open: '<svg viewBox="0 0 24 24" fill="none" stroke="#34d27b" stroke-width="2.4" stroke-linecap="round"><path d="M9 5h10v10M19 5 6 18"/></svg>',
@@ -903,7 +1295,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 
   const compact = (left, right, extra = "") => `<div class="isl compact"><span class="side">${left}</span><span class="side">${right}</span>${extra}</div>`;
   const song = (cover, title, artist, lyric, bubble) => ({
-    closed: compact(`<span class="cover ${cover}"></span>`, wave, bubble ? `<span class="isl-bubble">${icon.link}</span>` : ""),
+    closed: compact(`<span class="cover ${cover}"></span>`, wave, bubble ? `<span class="isl-bubble">${icon.hotspot}</span>` : ""),
     open: `<div class="isl card"><div class="top"><span class="cover ${cover}"></span>${wave}</div><div class="row"><b>${title}</b><span class="soft">${artist}</span>${controls}</div>${lyric ? `<div class="lyric">${lyric}</div>` : ""}<div class="bar-line"><span>1:42</span><i></i><span>-2:04</span></div></div>`,
   });
   const call = (logo, title, glyph, zoom) => ({
@@ -923,9 +1315,9 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     { id: "facetime", name: "FaceTime", logo: "facetime", menu: "FaceTime", caption: "FaceTime calls show their time beside the notch.", ...call("facetime", "FaceTime Call", "phone") },
     { id: "teams", name: "Microsoft Teams", logo: "teams", menu: "Teams", caption: "Teams calls, from the app or the browser.", ...call("teams", "Teams Call", "video") },
     { id: "meet", name: "Google Meet", logo: "meet", menu: "Chrome", caption: "Meetings in Chrome, Safari or Firefox are recognised from the browser using your microphone.", ...call("chrome", "Google Meet", "video") },
-    { id: "hotspot", name: "Personal Hotspot", glyph: icon.link, menu: "Finder", caption: "While your Mac is on your iPhone's hotspot. Open it to see which iPhone.",
-      closed: compact(icon.link, ""),
-      open: `<div class="isl card"><div class="top"><span class="round green" style="width:26px;height:26px">${icon.link}</span><span></span></div><div class="row"><span class="meta"><b>Personal Hotspot</b><small>Connected to Alex's iPhone</small></span></div></div>` },
+    { id: "hotspot", name: "Personal Hotspot", glyph: icon.hotspot, menu: "Finder", caption: "While your Mac is on your iPhone's hotspot. Open it to see which iPhone.",
+      closed: compact(icon.hotspot, ""),
+      open: `<div class="isl card"><div class="top"><span class="round green" style="width:26px;height:26px">${icon.hotspot}</span><span></span></div><div class="row"><span class="meta"><b>Personal Hotspot</b><small>Connected to Alex's iPhone</small></span></div></div>` },
     { id: "pomodoro", name: "Pomodoro", logo: "clock", menu: "Notchlight", caption: "Focus sessions count down beside the notch. Pause or skip from the card.",
       closed: compact(icon.timer, '<span style="color:#ff9f43">24:59</span>'),
       open: `<div class="isl card"><div class="top"><span class="round orange" style="width:26px;height:26px">${icon.timer}</span><span style="color:#ff9f43;font:600 18px var(--rounded)">24:59</span></div><div class="row"><b style="color:rgba(255,255,255,.75)">Focus</b><span class="buttons"><span class="round orange">${icon.pause}</span><span class="round">${icon.skip}</span></span></div></div>` },
@@ -945,7 +1337,8 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     { id: "focus", name: "Focus", glyph: icon.moon, menu: "Finder", caption: "When a Focus such as Do Not Disturb turns on or off.", ...drop(`<span style="display:flex;gap:7px;align-items:center;color:#a49cff">${icon.moon} Do Not Disturb</span>`, '<span style="color:#a49cff">On</span>') },
   ];
 
-  const list = document.getElementById("acts");
+  const lists = { "Live activities": document.getElementById("acts-live"), Alerts: document.getElementById("acts-alerts") };
+  let list = null;
   const slot = document.getElementById("slot");
   const caption = document.getElementById("caption");
   const toggle = document.getElementById("toggle");
@@ -956,6 +1349,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 
   for (const item of activities) {
     if (item.group) {
+      list = lists[item.group];
       const heading = document.createElement("span");
       heading.className = "group";
       heading.textContent = item.group;
@@ -981,7 +1375,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   function show(item, keepOpen) {
     current = item;
     open = keepOpen && !!item.open;
-    list.querySelectorAll(".act").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === item.id)));
+    document.querySelectorAll("#island .act").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === item.id)));
     caption.textContent = item.caption;
     menuApps.innerHTML = `<b>${item.menu}</b><span>File</span><span>Edit</span>`;
     render();
@@ -991,25 +1385,6 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   stage.addEventListener("mouseenter", () => { if (current.open && !open) { open = true; render(); } });
   stage.addEventListener("mouseleave", () => { if (open) { open = false; render(); } });
   show(activities[1], false);
-
-  if (reduce) return;
-
-  // The hero island opens into the song card and closes again, as it does on a Mac.
-  const island = document.getElementById("hero-island");
-  setInterval(() => island.classList.toggle("open"), 3800);
-
-  // The lyrics move line by line.
-  const lines = ["City lights are spelling out your name", "We drove until the morning found us", "Hold the moment, let the record play", "Every window glowing like a sign"];
-  const panel = [...document.querySelectorAll("[data-line]")];
-  let index = 0;
-  const step = () => {
-    document.querySelectorAll("[data-lyric]").forEach((el) => (el.textContent = lines[index]));
-    document.querySelectorAll("[data-next]").forEach((el) => (el.textContent = lines[(index + 1) % lines.length]));
-    panel.forEach((el, i) => el.classList.toggle("now", i === index));
-    index = (index + 1) % lines.length;
-  };
-  step();
-  setInterval(step, 2600);
 
   // Widget gallery: each style button swaps in its picture; the filter shows one category at a time.
   document.querySelectorAll(".wcard").forEach((card) => {
@@ -1031,6 +1406,334 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       card.hidden = button.dataset.cat !== "all" && card.dataset.cat !== button.dataset.cat;
     });
   }));
+
+  // Appearance: pick a card style and a wallpaper for the preview.
+  const look = document.querySelector("[data-look]");
+  const lookDetail = document.getElementById("look-detail");
+  const styleButtons = document.querySelectorAll("[data-pick-style]");
+  styleButtons.forEach((button) => button.addEventListener("click", () => {
+    styleButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+    look.dataset.style = button.dataset.pickStyle;
+    lookDetail.textContent = button.dataset.detail;
+  }));
+  const wallButtons = document.querySelectorAll("[data-pick-wall]");
+  wallButtons.forEach((button) => button.addEventListener("click", () => {
+    wallButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
+    look.dataset.wall = button.dataset.pickWall;
+  }));
+
+  if (reduce) return;
+
+  // The hero island opens into the song card and closes again, as it does on a Mac.
+  const island = document.getElementById("hero-island");
+  setInterval(() => island.classList.toggle("open"), 3800);
+
+  // The lyrics move line by line.
+  const lines = ["City lights are spelling out your name", "We drove until the morning found us", "Hold the moment, let the record play", "Every window glowing like a sign"];
+  const panel = [...document.querySelectorAll("[data-line]")];
+  let index = 0;
+  const step = () => {
+    document.querySelectorAll("[data-lyric]").forEach((el) => (el.textContent = lines[index]));
+    document.querySelectorAll("[data-next]").forEach((el) => (el.textContent = lines[(index + 1) % lines.length]));
+    panel.forEach((el, i) => el.classList.toggle("now", i === index));
+    index = (index + 1) % lines.length;
+  };
+  step();
+  setInterval(step, 2600);
+
+})();
+</script>
+<script>
+// Layout Studio film: the Studio acted out with the real widget pictures and a cursor, played like a video. Each
+// scene is a pure function of its clock, so pausing, jumping to a scene and reduced motion come for free. It plays
+// only while on screen; with reduced motion each scene shows its finished state instead.
+(() => {
+  const film = document.getElementById("studio-film");
+  if (!film) return;
+  const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const $ = (selector) => film.querySelector(selector);
+  const win = $(".fw");
+  const canvas = $("[data-canvas]");
+  const cursor = $("[data-cursor]");
+  const ripple = $("[data-ripple]");
+
+  const SIZE = { small: [164, 164], medium: [344, 164], wide: [524, 164], ultraWide: [704, 164], large: [344, 344] };
+  const SIZE_NAME = { small: "Small", medium: "Medium", wide: "Wide", ultraWide: "Ultra Wide", large: "Large" };
+  const KIND = {
+    clock: { title: "Clock", styles: { digital: ["Digital", ["small", "medium", "wide"]], analog: ["Analog", ["small", "medium"]], world: ["World Clock", ["medium", "wide", "ultraWide"]] } },
+    battery: { title: "Battery", styles: { ring: ["Ring", ["small"]], bar: ["Bar", ["medium", "wide"]] } },
+    calendar: { title: "Calendar", styles: { date: ["Date", ["small", "medium"]], monthly: ["Monthly", ["small", "medium", "large"]], upNext: ["Up Next", ["small", "medium", "wide", "large"]] } },
+    musicCard: { title: "Music Card", styles: { glass: ["Glass", ["medium", "wide"]] } },
+    weather: { title: "Weather", styles: { current: ["Current", ["small", "medium"]], hourly: ["Hourly", ["medium", "wide", "ultraWide"]], daily: ["Five Day", ["wide", "large"]] } },
+  };
+  const picture = (w) => `assets/widgets/${w.kind}-${w.style}-${w.size}.webp`;
+
+  // Where things start: centres in points on the 1512 × 982 screen the app lays widgets out on.
+  const START = {
+    cursor: null, clicks: 0, sheet: null, menu: false, hover: null, selected: null, lifted: null, lock: false,
+    widgets: {
+      clock: { kind: "clock", style: "analog", size: "small", cx: 138, cy: 342 },
+      battery: { kind: "battery", style: "ring", size: "small", cx: 482, cy: 702 },
+      calendar: { kind: "calendar", style: "upNext", size: "medium", cx: 1284, cy: 342 },
+      music: { kind: "musicCard", style: "glass", size: "medium", cx: 1284, cy: 522 },
+    },
+  };
+  const point = (x, y) => ({ x, y });
+  const click = (s) => { s.clicks += 1; };
+  const move = (s, id, x, y) => { Object.assign(s.widgets[id], { cx: x, cy: y }); s.cursor = point(x, y); };
+
+  const scenes = [
+    {
+      id: "add", tab: "Add", title: "Add a widget.", dur: 9200,
+      caption: "Pick any of the 21 widgets, in the style and size you want, and it lands on your lock screen.",
+      steps: [
+        [300, (s) => { s.cursor = point(760, 470); }],
+        [900, (s) => { s.cursor = "add"; }],
+        [1800, click],
+        [2000, (s) => { s.sheet = { kind: "clock", added: "" }; }],
+        [2900, (s) => { s.cursor = "pick-weather"; }],
+        [3700, (s) => { click(s); s.sheet.kind = "weather"; }],
+        [4500, (s) => { s.cursor = "plus-weather-medium"; }],
+        [5300, (s) => {
+          click(s);
+          s.sheet.added = "Weather · Medium";
+          s.widgets.weather = { kind: "weather", style: "current", size: "medium", cx: 756, cy: 602 };
+          s.selected = "weather";
+        }],
+        [6100, (s) => { s.cursor = "done"; }],
+        [6900, (s) => { click(s); s.sheet = null; }],
+        [7600, (s) => { s.cursor = point(756, 602); }],
+      ],
+    },
+    {
+      id: "arrange", tab: "Arrange", title: "Drag it into place.", dur: 10200,
+      caption: "Put widgets anywhere. If one covers the clock or the login, its outline turns orange until you move it.",
+      steps: [
+        [600, (s) => { click(s); s.lifted = "weather"; }],
+        [900, (s) => move(s, "weather", 756, 214)],
+        [1850, (s) => { s.widgets.weather.warn = true; }],
+        [3000, (s) => { s.widgets.weather.warn = false; move(s, "weather", 228, 522); }],
+        [4100, (s) => { s.lifted = null; }],
+        [4800, (s) => { s.cursor = point(482, 702); }],
+        [5600, (s) => { click(s); s.selected = "battery"; s.lifted = "battery"; }],
+        [5900, (s) => move(s, "battery", 318, 342)],
+        [7000, (s) => { s.lifted = null; }],
+        [7800, (s) => { s.cursor = point(228, 522); }],
+        [8600, (s) => { click(s); s.selected = "weather"; }],
+      ],
+    },
+    {
+      id: "restyle", tab: "Restyle", title: "Change its style and size.", dur: 9600,
+      caption: "Select a widget to switch its style or size. What you see is the real widget.",
+      steps: [
+        [500, (s) => { s.cursor = "style"; }],
+        [1300, (s) => { click(s); s.menu = true; }],
+        [2000, (s) => { s.cursor = "menu-hourly"; s.hover = "hourly"; }],
+        [2800, (s) => { click(s); s.menu = false; s.hover = null; s.widgets.weather.style = "hourly"; }],
+        [3800, (s) => { s.cursor = "size-wide"; }],
+        [4600, (s) => { click(s); Object.assign(s.widgets.weather, { size: "wide", cx: 318 }); }],
+        [6200, (s) => { s.cursor = point(1040, 860); }],
+        [7000, (s) => { click(s); s.selected = null; }],
+      ],
+    },
+    {
+      id: "lock", tab: "Lock", title: "Lock your Mac.", dur: 7600,
+      caption: "Press Control-Command-Q and your layout is there, ready before you unlock.",
+      steps: [
+        [300, (s) => { s.cursor = null; }],
+        [600, (s) => { s.lock = true; }],
+      ],
+    },
+  ];
+
+  // Each scene starts where the one before it ends.
+  const clone = (value) => JSON.parse(JSON.stringify(value));
+  const starts = [];
+  let running = clone(START);
+  for (const scene of scenes) {
+    starts.push(clone(running));
+    for (const [, step] of scene.steps) step(running);
+  }
+  const stateAt = (index, time) => {
+    const s = clone(starts[index]);
+    for (const [at, step] of scenes[index].steps) if (at <= time) step(s);
+    return s;
+  };
+
+  const widgets = {};
+  for (const img of canvas.querySelectorAll("[data-w]")) widgets[img.dataset.w] = img;
+  const lockLayer = $("[data-lock-widgets]");
+
+  const place = (img, w) => {
+    const [width, height] = SIZE[w.size];
+    img.style.setProperty("--cx", w.cx);
+    img.style.setProperty("--cy", w.cy);
+    img.style.setProperty("--w", width);
+    img.style.setProperty("--h", height);
+    img.width = width;
+    img.height = height;
+  };
+
+  // Where the cursor goes: a named control, or a point on the screen in Layout Studio's canvas.
+  const locate = (target) => {
+    const box = win.getBoundingClientRect();
+    if (typeof target === "string") {
+      const el = [...film.querySelectorAll(`[data-target="${target}"]`)].find((candidate) => candidate.offsetParent !== null);
+      if (!el) return null;
+      const r = el.getBoundingClientRect();
+      return [r.left - box.left + Math.min(r.width / 2, 40), r.top - box.top + r.height / 2];
+    }
+    const c = canvas.getBoundingClientRect();
+    return [c.left - box.left + (target.x / 1512) * c.width, c.top - box.top + (target.y / 982) * c.height];
+  };
+
+  let clock = { scene: 0, t: 0 };
+  let last = null;
+  let lastScene = -1;
+  let inspectorKey = "";
+
+  function render() {
+    const scene = scenes[clock.scene];
+    const s = stateAt(clock.scene, reduce ? scene.dur : clock.t);
+
+    for (const [id, img] of Object.entries(widgets)) {
+      const w = s.widgets[id];
+      img.hidden = !w;
+      if (!w) continue;
+      const src = picture(w);
+      if (img.getAttribute("src") !== src) {
+        if (img.getAttribute("src") && !reduce) {
+          img.classList.remove("pop");
+          void img.offsetWidth;
+          img.classList.add("pop");
+        }
+        img.src = src;
+      }
+      place(img, w);
+      img.classList.toggle("sel", s.selected === id);
+      img.classList.toggle("warn", Boolean(w.warn));
+      img.classList.toggle("lift", s.lifted === id);
+    }
+
+    // The inspector for the selected widget, as Layout Studio shows it under the canvas.
+    const selected = s.selected && s.widgets[s.selected];
+    $("[data-insp]").classList.toggle("on", Boolean(selected));
+    if (selected) {
+      const kind = KIND[selected.kind];
+      const [styleName, sizes] = kind.styles[selected.style];
+      const key = JSON.stringify([selected, s.menu, s.hover]);
+      if (key !== inspectorKey) {
+        inspectorKey = key;
+        $("[data-insp-icon]").src = `assets/icons/${selected.kind}.webp`;
+        $("[data-insp-name]").textContent = kind.title;
+        $("[data-insp-detail]").textContent = `${styleName} · ${SIZE_NAME[selected.size]}`;
+        $("[data-insp-style]").textContent = styleName;
+        $("[data-style-row]").hidden = Object.keys(kind.styles).length < 2;
+        $("[data-insp-sizes]").innerHTML = sizes.map((size) => `<span data-target="size-${size}"${size === selected.size ? ' class="on"' : ""}>${SIZE_NAME[size]}</span>`).join("");
+        $("[data-warn]").classList.toggle("on", Boolean(selected.warn));
+        const menu = $("[data-menu]");
+        menu.hidden = !s.menu;
+        menu.innerHTML = Object.entries(kind.styles).map(([id, [name]]) => `<span data-target="menu-${id}" class="${id === selected.style ? "on" : ""} ${s.hover === id ? "hover" : ""}">${name}</span>`).join("");
+      }
+    }
+
+    // The widget picker sheet.
+    const sheet = $("[data-sheet]");
+    sheet.classList.toggle("open", Boolean(s.sheet));
+    if (s.sheet) {
+      film.querySelectorAll("[data-pick]").forEach((row) => row.classList.toggle("on", row.dataset.pick === s.sheet.kind));
+      film.querySelectorAll("[data-group]").forEach((group) => { group.hidden = group.dataset.group !== s.sheet.kind; });
+      const message = $("[data-added]");
+      message.textContent = s.sheet.added ? `✓ Added ${s.sheet.added}` : "Double-click a preview or use + to add it";
+      message.classList.toggle("ok", Boolean(s.sheet.added));
+    }
+
+    // Locked: the same layout on the real lock screen.
+    const lock = $("[data-lock]");
+    if (s.lock && !lock.classList.contains("on")) {
+      lockLayer.innerHTML = Object.values(s.widgets).map((w) => {
+        const [width, height] = SIZE[w.size];
+        return `<img class="sw glass${w.kind === "musicCard" ? " r26" : ""}" src="${picture(w)}" alt="" width="${width}" height="${height}" style="--cx:${w.cx};--cy:${w.cy};--w:${width};--h:${height}">`;
+      }).join("");
+    }
+    lock.classList.toggle("on", s.lock);
+
+    // The cursor, and a ripple when it clicks.
+    const spot = s.cursor && locate(s.cursor);
+    cursor.style.opacity = spot ? "1" : "0";
+    if (spot) cursor.style.transform = `translate(${spot[0]}px, ${spot[1]}px)`;
+    if (!reduce && last && lastScene === clock.scene && s.clicks > last.clicks) {
+      ripple.classList.remove("go");
+      void ripple.offsetWidth;
+      ripple.classList.add("go");
+    }
+    last = s;
+    lastScene = clock.scene;
+  }
+
+  // Tabs, caption and the play button.
+  const tabs = $("[data-tabs]");
+  const caption = $("[data-caption]");
+  const play = $("[data-play]");
+  tabs.innerHTML = scenes.map((scene, i) => `<button type="button" role="tab" class="film-tab" data-i="${i}">${scene.tab}<i class="film-progress"></i></button>`).join("");
+  const tabButtons = [...tabs.children];
+  let playing = !reduce;
+  let visible = false;
+  const isRunning = () => playing && visible;
+  const PAUSE = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="5" y="4" width="5" height="16" rx="1"/><rect x="14" y="4" width="5" height="16" rx="1"/></svg>';
+  const PLAY = '<svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 4l14 8-14 8z"/></svg>';
+
+  function chrome() {
+    tabButtons.forEach((tab, i) => {
+      tab.setAttribute("aria-selected", String(i === clock.scene));
+      const done = reduce ? 1 : clock.t / scenes[i].dur;
+      tab.querySelector(".film-progress").style.width = i === clock.scene ? `${done * 100}%` : "0";
+    });
+    const scene = scenes[clock.scene];
+    if (caption.dataset.id !== scene.id) {
+      caption.dataset.id = scene.id;
+      caption.innerHTML = `<b>${scene.title}</b> ${scene.caption}`;
+    }
+    play.hidden = reduce;
+    play.setAttribute("aria-label", playing ? "Pause the film" : "Play the film");
+    play.innerHTML = playing ? PAUSE : PLAY;
+  }
+
+  setInterval(() => {
+    if (!isRunning()) return;
+    const scene = scenes[clock.scene];
+    clock = clock.t + 100 >= scene.dur ? { scene: (clock.scene + 1) % scenes.length, t: 0 } : { scene: clock.scene, t: clock.t + 100 };
+    render();
+    chrome();
+  }, 100);
+
+  tabs.addEventListener("click", (event) => {
+    const tab = event.target.closest(".film-tab");
+    if (!tab) return;
+    clock = { scene: Number(tab.dataset.i), t: 0 };
+    playing = !reduce;
+    render();
+    chrome();
+  });
+  play.addEventListener("click", () => { playing = !playing; chrome(); });
+
+  // Fetch the pictures the film swaps in once it comes into view, so each change is instant.
+  let preloaded = false;
+  const preload = () => {
+    if (preloaded) return;
+    preloaded = true;
+    ["weather-current-medium", "weather-hourly-medium", "weather-hourly-wide", "clock-digital-small", "clock-digital-medium", "weather-current-small"]
+      .forEach((name) => { new Image().src = `assets/widgets/${name}.webp`; });
+  };
+  new IntersectionObserver(([entry]) => {
+    visible = entry.isIntersecting;
+    if (visible) preload();
+    chrome();
+  }, { threshold: 0.25 }).observe(film);
+  new ResizeObserver(() => render()).observe(win);
+
+  render();
+  chrome();
 })();
 </script>
 
