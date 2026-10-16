@@ -90,6 +90,7 @@
     --shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.8);
     --on-ink: #000000;
     --chip: rgba(44, 44, 46, 0.9);
+    --wall: url("assets/walls/macos-dark.webp");
     --w-bg: #1e1e20;
     --w-side: #2a2a2d;
     --w-ink: #f2f2f7;
@@ -129,6 +130,7 @@
   --shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.8);
   --on-ink: #000000;
   --chip: rgba(44, 44, 46, 0.9);
+  --wall: url("assets/walls/macos-dark.webp");
   --w-bg: #1e1e20;
   --w-side: #2a2a2d;
   --w-ink: #f2f2f7;
@@ -242,7 +244,7 @@ p { margin: 0; }
 .w-world .label { grid-column: 1 / -1; margin-bottom: 0.6cqw; }
 .w-world b { display: block; font: 600 2.6cqw/1.1 var(--rounded); }
 .w-world small { font-size: 0.85cqw; color: rgba(255, 255, 255, 0.6); }
-.w-brief { left: 37%; top: 36.8%; width: 32%; }
+.w-brief { left: 37%; top: 35.3%; width: 32%; }
 .w-brief .day { font-size: 0.85cqw; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a3; }
 .w-brief .hello { font: 700 2.1cqw/1.2 var(--system); margin: 0.2cqw 0 0.4cqw; }
 .w-brief .rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3cqw 1.6cqw; font-weight: 600; font-size: 1.05cqw; }
@@ -892,7 +894,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         </div>
         <div class="winfo">
           <h3>Favourite Apps <span class="new">New</span></h3>
-          <p>Your apps in a grid, or one or two anywhere. Tap one on the lock screen and it opens when you unlock.</p>
+          <p>Your apps in a grid, or one or two anywhere you like.</p>
           <div class="wstyles" role="group" aria-label="Favourite Apps styles"><button type="button" aria-pressed="true" data-src="assets/widgets/favorites-grid-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Favourite Apps widget, Grid style">Grid</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-single-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, One App style">One App</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-pair-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, Two Apps style">Two Apps</button></div>
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
