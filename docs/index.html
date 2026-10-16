@@ -214,7 +214,8 @@ p { margin: 0; }
 .hero { padding-block: 72px 64px; text-align: center; background: radial-gradient(60% 46% at 50% 94%, rgba(122, 60, 239, 0.09), transparent 70%); }
 .hero .wrap { display: grid; grid-template-columns: minmax(0, 1fr); justify-items: center; gap: 22px; }
 .hero .eyebrow { justify-self: center; }
-.hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 700; max-width: 13ch; }
+.hero h1 { font-size: clamp(44px, 6.2vw, 76px); font-weight: 700; letter-spacing: -0.025em; }
+.hero-icon { width: 120px; height: 120px; margin-bottom: -4px; }
 .hero .lede { margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 6px; width: 100%; }
 .brew { display: flex; align-items: center; gap: 12px; max-width: 100%; min-width: 0; }
@@ -669,7 +670,8 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 <main id="top">
   <div class="hero">
     <div class="wrap">
-      <h1>Your Mac, <span class="glow-text">at a glance.</span></h1>
+      <img class="hero-icon" src="assets/icon.png" alt="" width="120" height="120">
+      <h1>Notchlight</h1>
       <p class="lede">Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island: the song that's playing with Apple Music's own lyrics, your calls, notifications and more.</p>
       <div class="actions">
         <a class="button big" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">
@@ -1479,7 +1481,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     { id: "zoom", name: "Zoom", logo: "zoom", menu: "zoom.us", caption: "A Zoom meeting shows how long you've been on. Open it to mute, stop your video or go back to Zoom.", ...call("zoom", "Zoom Meeting", "video", true) },
     { id: "facetime", name: "FaceTime", logo: "facetime", menu: "FaceTime", caption: "FaceTime calls show their time beside the notch.", ...call("facetime", "FaceTime Call", "phone") },
     { id: "teams", name: "Microsoft Teams", logo: "teams", menu: "Teams", caption: "Teams calls, from the app or the browser.", ...call("teams", "Teams Call", "video") },
-    { id: "meet", name: "Google Meet", logo: "meet", menu: "Chrome", caption: "Meetings in Chrome, Safari or Firefox are recognised from the browser using your microphone.", ...call("chrome", "Google Meet", "video") },
+    { id: "meet", name: "Google Meet", logo: "meet", menu: "Chrome", caption: "Meetings in Chrome, Safari or Firefox are recognised from the browser using your microphone.", ...call("meet", "Google Meet", "video") },
     { group: "Notifications", column: "live" },
     { id: "messages", name: "Messages", logo: "messages", menu: "Safari", caption: "Notifications from every app drop down from the notch as they arrive. Click one to open the app.", ...banner("messages", "Messages", "Mira", "Running five minutes late. Save me a seat by the window?") },
     { id: "whatsapp", name: "WhatsApp", logo: "whatsapp", menu: "Safari", caption: "WhatsApp, Slack, Mail or anything else that posts a notification.", ...banner("whatsapp", "WhatsApp", "Study group", "Jonas: I've uploaded the notes for chapter 4 to the shared folder.") },
