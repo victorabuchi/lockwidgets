@@ -32,7 +32,7 @@ struct StocksWidget: View {
                             }
                         }
                         .lineLimit(1)
-                        .frame(width: instance.size == .medium ? 72 : 120, alignment: .leading)
+                        .frame(width: instance.size == .medium ? 72 : instance.size == .large ? 84 : 120, alignment: .leading)
                         if instance.size != .medium {
                             PriceChart(values: quote.closes, baseline: quote.previousClose, color: color(quote), filled: false)
                                 .frame(height: 22)
@@ -41,6 +41,8 @@ struct StocksWidget: View {
                         }
                         Text(quote.priceText)
                             .font(.system(size: 13, weight: .semibold).monospacedDigit())
+                            .lineLimit(1)
+                            .fixedSize()
                         Text(quote.changeText)
                             .font(.system(size: 11, weight: .bold).monospacedDigit())
                             .foregroundStyle(color(quote))

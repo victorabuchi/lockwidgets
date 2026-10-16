@@ -161,3 +161,23 @@ extension Double {
     }
 }
 
+#if DEBUG
+extension ActivityTracker {
+    /// A working day in apps, for the website's widget pictures.
+    func loadSample() {
+        var sample = Usage.empty(Self.dayKey(.now))
+        let plan: [(Int, [String: Double])] = [
+            (8, ["com.apple.mail": 900, "com.apple.Safari": 600]),
+            (9, ["com.microsoft.VSCode": 2400, "com.apple.Safari": 600]),
+            (10, ["com.microsoft.VSCode": 2700, "com.apple.Music": 300, "com.apple.MobileSMS": 240]),
+            (11, ["com.microsoft.VSCode": 1800, "com.apple.Safari": 1200]),
+            (13, ["com.apple.Safari": 1500, "com.apple.mail": 600, "com.apple.Notes": 420]),
+            (14, ["com.microsoft.VSCode": 3000]),
+            (15, ["com.microsoft.VSCode": 1500, "com.apple.Music": 900]),
+            (16, ["com.apple.Safari": 900, "com.apple.MobileSMS": 600, "com.apple.Notes": 300]),
+        ]
+        for (hour, apps) in plan { sample.hours[hour] = apps }
+        usage = sample
+    }
+}
+#endif

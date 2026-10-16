@@ -30,6 +30,7 @@
 		498525240AF04CC22C138ECB /* StickyNoteWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5542B4EFD93B4AB2028DCB89 /* StickyNoteWidget.swift */; };
 		518E03FAE3F3E7B82E76716F /* BatteryMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */; };
 		52690D0AE034DEDF3E3D8D2E /* LayoutStudioPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 340B9D05531D1298D3305788 /* LayoutStudioPage.swift */; };
+		55BCB7E3172B68212EBE9797 /* WidgetGallery.swift in Sources */ = {isa = PBXBuildFile; fileRef = ECCAE2E92BCBB1A729F1F6F3 /* WidgetGallery.swift */; };
 		576D5B2ABF3B13EF4189F685 /* StocksStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A513FE231239454ED6ED159 /* StocksStore.swift */; };
 		5A148EDD12571E5D5038FD64 /* SettingsKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */; };
 		5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50667F8A2F064584A76D173F /* AboutPage.swift */; };
@@ -145,6 +146,7 @@
 		E76A8A810247D9D17F9128BA /* IslandView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IslandView.swift; sourceTree = "<group>"; };
 		E99FB43B933F43756700684B /* OverlayManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OverlayManager.swift; sourceTree = "<group>"; };
 		EB0DD8D79FA0BF7238001897 /* LyricsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsStore.swift; sourceTree = "<group>"; };
+		ECCAE2E92BCBB1A729F1F6F3 /* WidgetGallery.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetGallery.swift; sourceTree = "<group>"; };
 		F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPage.swift; sourceTree = "<group>"; };
 		F2F49A7E02926DB1B13364F2 /* StickyNotesPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StickyNotesPage.swift; sourceTree = "<group>"; };
 		F88EF4BD9D335A452A827616 /* WidgetPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetPage.swift; sourceTree = "<group>"; };
@@ -198,6 +200,7 @@
 				C166765275AD20B49E4DCDBE /* WeatherWidget.swift */,
 				33D67D8F04957B4191B11B16 /* WidgetBoard.swift */,
 				E3D4B280E0A6F0FAAECBA14B /* WidgetCard.swift */,
+				ECCAE2E92BCBB1A729F1F6F3 /* WidgetGallery.swift */,
 				2B592C7B3AE19D5764E21A15 /* WidgetView.swift */,
 			);
 			path = Widgets;
@@ -444,6 +447,7 @@
 				185BB4FA517C57C21E146968 /* WhatsNewPage.swift in Sources */,
 				A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */,
 				08C0B975DB0E728ED761039E /* WidgetCard.swift in Sources */,
+				55BCB7E3172B68212EBE9797 /* WidgetGallery.swift in Sources */,
 				E9B7A91CE8C1510260200D5B /* WidgetKind.swift in Sources */,
 				6B200FFC15332AD76F0D4741 /* WidgetPage.swift in Sources */,
 				478DAABE02E9E7F2B9A6E8A5 /* WidgetPicker.swift in Sources */,

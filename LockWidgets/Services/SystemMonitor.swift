@@ -131,3 +131,19 @@ extension Double {
         ByteCountFormatter.string(fromByteCount: Int64(self), countStyle: .file) + "/s"
     }
 }
+
+#if DEBUG
+extension SystemMonitor {
+    func loadSample() {
+        current = Sample(cpu: 0.16, memory: 0.64, memoryUsedGB: 10.3, memoryTotalGB: 16, download: 2_150_000, upload: 240_000, diskFreeGB: 312, diskTotalGB: 494, load: 1.8, uptime: 29 * 3600)
+        cpuHistory = (0 ..< 60).map { (index: Int) -> Double in
+            let spike: Double = index % 9 == 0 ? 0.1 : 0
+            return 0.12 + 0.08 * abs(sin(Double(index) * 0.7)) + spike
+        }
+        memoryHistory = (0 ..< 60).map { (index: Int) -> Double in 0.62 + 0.02 * sin(Double(index) * 0.2) }
+        networkHistory = (0 ..< 60).map { (index: Int) -> Double in
+            index % 17 == 5 ? 2_150_000 : 120_000 + 60_000 * abs(sin(Double(index)))
+        }
+    }
+}
+#endif

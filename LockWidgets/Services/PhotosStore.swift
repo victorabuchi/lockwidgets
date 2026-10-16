@@ -36,6 +36,9 @@ final class PhotosStore: ObservableObject {
     }
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         folderName = resolveFolder()?.lastPathComponent
         next()
         restartTimer()
@@ -156,3 +159,14 @@ final class PhotosStore: ObservableObject {
         DispatchQueue.main.async { self.problem = problem }
     }
 }
+
+#if DEBUG
+extension PhotosStore {
+    func loadSample(_ photo: NSImage?) {
+        image = photo
+        date = Calendar.current.date(byAdding: .month, value: -3, to: .now)
+        problem = nil
+        libraryAccess = true
+    }
+}
+#endif

@@ -53,6 +53,9 @@ final class WeatherStore: NSObject, ObservableObject, CLLocationManagerDelegate 
 
     private override init() {
         super.init()
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         manager.delegate = self
         manager.desiredAccuracy = kCLLocationAccuracyKilometer
         refresh()
@@ -277,3 +280,26 @@ enum WeatherCode {
         }
     }
 }
+
+#if DEBUG
+extension WeatherStore {
+    /// A sunny day in Lisbon, for the website's widget pictures.
+    func loadSample() {
+        let now = Date.now
+        let hours = (0 ..< 12).map { offset in
+            Hour(id: now.addingTimeInterval(Double(offset) * 3600), temperature: [21, 22, 23, 23, 24, 24, 23, 22, 20, 19, 18, 17][offset], code: offset < 7 ? 1 : 2, isDay: offset < 9)
+        }
+        let days = (0 ..< 5).map { offset in
+            Day(id: Calendar.current.date(byAdding: .day, value: offset, to: now) ?? now, high: [24, 23, 22, 25, 26][offset], low: [15, 14, 15, 16, 17][offset], code: [1, 2, 3, 0, 1][offset])
+        }
+        report = Report(
+            place: "Lisbon", timeZone: TimeZone(identifier: "Europe/Lisbon") ?? .current, temperature: 21, code: 1, isDay: true,
+            high: 24, low: 15, hours: hours, days: days,
+            sunrise: Calendar.current.date(bySettingHour: 7, minute: 42, second: 0, of: now),
+            sunset: Calendar.current.date(bySettingHour: 18, minute: 51, second: 0, of: now),
+            latitude: 38.7223, longitude: -9.1393
+        )
+        problem = nil
+    }
+}
+#endif

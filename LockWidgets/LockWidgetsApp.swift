@@ -7,6 +7,9 @@ struct LockWidgetsApp: App {
     @StateObject private var overlay: OverlayManager
 
     init() {
+        #if DEBUG
+        if let folder = WidgetGallery.folder { WidgetGallery.run(into: folder) }
+        #endif
         // Before anything reads a setting.
         PreferencesMigration.run()
         _overlay = StateObject(wrappedValue: OverlayManager())

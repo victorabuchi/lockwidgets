@@ -47,3 +47,14 @@ final class BatteryMonitor: ObservableObject {
         level = nil
     }
 }
+
+#if DEBUG
+extension BatteryMonitor {
+    func loadSample() {
+        level = 84
+        isCharging = false
+        isPluggedIn = false
+        minutesRemaining = 289
+    }
+}
+#endif

@@ -32,6 +32,9 @@ final class StocksStore: ObservableObject {
     private var timer: Timer?
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         refresh()
         timer = Timer.scheduledTimer(withTimeInterval: 300, repeats: true) { [weak self] _ in
             self?.refresh()
@@ -100,3 +103,19 @@ final class StocksStore: ObservableObject {
         )
     }
 }
+
+#if DEBUG
+extension StocksStore {
+    func loadSample() {
+        func series(from start: Double, to end: Double, wobble: Double) -> [Double] {
+            (0 ..< 40).map { index in start + (end - start) * Double(index) / 39 + wobble * sin(Double(index) * 0.9) }
+        }
+        quotes = [
+            Quote(symbol: "AAPL", name: "Apple", price: 231.42, previousClose: 228.90, currency: "USD", closes: series(from: 228.9, to: 231.4, wobble: 0.8)),
+            Quote(symbol: "MSFT", name: "Microsoft", price: 418.06, previousClose: 421.30, currency: "USD", closes: series(from: 421.3, to: 418.1, wobble: 1.2)),
+            Quote(symbol: "BTC-USD", name: "Bitcoin", price: 82_285, previousClose: 81_680, currency: "USD", closes: series(from: 81_680, to: 82_285, wobble: 300)),
+            Quote(symbol: "^GSPC", name: "S&P 500", price: 6412.30, previousClose: 6430.30, currency: "USD", closes: series(from: 6430, to: 6412, wobble: 8)),
+        ]
+    }
+}
+#endif

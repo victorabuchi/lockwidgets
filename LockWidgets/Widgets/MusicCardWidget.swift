@@ -77,7 +77,7 @@ struct MusicCardWidget: View {
             .padding(16)
             .frame(width: instance.size.points.width, height: instance.size.points.height)
             .background {
-                shape.fill(.ultraThinMaterial)
+                shape.fill(.frost(.ultraThinMaterial))
                     .overlay(shape.fill(Color.white.opacity(0.08)))
                     .overlay(shape.strokeBorder(LinearGradient(colors: [.white.opacity(0.45), .white.opacity(0.08)], startPoint: .top, endPoint: .bottom), lineWidth: 1))
             }

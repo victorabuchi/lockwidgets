@@ -16,6 +16,9 @@ final class CalendarStore: ObservableObject {
     var hasAccess: Bool { status == .fullAccess }
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         NotificationCenter.default.addObserver(forName: .EKEventStoreChanged, object: store, queue: .main) { [weak self] _ in
             self?.reload()
         }
@@ -68,3 +71,36 @@ final class CalendarStore: ObservableObject {
         return String(format: "%04d-%02d-%02d", parts.year!, parts.month!, parts.day!)
     }
 }
+
+#if DEBUG
+extension CalendarStore {
+    /// A few upcoming events, for the website's widget pictures.
+    func loadSample() {
+        let store = EKEventStore()
+        func calendar(_ title: String, _ color: NSColor) -> EKCalendar {
+            let calendar = EKCalendar(for: .event, eventStore: store)
+            calendar.title = title
+            calendar.cgColor = color.cgColor
+            return calendar
+        }
+        let work = calendar("Work", .systemBlue), home = calendar("Home", .systemOrange)
+        let base = Calendar.current.date(bySetting: .second, value: 0, of: .now) ?? .now
+        func event(_ title: String, after minutes: Double, lasting length: Double, _ calendar: EKCalendar) -> EKEvent {
+            let event = EKEvent(eventStore: store)
+            event.title = title
+            event.startDate = base.addingTimeInterval(minutes * 60)
+            event.endDate = event.startDate.addingTimeInterval(length * 60)
+            event.calendar = calendar
+            return event
+        }
+        events = [
+            event("Design review", after: 40, lasting: 45, work),
+            event("Lunch with Sam", after: 160, lasting: 60, home),
+            event("Gym", after: 400, lasting: 60, home),
+            event("Team standup", after: 1300, lasting: 15, work),
+        ]
+        eventDays = Set(events.map { Self.dayKey($0.startDate) })
+        status = .fullAccess
+    }
+}
+#endif

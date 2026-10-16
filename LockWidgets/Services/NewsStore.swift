@@ -26,6 +26,9 @@ final class NewsStore: ObservableObject {
     private var timer: Timer?
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         refresh()
         timer = Timer.scheduledTimer(withTimeInterval: 30 * 60, repeats: true) { [weak self] _ in
             self?.refresh()
@@ -116,3 +119,19 @@ private final class FeedParser: NSObject, XMLParserDelegate {
         return rfc822.date(from: text) ?? ISO8601DateFormatter().date(from: text)
     }
 }
+
+#if DEBUG
+extension NewsStore {
+    func loadSample() {
+        let now = Date.now
+        headlines = [
+            Headline(title: "Night trains are back across Europe, with twelve new routes this winter", date: now.addingTimeInterval(-25 * 60)),
+            Headline(title: "A new comet will be visible to the naked eye next week", date: now.addingTimeInterval(-70 * 60)),
+            Headline(title: "City parks add free outdoor reading rooms", date: now.addingTimeInterval(-3 * 3600)),
+            Headline(title: "Scientists map the ocean floor in record detail", date: now.addingTimeInterval(-5 * 3600)),
+        ]
+        source = "World News"
+        problem = nil
+    }
+}
+#endif

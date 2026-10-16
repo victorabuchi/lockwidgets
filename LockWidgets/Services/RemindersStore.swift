@@ -22,6 +22,9 @@ final class RemindersStore: ObservableObject {
     var hasAccess: Bool { status == .fullAccess }
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         NotificationCenter.default.addObserver(forName: .EKEventStoreChanged, object: store, queue: .main) { [weak self] _ in
             self?.reload()
         }
@@ -71,3 +74,18 @@ final class RemindersStore: ObservableObject {
         }
     }
 }
+
+#if DEBUG
+extension RemindersStore {
+    func loadSample() {
+        let today = Calendar.current.startOfDay(for: .now)
+        items = [
+            Item(id: "1", title: "Book the train to Porto", due: today.addingTimeInterval(18 * 3600), color: .systemOrange, isFlagged: true),
+            Item(id: "2", title: "Pick up the camera", due: today.addingTimeInterval(36 * 3600), color: .systemBlue, isFlagged: false),
+            Item(id: "3", title: "Call Mum", due: nil, color: .systemGreen, isFlagged: false),
+            Item(id: "4", title: "Renew the library books", due: today.addingTimeInterval(4 * 86400), color: .systemPurple, isFlagged: false),
+        ]
+        status = .fullAccess
+    }
+}
+#endif

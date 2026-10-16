@@ -134,3 +134,18 @@ extension TimeInterval {
             : String(format: "%d:%02d", minutes, seconds)
     }
 }
+
+#if DEBUG
+extension TimerStore {
+    func loadSample() {
+        phase = .focus
+        pomodoroRunning = true
+        completedSessions = 2
+        phaseEnd = Date.now.addingTimeInterval(14 * 60 + 32)
+        pausedRemaining = nil
+        stopwatchRunning = true
+        stopwatchStart = Date.now.addingTimeInterval(-192)
+        stopwatchAccumulated = 0
+    }
+}
+#endif

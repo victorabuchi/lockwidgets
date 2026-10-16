@@ -31,6 +31,9 @@ final class LyricsStore: ObservableObject {
     private let queue = DispatchQueue(label: "LockWidgets.Lyrics")
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         subscription = NowPlayingStore.shared.$track
             .removeDuplicates()
             .receive(on: DispatchQueue.main)
@@ -92,3 +95,14 @@ final class LyricsStore: ObservableObject {
         }
     }
 }
+
+#if DEBUG
+extension LyricsStore {
+    /// Lines for the sample song, on its second line.
+    func loadSample() {
+        let texts = ["Neon on the window, rain on the road", "City lights are spelling out your name", "We drove until the morning found us", "Hold the moment, let the record play", "Every window glowing like a sign"]
+        lines = texts.enumerated().map { index, text in Line(id: index, begin: 92 + Double(index) * 6, end: 97.5 + Double(index) * 6, text: text) }
+        state = .found
+    }
+}
+#endif

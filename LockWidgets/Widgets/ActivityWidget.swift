@@ -84,10 +84,13 @@ struct ActivityWidget: View {
         HStack(spacing: 14) {
             ForEach(Array(top.prefix(3).enumerated()), id: \.element.bundleID) { index, app in
                 VStack(alignment: .leading, spacing: 1) {
-                    Text(AppInfo.name(app.bundleID))
-                        .font(.system(size: 11, weight: .semibold))
-                        .foregroundStyle(Self.colors[index])
-                        .lineLimit(1)
+                    HStack(spacing: 4) {
+                        Circle().fill(Self.colors[index]).frame(width: 7, height: 7)
+                        Text(AppInfo.name(app.bundleID))
+                            .font(.system(size: 11, weight: .semibold))
+                            .foregroundStyle(Theme.secondary)
+                            .lineLimit(1)
+                    }
                     Text(app.seconds.durationText)
                         .font(.system(size: 12, weight: .semibold))
                 }

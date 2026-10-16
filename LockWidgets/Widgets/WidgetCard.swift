@@ -57,11 +57,11 @@ struct WidgetCard<Content: View>: View {
         let shape = RoundedRectangle(cornerRadius: cornerRadius, style: .continuous)
         switch style {
         case .glass:
-            shape.fill(.ultraThinMaterial)
+            shape.fill(.frost(.ultraThinMaterial))
                 .overlay(shape.fill(Color.black.opacity(0.18)))
                 .overlay(shape.strokeBorder(Color.white.opacity(0.12), lineWidth: 1))
         case .frosted:
-            shape.fill(.regularMaterial)
+            shape.fill(.frost(.regularMaterial))
                 .overlay(shape.fill(Color.black.opacity(0.4)))
                 .overlay(shape.strokeBorder(Color.white.opacity(0.1), lineWidth: 1))
         case .solid:
@@ -70,6 +70,17 @@ struct WidgetCard<Content: View>: View {
         case .minimal:
             Color.clear
         }
+    }
+}
+
+extension ShapeStyle where Self == AnyShapeStyle {
+    /// A frosted blur. Offscreen drawing can't blur what's behind a card, so the gallery pictures drawn for the
+    /// website leave it out (or use `offscreen`) and the page blurs its own background instead.
+    static func frost(_ material: Material, offscreen: Color = .clear) -> AnyShapeStyle {
+        #if DEBUG
+        if WidgetGallery.isRendering { return AnyShapeStyle(offscreen) }
+        #endif
+        return AnyShapeStyle(material)
     }
 }
 

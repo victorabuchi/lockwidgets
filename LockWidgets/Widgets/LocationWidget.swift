@@ -27,11 +27,11 @@ struct LocationWidget: View {
                         .frame(maxWidth: .infinity, maxHeight: .infinity)
                     Label(report.place, systemImage: "location.fill")
                         .font(.system(size: 13, weight: .semibold))
-                        .foregroundStyle(.primary)
+                        .foregroundStyle(Color(white: 0.12))
                         .lineLimit(1)
                         .padding(.horizontal, 10)
                         .padding(.vertical, 6)
-                        .background(.regularMaterial, in: Capsule())
+                        .background(.frost(.regularMaterial, offscreen: .white.opacity(0.82)), in: Capsule())
                         .environment(\.colorScheme, .light)
                         .padding(12)
                 }

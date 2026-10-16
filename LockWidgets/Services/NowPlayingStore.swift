@@ -67,6 +67,9 @@ final class NowPlayingStore: ObservableObject {
     private let queue = DispatchQueue(label: "LockWidgets.NowPlaying")
 
     private init() {
+        #if DEBUG
+        if WidgetGallery.isRendering { return } // Sample data only.
+        #endif
         let center = DistributedNotificationCenter.default()
         for name in ["com.apple.Music.playerInfo", "com.spotify.client.PlaybackStateChanged"] {
             center.addObserver(forName: .init(name), object: nil, queue: .main) { [weak self] _ in
@@ -228,3 +231,17 @@ extension Double {
         return "\(seconds / 60):" + String(format: "%02d", seconds % 60)
     }
 }
+
+#if DEBUG
+extension NowPlayingStore {
+    /// A song partway through, for the website's widget pictures.
+    func loadSample(artwork image: NSImage?) {
+        track = Track(id: "sample", title: "Low Orbit", artist: "Mira Vale", album: "Night Signals", duration: 226, player: .music)
+        isPlaying = true
+        artwork = image
+        needsPermission = false
+        position = 102
+        positionDate = .now
+    }
+}
+#endif

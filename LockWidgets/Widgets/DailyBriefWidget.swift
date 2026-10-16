@@ -46,7 +46,10 @@ struct DailyBriefWidget: View {
     private func greeting(_ date: Date) -> String {
         let hour = Calendar.current.component(.hour, from: date)
         let part = hour < 5 ? "Good night" : hour < 12 ? "Good morning" : hour < 18 ? "Good afternoon" : "Good evening"
-        let name = NSFullUserName().split(separator: " ").first.map(String.init) ?? ""
+        var name = NSFullUserName().split(separator: " ").first.map(String.init) ?? ""
+        #if DEBUG
+        if WidgetGallery.isRendering { name = "Alex" }
+        #endif
         return name.isEmpty ? part : "\(part), \(name)"
     }
 
