@@ -13,26 +13,25 @@
 <meta property="og:description" content="Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island, with Apple Music's own lyrics. Free for macOS 15 and later.">
 <meta property="og:type" content="website">
 <meta property="og:image" content="assets/icon.png">
-<meta name="theme-color" content="#070818">
+<meta name="theme-color" content="#08091a">
 <link rel="apple-touch-icon" href="assets/icon.png">
 <style>
-/* Layout: the page is a Mac screen at night. The header is its menu bar with the notch in the middle; the
-   notch's light falls on the hero, and below it the page opens out like a lock screen. */
+/* Layout: the page is a Mac at night. The header is its menu bar with the notch in the middle; the hero is
+   the lock screen itself, on a silky wallpaper, with the island at the notch. */
 :root {
-  --night: #070818;
-  --night-2: #0e1028;
-  --panel: #13163a;
+  --night: #08091a;
+  --night-2: #0f1129;
   --ink: #eef0ff;
-  --muted: #a5aad0;
-  --faint: #6f74a3;
-  --beam: #d3e6ff;
+  --muted: #a7abcd;
+  --faint: #70749e;
+  --cream: #f3e7d8;
   --violet: #8c6bff;
-  --ember: #ff8a4c;
-  --line: rgba(211, 230, 255, 0.12);
+  --line: rgba(220, 228, 255, 0.12);
   --display: "Bricolage Grotesque", "Avenir Next", system-ui, sans-serif;
   --body: "Figtree", -apple-system, "Helvetica Neue", sans-serif;
   --mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
   --rounded: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+  --system: -apple-system, "SF Pro Text", "Helvetica Neue", sans-serif;
   color-scheme: dark;
 }
 
@@ -47,150 +46,181 @@ h2 { font-size: clamp(32px, 4.6vw, 52px); font-weight: 750; }
 h3 { font-size: 21px; font-weight: 650; letter-spacing: -0.01em; }
 p { margin: 0; }
 .lede { color: var(--muted); font-size: clamp(17px, 1.6vw, 20px); max-width: 60ch; }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--beam); }
-:focus-visible { outline: 2px solid var(--beam); outline-offset: 3px; border-radius: 6px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--cream); }
+:focus-visible { outline: 2px solid var(--cream); outline-offset: 3px; border-radius: 6px; }
 
-/* Menu bar, with the notch in the middle. */
-.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 78%, transparent); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-bottom: 1px solid var(--line); }
-.bar .wrap { position: relative; height: 52px; display: flex; align-items: center; gap: 28px; }
-.brand { display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.01em; }
+/* Menu bar: the brand on the left, links and download on the right, the notch between them. */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: color-mix(in srgb, var(--night) 80%, transparent); backdrop-filter: saturate(160%) blur(16px); -webkit-backdrop-filter: saturate(160%) blur(16px); border-bottom: 1px solid var(--line); }
+.bar .wrap { height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr); align-items: center; }
+.brand { justify-self: start; display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.01em; }
 .brand img { width: 28px; height: 28px; }
-.notch { position: absolute; left: 50%; top: 0; transform: translateX(-50%); width: 176px; height: 32px; background: #000; border-radius: 0 0 14px 14px; box-shadow: 0 0 0 1px rgba(211, 230, 255, 0.16), 0 8px 34px rgba(150, 190, 255, 0.28); }
-.nav { display: flex; gap: 22px; margin-left: auto; font-size: 15px; font-weight: 500; }
+.notch { justify-self: center; align-self: start; width: 176px; height: 32px; background: #000; border-radius: 0 0 14px 14px; box-shadow: 0 0 0 1px rgba(220, 228, 255, 0.14); }
+.right { justify-self: end; display: flex; align-items: center; gap: 22px; min-width: 0; }
+.nav { display: flex; gap: 20px; font-size: 15px; font-weight: 500; }
 .nav a { text-decoration: none; color: var(--muted); }
 .nav a:hover { color: var(--ink); }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 650; text-decoration: none; white-space: nowrap; }
 .button.small { padding: 8px 16px; font-size: 15px; background: var(--ink); color: var(--night); }
-.button.big { padding: 15px 28px; font-size: 18px; background: var(--ink); color: var(--night); box-shadow: 0 10px 40px rgba(211, 230, 255, 0.25); }
+.button.big { padding: 15px 28px; font-size: 18px; background: var(--ink); color: var(--night); }
 .button:hover { filter: brightness(0.94); }
 .button svg { width: 20px; height: 20px; }
 
-/* Hero: lit by the notch. */
-.hero { position: relative; overflow: hidden; padding-block: 72px 40px; text-align: center; }
-.beam { position: absolute; left: 50%; top: 0; width: min(1200px, 160vw); height: 760px; transform: translateX(-50%); background: linear-gradient(to bottom, rgba(211, 230, 255, 0.34), rgba(140, 107, 255, 0.10) 55%, transparent 85%); clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%); pointer-events: none; }
-.hero .wrap { position: relative; display: grid; justify-items: center; gap: 22px; }
+/* Hero. */
+.hero { padding-block: 72px 40px; text-align: center; }
+.hero .wrap { display: grid; justify-items: center; gap: 22px; }
 .hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 800; max-width: 13ch; }
 .hero .lede { margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 6px; }
 .brew { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line); border-radius: 999px; padding: 6px 6px 6px 18px; background: rgba(255, 255, 255, 0.04); max-width: 100%; min-width: 0; }
-.brew code { font-family: var(--mono); font-size: 14px; color: var(--beam); overflow-x: auto; white-space: nowrap; }
+.brew code { font-family: var(--mono); font-size: 14px; color: var(--cream); overflow-x: auto; white-space: nowrap; }
 .copy { border: 0; border-radius: 999px; padding: 7px 14px; background: rgba(255, 255, 255, 0.08); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
 .copy:hover { background: rgba(255, 255, 255, 0.14); }
 .facts { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; color: var(--faint); font-size: 14px; margin-top: 4px; }
 .facts span::before { content: ""; display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--violet); margin-right: 8px; vertical-align: middle; }
 
+/* The silky wallpaper, drawn once and reused. */
+.silk { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+
 /* The MacBook and its lock screen. */
-.mac { width: 100%; max-width: 980px; margin-top: 34px; }
+.mac { width: 100%; max-width: 1000px; margin-top: 34px; }
 .lid { background: #0a0a0d; border-radius: 22px 22px 8px 8px; padding: 1.4% 1.4% 0; box-shadow: 0 0 0 1px #2a2b35, 0 50px 100px rgba(0, 0, 0, 0.55); }
-.display { position: relative; aspect-ratio: 1.54; border-radius: 12px 12px 0 0; overflow: hidden; container-type: inline-size; text-align: left;
-  background:
-    radial-gradient(55% 50% at 18% 78%, rgba(255, 122, 69, 0.6), transparent 70%),
-    radial-gradient(60% 60% at 88% 12%, rgba(61, 123, 255, 0.65), transparent 70%),
-    radial-gradient(50% 45% at 72% 82%, rgba(194, 75, 255, 0.5), transparent 70%),
-    linear-gradient(150deg, #1d3cb0, #6a2fd8 55%, #f0663a); }
+.display { position: relative; aspect-ratio: 1.54; border-radius: 12px 12px 0 0; overflow: hidden; container-type: inline-size; text-align: left; color: #fff; font-family: var(--system); }
 .base { height: 16px; margin: 0 -5%; border-radius: 0 0 16px 16px; background: linear-gradient(#cfd2db, #8c909c); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.45); position: relative; }
 .base::after { content: ""; position: absolute; left: 50%; top: 0; width: 15%; height: 6px; transform: translateX(-50%); border-radius: 0 0 8px 8px; background: #a7abb6; }
+.display .shade { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(30, 20, 12, 0.26), rgba(30, 20, 12, 0.14) 35%, rgba(10, 10, 20, 0.24)); }
 
-.lock-date { position: absolute; top: 9cqw; width: 100%; text-align: center; color: rgba(255, 255, 255, 0.85); font: 600 1.7cqw var(--rounded); }
-.lock-time { position: absolute; top: 11cqw; width: 100%; text-align: center; color: rgba(255, 255, 255, 0.9); font: 700 12.5cqw/1 var(--rounded); letter-spacing: -0.02em; }
-.glass { position: absolute; border-radius: 2cqw; padding: 1.6cqw 1.8cqw; background: rgba(255, 255, 255, 0.16); border: 1px solid rgba(255, 255, 255, 0.28); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: #fff; font-size: 1.25cqw; line-height: 1.35; }
-.glass .label { font-size: 0.95cqw; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.7; }
-.glass .big { font: 700 3.4cqw/1.1 var(--rounded); margin-top: 0.4cqw; }
-.w-weather { left: 6%; top: 39%; width: 22%; }
-.w-next { right: 6%; top: 39%; width: 22%; }
-.w-lyrics { left: 50%; top: 61%; width: 36%; transform: translateX(-50%); display: grid; grid-template-columns: auto 1fr; gap: 1.2cqw; align-items: center; }
-.w-lyrics .now { font-weight: 700; font-size: 1.35cqw; }
-.w-lyrics .line { font: 700 1.8cqw/1.25 var(--rounded); margin-top: 0.3cqw; min-height: 2.3cqw; }
-.login { position: absolute; bottom: 5%; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 0.6cqw; color: rgba(255, 255, 255, 0.8); font-size: 1.1cqw; font-weight: 600; }
-.login .avatar { width: 3.6cqw; height: 3.6cqw; border-radius: 50%; background: linear-gradient(135deg, #ffd1a6, #c88aff); }
+.lock-date { position: absolute; top: 9.8cqw; width: 100%; text-align: center; font: 600 1.75cqw var(--rounded); color: rgba(255, 255, 255, 0.9); text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25); }
+.lock-time { position: absolute; top: 11.6cqw; width: 100%; text-align: center; font: 700 11cqw/1 var(--rounded); letter-spacing: -0.01em;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(214, 230, 255, 0.78)); -webkit-background-clip: text; background-clip: text; color: transparent; filter: drop-shadow(0 2px 14px rgba(40, 30, 20, 0.25)); }
 
-.art { border-radius: 22%; background: radial-gradient(circle at 30% 28%, rgba(255, 255, 255, 0.55), transparent 55%), linear-gradient(135deg, #ff8a3d, #ff3d7f 55%, #8b3dff); flex: none; }
-.w-lyrics .art { width: 5cqw; height: 5cqw; }
+/* Widgets in the Minimal look: text straight on the wallpaper. */
+.w { position: absolute; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.35); font-size: 1.2cqw; line-height: 1.35; }
+.w .label { display: flex; align-items: center; gap: 0.5cqw; font-size: 0.85cqw; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.82); }
+.w .label svg { width: 1cqw; height: 1cqw; }
+.w .dim { color: rgba(255, 255, 255, 0.72); }
+.w-next { left: 5.5%; top: 12%; width: 20%; }
+.w-next .check { width: 1.6cqw; height: 1.6cqw; margin: 1.2cqw 0 0.5cqw; display: block; }
+.w-world { left: 5.5%; top: 37%; display: grid; grid-template-columns: auto auto; gap: 0 3.4cqw; }
+.w-world .label { grid-column: 1 / -1; margin-bottom: 0.6cqw; }
+.w-world b { display: block; font: 600 2.6cqw/1.1 var(--rounded); }
+.w-world small { font-size: 0.85cqw; color: rgba(255, 255, 255, 0.6); }
+.w-brief { left: 37%; top: 38%; width: 32%; }
+.w-brief .day { font-size: 0.85cqw; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a3; }
+.w-brief .hello { font: 700 2.1cqw/1.2 var(--system); margin: 0.2cqw 0 0.4cqw; }
+.w-brief .rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3cqw 1.6cqw; font-weight: 600; font-size: 1.05cqw; }
+.w-lyrics { right: 5.5%; top: 11%; width: 27%; }
+.w-lyrics .line { font: 700 1.75cqw/1.25 var(--system); margin-top: 0.6cqw; min-height: 2.2cqw; }
+.w-lyrics .next { font: 700 1.5cqw/1.25 var(--system); color: rgba(255, 255, 255, 0.5); margin-top: 0.4cqw; }
+.w-system { right: 5.5%; top: 37%; width: 23%; display: grid; gap: 0.35cqw; }
+.w-system .row { display: grid; grid-template-columns: 6cqw 1fr 5cqw; align-items: center; gap: 0.6cqw; font-weight: 600; font-size: 1cqw; }
+.w-system .row svg { width: 100%; height: 1.6cqw; }
+.w-system .row span:last-child { white-space: nowrap; text-align: right; color: rgba(255, 255, 255, 0.75); font-variant-numeric: tabular-nums; }
+.w-note { left: 5.5%; top: 63%; font-weight: 700; font-size: 1.05cqw; line-height: 1.45; }
+.w-stock { left: 34%; top: 61%; width: 21%; }
+.w-stock b { display: block; font: 600 2.4cqw/1.1 var(--rounded); }
+.w-stock .down { color: #ff7a6b; font-weight: 700; font-size: 0.95cqw; }
+.w-stock svg { width: 100%; height: 6cqw; margin-top: 0.3cqw; }
+.w-battery { left: 60.5%; top: 61%; width: 9cqw; text-align: center; }
+.w-battery svg { width: 9cqw; height: 9cqw; }
+.w-battery small { display: block; font-size: 0.85cqw; color: rgba(255, 255, 255, 0.75); }
+.w-todo { right: 5.5%; top: 62%; font-weight: 600; font-size: 1.45cqw; line-height: 1.4; }
+
+.login { position: absolute; bottom: 4.2%; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 0.7cqw; }
+.login .avatar { width: 4.6cqw; height: 4.6cqw; border-radius: 50%; background: #cfeec8; display: grid; place-items: center; font-size: 3cqw; line-height: 1; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); }
+.login .name { font: 600 1.3cqw var(--system); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
+.login .field { display: flex; align-items: center; gap: 0.8cqw; }
+.login .password { width: 14cqw; height: 2.3cqw; border-radius: 99px; background: rgba(255, 255, 255, 0.24); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: rgba(255, 255, 255, 0.72); font-size: 1.05cqw; display: flex; align-items: center; padding-left: 1cqw; }
+.login .help { width: 2.1cqw; height: 2.1cqw; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.7); display: grid; place-items: center; font-size: 1.1cqw; font-weight: 700; }
+
+/* Album artwork: a real photograph. */
+.cover { background: #333 url("assets/cover.jpg") center / cover; border-radius: 22%; flex: none; }
 .wave { display: flex; align-items: center; gap: 14%; flex: none; }
-.wave i { flex: 1; height: 100%; border-radius: 99px; background: linear-gradient(#5ee6d0, #b46bff); transform-origin: center; animation: bounce 1s ease-in-out infinite; }
+.wave i { flex: 1; height: 100%; border-radius: 99px; background: linear-gradient(#f5cfa6, #e2836a); transform-origin: center; animation: bounce 1s ease-in-out infinite; }
 .wave i:nth-child(2) { animation-duration: 0.8s; animation-delay: -0.3s; }
 .wave i:nth-child(3) { animation-duration: 1.1s; animation-delay: -0.6s; }
 .wave i:nth-child(4) { animation-duration: 0.9s; animation-delay: -0.15s; }
 @keyframes bounce { 0%, 100% { transform: scaleY(0.35); } 50% { transform: scaleY(1); } }
+.link-icon { fill: none; stroke: #34d27b; stroke-width: 2.4; stroke-linecap: round; }
 
 /* The island at the notch: closed it sits beside the notch; open it becomes the song card. */
 .island { position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 20cqw; height: 2.6cqw; background: #000; border-radius: 0 0 1.2cqw 1.2cqw; transition: width 0.45s cubic-bezier(.3, 1.3, .5, 1), height 0.5s cubic-bezier(.3, 1.25, .5, 1), border-radius 0.4s; overflow: hidden; z-index: 2; }
-.island .compact { position: absolute; inset: 0; display: flex; align-items: center; justify-content: space-between; padding: 0 0.55cqw; transition: opacity 0.2s; }
-.island .compact .art { width: 1.7cqw; height: 1.7cqw; }
+.island .compact { position: absolute; left: 0; right: 0; top: 0; height: 2.6cqw; display: flex; align-items: center; justify-content: space-between; padding: 0 0.55cqw; }
+.island .compact .cover { width: 1.7cqw; height: 1.7cqw; transition: width 0.4s, height 0.4s; }
 .island .compact .wave { width: 1.7cqw; height: 1.1cqw; }
-.island .card { position: absolute; left: 0; right: 0; top: 2.6cqw; padding: 0.4cqw 1.3cqw 0; color: #fff; opacity: 0; transition: opacity 0.2s; display: grid; gap: 0.35cqw; font-size: 0.95cqw; }
-.island .card .row { display: flex; align-items: center; gap: 0.8cqw; }
+.island .card { position: absolute; left: 0; right: 0; top: 2.7cqw; padding: 0.2cqw 1.3cqw 0; opacity: 0; transition: opacity 0.2s; display: grid; gap: 0.35cqw; font-size: 0.95cqw; }
+.island .card .row { display: flex; align-items: center; gap: 0.6cqw; }
 .island .card .title { font-weight: 700; font-size: 1.05cqw; }
 .island .card .artist { color: rgba(255, 255, 255, 0.55); }
 .island .card .controls { margin-left: auto; display: flex; gap: 1.1cqw; }
 .island .card .controls svg { width: 1.2cqw; height: 1.2cqw; fill: #fff; }
-.island .card .lyric { color: #ff9a6a; font-weight: 600; }
-.island .card .progress { height: 0.25cqw; border-radius: 9px; background: rgba(255, 255, 255, 0.18); overflow: hidden; }
-.island .card .progress b { display: block; height: 100%; width: 46%; background: rgba(255, 255, 255, 0.75); border-radius: inherit; }
+.island .card .lyric { color: #f4b892; font-weight: 600; }
+.island .card .progress { height: 0.25cqw; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) 46%, rgba(255, 255, 255, 0.18) 46%); }
 .island.open { width: 30cqw; height: 9cqw; border-radius: 0 0 2cqw 2cqw; }
+.island.open .compact .cover { width: 2.1cqw; height: 2.1cqw; }
 .island.open .card { opacity: 1; transition-delay: 0.18s; }
-.island .top-art { position: absolute; top: 0.45cqw; left: 0.9cqw; width: 1.7cqw; height: 1.7cqw; }
 .bubble { position: absolute; top: 0; left: calc(50% + 10cqw + 0.8cqw); width: 2.6cqw; height: 2.6cqw; border-radius: 50%; background: #000; display: grid; place-items: center; transition: left 0.45s cubic-bezier(.3, 1.3, .5, 1); z-index: 2; }
 .bubble svg { width: 1.5cqw; height: 1.5cqw; }
 .island.open + .bubble { left: calc(50% + 15cqw + 0.8cqw); }
 
 /* Sections. */
 section { padding-block: 96px; border-top: 1px solid var(--line); }
-.split { display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 56px; align-items: center; }
+.split { display: grid; grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); gap: 56px; align-items: center; }
 .stack { display: grid; gap: 18px; align-content: start; }
 .chips { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
 .chips span { border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; font-size: 15px; color: var(--muted); }
 
-/* Island illustrations, at a readable size. */
+/* The top of a Mac screen: wallpaper, menu bar, and the island at the notch. */
 .shots { display: grid; gap: 18px; }
-.shot { position: relative; height: 150px; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); background: radial-gradient(80% 120% at 50% 0%, #2a2f6e, #10123a 70%); }
-.shot .cap { position: absolute; left: 18px; bottom: 14px; font-size: 14px; color: var(--muted); }
-.mini { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #000; color: #fff; }
-.mini.compact-mini { width: 300px; height: 38px; border-radius: 0 0 16px 16px; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; }
-.mini.compact-mini .art { width: 24px; height: 24px; }
-.mini.compact-mini .wave { width: 20px; height: 15px; }
-.mini-bubble { position: absolute; top: 0; left: calc(50% + 160px); width: 38px; height: 38px; border-radius: 50%; background: #000; display: grid; place-items: center; }
-.mini-bubble svg { width: 22px; height: 22px; }
-.mini.card-mini { width: 390px; height: 98px; border-radius: 0 0 24px 24px; padding: 0 16px; }
-.card-mini .top { height: 38px; display: flex; align-items: center; justify-content: space-between; }
-.card-mini .top .art { width: 30px; height: 30px; }
+.shot { position: relative; margin: 0; border-radius: 20px; overflow: hidden; border: 1px solid var(--line); height: 168px; font-family: var(--system); color: #fff; }
+.shot.tall { height: 196px; }
+.menubar { position: absolute; left: 0; right: 0; top: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 13px; font-weight: 600; background: rgba(40, 30, 25, 0.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); }
+.menubar .apps { display: flex; gap: 16px; align-items: center; }
+.menubar .apps b { font-weight: 800; }
+.menubar .status { display: flex; gap: 14px; align-items: center; font-variant-numeric: tabular-nums; }
+.menubar .status svg { width: 18px; height: 18px; fill: none; stroke: #fff; stroke-width: 1.6; }
+.shot .cap { position: absolute; left: 18px; bottom: 14px; font-size: 14px; font-family: var(--body); color: #fff; text-shadow: 0 1px 6px rgba(0, 0, 0, 0.5); }
+.mini { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #000; z-index: 2; }
+.mini.compact-mini { width: 290px; height: 34px; border-radius: 0 0 15px 15px; display: flex; align-items: center; justify-content: space-between; padding: 0 9px; }
+.mini.compact-mini .cover { width: 22px; height: 22px; }
+.mini.compact-mini .wave { width: 20px; height: 14px; }
+.mini-bubble { position: absolute; top: 0; left: calc(50% + 153px); width: 34px; height: 34px; border-radius: 50%; background: #000; display: grid; place-items: center; z-index: 2; }
+.mini-bubble svg { width: 20px; height: 20px; }
+.mini.card-mini, .mini.banner-mini { width: 390px; height: 98px; border-radius: 0 0 24px 24px; padding: 0 16px; }
+.card-mini .top, .banner-mini .top { height: 34px; display: flex; align-items: center; justify-content: space-between; }
+.card-mini .top .cover { width: 26px; height: 26px; }
 .card-mini .top .wave { width: 18px; height: 14px; }
 .card-mini .row { display: flex; align-items: center; gap: 8px; font-size: 13px; }
 .card-mini .row b { font-weight: 700; }
 .card-mini .row span { color: rgba(255, 255, 255, 0.55); }
 .card-mini .row .controls { margin-left: auto; display: flex; gap: 14px; }
 .card-mini .row .controls svg { width: 13px; height: 13px; fill: #fff; }
-.card-mini .lyric { color: #ff9a6a; font-weight: 600; font-size: 12.5px; margin-top: 2px; }
-.card-mini .progress { display: flex; align-items: center; gap: 8px; font: 500 10px var(--mono); color: rgba(255, 255, 255, 0.5); margin-top: 4px; }
+.card-mini .lyric { color: #f4b892; font-weight: 600; font-size: 12.5px; margin-top: 2px; }
+.card-mini .progress { display: flex; align-items: center; gap: 8px; font: 500 10px var(--mono); color: rgba(255, 255, 255, 0.5); margin-top: 3px; }
 .card-mini .progress i { flex: 1; height: 3px; border-radius: 9px; background: linear-gradient(to right, rgba(255, 255, 255, 0.75) 46%, rgba(255, 255, 255, 0.18) 46%); }
-.mini.banner-mini { width: 390px; height: 98px; border-radius: 0 0 24px 24px; padding: 0 16px; }
-.banner-mini .top { height: 38px; display: flex; align-items: center; justify-content: space-between; font-size: 11.5px; }
-.banner-mini .top .app { display: flex; align-items: center; gap: 6px; font-weight: 600; color: rgba(255, 255, 255, 0.8); }
-.banner-mini .top .app i { width: 18px; height: 18px; border-radius: 5px; background: linear-gradient(135deg, #5ec8ff, #2f6bff); }
+.banner-mini .top { font-size: 11.5px; }
+.banner-mini .top .app { display: flex; align-items: center; gap: 6px; font-weight: 600; color: rgba(255, 255, 255, 0.85); }
+.banner-mini .top .app img { width: 20px; height: 20px; }
 .banner-mini .top .when { color: rgba(255, 255, 255, 0.45); }
-.banner-mini b { display: block; font-size: 13px; }
-.banner-mini p { font-size: 12px; color: rgba(255, 255, 255, 0.75); }
-@media (max-width: 460px) {
-  .mini.card-mini, .mini.banner-mini { transform: translateX(-50%) scale(0.82); transform-origin: top center; }
-  .mini.compact-mini { transform: translateX(-50%) scale(0.85); transform-origin: top center; }
-  .mini-bubble { left: calc(50% + 136px); transform: scale(0.85); transform-origin: top left; }
-}
+.banner-mini b { display: block; font-size: 13px; margin-top: 2px; }
+.banner-mini p { font-size: 12px; color: rgba(255, 255, 255, 0.75); line-height: 1.4; }
 
 /* Widgets. */
-.widget-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0; margin-top: 40px; border-top: 1px solid var(--line); }
+.widget-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin-top: 40px; border-top: 1px solid var(--line); }
 .widget-grid div { padding: 20px 22px 20px 0; border-bottom: 1px solid var(--line); min-width: 0; }
 .widget-grid b { display: block; font-weight: 650; font-size: 17px; }
 .widget-grid span { color: var(--muted); font-size: 15px; }
 .tools { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 18px; margin-top: 40px; }
 .tool { border: 1px solid var(--line); border-radius: 20px; padding: 24px; background: var(--night-2); display: grid; gap: 8px; align-content: start; }
 .tool p { color: var(--muted); font-size: 16px; }
-.sizes { font: 500 13px var(--mono); color: var(--beam); letter-spacing: 0.02em; }
+.sizes { font: 500 13px var(--mono); color: var(--cream); letter-spacing: 0.02em; }
 
 /* Lyrics. */
-.lyrics-panel { border-radius: 24px; padding: 36px; background: linear-gradient(160deg, #2b1a5e, #5a2a7a 55%, #b2514a); display: grid; gap: 14px; }
-.lyrics-panel p { font: 700 clamp(22px, 2.6vw, 32px)/1.25 var(--rounded); color: rgba(255, 255, 255, 0.35); transition: color 0.4s; }
+.lyrics-panel { position: relative; border-radius: 24px; padding: 36px; overflow: hidden; display: grid; gap: 14px; color: #fff; }
+.lyrics-panel > * { position: relative; }
+.lyrics-panel .song { display: flex; align-items: center; gap: 12px; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.85); text-shadow: 0 1px 6px rgba(0, 0, 0, 0.3); }
+.lyrics-panel .song .cover { width: 44px; height: 44px; }
+.lyrics-panel p { font: 700 clamp(22px, 2.6vw, 32px)/1.25 var(--system); color: rgba(255, 255, 255, 0.42); transition: color 0.4s; text-shadow: 0 1px 10px rgba(0, 0, 0, 0.2); }
 .lyrics-panel p.now { color: #fff; }
-.lyrics-panel .song { font-size: 14px; color: rgba(255, 255, 255, 0.65); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; }
 
 /* Trust. */
 .trust { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 40px; margin-top: 40px; }
@@ -198,9 +228,9 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .trust p { color: var(--muted); font-size: 16px; }
 
 /* Install. */
-.steps { display: grid; gap: 0; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: step; }
+.steps { display: grid; margin: 24px 0 0; padding: 0; list-style: none; counter-reset: step; }
 .steps li { counter-increment: step; display: grid; grid-template-columns: 44px 1fr; gap: 14px; padding: 16px 0; border-bottom: 1px solid var(--line); }
-.steps li::before { content: counter(step); font: 700 22px var(--display); color: var(--beam); }
+.steps li::before { content: counter(step); font: 700 22px var(--display); color: var(--cream); }
 .steps kbd { font: 500 14px var(--mono); border: 1px solid var(--line); border-bottom-width: 2px; border-radius: 6px; padding: 1px 7px; }
 .install-side { border: 1px solid var(--line); border-radius: 24px; padding: 32px; background: var(--night-2); display: grid; gap: 16px; align-content: start; }
 .install-side .brew { justify-self: start; }
@@ -214,7 +244,7 @@ section { padding-block: 96px; border-top: 1px solid var(--line); }
 .faq summary::after { content: "+"; position: absolute; right: 4px; top: 12px; font: 400 26px var(--body); color: var(--muted); }
 .faq details[open] summary::after { content: "–"; }
 .faq details p { color: var(--muted); padding: 0 0 18px; max-width: 68ch; }
-.faq code { font: 500 14px var(--mono); color: var(--beam); }
+.faq code { font: 500 14px var(--mono); color: var(--cream); }
 
 .closing { text-align: center; padding-block: 110px; }
 .closing .wrap { display: grid; gap: 22px; justify-items: center; }
@@ -226,47 +256,86 @@ footer a { text-decoration: none; color: var(--muted); }
 footer a:hover { color: var(--ink); }
 footer .legal { flex-basis: 100%; font-size: 13px; }
 
-@media (max-width: 900px) {
+@media (max-width: 980px) {
+  .nav { display: none; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .widget-grid, .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .tools { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
-  .nav { display: none; }
-  .bar .button.small { margin-left: auto; }
-  .notch { width: 120px; height: 26px; border-radius: 0 0 11px 11px; }
   section { padding-block: 64px; }
+  .bar .wrap { grid-template-columns: minmax(0, 1fr) 128px minmax(0, 1fr); }
+  .notch { width: 120px; height: 26px; border-radius: 0 0 11px 11px; }
 }
 @media (max-width: 560px) {
   .widget-grid, .trust { grid-template-columns: minmax(0, 1fr); }
+  .bar .wrap { grid-template-columns: minmax(0, 1fr) auto; }
   .notch { display: none; }
   .brew code { font-size: 12.5px; }
+  .menubar .status { display: none; }
+  .mini.card-mini, .mini.banner-mini { transform: translateX(-50%) scale(0.8); transform-origin: top center; }
+  .mini.compact-mini { transform: translateX(-50%) scale(0.85); transform-origin: top center; }
+  .mini-bubble { left: calc(50% + 130px); transform: scale(0.85); transform-origin: top left; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .wave i { animation: none; transform: scaleY(0.7); }
-  .island, .bubble, .lyrics-panel p { transition: none; }
+  .island, .bubble, .lyrics-panel p, .island .compact .cover { transition: none; }
 }
 </style>
 </head>
 <body>
+<!-- The wallpaper: soft folds of silk in cream, brown and slate. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="silk-base" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#5a473b"/>
+      <stop offset="0.3" stop-color="#cbb7a2"/>
+      <stop offset="0.48" stop-color="#a28f80"/>
+      <stop offset="0.72" stop-color="#6d6a7c"/>
+      <stop offset="1" stop-color="#2c3047"/>
+    </linearGradient>
+    <linearGradient id="silk-fold" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#f6ecdf" stop-opacity="0"/>
+      <stop offset="0.35" stop-color="#f6ecdf" stop-opacity="0.85"/>
+      <stop offset="1" stop-color="#e9e4ee" stop-opacity="0.25"/>
+    </linearGradient>
+    <linearGradient id="silk-slate" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#55566e"/>
+      <stop offset="1" stop-color="#1f2236"/>
+    </linearGradient>
+    <filter id="silk-soft" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="24"/></filter>
+    <filter id="silk-edge" x="-20%" y="-20%" width="140%" height="140%"><feGaussianBlur stdDeviation="2.5"/></filter>
+    <symbol id="silk" viewBox="0 0 1600 1040" preserveAspectRatio="xMidYMid slice">
+      <rect width="1600" height="1040" fill="url(#silk-base)"/>
+      <path d="M-80 170 C 320 -70, 520 760, 980 520 S 1560 110, 1720 -70" stroke="url(#silk-fold)" stroke-width="220" fill="none" filter="url(#silk-soft)"/>
+      <path d="M-120 620 C 260 420, 420 1000, 760 1120" stroke="#e8d6c2" stroke-opacity="0.45" stroke-width="160" fill="none" filter="url(#silk-soft)"/>
+      <path d="M520 1100 C 760 760, 1120 640, 1700 560 L 1700 1100 Z" fill="url(#silk-slate)" opacity="0.85" filter="url(#silk-soft)"/>
+      <path d="M-60 250 C 330 10, 540 810, 1000 590 S 1560 190, 1720 10" stroke="#fffaf2" stroke-opacity="0.75" stroke-width="5" fill="none" filter="url(#silk-edge)"/>
+      <path d="M560 1100 C 800 790, 1150 680, 1720 610" stroke="#f3f0ff" stroke-opacity="0.55" stroke-width="4" fill="none" filter="url(#silk-edge)"/>
+      <path d="M-100 700 C 250 500, 430 1010, 700 1110" stroke="#fff7ec" stroke-opacity="0.5" stroke-width="4" fill="none" filter="url(#silk-edge)"/>
+    </symbol>
+  </defs>
+</svg>
+
 <header class="bar">
   <div class="wrap">
     <a class="brand" href="#top"><img src="assets/icon.png" alt="">Notchlight</a>
     <div class="notch" aria-hidden="true"></div>
-    <nav class="nav" aria-label="Sections">
-      <a href="#island">Dynamic Island</a>
-      <a href="#widgets">Widgets</a>
-      <a href="#lyrics">Lyrics</a>
-      <a href="#faq">FAQ</a>
-    </nav>
-    <a class="button small" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download</a>
+    <div class="right">
+      <nav class="nav" aria-label="Sections">
+        <a href="#island">Island</a>
+        <a href="#widgets">Widgets</a>
+        <a href="#lyrics">Lyrics</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <a class="button small" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download</a>
+    </div>
   </div>
 </header>
 
 <main id="top">
   <div class="hero">
-    <div class="beam" aria-hidden="true"></div>
     <div class="wrap">
       <span class="eyebrow">Free for Mac</span>
       <h1>Your lock screen and your notch, lit up.</h1>
@@ -288,14 +357,17 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <span>Updates itself</span>
       </div>
 
-      <figure class="mac" aria-label="Notchlight on a MacBook lock screen: the island at the notch shows a song with the hotspot in a circle beside it, above the time and three widgets">
+      <figure class="mac" aria-label="Notchlight on a MacBook lock screen: the island at the notch shows a song with the hotspot in a circle beside it, above the time, widgets and the login">
         <div class="lid">
           <div class="display">
+            <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+            <div class="shade"></div>
+
             <div class="island" id="hero-island">
-              <div class="compact"><span class="art"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+              <div class="compact"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
               <div class="card">
                 <div class="row">
-                  <span class="title">Low Orbit</span><span class="artist">Paper Satellites</span>
+                  <span class="title">Low Orbit</span><span class="artist">Mira Vale</span>
                   <span class="controls" aria-hidden="true">
                     <svg viewBox="0 0 24 24"><path d="M11 6v12L2 12zm11 0v12l-9-6z"/></svg>
                     <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
@@ -303,16 +375,78 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
                   </span>
                 </div>
                 <div class="lyric" data-lyric>City lights are spelling out your name</div>
-                <div class="progress"><b></b></div>
+                <div class="progress"></div>
               </div>
             </div>
-            <div class="bubble" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#34d27b" stroke-width="2.4" stroke-linecap="round"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
+            <div class="bubble" aria-hidden="true"><svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
+
             <div class="lock-date">Friday 16 October</div>
             <div class="lock-time">9:41</div>
-            <div class="glass w-weather"><div class="label">Lisbon</div><div class="big">21°</div>Sunny · H 24° L 15°</div>
-            <div class="glass w-next"><div class="label">Up next</div><div class="big">10:30</div>Design review</div>
-            <div class="glass w-lyrics"><span class="art"></span><div><div class="now">Low Orbit · Paper Satellites</div><div class="line" data-lyric>City lights are spelling out your name</div></div></div>
-            <div class="login"><span class="avatar"></span>Enter Password</div>
+
+            <div class="w w-next">
+              <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="2" y="3" width="12" height="11" rx="2"/><path d="M2 6.5h12M5 1.5v3M11 1.5v3"/></svg>Up next</div>
+              <svg class="check" viewBox="0 0 24 24" fill="none" stroke="rgba(255,255,255,.8)" stroke-width="1.6"><circle cx="12" cy="12" r="10"/><path d="m7.5 12.3 3 3 6-6.3"/></svg>
+              <span class="dim">Nothing else today or tomorrow.</span>
+            </div>
+
+            <div class="w w-world">
+              <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="8" cy="8" r="6.5"/><path d="M1.5 8h13M8 1.5c2 2 2 11 0 13M8 1.5c-2 2-2 11 0 13"/></svg>World clock</div>
+              <div><span class="dim">New York</span><b>3:41</b><small>−6 h</small></div>
+              <div><span class="dim">London</span><b>8:41</b><small>−1 h</small></div>
+            </div>
+
+            <div class="w w-brief">
+              <div class="day">Friday 16 October</div>
+              <div class="hello">Good morning, Alex</div>
+              <div class="rows">
+                <span>21° and sunny, high of 24°</span><span>No reminders left</span>
+                <span>Design review at 10:30</span><span>Night trains are back in Europe</span>
+              </div>
+            </div>
+
+            <div class="w w-lyrics">
+              <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M3 3h10v7H7l-3 3v-3H3z"/></svg>Low Orbit · Mira Vale</div>
+              <div class="line" data-lyric>City lights are spelling out your name</div>
+              <div class="next" data-next>We drove until the morning found us</div>
+            </div>
+
+            <div class="w w-system">
+              <div class="label"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="3" width="10" height="10" rx="2"/><path d="M6 1v2M10 1v2M6 13v2M10 13v2M1 6h2M1 10h2M13 6h2M13 10h2"/></svg>System</div>
+              <div class="row"><span>CPU</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#d07cff" stroke-width="1.6" points="0,14 8,8 16,12 24,6 32,11 40,9 48,13 56,7 64,12 72,10 80,14 88,9 100,11"/></svg><span>16%</span></div>
+              <div class="row"><span>Memory</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#7ee08a" stroke-width="1.6" points="0,9 20,9 40,8 60,9 80,8 100,8"/></svg><span>64%</span></div>
+              <div class="row"><span>Network</span><svg viewBox="0 0 100 20" preserveAspectRatio="none"><polyline fill="none" stroke="#7cc6ff" stroke-width="1.6" points="0,17 20,17 40,16 55,17 62,6 68,16 80,17 100,16"/></svg><span>↓ 2 MB/s</span></div>
+            </div>
+
+            <div class="w w-note">Before Friday<br><span class="dim">— Pick up the camera<br>— Book the train<br>— Call Mum</span></div>
+
+            <div class="w w-stock">
+              <div class="label">S&amp;P 500</div>
+              <b>6 412,30</b>
+              <span class="down">▼ 0,28%</span>
+              <svg viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
+                <defs><linearGradient id="stock-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a6b" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a6b" stop-opacity="0"/></linearGradient></defs>
+                <path d="M0,6 L10,9 18,8 26,15 34,17 42,13 50,11 58,7 64,12 72,9 80,16 88,24 96,21 104,19 112,25 120,26 L120,40 L0,40 Z" fill="url(#stock-fill)"/>
+                <polyline fill="none" stroke="#ff7a6b" stroke-width="1.4" points="0,6 10,9 18,8 26,15 34,17 42,13 50,11 58,7 64,12 72,9 80,16 88,24 96,21 104,19 112,25 120,26"/>
+                <line x1="0" y1="20" x2="120" y2="20" stroke="rgba(255,255,255,.4)" stroke-dasharray="2 2" stroke-width=".6"/>
+              </svg>
+            </div>
+
+            <div class="w w-battery">
+              <svg viewBox="0 0 40 40" aria-hidden="true">
+                <circle cx="20" cy="20" r="16" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="3"/>
+                <circle cx="20" cy="20" r="16" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-dasharray="46.3 100.5" transform="rotate(-90 20 20)"/>
+                <text x="20" y="23.5" text-anchor="middle" fill="#fff" font-size="9" font-weight="700" font-family="-apple-system, system-ui">46%</text>
+              </svg>
+              <small>4 h 49 min left</small>
+            </div>
+
+            <div class="w w-todo">Finish the slides<br>— Robotics project<br>— Reading list</div>
+
+            <div class="login">
+              <div class="avatar" role="img" aria-label="Panda avatar">🐼</div>
+              <div class="name">Alex</div>
+              <div class="field"><div class="password">Enter Password</div><div class="help">?</div></div>
+            </div>
           </div>
         </div>
         <div class="base"></div>
@@ -331,15 +465,19 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         </div>
       </div>
       <div class="shots">
-        <figure class="shot" style="margin:0">
-          <div class="mini compact-mini"><span class="art"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
-          <div class="mini-bubble"><svg viewBox="0 0 24 24" fill="none" stroke="#34d27b" stroke-width="2.4" stroke-linecap="round"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
+        <figure class="shot">
+          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+          <div class="menubar"><span class="apps"><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
+          <div class="mini compact-mini"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+          <div class="mini-bubble"><svg viewBox="0 0 24 24" class="link-icon"><path d="M9.5 14.5 14.5 9.5M8 11.5l-1.8 1.8a3.2 3.2 0 0 0 4.5 4.5l1.8-1.8M16 12.5l1.8-1.8a3.2 3.2 0 0 0-4.5-4.5L11.5 8"/></svg></div>
           <figcaption class="cap">A song beside the notch, with your hotspot in its own circle</figcaption>
         </figure>
-        <figure class="shot" style="margin:0">
+        <figure class="shot tall">
+          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+          <div class="menubar"><span class="apps"><b>Music</b><span>File</span></span><span class="status">9:41</span></div>
           <div class="mini card-mini">
-            <div class="top"><span class="art"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
-            <div class="row"><b>Low Orbit</b><span>Paper Satellites</span>
+            <div class="top"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
+            <div class="row"><b>Low Orbit</b><span>Mira Vale</span>
               <span class="controls" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M11 6v12L2 12zm11 0v12l-9-6z"/></svg>
                 <svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg>
@@ -351,9 +489,11 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <figcaption class="cap">Point at it for the lyric and controls</figcaption>
         </figure>
-        <figure class="shot" style="margin:0">
+        <figure class="shot tall">
+          <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+          <div class="menubar"><span class="apps"><b>Mail</b><span>File</span></span><span class="status">9:41</span></div>
           <div class="mini banner-mini">
-            <div class="top"><span class="app"><i></i>Mail</span><span class="when">now</span></div>
+            <div class="top"><span class="app"><img src="assets/mail.png" alt="">Mail</span><span class="when">now</span></div>
             <b>Your order has shipped</b>
             <p>Arriving Friday between 9 and 12. Track it from the link in this email.</p>
           </div>
@@ -406,7 +546,8 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <p class="lede">Notchlight reads the time-synced lyrics Apple Music already downloaded for the song you're playing, so every line lands exactly when it does in Music. On the lock screen and in the island.</p>
       </div>
       <div class="lyrics-panel" aria-label="Lyrics in sync with the song">
-        <span class="song">Low Orbit · Paper Satellites</span>
+        <svg class="silk" aria-hidden="true"><use href="#silk"/></svg>
+        <span class="song"><span class="cover"></span>Low Orbit · Mira Vale</span>
         <p data-line>City lights are spelling out your name</p>
         <p data-line>We drove until the morning found us</p>
         <p data-line>Hold the moment, let the record play</p>
@@ -486,7 +627,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <a href="https://github.com/victorabuchi/notchlight/releases">Releases</a>
       <a href="https://github.com/victorabuchi/notchlight/issues/new">Report a problem</a>
     </nav>
-    <p class="legal">© 2026 Victor Abuchi. Mac, macOS, Apple Music and Dynamic Island are trademarks of Apple Inc. Notchlight is not affiliated with or endorsed by Apple.</p>
+    <p class="legal">© 2026 Victor Abuchi. Album cover photo by <a href="https://unsplash.com/photos/LyeduBb2Auk">Roksolana Zasiadko</a> on Unsplash. Mac, macOS, Apple Music, Mail and Dynamic Island are trademarks of Apple Inc. Notchlight is not affiliated with or endorsed by Apple.</p>
   </div>
 </footer>
 
@@ -522,6 +663,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   let index = 0;
   const step = () => {
     document.querySelectorAll("[data-lyric]").forEach((el) => (el.textContent = lines[index]));
+    document.querySelectorAll("[data-next]").forEach((el) => (el.textContent = lines[(index + 1) % lines.length]));
     panel.forEach((el, i) => el.classList.toggle("now", i === index));
     index = (index + 1) % lines.length;
   };
