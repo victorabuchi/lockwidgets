@@ -34,7 +34,7 @@ enum WidgetGallery {
         let instances = instances()
         loadSamples()
         // A first pass asks MapKit for the maps and the globe, which arrive a few seconds later.
-        instances.forEach { _ = png($0) }
+        instances.forEach { _ = ImageRenderer(content: WidgetView(instance: $0)).cgImage }
         let deadline = Date.now.addingTimeInterval(20)
         while Date.now < deadline, !mapsReady() {
             RunLoop.main.run(until: .now.addingTimeInterval(0.25))
@@ -46,14 +46,46 @@ enum WidgetGallery {
         var written = 0
         for instance in instances {
             let name = "\(instance.kind.rawValue)-\(instance.style)-\(instance.size.rawValue).png"
-            if let data = png(instance), (try? data.write(to: folder.appendingPathComponent(name))) != nil {
+            if write(WidgetView(instance: instance), to: folder.appendingPathComponent(name), scale: 2) {
                 written += 1
             } else {
                 print("Couldn't draw \(name)")
             }
         }
         print("Drew \(written) of \(instances.count) widgets into \(folder.path)")
-        exit(written == instances.count ? 0 : 1)
+        let extras = drawExtras(into: folder)
+        exit(written == instances.count && extras ? 0 : 1)
+    }
+
+    /// The icons the website shows beside the pictures: each settings page's and widget's tile, and the
+    /// island's symbols in white, for the page to colour.
+    @MainActor
+    private static func drawExtras(into folder: URL) -> Bool {
+        let icons = folder.appendingPathComponent("icons", isDirectory: true)
+        let symbols = folder.appendingPathComponent("symbols", isDirectory: true)
+        for url in [icons, symbols] {
+            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        }
+        var ok = true
+        for kind in WidgetKind.allCases {
+            ok = write(WidgetIcon(kind: kind, size: 26), to: icons.appendingPathComponent("\(kind.rawValue).png"), scale: 4) && ok
+        }
+        let pages: [(String, String, Color)] = [
+            ("general", "gearshape.fill", .gray), ("whatsNew", "sparkles", .pink), ("layoutStudio", "rectangle.3.group.fill", .blue),
+            ("layoutGallery", "square.grid.2x2.fill", .indigo), ("appearance", "paintpalette.fill", .teal),
+            ("stickyNotes", "note.text", .yellow), ("island", "capsule.fill", .black), ("about", "info.circle.fill", .indigo),
+        ]
+        for (name, symbol, color) in pages {
+            ok = write(SidebarIcon(symbol: symbol, color: color), to: icons.appendingPathComponent("page-\(name).png"), scale: 4) && ok
+        }
+        for name in ["personalhotspot", "timer", "stopwatch"] {
+            let glyph = Image(systemName: name)
+                .font(.system(size: 64, weight: .bold))
+                .foregroundStyle(.white)
+                .frame(width: 80, height: 80)
+            ok = write(glyph, to: symbols.appendingPathComponent("\(name).png"), scale: 2) && ok
+        }
+        return ok
     }
 
     private static func instances() -> [WidgetInstance] {
@@ -83,12 +115,14 @@ enum WidgetGallery {
     }
 
     @MainActor
-    private static func png(_ instance: WidgetInstance) -> Data? {
-        let renderer = ImageRenderer(content: WidgetView(instance: instance))
-        renderer.scale = 2
+    private static func write(_ view: some View, to url: URL, scale: CGFloat) -> Bool {
+        let renderer = ImageRenderer(content: view)
+        renderer.scale = scale
         renderer.isOpaque = false
-        guard let image = renderer.cgImage else { return nil }
-        return NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:])
+        guard let image = renderer.cgImage,
+              let data = NSBitmapImageRep(cgImage: image).representation(using: .png, properties: [:])
+        else { return false }
+        return (try? data.write(to: url)) != nil
     }
 }
 #endif

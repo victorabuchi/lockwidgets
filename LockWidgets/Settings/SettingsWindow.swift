@@ -102,18 +102,28 @@ private struct SidebarRow: View {
         Label {
             Text(title)
         } icon: {
-            // Fit every symbol into the same inner box so wide ones (battery) stay centred.
-            Image(systemName: symbol)
-                .resizable()
-                .symbolVariant(.fill)
-                .scaledToFit()
-                .fontWeight(.semibold)
-                .foregroundStyle(.white)
-                .frame(width: 13, height: 13)
-                .frame(width: 22, height: 22)
-                .background(color.gradient, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
+            SidebarIcon(symbol: symbol, color: color)
         }
         .padding(.vertical, 2)
+    }
+}
+
+/// A sidebar page's icon: a white symbol on a rounded tile of its colour.
+struct SidebarIcon: View {
+    let symbol: String
+    let color: Color
+
+    var body: some View {
+        // Fit every symbol into the same inner box so wide ones (battery) stay centred.
+        Image(systemName: symbol)
+            .resizable()
+            .symbolVariant(.fill)
+            .scaledToFit()
+            .fontWeight(.semibold)
+            .foregroundStyle(.white)
+            .frame(width: 13, height: 13)
+            .frame(width: 22, height: 22)
+            .background(color.gradient, in: RoundedRectangle(cornerRadius: 6, style: .continuous))
     }
 }
 

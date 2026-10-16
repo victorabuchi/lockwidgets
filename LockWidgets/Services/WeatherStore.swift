@@ -293,7 +293,7 @@ extension WeatherStore {
             Day(id: Calendar.current.date(byAdding: .day, value: offset, to: now) ?? now, high: [24, 23, 22, 25, 26][offset], low: [15, 14, 15, 16, 17][offset], code: [1, 2, 3, 0, 1][offset])
         }
         report = Report(
-            place: "Lisbon", timeZone: TimeZone(identifier: "Europe/Lisbon") ?? .current, temperature: 21, code: 1, isDay: true,
+            place: "Lisbon", timeZone: .current, temperature: 21, code: 1, isDay: true,
             high: 24, low: 15, hours: hours, days: days,
             sunrise: Calendar.current.date(bySettingHour: 7, minute: 42, second: 0, of: now),
             sunset: Calendar.current.date(bySettingHour: 18, minute: 51, second: 0, of: now),
