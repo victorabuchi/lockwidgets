@@ -69,18 +69,38 @@ p { margin: 0; }
 .sym.timer { --sym: url("data:image/png;base64,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"); color: var(--mac-orange); }
 .sym.stopwatch { --sym: url("data:image/png;base64,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"); color: var(--mac-orange); }
 
-/* Menu bar: the brand on the left, links and download on the right, the notch between them. */
+/* Top bar, as on Apple's sites: the name at the far left with the sections beside it, search and Download at
+   the far right. */
 .bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
-.bar .wrap { height: 52px; display: grid; grid-template-columns: minmax(0, 1fr) 200px minmax(0, 1fr); align-items: center; }
-.brand { justify-self: start; display: flex; align-items: center; gap: 10px; font-family: var(--display); font-weight: 700; font-size: 19px; text-decoration: none; letter-spacing: -0.01em; }
-.brand img { width: 28px; height: 28px; }
-.notch { justify-self: center; align-self: start; width: 176px; height: 32px; background: #000; border-radius: 0 0 14px 14px; }
-.right { justify-self: end; display: flex; align-items: center; gap: 22px; min-width: 0; }
-.nav { display: flex; gap: 20px; font-size: 15px; font-weight: 500; }
-.nav a { text-decoration: none; color: var(--muted); }
+.topbar { display: flex; align-items: center; min-height: 52px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
+.brand { flex: none; display: flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 600; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; }
+.brand img { width: 26px; height: 26px; }
+.nav { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 24px; margin-left: 40px; font-size: 14px; letter-spacing: -0.01em; }
+.nav a { text-decoration: none; color: var(--muted); white-space: nowrap; transition: color 0.2s; }
 .nav a:hover { color: var(--ink); }
+.search-button { flex: none; display: grid; place-items: center; width: 32px; height: 32px; margin-left: 12px; border: 0; border-radius: 50%; background: none; color: var(--muted); cursor: pointer; transition: color 0.2s, background 0.2s; }
+.search-button:hover, .search-button[aria-expanded="true"] { color: var(--ink); background: var(--hover); }
+.topbar .button.small { margin-left: 10px; }
+
+/* Search: a panel under the top bar that finds sections, widgets, island activities, layouts and answers. */
+.search { position: fixed; inset: 0; z-index: 100; display: none; }
+.search.open { display: block; }
+.search-scrim { position: absolute; inset: 0; background: rgba(0, 0, 0, 0.32); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); }
+.search-panel { position: relative; padding: env(safe-area-inset-top, 0px) max(20px, env(safe-area-inset-right, 0px)) 32px max(20px, env(safe-area-inset-left, 0px)); background: var(--paper); border-bottom: 1px solid var(--line); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.16); }
+.search-inner { max-width: 760px; margin: 0 auto; }
+.search-bar { display: flex; align-items: center; gap: 12px; min-height: 64px; color: var(--faint); }
+.search-input { flex: 1; min-width: 0; padding: 0; border: 0; outline: 0; background: none; color: var(--ink); font: 400 28px/1.2 var(--display); letter-spacing: -0.01em; }
+.search-input::placeholder { color: var(--faint); }
+.search-input::-webkit-search-cancel-button { display: none; }
+.search-cancel { flex: none; border: 0; background: none; color: var(--violet); font: 500 15px var(--body); cursor: pointer; padding: 4px 6px; }
+.search-heading { margin: 14px 0 6px; font-size: 12px; font-weight: 600; color: var(--faint); }
+.search-results { list-style: none; margin: 0; padding: 0; max-height: min(60vh, 520px); overflow-y: auto; }
+.search-results a { display: flex; align-items: baseline; gap: 12px; padding: 8px 0; font-size: 17px; color: var(--ink); text-decoration: none; }
+.search-results a:hover, .search-results a:focus-visible { color: var(--violet); outline: none; }
+.search-results small { font-size: 12px; color: var(--faint); }
+.search-empty { padding: 8px 0; color: var(--muted); }
 .button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; border-radius: 999px; font-weight: 600; text-decoration: none; white-space: nowrap; color: #fff; background: var(--glow); box-shadow: 0 12px 30px -12px rgba(106, 53, 216, 0.6); }
-.button.small { padding: 8px 16px; font-size: 15px; box-shadow: none; }
+.button.small { padding: 7px 16px; font-size: 14px; box-shadow: none; }
 .button.big { padding: 15px 28px; font-size: 18px; }
 .button:hover { filter: brightness(1.06); }
 .button svg { width: 20px; height: 20px; }
@@ -92,7 +112,7 @@ p { margin: 0; }
 .hero h1 { font-size: clamp(44px, 7.4vw, 92px); font-weight: 700; max-width: 13ch; }
 .hero .lede { margin-inline: auto; }
 .actions { display: flex; flex-wrap: wrap; gap: 14px; justify-content: center; align-items: center; margin-top: 6px; width: 100%; }
-.brew { display: flex; align-items: center; gap: 4px; border: 1px solid var(--line-strong); border-radius: 999px; padding: 6px 6px 6px 18px; background: var(--card); max-width: 100%; min-width: 0; }
+.brew { display: flex; align-items: center; gap: 12px; max-width: 100%; min-width: 0; }
 .brew code { font-family: var(--mono); font-size: 14px; color: var(--violet); overflow-x: auto; white-space: nowrap; min-width: 0; scrollbar-width: none; }
 .copy { border: 0; border-radius: 999px; padding: 7px 14px; background: var(--paper-2); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
 .copy:hover { background: var(--well); }
@@ -119,7 +139,7 @@ p { margin: 0; }
 .w-world .label { grid-column: 1 / -1; margin-bottom: 0.6cqw; }
 .w-world b { display: block; font: 600 2.6cqw/1.1 var(--rounded); }
 .w-world small { font-size: 0.85cqw; color: rgba(255, 255, 255, 0.6); }
-.w-brief { left: 37%; top: 38%; width: 32%; }
+.w-brief { left: 37%; top: 36.8%; width: 32%; }
 .w-brief .day { font-size: 0.85cqw; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #ffb4a3; }
 .w-brief .hello { font: 700 2.1cqw/1.2 var(--system); margin: 0.2cqw 0 0.4cqw; }
 .w-brief .rows { display: grid; grid-template-columns: 1fr 1fr; gap: 0.3cqw 1.6cqw; font-weight: 600; font-size: 1.05cqw; }
@@ -131,12 +151,12 @@ p { margin: 0; }
 .w-system .row svg { width: 100%; height: 1.6cqw; }
 .w-system .row span:last-child { white-space: nowrap; text-align: right; color: rgba(255, 255, 255, 0.75); font-variant-numeric: tabular-nums; }
 .w-note { left: 5.5%; top: 63%; font-weight: 700; font-size: 1.05cqw; line-height: 1.45; }
-.w-stock { left: 34%; top: 61%; width: 21%; }
+.w-stock { left: 34%; top: 49.5%; width: 21%; }
 .w-stock b { display: block; font: 600 2.4cqw/1.1 var(--rounded); }
 .w-stock .down { color: #ff7a6b; font-weight: 700; font-size: 0.95cqw; }
-.w-stock svg { width: 100%; height: 6cqw; margin-top: 0.3cqw; }
-.w-battery { left: 60.5%; top: 61%; width: 9cqw; text-align: center; }
-.w-battery svg { width: 9cqw; height: 9cqw; }
+.w-stock svg { width: 100%; height: 3.4cqw; margin-top: 0.3cqw; }
+.w-battery { left: 60.5%; top: 49%; width: 9cqw; text-align: center; }
+.w-battery svg { width: 6.4cqw; height: 6.4cqw; }
 .w-battery small { display: block; font-size: 0.85cqw; color: rgba(255, 255, 255, 0.75); }
 .w-todo { right: 5.5%; top: 62%; font-weight: 600; font-size: 1.45cqw; line-height: 1.4; }
 .login { position: absolute; bottom: 4.2%; left: 50%; transform: translateX(-50%); display: grid; justify-items: center; gap: 0.7cqw; }
@@ -192,8 +212,10 @@ section { padding-block: 104px; }
 .act .glyph svg, .act .glyph .sym { width: 17px; height: 17px; }
 .act:hover { background: var(--hover); color: var(--ink); }
 .act[aria-selected="true"] { background: var(--card); border-color: var(--select); color: var(--ink); box-shadow: 0 8px 18px -12px rgba(40, 30, 90, 0.45); }
-.stage-wrap { position: sticky; top: 76px; display: grid; gap: 14px; }
-.stage { position: relative; margin: 0; height: 250px; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow), 0 0 0 1px var(--line); font-family: var(--system); color: #fff; }
+.stages { position: sticky; top: 76px; display: grid; gap: 14px; }
+.stage { position: relative; margin: 0; height: 214px; border-radius: 22px; overflow: hidden; box-shadow: var(--shadow), 0 0 0 1px var(--line); font-family: var(--system); color: #fff; }
+.stage-tag { position: absolute; left: 12px; bottom: 12px; z-index: 3; padding: 4px 10px; border-radius: 999px; background: rgba(0, 0, 0, 0.42); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); color: #fff; font: 600 12px var(--body); }
+.stage-caption { color: var(--muted); font-size: 15px; min-height: 3em; }
 .menubar { position: absolute; left: 0; right: 0; top: 0; height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; font-size: 13px; font-weight: 600; background: rgba(40, 30, 25, 0.14); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); text-shadow: 0 1px 4px rgba(0, 0, 0, 0.25); }
 .menubar .apps { display: flex; gap: 16px; align-items: center; }
 .menubar .apps b { font-weight: 700; }
@@ -241,10 +263,6 @@ section { padding-block: 104px; }
 .isl.drop .level { flex: 1; height: 6px; border-radius: 9px; margin-left: 10px; background: linear-gradient(to right, #fff var(--p), rgba(255, 255, 255, 0.2) var(--p)); }
 .isl-bubble { position: absolute; top: 0; left: calc(100% + 8px); width: 34px; height: 34px; border-radius: 50%; background: #000; display: grid; place-items: center; }
 .isl-bubble svg, .isl-bubble .sym { width: 18px; height: 18px; }
-.stage-bar { display: flex; align-items: center; justify-content: space-between; gap: 16px; }
-.stage-bar p { color: var(--muted); font-size: 15px; min-width: 0; }
-.toggle { flex: none; border: 1px solid var(--line-strong); border-radius: 999px; padding: 7px 14px; background: var(--card); color: var(--ink); font: 600 14px var(--body); cursor: pointer; }
-.toggle:hover { background: var(--paper-2); }
 
 /* Widgets. Each card is a patch of lock screen with the real widget on it. The pictures come from the app with
    the blur left out, so the glass here is the page blurring the wallpaper behind it, as macOS does. */
@@ -302,25 +320,26 @@ section { padding-block: 104px; }
 .film { container: film / inline-size; max-width: 1000px; margin: 44px auto 0; }
 .film-stage { position: relative; }
 .fw { --u: 1cqw; position: relative; display: grid; grid-template-columns: 21cqw minmax(0, 1fr); border-radius: 1.4cqw; overflow: hidden; background: #fff; color: #1d1d1f; font: 400 calc(var(--u) * 1.3) / 1.3 var(--system); box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 3cqw 7cqw -2.5cqw rgba(20, 20, 60, 0.42); user-select: none; -webkit-user-select: none; }
-.fw-side { background: #ececf1; border-right: 1px solid rgba(0, 0, 0, 0.08); padding: 1.3cqw 0.9cqw; display: flex; flex-direction: column; gap: 0.15cqw; min-width: 0; }
-.fw-lights { display: flex; gap: 0.7cqw; padding: 0 0.4cqw 1.8cqw; }
+.fw-side { position: relative; background: #ececf1; border-right: 1px solid rgba(0, 0, 0, 0.08); min-width: 0; }
+.fw-side-list { position: absolute; inset: 0; padding: 1.2cqw 0.9cqw; display: flex; flex-direction: column; gap: 0.05cqw; overflow: hidden; }
+.fw-lights { display: flex; gap: 0.7cqw; padding: 0 0.4cqw 1.1cqw; }
 .fw-lights i { width: 1.2cqw; height: 1.2cqw; border-radius: 50%; background: #ff5f57; }
 .fw-lights i:nth-child(2) { background: #febc2e; }
 .fw-lights i:nth-child(3) { background: #28c840; }
-.fw-row { display: flex; align-items: center; gap: 0.75cqw; padding: 0.42cqw 0.7cqw; border-radius: 0.65cqw; font-size: calc(var(--u) * 1.25); white-space: nowrap; overflow: hidden; }
-.fw-row img { width: calc(var(--u) * 2); height: calc(var(--u) * 2); flex: none; }
+.fw-row { display: flex; align-items: center; gap: 0.75cqw; padding: 0.28cqw 0.7cqw; border-radius: 0.65cqw; font-size: calc(var(--u) * 1.2); white-space: nowrap; overflow: hidden; flex: none; }
+.fw-row img { width: calc(var(--u) * 1.85); height: calc(var(--u) * 1.85); flex: none; }
 .fw-row.on { background: var(--mac-blue); color: #fff; }
-.fw-head { font-size: calc(var(--u) * 1.05); font-weight: 600; color: #8a8a8e; padding: 1.1cqw 0.7cqw 0.3cqw; }
+.fw-head { font-size: calc(var(--u) * 1); font-weight: 600; color: #8a8a8e; padding: 0.75cqw 0.7cqw 0.2cqw; flex: none; }
 .fw-main { padding: 2.2cqw 2.6cqw 2.4cqw; display: flex; flex-direction: column; gap: 1.5cqw; min-width: 0; }
 .fw-title { display: grid; gap: 0.3cqw; }
 .fw-title b { font-size: calc(var(--u) * 2.3); font-weight: 700; letter-spacing: -0.01em; }
 .fw-title span { color: #6e6e73; }
 .fw-canvas { border-radius: 1.2cqw; box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.08); }
-.fw-w { transition: left 0.9s var(--ease), top 0.9s var(--ease), transform 0.25s, box-shadow 0.25s, outline-color 0.2s; outline: 0.28cqw solid transparent; outline-offset: 0.3cqw; }
+.fw-w { transition: left 0.36s var(--ease), top 0.36s var(--ease), transform 0.18s, box-shadow 0.18s, outline-color 0.15s; outline: 0.28cqw solid transparent; outline-offset: 0.3cqw; }
 .fw-w.sel { outline-color: var(--mac-blue); }
 .fw-w.warn { outline-color: var(--mac-orange); }
 .fw-w.lift { transform: scale(1.04); box-shadow: 0 1.6cqw 3cqw rgba(0, 0, 0, 0.4); z-index: 3; }
-.fw-w.pop { animation: pop 0.4s var(--ease); }
+.fw-w.pop { animation: pop 0.3s var(--ease); }
 @keyframes pop { from { transform: scale(0.92); opacity: 0.6; } to { transform: none; opacity: 1; } }
 .fw-controls { display: flex; align-items: center; justify-content: space-between; gap: 1cqw; }
 .fw-add { display: inline-flex; align-items: center; gap: 0.6cqw; padding: calc(var(--u) * 0.65) calc(var(--u) * 1.4); border-radius: calc(var(--u) * 0.7); background: var(--mac-blue); color: #fff; font-weight: 600; }
@@ -329,7 +348,7 @@ section { padding-block: 104px; }
 .fw-seg span.on { background: #fff; color: #1d1d1f; box-shadow: 0 0.1cqw 0.3cqw rgba(0, 0, 0, 0.18); }
 .fw-insp { position: relative; min-height: calc(var(--u) * 13.5); }
 .fw-hint { color: #6e6e73; }
-.fw-panel { position: absolute; inset: 0 0 auto; display: grid; gap: 0.9cqw; padding: 1.2cqw 1.4cqw; border-radius: 1cqw; background: #f2f2f6; opacity: 0; transform: translateY(0.4cqw); transition: opacity 0.25s, transform 0.25s; }
+.fw-panel { position: absolute; inset: 0 0 auto; display: grid; gap: 0.9cqw; padding: 1.2cqw 1.4cqw; border-radius: 1cqw; background: #f2f2f6; opacity: 0; transform: translateY(0.4cqw); transition: opacity 0.18s, transform 0.18s; }
 .fw-insp.on .fw-panel { opacity: 1; transform: none; }
 .fw-insp.on .fw-hint { visibility: hidden; }
 .fw-ihead { display: flex; align-items: center; gap: 1cqw; }
@@ -347,7 +366,7 @@ section { padding-block: 104px; }
 .fw-menu span.hover { background: var(--mac-blue); color: #fff; }
 .fw-warn { display: none; color: #b45800; font-weight: 600; }
 .fw-warn.on { display: block; }
-.fw-sheet { position: absolute; z-index: 6; top: 0; left: 50%; width: 76cqw; height: calc(var(--u) * 50); transform: translate(-50%, -104%); transition: transform 0.45s var(--ease); display: grid; grid-template-columns: 21cqw minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; background: #fff; border-radius: 0 0 1.2cqw 1.2cqw; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 2cqw 5cqw rgba(0, 0, 0, 0.3); overflow: hidden; }
+.fw-sheet { position: absolute; z-index: 6; top: 0; left: 50%; width: 76cqw; height: calc(var(--u) * 50); transform: translate(-50%, -104%); transition: transform 0.28s var(--ease); display: grid; grid-template-columns: 21cqw minmax(0, 1fr); grid-template-rows: minmax(0, 1fr) auto; background: #fff; border-radius: 0 0 1.2cqw 1.2cqw; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12), 0 2cqw 5cqw rgba(0, 0, 0, 0.3); overflow: hidden; }
 .fw-sheet.open { transform: translate(-50%, 0); }
 .fw-plist { padding: 1cqw; display: flex; flex-direction: column; gap: 0.15cqw; border-right: 1px solid rgba(0, 0, 0, 0.08); background: #f7f7f9; overflow: hidden; min-width: 0; }
 .fw-search { margin-bottom: 0.6cqw; padding: 0.45cqw 0.8cqw; border-radius: 0.6cqw; background: #fff; box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.12); color: #8a8a8e; font-size: calc(var(--u) * 1.2); }
@@ -366,21 +385,23 @@ section { padding-block: 104px; }
 .fw-pfoot .msg { color: #6e6e73; }
 .fw-pfoot .msg.ok { color: #1f9d48; font-weight: 600; }
 .fw-done { padding: 0.45cqw 1.6cqw; border-radius: 0.6cqw; background: var(--mac-blue); color: #fff; font-weight: 600; }
-.fw-lock { position: absolute; inset: 0; z-index: 8; display: grid; place-items: center; background: #000; opacity: 0; transition: opacity 0.6s; pointer-events: none; }
-.fw-lock .screen { width: 100%; transform: scale(0.92); transition: transform 0.9s var(--ease); }
+.fw-lock { position: absolute; inset: 0; z-index: 8; opacity: 0; transition: opacity 0.35s; pointer-events: none; }
+.fw-lock .screen { position: absolute; inset: 0; aspect-ratio: auto; transform: scale(1.06); transition: transform 0.6s var(--ease); }
 .fw-lock.on { opacity: 1; }
 .fw-lock.on .screen { transform: none; }
-.film-cursor { position: absolute; left: 0; top: 0; z-index: 10; width: 2.2cqw; height: 2.6cqw; margin: -0.2cqw 0 0 -0.2cqw; opacity: 0; pointer-events: none; transition: transform 0.9s var(--ease), opacity 0.3s; filter: drop-shadow(0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.35)); }
+.film-cursor { position: absolute; left: 0; top: 0; z-index: 10; width: 2.2cqw; height: 2.6cqw; margin: -0.2cqw 0 0 -0.2cqw; opacity: 0; pointer-events: none; transition: transform 0.36s var(--ease), opacity 0.2s; filter: drop-shadow(0 0.3cqw 0.5cqw rgba(0, 0, 0, 0.35)); }
 .film-cursor svg { display: block; width: 100%; height: 100%; }
 .film-ripple { position: absolute; left: -1cqw; top: -1cqw; width: 2.8cqw; height: 2.8cqw; border-radius: 50%; border: 0.2cqw solid var(--mac-blue); opacity: 0; }
-.film-ripple.go { animation: ripple 0.5s ease-out; }
+.film-ripple.go { animation: ripple 0.4s ease-out; }
 @keyframes ripple { from { transform: scale(0.3); opacity: 1; } to { transform: scale(1.4); opacity: 0; } }
 .film-play { position: absolute; right: 14px; bottom: 14px; z-index: 12; width: 40px; height: 40px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.12); background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); color: var(--ink); display: grid; place-items: center; cursor: pointer; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12); }
-.film-tabs { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin-top: 22px; }
-.film-tab { position: relative; overflow: hidden; border: 1px solid var(--line-strong); border-radius: 999px; padding: 8px 18px; background: var(--card); color: var(--muted); font: 600 14px var(--body); cursor: pointer; }
-.film-tab:hover { color: var(--ink); }
-.film-tab[aria-selected="true"] { background: var(--ink); border-color: var(--ink); color: #fff; }
-.film-progress { position: absolute; left: 0; bottom: 0; height: 3px; width: 0; background: var(--glow); transition: width 0.1s linear; }
+/* One segmented bar for the scenes, as on GitHub's and ChronKeep's pages. */
+.film-tabs { display: flex; gap: 4px; width: fit-content; max-width: 100%; margin: 24px auto 0; padding: 5px; border: 1px solid var(--line-strong); border-radius: 999px; background: var(--card); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04); overflow-x: auto; scrollbar-width: none; }
+.film-tabs::-webkit-scrollbar { display: none; }
+.film-tab { position: relative; flex: none; overflow: hidden; border: 1px solid transparent; border-radius: 999px; padding: 9px 28px; background: none; color: var(--ink); font: 600 15px var(--body); cursor: pointer; transition: background 0.2s, border-color 0.2s; }
+.film-tab:hover { background: var(--hover); }
+.film-tab[aria-selected="true"] { background: var(--paper-2); border-color: var(--line-strong); }
+.film-progress { position: absolute; left: 18px; bottom: 4px; height: 2px; width: 0; border-radius: 2px; background: var(--glow); }
 .film-caption { margin: 16px auto 0; max-width: 640px; text-align: center; color: var(--muted); min-height: 3.2em; text-wrap: balance; }
 .film-caption b { color: var(--ink); }
 @container film (max-width: 620px) {
@@ -475,30 +496,32 @@ footer a:hover { color: var(--ink); }
 footer .legal { flex-basis: 100%; font-size: 13px; }
 
 @media (max-width: 980px) {
-  .nav { display: none; }
   .split { grid-template-columns: minmax(0, 1fr); gap: 36px; }
   .wgallery, .trust { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
   .showcase { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .stage-wrap { grid-column: 1 / -1; order: -1; position: static; }
+  .stages { grid-column: 1 / -1; order: -1; position: static; }
+  .topbar { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; }
+  .brand { grid-row: 1; padding-top: 10px; }
+  .search-button { grid-row: 1; grid-column: 2; margin-top: 10px; }
+  .topbar .button.small { grid-row: 1; grid-column: 3; margin-top: 10px; }
+  .nav { grid-row: 2; grid-column: 1 / -1; margin: 0; padding: 12px 0 13px; gap: 20px; overflow-x: auto; scrollbar-width: none; }
+  .nav::-webkit-scrollbar { display: none; }
 }
 @media (max-width: 760px) {
   .lgrid { grid-template-columns: minmax(0, 1fr); }
 }
 @media (max-width: 720px) {
   section { padding-block: 64px; }
-  .bar .wrap { grid-template-columns: minmax(0, 1fr) 128px minmax(0, 1fr); }
-  .notch { width: 120px; height: 26px; border-radius: 0 0 11px 11px; }
 }
 @media (max-width: 560px) {
   .wgallery, .trust { grid-template-columns: minmax(0, 1fr); }
-  .bar .wrap { grid-template-columns: minmax(0, 1fr) auto; }
-  .notch { display: none; }
+  .search-input { font-size: 22px; }
   .brew code { font-size: 12.5px; }
   .menubar .status { display: none; }
   .slot { transform: translateX(-50%) scale(0.8); }
-  .stage { height: 210px; }
+  .stage { height: 190px; }
   .act { gap: 9px; padding: 7px 8px; font-size: 14px; }
 }
 @media (prefers-reduced-motion: reduce) {
@@ -516,20 +539,22 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 
 
 <header class="bar">
-  <div class="wrap">
+  <nav class="topbar" aria-label="Notchlight">
     <a class="brand" href="#top"><img src="assets/icon.png" alt="">Notchlight</a>
-    <div class="notch" aria-hidden="true"></div>
-    <div class="right">
-      <nav class="nav" aria-label="Sections">
-        <a href="#island">Island</a>
-        <a href="#widgets">Widgets</a>
-        <a href="#studio">Studio</a>
-        <a href="#music">Music</a>
-        <a href="#faq">FAQ</a>
-      </nav>
-      <a class="button small" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download</a>
+    <div class="nav">
+      <a href="#island">Island</a>
+      <a href="#widgets">Widgets</a>
+      <a href="#studio">Studio</a>
+      <a href="#layouts">Layouts</a>
+      <a href="#appearance">Appearance</a>
+      <a href="#music">Music</a>
+      <a href="#faq">FAQ</a>
     </div>
-  </div>
+    <button type="button" class="search-button" aria-label="Search Notchlight" aria-haspopup="dialog" aria-expanded="false">
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+    </button>
+    <a class="button small" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download</a>
+  </nav>
 </header>
 
 <main id="top">
@@ -555,7 +580,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <span>Updates itself</span>
       </div>
 
-      <figure class="mac" aria-label="Notchlight on a MacBook lock screen: the island at the notch shows a song with the hotspot in a circle beside it, above the time, widgets and the login">
+      <figure class="mac" aria-label="Notchlight on a MacBook lock screen: the island at the notch shows a song with the hotspot in a circle beside it, above the time, widgets, the Music Card and the login">
         <div class="lid">
           <div class="display">
             <span class="silk" aria-hidden="true"></span>
@@ -593,7 +618,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               <div class="hello">Good morning, Alex</div>
               <div class="rows">
                 <span>21° and sunny, high of 24°</span><span>No reminders left</span>
-                <span>Design review at 10:30</span><span>Night trains are back in Europe</span>
+                <span>Design review at 10:30</span><span>Night trains are back</span>
               </div>
             </div>
             <div class="w w-lyrics">
@@ -610,8 +635,8 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
             <div class="w w-note">Before Friday<br><span class="dim">— Pick up the camera<br>— Book the train<br>— Call Mum</span></div>
             <div class="w w-stock">
               <div class="label">S&amp;P 500</div>
-              <b>6 412,30</b>
-              <span class="down">▼ 0,28%</span>
+              <b>6,412.30</b>
+              <span class="down">▼ 0.28%</span>
               <svg viewBox="0 0 120 40" preserveAspectRatio="none" aria-hidden="true">
                 <defs><linearGradient id="stock-fill" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff7a6b" stop-opacity=".35"/><stop offset="1" stop-color="#ff7a6b" stop-opacity="0"/></linearGradient></defs>
                 <path d="M0,6 L10,9 18,8 26,15 34,17 42,13 50,11 58,7 64,12 72,9 80,16 88,24 96,21 104,19 112,25 120,26 L120,40 L0,40 Z" fill="url(#stock-fill)"/>
@@ -628,6 +653,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               <small>4 h 49 min left</small>
             </div>
             <div class="w w-todo">Finish the slides<br>— Robotics project<br>— Reading list</div>
+            <img class="sw glass r26" src="assets/widgets/musicCard-glass-wide.webp" alt="" width="524" height="164" style="--cx:756;--cy:701;--w:524;--h:164">
             <div class="login">
               <div class="avatar" role="img" aria-label="Panda avatar">🐼</div>
               <div class="name">Alex</div>
@@ -645,19 +671,26 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <div class="stack">
         <span class="eyebrow">Dynamic Island</span>
         <h2>The notch, doing something useful.</h2>
-        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island, and alerts drop out of it. Pick a live activity on the left or an alert on the right to see it at the notch; point at a live activity to open it.</p>
+        <p class="lede">Live activities sit beside the notch at its own height, like the iPhone's Dynamic Island, and alerts drop out of it. Pick one on either side to see it beside the notch and open, as it looks when you point at it.</p>
       </div>
       <div class="showcase">
-        <div class="acts" role="tablist" aria-label="Live activities" id="acts-live"></div>
-        <div class="stage-wrap">
-          <figure class="stage" id="stage">
+        <div class="acts" role="tablist" aria-label="Music, calls and notifications" id="acts-live"></div>
+        <div class="stages">
+          <figure class="stage" aria-label="The island beside the notch">
             <span class="silk" aria-hidden="true"></span>
-            <div class="menubar"><span class="apps" id="stage-apps"><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
-            <div class="slot" id="slot" role="tabpanel" aria-live="polite"></div>
+            <div class="menubar"><span class="apps" data-stage-apps><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
+            <div class="slot" id="slot-closed" role="tabpanel" aria-live="polite"></div>
+            <span class="stage-tag" id="tag-closed"></span>
           </figure>
-          <div class="stage-bar"><p id="caption"></p><button class="toggle" type="button" id="toggle">Open</button></div>
+          <figure class="stage" aria-label="The island when you point at it">
+            <span class="silk" aria-hidden="true"></span>
+            <div class="menubar"><span class="apps" data-stage-apps><b>Music</b><span>File</span><span>Edit</span></span><span class="status"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6"><rect x="2.5" y="7.5" width="17" height="9" rx="2.5"/><path d="M21.5 10.5v3"/><rect x="4.5" y="9.5" width="9" height="5" rx="1" fill="#fff" stroke="none"/></svg>9:41</span></div>
+            <div class="slot" id="slot-open"></div>
+            <span class="stage-tag" id="tag-open"></span>
+          </figure>
+          <p class="stage-caption" id="caption"></p>
         </div>
-        <div class="acts" role="tablist" aria-label="Alerts" id="acts-alerts"></div>
+        <div class="acts" role="tablist" aria-label="Timers, hotspot and alerts" id="acts-alerts"></div>
       </div>
     </div>
   </section>
@@ -672,7 +705,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </div>
       <div class="wfilter" role="group" aria-label="Show widgets for"><button type="button" aria-pressed="true" data-cat="all">All</button><button type="button" aria-pressed="false" data-cat="essentials">Essentials</button><button type="button" aria-pressed="false" data-cat="music">Music</button><button type="button" aria-pressed="false" data-cat="productivity">Productivity</button><button type="button" aria-pressed="false" data-cat="information">Information</button><button type="button" aria-pressed="false" data-cat="briefings">Briefings</button></div>
       <div class="wgallery">
-      <article class="wcard" data-cat="essentials">
+      <article class="wcard" id="widget-weather" data-cat="essentials">
         <div class="wstage" style="--spot: 8% 12%">
           <img class="shot medium" src="assets/widgets/weather-current-medium.webp" width="344" height="164" alt="Weather widget, Current style" loading="lazy" decoding="async">
         </div>
@@ -683,7 +716,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Ultra Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="essentials">
+      <article class="wcard" id="widget-calendar" data-cat="essentials">
         <div class="wstage" style="--spot: 92% 88%">
           <img class="shot medium" src="assets/widgets/calendar-date-medium.webp" width="344" height="164" alt="Calendar widget, Date style" loading="lazy" decoding="async">
         </div>
@@ -694,7 +727,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="essentials">
+      <article class="wcard" id="widget-clock" data-cat="essentials">
         <div class="wstage" style="--spot: 48% 30%">
           <img class="shot medium" src="assets/widgets/clock-digital-medium.webp" width="344" height="164" alt="Clock widget, Digital style" loading="lazy" decoding="async">
         </div>
@@ -705,7 +738,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Ultra Wide</span>
         </div>
       </article>
-      <article class="wcard" data-cat="essentials">
+      <article class="wcard" id="widget-battery" data-cat="essentials">
         <div class="wstage" style="--spot: 20% 85%">
           <img class="shot small" src="assets/widgets/battery-ring-small.webp" width="164" height="164" alt="Battery widget, Ring style" loading="lazy" decoding="async">
         </div>
@@ -716,7 +749,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide</span>
         </div>
       </article>
-      <article class="wcard" data-cat="music">
+      <article class="wcard" id="widget-nowPlaying" data-cat="music">
         <div class="wstage" style="--spot: 75% 55%">
           <img class="shot medium" src="assets/widgets/nowPlaying-player-medium.webp" width="344" height="164" alt="Now Playing widget, Player style" loading="lazy" decoding="async">
         </div>
@@ -727,7 +760,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="music">
+      <article class="wcard" id="widget-musicCard" data-cat="music">
         <div class="wstage" style="--spot: 100% 20%">
           <img class="shot medium r26" src="assets/widgets/musicCard-glass-medium.webp" width="344" height="164" alt="Music Card widget, Glass style" loading="lazy" decoding="async">
         </div>
@@ -737,7 +770,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Medium · Wide</span>
         </div>
       </article>
-      <article class="wcard" data-cat="music">
+      <article class="wcard" id="widget-lyrics" data-cat="music">
         <div class="wstage" style="--spot: 35% 60%">
           <img class="shot large" src="assets/widgets/lyrics-lyrics-large.webp" width="344" height="344" alt="Live Lyrics widget, Lyrics style" loading="lazy" decoding="async">
         </div>
@@ -747,7 +780,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-favorites" data-cat="productivity">
         <div class="wstage" style="--spot: 62% 95%">
           <img class="shot medium" src="assets/widgets/favorites-grid-medium.webp" width="344" height="164" alt="Favourite Apps widget, Grid style" loading="lazy" decoding="async">
         </div>
@@ -757,7 +790,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-activity" data-cat="productivity">
         <div class="wstage" style="--spot: 0% 50%">
           <img class="shot large" src="assets/widgets/activity-today-large.webp" width="344" height="344" alt="Recent Activity widget, Today style" loading="lazy" decoding="async">
         </div>
@@ -767,7 +800,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-reminders" data-cat="productivity">
         <div class="wstage" style="--spot: 85% 0%">
           <img class="shot medium" src="assets/widgets/reminders-list-medium.webp" width="344" height="164" alt="Reminders widget, List style" loading="lazy" decoding="async">
         </div>
@@ -777,7 +810,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-countdown" data-cat="productivity">
         <div class="wstage" style="--spot: 8% 12%">
           <img class="shot medium" src="assets/widgets/countdown-days-medium.webp" width="344" height="164" alt="Countdown widget, Days style" loading="lazy" decoding="async">
         </div>
@@ -788,7 +821,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-pomodoro" data-cat="productivity">
         <div class="wstage" style="--spot: 92% 88%">
           <img class="shot medium" src="assets/widgets/pomodoro-ring-medium.webp" width="344" height="164" alt="Pomodoro widget, Ring style" loading="lazy" decoding="async">
         </div>
@@ -798,7 +831,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-stopwatch" data-cat="productivity">
         <div class="wstage" style="--spot: 48% 30%">
           <img class="shot medium" src="assets/widgets/stopwatch-digits-medium.webp" width="344" height="164" alt="Stopwatch widget, Digits style" loading="lazy" decoding="async">
         </div>
@@ -808,7 +841,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium</span>
         </div>
       </article>
-      <article class="wcard" data-cat="productivity">
+      <article class="wcard" id="widget-stickyNote" data-cat="productivity">
         <div class="wstage" style="--spot: 20% 85%">
           <img class="shot medium bare" src="assets/widgets/stickyNote-paper-medium.webp" width="344" height="164" alt="Sticky Note widget, Paper style" loading="lazy" decoding="async">
         </div>
@@ -819,7 +852,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-earth" data-cat="information">
         <div class="wstage" style="--spot: 75% 55%">
           <img class="shot medium" src="assets/widgets/earth-globe-medium.webp" width="344" height="164" alt="Earth widget, Globe style" loading="lazy" decoding="async">
         </div>
@@ -829,7 +862,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-location" data-cat="information">
         <div class="wstage" style="--spot: 100% 20%">
           <img class="shot medium" src="assets/widgets/location-map-medium.webp" width="344" height="164" alt="Location widget, Map style" loading="lazy" decoding="async">
         </div>
@@ -839,7 +872,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-news" data-cat="information">
         <div class="wstage" style="--spot: 35% 60%">
           <img class="shot medium" src="assets/widgets/news-headlines-medium.webp" width="344" height="164" alt="News widget, Headlines style" loading="lazy" decoding="async">
         </div>
@@ -849,7 +882,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-stocks" data-cat="information">
         <div class="wstage" style="--spot: 62% 95%">
           <img class="shot medium" src="assets/widgets/stocks-watchlist-medium.webp" width="344" height="164" alt="Stock Ticker widget, Watchlist style" loading="lazy" decoding="async">
         </div>
@@ -860,7 +893,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-photos" data-cat="information">
         <div class="wstage" style="--spot: 0% 50%">
           <img class="shot medium" src="assets/widgets/photos-photo-medium.webp" width="344" height="164" alt="Photos widget, Photo style" loading="lazy" decoding="async">
         </div>
@@ -871,7 +904,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="information">
+      <article class="wcard" id="widget-system" data-cat="information">
         <div class="wstage" style="--spot: 85% 0%">
           <img class="shot medium" src="assets/widgets/system-gauges-medium.webp" width="344" height="164" alt="System widget, Gauges style" loading="lazy" decoding="async">
         </div>
@@ -882,7 +915,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
-      <article class="wcard" data-cat="briefings">
+      <article class="wcard" id="widget-dailyBrief" data-cat="briefings">
         <div class="wstage" style="--spot: 8% 12%">
           <img class="shot medium" src="assets/widgets/dailyBrief-brief-medium.webp" width="344" height="164" alt="Daily Brief widget, Brief style" loading="lazy" decoding="async">
         </div>
@@ -907,22 +940,40 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <div class="film-stage">
           <div class="fw" aria-hidden="true">
             <aside class="fw-side">
-              <span class="fw-lights"><i></i><i></i><i></i></span>
-              <span class="fw-row"><img src="assets/icons/page-general.webp" alt="">General</span>
-              <span class="fw-row"><img src="assets/icons/page-whatsNew.webp" alt="">What's New</span>
-              <span class="fw-head">Lock Screen</span>
-              <span class="fw-row on"><img src="assets/icons/page-layoutStudio.webp" alt="">Layout Studio</span>
-              <span class="fw-row"><img src="assets/icons/page-layoutGallery.webp" alt="">Layout Gallery</span>
-              <span class="fw-row"><img src="assets/icons/page-appearance.webp" alt="">Appearance</span>
-              <span class="fw-row"><img src="assets/icons/page-stickyNotes.webp" alt="">Sticky Notes</span>
-              <span class="fw-head">Desktop</span>
-              <span class="fw-row"><img src="assets/icons/page-island.webp" alt="">Dynamic Island</span>
-              <span class="fw-head">Widget Settings</span>
-              <span class="fw-row"><img src="assets/icons/weather.webp" alt="">Weather</span>
-              <span class="fw-row"><img src="assets/icons/earth.webp" alt="">Earth</span>
-              <span class="fw-row"><img src="assets/icons/location.webp" alt="">Location</span>
-              <span class="fw-row"><img src="assets/icons/news.webp" alt="">News</span>
-              <span class="fw-row"><img src="assets/icons/stocks.webp" alt="">Stock Ticker</span>
+              <div class="fw-side-list">
+                <span class="fw-lights"><i></i><i></i><i></i></span>
+                <span class="fw-row"><img src="assets/icons/page-general.webp" alt="">General</span>
+                <span class="fw-row"><img src="assets/icons/page-whatsNew.webp" alt="">What's New</span>
+                <span class="fw-head">Lock Screen</span>
+                <span class="fw-row on"><img src="assets/icons/page-layoutStudio.webp" alt="">Layout Studio</span>
+                <span class="fw-row"><img src="assets/icons/page-layoutGallery.webp" alt="">Layout Gallery</span>
+                <span class="fw-row"><img src="assets/icons/page-appearance.webp" alt="">Appearance</span>
+                <span class="fw-row"><img src="assets/icons/page-stickyNotes.webp" alt="">Sticky Notes</span>
+                <span class="fw-head">Desktop</span>
+                <span class="fw-row"><img src="assets/icons/page-island.webp" alt="">Dynamic Island</span>
+                <span class="fw-head">Widget Settings</span>
+                <span class="fw-row"><img src="assets/icons/weather.webp" alt="">Weather</span>
+                <span class="fw-row"><img src="assets/icons/earth.webp" alt="">Earth</span>
+                <span class="fw-row"><img src="assets/icons/location.webp" alt="">Location</span>
+                <span class="fw-row"><img src="assets/icons/news.webp" alt="">News</span>
+                <span class="fw-row"><img src="assets/icons/stocks.webp" alt="">Stock Ticker</span>
+                <span class="fw-row"><img src="assets/icons/nowPlaying.webp" alt="">Now Playing</span>
+                <span class="fw-row"><img src="assets/icons/musicCard.webp" alt="">Music Card</span>
+                <span class="fw-row"><img src="assets/icons/photos.webp" alt="">Photos</span>
+                <span class="fw-row"><img src="assets/icons/lyrics.webp" alt="">Live Lyrics</span>
+                <span class="fw-row"><img src="assets/icons/calendar.webp" alt="">Calendar</span>
+                <span class="fw-row"><img src="assets/icons/clock.webp" alt="">Clock</span>
+                <span class="fw-row"><img src="assets/icons/countdown.webp" alt="">Countdown</span>
+                <span class="fw-row"><img src="assets/icons/pomodoro.webp" alt="">Pomodoro</span>
+                <span class="fw-row"><img src="assets/icons/stopwatch.webp" alt="">Stopwatch</span>
+                <span class="fw-row"><img src="assets/icons/reminders.webp" alt="">Reminders</span>
+                <span class="fw-row"><img src="assets/icons/favorites.webp" alt="">Favourite Apps</span>
+                <span class="fw-row"><img src="assets/icons/activity.webp" alt="">Recent Activity</span>
+                <span class="fw-row"><img src="assets/icons/battery.webp" alt="">Battery</span>
+                <span class="fw-row"><img src="assets/icons/system.webp" alt="">System</span>
+                <span class="fw-row"><img src="assets/icons/dailyBrief.webp" alt="">Daily Brief</span>
+                <span class="fw-row"><img src="assets/icons/page-about.webp" alt="">About</span>
+              </div>
             </aside>
             <div class="fw-main">
               <div class="fw-title"><b>Layout Studio</b><span>Drag widgets to place them. Select one to change its size or style.</span></div>
@@ -1009,7 +1060,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <p class="lede">Seven ready-made layouts, from a quiet clock to a full dashboard. Use one as it is, or make it your own in Layout Studio.</p>
       </div>
       <div class="lgrid">
-        <article class="lcard">
+        <article class="lcard" id="layout-everyday">
           <div class="screen" data-wall="macos-light" role="img" aria-label="Everyday: Weather, Calendar, Now Playing and Battery on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1021,7 +1072,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>Everyday</h3><span>4 widgets</span><p>A little of everything</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-after-hours">
           <div class="screen" data-wall="golden-gate-night" role="img" aria-label="After Hours: Live Lyrics, Now Playing, Clock and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1033,7 +1084,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>After Hours</h3><span>4 widgets</span><p>Let the music take over</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-in-the-zone">
           <div class="screen" data-wall="macos-dark" role="img" aria-label="In the Zone: Pomodoro, a Sticky Note and Reminders on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1044,7 +1095,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>In the Zone</h3><span>3 widgets</span><p>Find your focus</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-day-ahead">
           <div class="screen" data-wall="sonoma" role="img" aria-label="Day Ahead: Daily Brief, Calendar and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1055,7 +1106,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>Day Ahead</h3><span>3 widgets</span><p>Catch up. Look ahead.</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-mission-control">
           <div class="screen" data-wall="mac-purple" role="img" aria-label="Mission Control: Stock Ticker, News, System and Earth on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1067,7 +1118,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>Mission Control</h3><span>4 widgets</span><p>The bigger picture</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-traveller">
           <div class="screen" data-wall="golden-gate" role="img" aria-label="Traveller: Weather, Earth and World Clock on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1078,7 +1129,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           </div>
           <div class="linfo"><h3>Traveller</h3><span>3 widgets</span><p>Time and weather wherever you are</p></div>
         </article>
-        <article class="lcard">
+        <article class="lcard" id="layout-minimal">
           <div class="screen" data-wall="macos-light" role="img" aria-label="Minimal: Clock and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
@@ -1173,7 +1224,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     </div>
   </section>
 
-  <section class="band">
+  <section id="privacy" class="band">
     <div class="wrap">
       <div class="stack">
         <span class="eyebrow">Private and safe</span>
@@ -1215,14 +1266,14 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     <div class="wrap">
       <span class="eyebrow">Questions</span>
       <div class="faq">
-        <details><summary>Is Notchlight free?</summary><p>Yes. Every widget and the Dynamic Island are free, with no account and no subscription.</p></details>
-        <details><summary>Why isn't it on the Mac App Store?</summary><p>Mac App Store apps run in Apple's sandbox, which doesn't allow drawing over the lock screen or reading notifications. Notchlight is signed with a Developer ID and notarized by Apple instead, so it installs and opens like any other app.</p></details>
-        <details><summary>Is it safe?</summary><p>Apple scans every release for malware before notarizing it, and updates are signed so your Mac only installs ones that come from Notchlight. The source code is on GitHub.</p></details>
-        <details><summary>Which Macs does it work on?</summary><p>Any Mac with macOS 15 or later. The Dynamic Island is made for MacBooks with a notch; on other Macs it shows up only while something is live.</p></details>
-        <details><summary>Does it work with Spotify?</summary><p>Yes: the song playing in Spotify shows in the island and on the lock screen, with its artwork and controls. Synced lyrics come from Apple Music only.</p></details>
-        <details><summary>What permissions does it ask for?</summary><p>Only what your widgets use: Calendar, Reminders, Location for weather, Photos, and Automation to read the song in Music or Spotify. Notifications on the island need Full Disk Access, because macOS keeps them in a protected file. The Setup Guide takes you to each one.</p></details>
-        <details><summary>How do updates work?</summary><p>Notchlight looks for a new version once a day and asks before installing it. Choose Check for Updates… in its menu to look now. With Homebrew, <code>brew upgrade</code> works too.</p></details>
-        <details><summary>How do I uninstall it?</summary><p>Quit Notchlight from its menu bar icon and drag it from Applications to the Trash. With Homebrew, run <code>brew uninstall --cask notchlight</code>.</p></details>
+        <details id="faq-1"><summary>Is Notchlight free?</summary><p>Yes. Every widget and the Dynamic Island are free, with no account and no subscription.</p></details>
+        <details id="faq-2"><summary>Why isn't it on the Mac App Store?</summary><p>Mac App Store apps run in Apple's sandbox, which doesn't allow drawing over the lock screen or reading notifications. Notchlight is signed with a Developer ID and notarized by Apple instead, so it installs and opens like any other app.</p></details>
+        <details id="faq-3"><summary>Is it safe?</summary><p>Apple scans every release for malware before notarizing it, and updates are signed so your Mac only installs ones that come from Notchlight. The source code is on GitHub.</p></details>
+        <details id="faq-4"><summary>Which Macs does it work on?</summary><p>Any Mac with macOS 15 or later. The Dynamic Island is made for MacBooks with a notch; on other Macs it shows up only while something is live.</p></details>
+        <details id="faq-5"><summary>Does it work with Spotify?</summary><p>Yes: the song playing in Spotify shows in the island and on the lock screen, with its artwork and controls. Synced lyrics come from Apple Music only.</p></details>
+        <details id="faq-6"><summary>What permissions does it ask for?</summary><p>Only what your widgets use: Calendar, Reminders, Location for weather, Photos, and Automation to read the song in Music or Spotify. Notifications on the island need Full Disk Access, because macOS keeps them in a protected file. The Setup Guide takes you to each one.</p></details>
+        <details id="faq-7"><summary>How do updates work?</summary><p>Notchlight looks for a new version once a day and asks before installing it. Choose Check for Updates… in its menu to look now. With Homebrew, <code>brew upgrade</code> works too.</p></details>
+        <details id="faq-8"><summary>How do I uninstall it?</summary><p>Quit Notchlight from its menu bar icon and drag it from Applications to the Trash. With Homebrew, run <code>brew uninstall --cask notchlight</code>.</p></details>
       </div>
     </div>
   </section>
@@ -1285,6 +1336,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     reset: '<svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.4" stroke-linecap="round"><path d="M4 12a8 8 0 1 0 3-6.3M4 4v4h4"/></svg>',
     battery: (fill, color) => `<svg viewBox="0 0 28 14" fill="none" stroke="${color}" stroke-width="1.4"><rect x="1" y="1.5" width="22" height="11" rx="3"/><path d="M25.5 5v4"/><rect x="3" y="3.5" width="${18 * fill}" height="7" rx="1.5" fill="${color}" stroke="none"/></svg>`,
     airpods: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M7.5 3A3.5 3.5 0 0 0 4 6.5c0 1.6 1.1 3 2.6 3.4V20a1.4 1.4 0 0 0 2.8 0V6.5A3.5 3.5 0 0 0 7.5 3Zm9 0A3.5 3.5 0 0 1 20 6.5c0 1.6-1.1 3-2.6 3.4V20a1.4 1.4 0 0 1-2.8 0V6.5A3.5 3.5 0 0 1 16.5 3Z"/></svg>',
+    mute: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h4l5-4v14l-5-4H3z"/><path d="M15.5 9.5l5 5M20.5 9.5l-5 5" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
     speaker: '<svg viewBox="0 0 24 24" fill="#fff"><path d="M3 9h4l5-4v14l-5-4H3z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12" stroke="#fff" stroke-width="2" fill="none" stroke-linecap="round"/></svg>',
     sun: '<svg viewBox="0 0 24 24" fill="#fff"><circle cx="12" cy="12" r="4.5"/><path d="M12 1.5v3M12 19.5v3M1.5 12h3M19.5 12h3M4.6 4.6l2.1 2.1M17.3 17.3l2.1 2.1M4.6 19.4l2.1-2.1M17.3 6.7l2.1-2.1" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>',
     moon: '<svg viewBox="0 0 24 24" fill="#8f86ff"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z"/></svg>',
@@ -1308,13 +1360,19 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   const drop = (left, right) => ({ closed: `<div class="isl drop"><div class="row">${left}${right}</div></div>` });
 
   const activities = [
-    { group: "Live activities" },
+    { group: "Live activities", column: "live" },
     { id: "music", name: "Apple Music", logo: "music", menu: "Music", caption: "The song sits beside the notch with its artwork and a live waveform; point at it for the lyric and controls. Your hotspot waits in its own circle.", ...song("", "Low Orbit", "Mira Vale", "City lights are spelling out your name", true) },
     { id: "spotify", name: "Spotify", logo: "spotify", menu: "Spotify", caption: "Spotify songs show the same way, with artwork, progress and controls.", ...song("two", "Night Drive", "Sundial Youth", "") },
     { id: "zoom", name: "Zoom", logo: "zoom", menu: "zoom.us", caption: "A Zoom meeting shows how long you've been on. Open it to mute, stop your video or go back to Zoom.", ...call("zoom", "Zoom Meeting", "video", true) },
     { id: "facetime", name: "FaceTime", logo: "facetime", menu: "FaceTime", caption: "FaceTime calls show their time beside the notch.", ...call("facetime", "FaceTime Call", "phone") },
     { id: "teams", name: "Microsoft Teams", logo: "teams", menu: "Teams", caption: "Teams calls, from the app or the browser.", ...call("teams", "Teams Call", "video") },
     { id: "meet", name: "Google Meet", logo: "meet", menu: "Chrome", caption: "Meetings in Chrome, Safari or Firefox are recognised from the browser using your microphone.", ...call("chrome", "Google Meet", "video") },
+    { group: "Notifications", column: "live" },
+    { id: "messages", name: "Messages", logo: "messages", menu: "Safari", caption: "Notifications from every app drop down from the notch as they arrive. Click one to open the app.", ...banner("messages", "Messages", "Mira", "Running five minutes late. Save me a seat by the window?") },
+    { id: "whatsapp", name: "WhatsApp", logo: "whatsapp", menu: "Safari", caption: "WhatsApp, Slack, Mail or anything else that posts a notification.", ...banner("whatsapp", "WhatsApp", "Study group", "Jonas: I've uploaded the notes for chapter 4 to the shared folder.") },
+    { id: "mail", name: "Mail", logo: "mail", menu: "Safari", caption: "Mail shows the sender's subject and the start of the message.", ...banner("mail", "Mail", "Your order has shipped", "Arriving Friday between 9 and 12. Track it from the link in this email.") },
+    { id: "event", name: "Upcoming events", logo: "calendar", menu: "Safari", caption: "A heads-up five minutes before each event on your calendars.", ...banner("calendar", "Calendar", "Design review", "Starts in 5 minutes · Room 4B", "10:30") },
+    { group: "Live activities", column: "alerts" },
     { id: "hotspot", name: "Personal Hotspot", glyph: icon.hotspot, menu: "Finder", caption: "While your Mac is on your iPhone's hotspot. Open it to see which iPhone.",
       closed: compact(icon.hotspot, ""),
       open: `<div class="isl card"><div class="top"><span class="round green" style="width:26px;height:26px">${icon.hotspot}</span><span></span></div><div class="row"><span class="meta"><b>Personal Hotspot</b><small>Connected to Alex's iPhone</small></span></div></div>` },
@@ -1324,32 +1382,30 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     { id: "stopwatch", name: "Stopwatch", logo: "clock", menu: "Notchlight", caption: "The stopwatch keeps running beside the notch.",
       closed: compact(icon.stopwatch, '<span style="color:#ff9f43">03:12</span>'),
       open: `<div class="isl card"><div class="top"><span class="round orange" style="width:26px;height:26px">${icon.stopwatch}</span><span style="color:#ff9f43;font:600 18px var(--rounded)">03:12</span></div><div class="row"><b style="color:rgba(255,255,255,.75)">Stopwatch</b><span class="buttons"><span class="round orange">${icon.pause}</span><span class="round">${icon.reset}</span></span></div></div>` },
-    { group: "Alerts" },
-    { id: "messages", name: "Messages", logo: "messages", menu: "Safari", caption: "Notifications from every app drop down from the notch as they arrive. Click one to open the app.", ...banner("messages", "Messages", "Mira", "Running five minutes late. Save me a seat by the window?") },
-    { id: "whatsapp", name: "WhatsApp", logo: "whatsapp", menu: "Safari", caption: "WhatsApp, Slack, Mail or anything else that posts a notification.", ...banner("whatsapp", "WhatsApp", "Study group", "Jonas: I've uploaded the notes for chapter 4 to the shared folder.") },
-    { id: "mail", name: "Mail", logo: "mail", menu: "Safari", caption: "Mail shows the sender's subject and the start of the message.", ...banner("mail", "Mail", "Your order has shipped", "Arriving Friday between 9 and 12. Track it from the link in this email.") },
-    { id: "event", name: "Upcoming events", logo: "calendar", menu: "Safari", caption: "A heads-up five minutes before each event on your calendars.", ...banner("calendar", "Calendar", "Design review", "Starts in 5 minutes · Room 4B", "10:30") },
+    { group: "Alerts", column: "alerts" },
     { id: "charging", name: "Charging", glyph: icon.battery(0.84, "#34d27b"), menu: "Finder", caption: "When you plug in or unplug.", ...drop('<span style="color:#34d27b">Charging</span>', `<span style="display:flex;gap:6px;align-items:center;color:#34d27b">84% ${icon.battery(0.84, "#34d27b")}</span>`) },
     { id: "lowbattery", name: "Low battery", glyph: icon.battery(0.15, "#ff5a52"), menu: "Finder", caption: "At 20% and again at 10%.", ...drop('<span style="color:#ff5a52">Low Battery</span>', `<span style="display:flex;gap:6px;align-items:center;color:#ff5a52">10% ${icon.battery(0.15, "#ff5a52")}</span>`) },
     { id: "airpods", name: "AirPods", glyph: icon.airpods, menu: "Finder", caption: "When AirPods, keyboards and other Bluetooth devices connect or disconnect.", ...drop(`<span style="display:flex;gap:7px;align-items:center">${icon.airpods} AirPods Pro</span>`, '<span style="color:#34d27b">Connected</span>') },
     { id: "volume", name: "Volume", glyph: icon.speaker, menu: "Finder", caption: "The level as you change it, in place of the system's own.", closed: `<div class="isl drop"><div class="row">${icon.speaker}<span class="level" style="--p:62%"></span></div></div>` },
+    { id: "mute", name: "Mute", glyph: icon.mute, menu: "Finder", caption: "When you mute the sound, and the level it comes back at when you turn it up.", closed: `<div class="isl drop"><div class="row">${icon.mute}<span class="level" style="--p:0%"></span></div></div>` },
     { id: "brightness", name: "Brightness", glyph: icon.sun, menu: "Finder", caption: "Screen brightness as you change it.", closed: `<div class="isl drop"><div class="row">${icon.sun}<span class="level" style="--p:40%"></span></div></div>` },
     { id: "focus", name: "Focus", glyph: icon.moon, menu: "Finder", caption: "When a Focus such as Do Not Disturb turns on or off.", ...drop(`<span style="display:flex;gap:7px;align-items:center;color:#a49cff">${icon.moon} Do Not Disturb</span>`, '<span style="color:#a49cff">On</span>') },
   ];
 
-  const lists = { "Live activities": document.getElementById("acts-live"), Alerts: document.getElementById("acts-alerts") };
-  let list = null;
-  const slot = document.getElementById("slot");
+  const lists = { live: document.getElementById("acts-live"), alerts: document.getElementById("acts-alerts") };
+  const slotClosed = document.getElementById("slot-closed");
+  const slotOpen = document.getElementById("slot-open");
+  const tagClosed = document.getElementById("tag-closed");
+  const tagOpen = document.getElementById("tag-open");
   const caption = document.getElementById("caption");
-  const toggle = document.getElementById("toggle");
-  const stage = document.getElementById("stage");
-  const menuApps = document.getElementById("stage-apps");
-  let current = null;
-  let open = false;
+  const menuApps = document.querySelectorAll("[data-stage-apps]");
+  // What the island goes back to once a brief alert has gone: the song beside the notch.
+  const rest = compact('<span class="cover"></span>', wave);
+  let list = null;
 
   for (const item of activities) {
     if (item.group) {
-      list = lists[item.group];
+      list = lists[item.column];
       const heading = document.createElement("span");
       heading.className = "group";
       heading.textContent = item.group;
@@ -1362,29 +1418,21 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     button.setAttribute("role", "tab");
     button.dataset.id = item.id;
     button.innerHTML = (item.logo ? `<img src="${app(item.logo)}" alt="">` : `<span class="glyph">${item.glyph}</span>`) + item.name;
-    button.addEventListener("click", () => show(item, false));
+    button.addEventListener("click", () => show(item));
     list.append(button);
   }
 
-  function render() {
-    slot.innerHTML = open && current.open ? current.open : current.closed;
-    toggle.hidden = !current.open;
-    toggle.textContent = open ? "Close" : "Open";
-  }
-
-  function show(item, keepOpen) {
-    current = item;
-    open = keepOpen && !!item.open;
+  // Both states at once: beside the notch and open, or for a brief alert, as it arrives and once it has gone.
+  function show(item) {
     document.querySelectorAll("#island .act").forEach((b) => b.setAttribute("aria-selected", String(b.dataset.id === item.id)));
     caption.textContent = item.caption;
-    menuApps.innerHTML = `<b>${item.menu}</b><span>File</span><span>Edit</span>`;
-    render();
+    menuApps.forEach((apps) => { apps.innerHTML = `<b>${item.menu}</b><span>File</span><span>Edit</span>`; });
+    slotClosed.innerHTML = item.closed;
+    slotOpen.innerHTML = item.open || rest;
+    tagClosed.textContent = item.open ? "Beside the notch" : "As it arrives";
+    tagOpen.textContent = item.open ? "When you point at it" : "A few seconds later";
   }
-
-  toggle.addEventListener("click", () => { open = !open; render(); });
-  stage.addEventListener("mouseenter", () => { if (current.open && !open) { open = true; render(); } });
-  stage.addEventListener("mouseleave", () => { if (open) { open = false; render(); } });
-  show(activities[1], false);
+  show(activities[1]);
 
   // Widget gallery: each style button swaps in its picture; the filter shows one category at a time.
   document.querySelectorAll(".wcard").forEach((card) => {
@@ -1421,6 +1469,148 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     wallButtons.forEach((other) => other.setAttribute("aria-pressed", String(other === button)));
     look.dataset.wall = button.dataset.pickWall;
   }));
+
+  // Search, as on victorabuchi.com: a panel under the top bar that finds sections, widgets, island activities,
+  // layouts, card styles, wallpapers and answers. "/" or Command-K opens it; Escape closes it.
+  const searchButton = document.querySelector(".search-button");
+  const finder = document.createElement("div");
+  finder.className = "search";
+  finder.innerHTML = `
+    <div class="search-scrim" data-search-close></div>
+    <div class="search-panel" role="dialog" aria-modal="true" aria-label="Search Notchlight">
+      <div class="search-inner">
+        <div class="search-bar">
+          <svg width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><circle cx="6.5" cy="6.5" r="4.75" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M10 10l4.5 4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+          <input class="search-input" id="search-input" type="search" placeholder="Search Notchlight" autocomplete="off" spellcheck="false" aria-label="Search Notchlight">
+          <button type="button" class="search-cancel" data-search-close>Cancel</button>
+        </div>
+        <p class="search-heading"></p>
+        <ul class="search-results"></ul>
+      </div>
+    </div>`;
+  document.body.append(finder);
+  const findInput = finder.querySelector(".search-input");
+  const findHeading = finder.querySelector(".search-heading");
+  const findList = finder.querySelector(".search-results");
+
+  const entries = [
+    { title: "Download Notchlight", kind: "Free for macOS 15 and later", href: "https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg", words: "download dmg get mac app" },
+    { title: "Install with Homebrew", kind: "Install", href: "#install", words: "brew cask terminal command" },
+    { title: "Dynamic Island", kind: "Section", href: "#island", words: "notch live activities alerts island" },
+    { title: "Lock screen widgets", kind: "Section", href: "#widgets", words: "widgets lock screen glance" },
+    { title: "Layout Studio", kind: "Section", href: "#studio", words: "drag arrange place move resize restyle studio" },
+    { title: "Layout Gallery", kind: "Section", href: "#layouts", words: "presets layouts ready-made gallery" },
+    { title: "Appearance", kind: "Section", href: "#appearance", words: "card style glass frosted solid minimal corner radius wallpaper" },
+    { title: "Apple Music lyrics", kind: "Section", href: "#music", words: "music spotify lyrics synced song" },
+    { title: "Privacy", kind: "Section", href: "#privacy", words: "private data safe notarized signed updates" },
+    { title: "Questions", kind: "Section", href: "#faq", words: "faq help questions answers" },
+  ];
+  document.querySelectorAll(".wcard[id]").forEach((card) => {
+    entries.push({ title: card.querySelector("h3").firstChild.textContent.trim(), kind: "Widget", href: `#${card.id}`, words: card.querySelector("p").textContent });
+  });
+  activities.filter((item) => !item.group).forEach((item) => {
+    entries.push({ title: item.name, kind: "Dynamic Island", href: "#island", words: item.caption, run: () => show(item) });
+  });
+  document.querySelectorAll(".lcard[id]").forEach((card) => {
+    entries.push({ title: `${card.querySelector("h3").textContent} layout`, kind: "Layout Gallery", href: `#${card.id}`, words: card.querySelector("p").textContent });
+  });
+  styleButtons.forEach((button) => {
+    entries.push({ title: `${button.textContent} cards`, kind: "Appearance", href: "#appearance", words: button.dataset.detail, run: () => button.click() });
+  });
+  wallButtons.forEach((button) => {
+    entries.push({ title: `${button.textContent.trim()} wallpaper`, kind: "Appearance", href: "#appearance", words: "wallpaper background", run: () => button.click() });
+  });
+  document.querySelectorAll(".faq details[id]").forEach((details) => {
+    entries.push({ title: details.querySelector("summary").textContent, kind: "Question", href: `#${details.id}`, words: details.querySelector("p").textContent, run: () => { details.open = true; } });
+  });
+  const quickLinks = ["Download Notchlight", "Dynamic Island", "Lock screen widgets", "Layout Studio", "Install with Homebrew", "Questions"]
+    .map((title) => entries.find((entry) => entry.title === title));
+
+  function find(query) {
+    const q = query.trim().toLowerCase();
+    let found;
+    if (!q) {
+      findHeading.textContent = "Quick Links";
+      found = quickLinks;
+    } else {
+      const terms = q.split(/\s+/);
+      found = entries
+        .map((entry) => {
+          const title = entry.title.toLowerCase();
+          const hay = `${title} ${entry.kind.toLowerCase()} ${entry.words.toLowerCase()}`;
+          if (!terms.every((term) => hay.includes(term))) return null;
+          return { entry, score: title.startsWith(q) ? 0 : title.includes(q) ? 1 : 2 };
+        })
+        .filter(Boolean)
+        .sort((a, b) => a.score - b.score)
+        .slice(0, 12)
+        .map((result) => result.entry);
+      findHeading.textContent = found.length ? "Results" : "";
+    }
+    findList.replaceChildren();
+    if (!found.length) {
+      const empty = document.createElement("li");
+      empty.className = "search-empty";
+      empty.textContent = `Nothing found for “${query.trim()}”.`;
+      findList.append(empty);
+      return;
+    }
+    for (const entry of found) {
+      const item = document.createElement("li");
+      const link = document.createElement("a");
+      link.href = entry.href;
+      link.textContent = entry.title;
+      const kind = document.createElement("small");
+      kind.textContent = entry.kind;
+      link.append(kind);
+      link.addEventListener("click", () => {
+        closeFinder(false);
+        if (entry.run) setTimeout(entry.run, 0);
+      });
+      item.append(link);
+      findList.append(item);
+    }
+  }
+
+  function openFinder() {
+    finder.classList.add("open");
+    searchButton.setAttribute("aria-expanded", "true");
+    findInput.value = "";
+    find("");
+    findInput.focus();
+  }
+
+  function closeFinder(returnFocus = true) {
+    finder.classList.remove("open");
+    searchButton.setAttribute("aria-expanded", "false");
+    if (returnFocus) searchButton.focus();
+  }
+
+  searchButton.addEventListener("click", () => (finder.classList.contains("open") ? closeFinder() : openFinder()));
+  finder.addEventListener("click", (event) => { if (event.target.closest("[data-search-close]")) closeFinder(); });
+  findInput.addEventListener("input", () => find(findInput.value));
+  findInput.addEventListener("keydown", (event) => {
+    const first = findList.querySelector("a");
+    if (event.key === "Enter" && first) first.click();
+    if (event.key === "ArrowDown" && first) { event.preventDefault(); first.focus(); }
+  });
+  findList.addEventListener("keydown", (event) => {
+    const links = [...findList.querySelectorAll("a")];
+    const at = links.indexOf(document.activeElement);
+    if (event.key === "ArrowDown" && at < links.length - 1) { event.preventDefault(); links[at + 1].focus(); }
+    if (event.key === "ArrowUp") { event.preventDefault(); (at > 0 ? links[at - 1] : findInput).focus(); }
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && finder.classList.contains("open")) closeFinder();
+    const tag = (event.target.tagName || "").toLowerCase();
+    const typing = tag === "input" || tag === "textarea" || tag === "select" || event.target.isContentEditable;
+    const slash = event.key === "/" && !typing && !event.metaKey && !event.ctrlKey && !event.altKey;
+    const command = (event.metaKey || event.ctrlKey) && event.key.toLowerCase() === "k";
+    if ((slash || command) && !finder.classList.contains("open")) {
+      event.preventDefault();
+      openFinder();
+    }
+  });
 
   if (reduce) return;
 
@@ -1482,66 +1672,67 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   const click = (s) => { s.clicks += 1; };
   const move = (s, id, x, y) => { Object.assign(s.widgets[id], { cx: x, cy: y }); s.cursor = point(x, y); };
 
+  // Quick, like a product film: each move takes about a third of a second.
   const scenes = [
     {
-      id: "add", tab: "Add", title: "Add a widget.", dur: 9200,
+      id: "add", tab: "Add", title: "Add a widget.", dur: 3600,
       caption: "Pick any of the 21 widgets, in the style and size you want, and it lands on your lock screen.",
       steps: [
-        [300, (s) => { s.cursor = point(760, 470); }],
-        [900, (s) => { s.cursor = "add"; }],
-        [1800, click],
-        [2000, (s) => { s.sheet = { kind: "clock", added: "" }; }],
-        [2900, (s) => { s.cursor = "pick-weather"; }],
-        [3700, (s) => { click(s); s.sheet.kind = "weather"; }],
-        [4500, (s) => { s.cursor = "plus-weather-medium"; }],
-        [5300, (s) => {
+        [100, (s) => { s.cursor = point(760, 470); }],
+        [350, (s) => { s.cursor = "add"; }],
+        [750, click],
+        [820, (s) => { s.sheet = { kind: "clock", added: "" }; }],
+        [1150, (s) => { s.cursor = "pick-weather"; }],
+        [1500, (s) => { click(s); s.sheet.kind = "weather"; }],
+        [1800, (s) => { s.cursor = "plus-weather-medium"; }],
+        [2150, (s) => {
           click(s);
           s.sheet.added = "Weather · Medium";
           s.widgets.weather = { kind: "weather", style: "current", size: "medium", cx: 756, cy: 602 };
           s.selected = "weather";
         }],
-        [6100, (s) => { s.cursor = "done"; }],
-        [6900, (s) => { click(s); s.sheet = null; }],
-        [7600, (s) => { s.cursor = point(756, 602); }],
+        [2450, (s) => { s.cursor = "done"; }],
+        [2800, (s) => { click(s); s.sheet = null; }],
+        [3150, (s) => { s.cursor = point(756, 602); }],
       ],
     },
     {
-      id: "arrange", tab: "Arrange", title: "Drag it into place.", dur: 10200,
+      id: "arrange", tab: "Arrange", title: "Drag it into place.", dur: 4000,
       caption: "Put widgets anywhere. If one covers the clock or the login, its outline turns orange until you move it.",
       steps: [
-        [600, (s) => { click(s); s.lifted = "weather"; }],
-        [900, (s) => move(s, "weather", 756, 214)],
-        [1850, (s) => { s.widgets.weather.warn = true; }],
-        [3000, (s) => { s.widgets.weather.warn = false; move(s, "weather", 228, 522); }],
-        [4100, (s) => { s.lifted = null; }],
-        [4800, (s) => { s.cursor = point(482, 702); }],
-        [5600, (s) => { click(s); s.selected = "battery"; s.lifted = "battery"; }],
-        [5900, (s) => move(s, "battery", 318, 342)],
-        [7000, (s) => { s.lifted = null; }],
-        [7800, (s) => { s.cursor = point(228, 522); }],
-        [8600, (s) => { click(s); s.selected = "weather"; }],
+        [150, (s) => { click(s); s.lifted = "weather"; }],
+        [250, (s) => move(s, "weather", 756, 214)],
+        [620, (s) => { s.widgets.weather.warn = true; }],
+        [1150, (s) => { s.widgets.weather.warn = false; move(s, "weather", 228, 522); }],
+        [1600, (s) => { s.lifted = null; }],
+        [1850, (s) => { s.cursor = point(482, 702); }],
+        [2200, (s) => { click(s); s.selected = "battery"; s.lifted = "battery"; }],
+        [2300, (s) => move(s, "battery", 318, 342)],
+        [2750, (s) => { s.lifted = null; }],
+        [3000, (s) => { s.cursor = point(228, 522); }],
+        [3350, (s) => { click(s); s.selected = "weather"; }],
       ],
     },
     {
-      id: "restyle", tab: "Restyle", title: "Change its style and size.", dur: 9600,
+      id: "restyle", tab: "Restyle", title: "Change its style and size.", dur: 3500,
       caption: "Select a widget to switch its style or size. What you see is the real widget.",
       steps: [
-        [500, (s) => { s.cursor = "style"; }],
-        [1300, (s) => { click(s); s.menu = true; }],
-        [2000, (s) => { s.cursor = "menu-hourly"; s.hover = "hourly"; }],
-        [2800, (s) => { click(s); s.menu = false; s.hover = null; s.widgets.weather.style = "hourly"; }],
-        [3800, (s) => { s.cursor = "size-wide"; }],
-        [4600, (s) => { click(s); Object.assign(s.widgets.weather, { size: "wide", cx: 318 }); }],
-        [6200, (s) => { s.cursor = point(1040, 860); }],
-        [7000, (s) => { click(s); s.selected = null; }],
+        [150, (s) => { s.cursor = "style"; }],
+        [500, (s) => { click(s); s.menu = true; }],
+        [780, (s) => { s.cursor = "menu-hourly"; s.hover = "hourly"; }],
+        [1120, (s) => { click(s); s.menu = false; s.hover = null; s.widgets.weather.style = "hourly"; }],
+        [1450, (s) => { s.cursor = "size-wide"; }],
+        [1800, (s) => { click(s); Object.assign(s.widgets.weather, { size: "wide", cx: 318 }); }],
+        [2450, (s) => { s.cursor = point(1040, 860); }],
+        [2800, (s) => { click(s); s.selected = null; }],
       ],
     },
     {
-      id: "lock", tab: "Lock", title: "Lock your Mac.", dur: 7600,
+      id: "lock", tab: "Lock", title: "Lock your Mac.", dur: 2800,
       caption: "Press Control-Command-Q and your layout is there, ready before you unlock.",
       steps: [
-        [300, (s) => { s.cursor = null; }],
-        [600, (s) => { s.lock = true; }],
+        [100, (s) => { s.cursor = null; }],
+        [200, (s) => { s.lock = true; }],
       ],
     },
   ];
@@ -1687,7 +1878,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     tabButtons.forEach((tab, i) => {
       tab.setAttribute("aria-selected", String(i === clock.scene));
       const done = reduce ? 1 : clock.t / scenes[i].dur;
-      tab.querySelector(".film-progress").style.width = i === clock.scene ? `${done * 100}%` : "0";
+      tab.querySelector(".film-progress").style.width = i === clock.scene ? `calc((100% - 36px) * ${done})` : "0";
     });
     const scene = scenes[clock.scene];
     if (caption.dataset.id !== scene.id) {
@@ -1699,13 +1890,14 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     play.innerHTML = playing ? PAUSE : PLAY;
   }
 
+  const TICK = 50;
   setInterval(() => {
     if (!isRunning()) return;
     const scene = scenes[clock.scene];
-    clock = clock.t + 100 >= scene.dur ? { scene: (clock.scene + 1) % scenes.length, t: 0 } : { scene: clock.scene, t: clock.t + 100 };
+    clock = clock.t + TICK >= scene.dur ? { scene: (clock.scene + 1) % scenes.length, t: 0 } : { scene: clock.scene, t: clock.t + TICK };
     render();
     chrome();
-  }, 100);
+  }, TICK);
 
   tabs.addEventListener("click", (event) => {
     const tab = event.target.closest(".film-tab");
