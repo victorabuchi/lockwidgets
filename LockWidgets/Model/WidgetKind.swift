@@ -55,7 +55,7 @@ struct WidgetMeta {
 
 enum WidgetKind: String, Codable, CaseIterable, Identifiable {
     // Sidebar order.
-    case weather, earth, news, stocks, nowPlaying, photos, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, battery, system, dailyBrief, stickyNote
+    case weather, earth, location, news, stocks, nowPlaying, musicCard, photos, lyrics, calendar, clock, countdown, pomodoro, stopwatch, reminders, favorites, activity, battery, system, dailyBrief, stickyNote
 
     var id: String { rawValue }
     var title: String { meta.title }
@@ -83,6 +83,13 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
                 WidgetStyle(id: "globe", name: "Globe", summary: "Live daylight across the world.", sizes: [.small, .medium, .large]),
             ]
         )
+        case .location: WidgetMeta(
+            title: "Location", symbol: "location.fill", color: .blue,
+            summary: "A map of where you are, with the name of the place.", category: .information,
+            styles: [
+                WidgetStyle(id: "map", name: "Map", summary: "Your surroundings, with a dot where you are.", sizes: [.small, .medium, .wide, .large]),
+            ]
+        )
         case .news: WidgetMeta(
             title: "News", symbol: "newspaper", color: .red,
             summary: "The latest headlines from a source you pick.", category: .information,
@@ -104,6 +111,13 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
             styles: [
                 WidgetStyle(id: "player", name: "Player", summary: "Artwork, song and progress.", sizes: [.medium, .wide]),
                 WidgetStyle(id: "artwork", name: "Artwork", summary: "Album art front and centre.", sizes: [.small, .large]),
+            ]
+        )
+        case .musicCard: WidgetMeta(
+            title: "Music Card", symbol: "play.rectangle.fill", color: .pink,
+            summary: "The song in a glass card, like the iPhone's lock screen. It appears only while a song is playing.", category: .music,
+            styles: [
+                WidgetStyle(id: "glass", name: "Glass", summary: "Artwork, song, progress and controls.", sizes: [.medium, .wide]),
             ]
         )
         case .photos: WidgetMeta(
@@ -166,6 +180,20 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
             summary: "Your open reminders, soonest first.", category: .productivity,
             styles: [
                 WidgetStyle(id: "list", name: "List", summary: "What's left to do.", sizes: [.small, .medium, .large]),
+            ]
+        )
+        case .favorites: WidgetMeta(
+            title: "Favourite Apps", symbol: "square.grid.2x2.fill", color: .orange,
+            summary: "The apps you use most. When your widgets are on the desktop, click one to open it.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "grid", name: "Grid", summary: "App icons with their names.", sizes: [.small, .medium, .wide, .large]),
+            ]
+        )
+        case .activity: WidgetMeta(
+            title: "Recent Activity", symbol: "chart.bar.fill", color: .indigo,
+            summary: "How long you've spent in each app today, hour by hour.", category: .productivity,
+            styles: [
+                WidgetStyle(id: "today", name: "Today", summary: "Total time, an hourly chart and your top apps.", sizes: [.medium, .wide, .large]),
             ]
         )
         case .battery: WidgetMeta(

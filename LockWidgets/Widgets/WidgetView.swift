@@ -23,6 +23,10 @@ struct WidgetView: View {
         case .earth: EarthWidget(instance: instance)
         case .dailyBrief: DailyBriefWidget(instance: instance)
         case .stickyNote: StickyNoteWidget(instance: instance)
+        case .location: LocationWidget(instance: instance)
+        case .musicCard: MusicCardWidget(instance: instance)
+        case .favorites: FavoritesWidget(instance: instance)
+        case .activity: ActivityWidget(instance: instance)
         }
     }
 }

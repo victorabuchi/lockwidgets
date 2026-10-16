@@ -27,6 +27,10 @@ struct WidgetPage: View {
             case .photos: PhotosOptions()
             case .earth: EarthOptions()
             case .dailyBrief: EmptyView()
+            case .location: LocationOptions()
+            case .musicCard: MusicCardOptions()
+            case .favorites: FavoritesOptions()
+            case .activity: ActivityOptions()
             }
         }
         .formStyle(.grouped)
@@ -492,5 +496,80 @@ private struct BatteryOptions: View {
             Text("Shows charge, charging state and time remaining. Hidden automatically on Macs without a battery.")
                 .foregroundStyle(.secondary)
         }
+    }
+}
+
+private struct LocationOptions: View {
+    var body: some View {
+        Section {
+            Text("The map shows the same place as Weather: the city you set there, or your Mac's location if you haven't set one.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct MusicCardOptions: View {
+    var body: some View {
+        Section {
+            Text("The card pops up when a song starts in Apple Music or Spotify and goes away when nothing is playing, like the player on the iPhone's lock screen.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct ActivityOptions: View {
+    @ObservedObject private var tracker = ActivityTracker.shared
+
+    var body: some View {
+        Section {
+            LabeledContent("Today so far", value: tracker.total.durationText)
+            Button("Start Today Over") { tracker.reset() }
+        } footer: {
+            Text("Notchlight adds up the time each app is in front, pausing while your Mac is locked or asleep. It keeps the count on this Mac and starts again each day.")
+                .foregroundStyle(.secondary)
+        }
+    }
+}
+
+private struct FavoritesOptions: View {
+    @AppStorage(SettingsKey.favoriteApps) private var stored = ""
+
+    var body: some View {
+        let apps = FavoriteApps.list(stored)
+        Section {
+            ForEach(apps, id: \.self) { app in
+                HStack(spacing: 10) {
+                    Image(nsImage: AppInfo.icon(app))
+                        .resizable()
+                        .frame(width: 24, height: 24)
+                    Text(AppInfo.name(app))
+                    Spacer()
+                    Button {
+                        FavoriteApps.save(apps.filter { $0 != app })
+                    } label: {
+                        Image(systemName: "minus.circle.fill").foregroundStyle(.red)
+                    }
+                    .buttonStyle(.borderless)
+                    .help("Remove \(AppInfo.name(app))")
+                }
+            }
+            Button("Add Apps…") { choose(after: apps) }
+        } header: {
+            Text("Apps")
+        } footer: {
+            Text("Small shows 4 apps, Medium 8, Wide 12 and Large 16. When your widgets are on the desktop, click an app to open it.")
+                .foregroundStyle(.secondary)
+        }
+    }
+
+    private func choose(after apps: [String]) {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.application]
+        panel.allowsMultipleSelection = true
+        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        panel.prompt = "Add"
+        guard panel.runModal() == .OK else { return }
+        let added = panel.urls.compactMap { Bundle(url: $0)?.bundleIdentifier }.filter { !apps.contains($0) }
+        FavoriteApps.save(apps + added)
     }
 }

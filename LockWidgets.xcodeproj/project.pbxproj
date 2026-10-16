@@ -41,6 +41,7 @@
 		72622F7F7AD016E9591D15C9 /* StatusIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */; };
 		737D83A9FCB45DC03F1545DC /* NotificationStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1232187C31444AB12322EDB /* NotificationStore.swift */; };
 		7ACEECE3847CAC6E737786F1 /* StickyNotesPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F2F49A7E02926DB1B13364F2 /* StickyNotesPage.swift */; };
+		7D0EA2DAADFCC5EF81F6BBC9 /* LocationWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA558E33214FD867D2DF7B02 /* LocationWidget.swift */; };
 		848A0F7F138D642A113F0891 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 51EB5C45A1B142D59D5D7BAF /* Assets.xcassets */; };
 		8D262F672AFDF5555030358B /* NowPlayingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */; };
 		8ED415FD3D294BDB2F965D38 /* NowPlayingWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */; };
@@ -55,6 +56,8 @@
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19685DDC575424AFEFDC10DB /* EarthWidget.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
+		B054E332EC23ED3B4F091731 /* MusicCardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35143FB7F7104D48A9C5CCC9 /* MusicCardWidget.swift */; };
+		B6689475C982ABB1B73F26E5 /* FavoritesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB090E45CA7FF69F7BD22 /* FavoritesWidget.swift */; };
 		B68A0FFCD5CEFAEFE740A663 /* PhotosStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0898E2431D9B5E4809FB335 /* PhotosStore.swift */; };
 		BD7B74DF67C7A002BCB21FFB /* SkyLightWindow in Frameworks */ = {isa = PBXBuildFile; productRef = 971F8C6EB6525354011681E8 /* SkyLightWindow */; };
 		C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */; };
@@ -68,7 +71,9 @@
 		F251FDA54218560388619A49 /* AppearancePage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87979B3677A77236CBF7E633 /* AppearancePage.swift */; };
 		F417D8902F974CAC202619E4 /* StocksWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = A99106C5F26776FAC5A68FE4 /* StocksWidget.swift */; };
 		F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E1E94A502A0529914509ECE /* LockWidgetsApp.swift */; };
+		FABC1813C4E41EB8D9FAB1E7 /* ActivityTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E7B4AC3C487672B6DE67D62 /* ActivityTracker.swift */; };
 		FBB750C184D9FD02F78B8B5C /* SystemWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */; };
+		FC7F4EC20A8E4A3F2710F938 /* ActivityWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = B89DD3FFD2031BE341D7A0DC /* ActivityWidget.swift */; };
 		FDCBF09357F365705EEB40C7 /* NewsWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */; };
 		FF78446DB95D86E2A4E1A8B5 /* EarthStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 406E0CD205C3061CF6EFE586 /* EarthStore.swift */; };
 /* End PBXBuildFile section */
@@ -86,6 +91,7 @@
 		2B592C7B3AE19D5764E21A15 /* WidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetView.swift; sourceTree = "<group>"; };
 		33D67D8F04957B4191B11B16 /* WidgetBoard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetBoard.swift; sourceTree = "<group>"; };
 		340B9D05531D1298D3305788 /* LayoutStudioPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutStudioPage.swift; sourceTree = "<group>"; };
+		35143FB7F7104D48A9C5CCC9 /* MusicCardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicCardWidget.swift; sourceTree = "<group>"; };
 		3A520B6BC02944014CAB7788 /* SettingsWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsWindow.swift; sourceTree = "<group>"; };
 		3DCE04B03437C9A51DC657C6 /* Updater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Updater.swift; sourceTree = "<group>"; };
 		3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemMonitor.swift; sourceTree = "<group>"; };
@@ -101,6 +107,7 @@
 		5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWidget.swift; sourceTree = "<group>"; };
 		5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutStore.swift; sourceTree = "<group>"; };
+		6E7B4AC3C487672B6DE67D62 /* ActivityTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTracker.swift; sourceTree = "<group>"; };
 		6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
 		8314A5D52CFB7C8C3DC10023 /* SettingsKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsKeys.swift; sourceTree = "<group>"; };
@@ -112,11 +119,13 @@
 		91176FBA3F631868316D68E2 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
 		944261E2F34003592A329E1D /* ClockWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClockWidget.swift; sourceTree = "<group>"; };
 		9BBF42D293790175EB80BFB2 /* AlertIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertIsland.swift; sourceTree = "<group>"; };
+		9CEEB090E45CA7FF69F7BD22 /* FavoritesWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FavoritesWidget.swift; sourceTree = "<group>"; };
 		A0898E2431D9B5E4809FB335 /* PhotosStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosStore.swift; sourceTree = "<group>"; };
 		A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingWidget.swift; sourceTree = "<group>"; };
 		A78DAF013E95E14A143A0322 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		A84B8C12897A8C598ADF01B7 /* WhatsNewPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewPage.swift; sourceTree = "<group>"; };
 		A99106C5F26776FAC5A68FE4 /* StocksWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StocksWidget.swift; sourceTree = "<group>"; };
+		B89DD3FFD2031BE341D7A0DC /* ActivityWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityWidget.swift; sourceTree = "<group>"; };
 		BB6AF92AA3C096A2C102584A /* CalendarStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarStore.swift; sourceTree = "<group>"; };
 		C072D9FA5183B596ABFBA02B /* MusicIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MusicIsland.swift; sourceTree = "<group>"; };
 		C0D20AD676D5BD191B77CCEB /* StatusMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMonitor.swift; sourceTree = "<group>"; };
@@ -124,6 +133,7 @@
 		C166765275AD20B49E4DCDBE /* WeatherWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherWidget.swift; sourceTree = "<group>"; };
 		C6C4166E066E91470CCA71C3 /* RemindersStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemindersStore.swift; sourceTree = "<group>"; };
 		C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGalleryPage.swift; sourceTree = "<group>"; };
+		CA558E33214FD867D2DF7B02 /* LocationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWidget.swift; sourceTree = "<group>"; };
 		CA65EB68D63BB068EC166544 /* DeviceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMonitor.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidget.swift; sourceTree = "<group>"; };
@@ -167,12 +177,16 @@
 		190CEE6C955127410D555B38 /* Widgets */ = {
 			isa = PBXGroup;
 			children = (
+				B89DD3FFD2031BE341D7A0DC /* ActivityWidget.swift */,
 				6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */,
 				76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */,
 				944261E2F34003592A329E1D /* ClockWidget.swift */,
 				0BFDEB25E245827A7F447F5B /* DailyBriefWidget.swift */,
 				19685DDC575424AFEFDC10DB /* EarthWidget.swift */,
+				9CEEB090E45CA7FF69F7BD22 /* FavoritesWidget.swift */,
+				CA558E33214FD867D2DF7B02 /* LocationWidget.swift */,
 				CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */,
+				35143FB7F7104D48A9C5CCC9 /* MusicCardWidget.swift */,
 				5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */,
 				A209049BBDD0B85446B892D3 /* NowPlayingWidget.swift */,
 				E247A3444F4E8B1630533277 /* PhotosWidget.swift */,
@@ -217,6 +231,7 @@
 		4B39CE92D5FC6523795D11A9 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				6E7B4AC3C487672B6DE67D62 /* ActivityTracker.swift */,
 				1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */,
 				E623E3C959D0409FB161F2BA /* BatteryMonitor.swift */,
 				BB6AF92AA3C096A2C102584A /* CalendarStore.swift */,
@@ -369,6 +384,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				5C23A94A7D3DD81A4CB75614 /* AboutPage.swift in Sources */,
+				FABC1813C4E41EB8D9FAB1E7 /* ActivityTracker.swift in Sources */,
+				FC7F4EC20A8E4A3F2710F938 /* ActivityWidget.swift in Sources */,
 				8FD1755B70D4C0154188A426 /* AlertIsland.swift in Sources */,
 				F251FDA54218560388619A49 /* AppearancePage.swift in Sources */,
 				93F84A20251CE797468415BC /* AppleMusicLyrics.swift in Sources */,
@@ -381,6 +398,7 @@
 				D0C46BF718881EBD91F7D12D /* DeviceMonitor.swift in Sources */,
 				FF78446DB95D86E2A4E1A8B5 /* EarthStore.swift in Sources */,
 				A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */,
+				B6689475C982ABB1B73F26E5 /* FavoritesWidget.swift in Sources */,
 				8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */,
 				1E40CCFE7CE5EFFB31D4EB11 /* IslandController.swift in Sources */,
 				E3A39614A198C8D439541BDD /* IslandModel.swift in Sources */,
@@ -389,9 +407,11 @@
 				8EE9ADA9CB9906AF5DEE5112 /* LayoutGalleryPage.swift in Sources */,
 				C2C478E31A770DC83E86961D /* LayoutStore.swift in Sources */,
 				52690D0AE034DEDF3E3D8D2E /* LayoutStudioPage.swift in Sources */,
+				7D0EA2DAADFCC5EF81F6BBC9 /* LocationWidget.swift in Sources */,
 				F8E78ABA08C2E9397CD0F450 /* LockWidgetsApp.swift in Sources */,
 				072FDD1EE9F246E5C7BCEC61 /* LyricsStore.swift in Sources */,
 				D417ACA068205ED0057E2E52 /* LyricsWidget.swift in Sources */,
+				B054E332EC23ED3B4F091731 /* MusicCardWidget.swift in Sources */,
 				335CE3A0681CDE1F2155F3D5 /* MusicIsland.swift in Sources */,
 				32752994212DB888A0358D54 /* NewsStore.swift in Sources */,
 				FDCBF09357F365705EEB40C7 /* NewsWidget.swift in Sources */,

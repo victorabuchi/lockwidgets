@@ -6,6 +6,7 @@ final class OverlayManager: ObservableObject {
     @Published private(set) var isShowing = false
 
     private var controllers: [NSWindowController] = []
+    private let favoritesLayer = FavoritesClickLayer()
 
     init() {
         CalendarStore.shared.requestAccess()
@@ -49,11 +50,18 @@ final class OverlayManager: ObservableObject {
     func hide() {
         controllers.forEach { $0.close() }
         controllers.removeAll()
+        favoritesLayer.hide()
         isShowing = false
     }
 
+    /// The desktop preview: the same widgets over your desktop, with Favourite Apps clickable.
     func toggle() {
-        isShowing ? hide() : show()
+        if isShowing {
+            hide()
+        } else {
+            show()
+            favoritesLayer.show()
+        }
     }
 
     func refreshData() {

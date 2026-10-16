@@ -8,11 +8,9 @@ struct EventBanner: View {
 
     var body: some View {
         CardLayout(notch: notch) {
-            Image(systemName: "calendar")
-                .font(.system(size: 11, weight: .semibold))
-                .foregroundStyle(Color(nsColor: color))
+            Image(nsImage: AppInfo.icon("com.apple.iCal"))
+                .resizable()
                 .frame(width: 20, height: 20)
-                .background(Color(nsColor: color).opacity(0.2), in: RoundedRectangle(cornerRadius: 5, style: .continuous))
             Text("Calendar")
                 .font(.system(size: 11, weight: .semibold))
                 .foregroundStyle(.white.opacity(0.8))
@@ -21,11 +19,14 @@ struct EventBanner: View {
                 .font(.system(size: 11, weight: .medium))
                 .foregroundStyle(.white.opacity(0.45))
         } below: {
-            Text(title)
-                .font(.system(size: 13, weight: .semibold))
-                .lineLimit(1)
-                .frame(height: 16)
-                .padding(.top, 4)
+            HStack(spacing: 6) {
+                Circle().fill(Color(nsColor: color)).frame(width: 7, height: 7)
+                Text(title)
+                    .font(.system(size: 13, weight: .semibold))
+                    .lineLimit(1)
+            }
+            .frame(height: 16)
+            .padding(.top, 4)
             TimelineView(.periodic(from: .now, by: 30)) { context in
                 let minutes = max(Int(ceil(start.timeIntervalSince(context.date) / 60)), 0)
                 Text(minutes == 0 ? "Starting now" : "Starts in \(minutes) min")
