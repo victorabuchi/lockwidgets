@@ -120,46 +120,85 @@ enum FavoriteApps {
         guard let url = AppInfo.url(bundleID) else { return }
         NSWorkspace.shared.openApplication(at: url, configuration: .init())
     }
+
+    /// Asks for an app in Applications and returns its bundle identifier.
+    static func chooseApp() -> String? {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.application]
+        panel.directoryURL = URL(fileURLWithPath: "/Applications")
+        panel.prompt = "Choose"
+        guard panel.runModal() == .OK else { return nil }
+        return panel.url.flatMap { Bundle(url: $0)?.bundleIdentifier }
+    }
+
+    /// The bundle identifiers of apps dropped from Finder.
+    static func bundleIDs(of urls: [URL]) -> [String] {
+        urls.filter { $0.pathExtension == "app" }.compactMap { Bundle(url: $0)?.bundleIdentifier }
+    }
+
+    /// An app's icon at menu size.
+    static func menuIcon(_ bundleID: String) -> NSImage {
+        let icon = AppInfo.icon(bundleID).copy() as? NSImage ?? AppInfo.icon(bundleID)
+        icon.size = NSSize(width: 16, height: 16)
+        return icon
+    }
 }
 
-/// Lets you choose the app, or two apps, a One App or Two Apps widget opens. Shown under Layout Studio when one is
-/// selected.
+/// Menus for the app, or two apps, a One App or Two Apps widget opens: your favourites first, then any other app.
+struct FavoriteAppMenus: View {
+    let count: Int
+    @Binding var apps: [String]
+    @AppStorage(SettingsKey.favoriteApps) private var stored = ""
+
+    var body: some View {
+        ForEach(0 ..< count, id: \.self) { index in
+            Menu {
+                ForEach(FavoriteApps.list(stored), id: \.self) { app in
+                    Button {
+                        set(app, at: index)
+                    } label: {
+                        Label { Text(AppInfo.name(app)) } icon: { Image(nsImage: FavoriteApps.menuIcon(app)) }
+                    }
+                }
+                Divider()
+                Button("Other App…") {
+                    if let app = FavoriteApps.chooseApp() { set(app, at: index) }
+                }
+            } label: {
+                if index < apps.count {
+                    Label { Text(AppInfo.name(apps[index])) } icon: { Image(nsImage: FavoriteApps.menuIcon(apps[index])) }
+                } else {
+                    Text("Choose App")
+                }
+            }
+            .fixedSize()
+            .help(count == 1 ? "Choose the app" : index == 0 ? "Choose the first app" : "Choose the second app")
+        }
+    }
+
+    private func set(_ app: String, at index: Int) {
+        var chosen = apps
+        if index < chosen.count { chosen[index] = app } else { chosen.append(app) }
+        apps = chosen
+    }
+}
+
+/// The apps of a placed One App or Two Apps widget, under Layout Studio when it is selected.
 struct FavoriteAppPicker: View {
     let instance: WidgetInstance
     @AppStorage(SettingsKey.favoriteApps) private var stored = ""
 
     var body: some View {
-        let apps = FavoriteApps.apps(of: instance, stored: stored)
         let count = FavoriteApps.count(for: instance.style) ?? 0
-        ForEach(0 ..< count, id: \.self) { index in
-            LabeledContent(count == 1 ? "App" : index == 0 ? "First app" : "Second app") {
-                Button {
-                    choose(at: index, in: apps)
-                } label: {
-                    if index < apps.count {
-                        Label {
-                            Text(AppInfo.name(apps[index]))
-                        } icon: {
-                            Image(nsImage: AppInfo.icon(apps[index])).resizable().frame(width: 18, height: 18)
-                        }
-                    } else {
-                        Text("Choose…")
-                    }
-                }
-                .help("Choose another app")
+        LabeledContent(count == 1 ? "App" : "Apps") {
+            HStack(spacing: 8) {
+                FavoriteAppMenus(count: count, apps: Binding {
+                    FavoriteApps.apps(of: instance, stored: stored)
+                } set: { apps in
+                    LayoutStore.shared.update(instance.id) { $0.config["apps"] = apps.joined(separator: ",") }
+                })
             }
         }
-    }
-
-    private func choose(at index: Int, in apps: [String]) {
-        let panel = NSOpenPanel()
-        panel.allowedContentTypes = [.application]
-        panel.directoryURL = URL(fileURLWithPath: "/Applications")
-        panel.prompt = "Choose"
-        guard panel.runModal() == .OK, let app = panel.url.flatMap({ Bundle(url: $0)?.bundleIdentifier }) else { return }
-        var chosen = apps
-        if index < chosen.count { chosen[index] = app } else { chosen.append(app) }
-        LayoutStore.shared.update(instance.id) { $0.config["apps"] = chosen.joined(separator: ",") }
     }
 }
 
@@ -229,8 +268,8 @@ private final class FavoriteTaps: ObservableObject {
     @Published var waiting: String?
 }
 
-/// Click targets matching the icons in the widget. On the lock screen the tapped app is ringed and says it will
-/// open when you unlock; tapping it again cancels.
+/// Click targets matching the icons in the widget. On the lock screen the tapped app is ringed until you unlock;
+/// tapping it again cancels.
 private struct FavoritesHitView: View {
     let slots: [FavoriteApps.Slot]
     let size: WidgetSize
@@ -253,14 +292,6 @@ private struct FavoritesHitView: View {
                             .frame(width: (slot.iconSize + 10) * scale, height: (slot.iconSize + 10) * scale)
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .offset(y: -9 * scale)
-                        Text("Opens when you unlock")
-                            .font(.system(size: 10 * scale, weight: .semibold))
-                            .foregroundStyle(.white)
-                            .padding(.horizontal, 8 * scale)
-                            .padding(.vertical, 4 * scale)
-                            .background(Color.black.opacity(0.6), in: Capsule())
-                            .fixedSize()
-                            .padding(.bottom, 2 * scale)
                     }
                 }
                 .frame(width: slot.rect.width * scale, height: slot.rect.height * scale)

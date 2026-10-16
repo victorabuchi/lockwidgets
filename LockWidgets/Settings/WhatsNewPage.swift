@@ -15,7 +15,7 @@ struct WhatsNewPage: View {
                 ("sparkles", "A new name", "LockWidgets is now Notchlight: your lock screen and your notch, lit up. Your widgets, settings and permissions carry over."),
                 ("map", "Location", "A map of where you are, with the name of the place."),
                 ("play.rectangle.fill", "Music Card", "The song in a glass card, like the iPhone's lock screen. It appears only while music plays."),
-                ("square.grid.2x2.fill", "Favourite Apps", "Your apps in a grid, or one or two at a time anywhere you like. Click one on the lock screen and it opens as soon as you unlock."),
+                ("square.grid.2x2.fill", "Favourite Apps", "Your apps in a grid, or one or two at a time anywhere you like."),
                 ("chart.bar.fill", "Recent Activity", "How long you've spent in each app today, hour by hour. It never leaves your Mac."),
                 ("arrow.down.circle", "Automatic updates", "Notchlight checks for a new version once a day and asks before installing it. Check any time from the menu bar."),
                 ("shippingbox", "Install with Homebrew", "brew install --cask victorabuchi/tap/notchlight"),

@@ -31,6 +31,13 @@ final class StatusMonitor: ObservableObject {
 
     @Published private(set) var meeting: Meeting?
 
+    /// What the dot beside the island shows: a recording comes first, then the camera, then the microphone.
+    enum Privacy: Equatable {
+        case microphone, camera, recording
+    }
+
+    @Published private(set) var privacy: Privacy?
+
     private var timer: Timer?
     private let queue = DispatchQueue(label: "LockWidgets.Status")
 
@@ -71,7 +78,23 @@ final class StatusMonitor: ObservableObject {
             next = Meeting(app: call.name, bundleID: call.bundleID, started: meeting?.app == call.name ? meeting!.started : .now, microphone: true, camera: camera)
         }
         if next != meeting { meeting = next }
+
+        let users = listening.filter { app in !Self.backgroundListeners.contains { app.hasPrefix($0) } }
+        let dot: Privacy? = users.contains { app in Self.recorders.contains { app.hasPrefix($0) } } ? .recording
+            : camera ? .camera
+            : users.isEmpty ? nil : .microphone
+        if dot != privacy { privacy = dot }
     }
+
+    /// Listeners that are always on, such as "Hey Siri"; macOS shows no dot for them either.
+    private static let backgroundListeners = ["com.apple.corespeechd", "com.apple.siri", "com.apple.assistantd", "com.apple.SpeechRecognitionCore"]
+
+    /// Apps that record sound or the screen. Their use of the microphone shows as a red recording dot.
+    private static let recorders = [
+        "com.apple.VoiceMemos", "com.apple.QuickTimePlayerX", "com.apple.screencapture", "com.apple.garageband",
+        "com.apple.logic", "com.obsproject.obs-studio", "com.loom.desktop", "pl.maketheweb.cleanshotx",
+        "com.timpler.screenstudio", "com.rogueamoeba.audiohijack", "com.wulkano.kap",
+    ]
 
     /// Calls and meeting apps that may be using the mic or camera, most specific first. Browsers record
     /// from helper processes: Chrome's helpers share its identifier, Firefox records from its content

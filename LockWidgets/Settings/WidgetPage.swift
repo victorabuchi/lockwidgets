@@ -46,13 +46,17 @@ private struct WidgetHeader: View {
     @State private var style = ""
     @State private var size = WidgetSize.small
     @State private var added = false
+    /// For One App and Two Apps: the apps the widget will open, chosen before it is added.
+    @State private var apps: [String] = []
+    @AppStorage(SettingsKey.favoriteApps) private var stored = ""
 
     var body: some View {
         let current = kind.style(style)
         let placed = layout.instances.filter { $0.kind == kind }.count
+        let appCount = kind == .favorites ? FavoriteApps.count(for: current.id) : nil
         HStack(alignment: .top, spacing: 22) {
             PreviewStage(height: 230) {
-                FittedWidget(instance: kind.sample(style: current.id, size: size), box: CGSize(width: 300, height: 200))
+                FittedWidget(instance: preview(current), box: CGSize(width: 300, height: 200))
             }
             .frame(minWidth: 260, maxWidth: 360)
 
@@ -75,9 +79,17 @@ private struct WidgetHeader: View {
                     }
                     Text(size.title).foregroundStyle(.secondary).padding(.leading, 4)
                 }
+                if let appCount {
+                    HStack(spacing: 8) {
+                        FavoriteAppMenus(count: appCount, apps: $apps)
+                    }
+                }
                 HStack(spacing: 10) {
                     Button {
-                        layout.add(kind, style: current.id, size: size)
+                        let id = layout.add(kind, style: current.id, size: size)
+                        if appCount != nil {
+                            layout.update(id) { $0.config["apps"] = apps.joined(separator: ",") }
+                        }
                         withAnimation { added = true }
                     } label: {
                         Label("Add Widget", systemImage: "plus")
@@ -105,8 +117,20 @@ private struct WidgetHeader: View {
             let sizes = kind.style(style).sizes
             if !sizes.contains(size) { size = sizes[0] }
             added = false
+            // Start from your first favourites; the menus change them.
+            if kind == .favorites { apps = FavoriteApps.apps(of: kind.sample(style: style, size: size), stored: stored) }
         }
         .onChange(of: size) { added = false }
+        .onChange(of: apps) { added = false }
+    }
+
+    /// The widget as it will be added, with the apps chosen for One App and Two Apps.
+    private func preview(_ style: WidgetStyle) -> WidgetInstance {
+        var instance = kind.sample(style: style.id, size: size)
+        if kind == .favorites, FavoriteApps.count(for: style.id) != nil {
+            instance.config["apps"] = apps.joined(separator: ",")
+        }
+        return instance
     }
 }
 
@@ -533,12 +557,16 @@ private struct ActivityOptions: View {
 
 private struct FavoritesOptions: View {
     @AppStorage(SettingsKey.favoriteApps) private var stored = ""
+    @State private var target: String?
 
     var body: some View {
         let apps = FavoriteApps.list(stored)
         Section {
             ForEach(apps, id: \.self) { app in
                 HStack(spacing: 10) {
+                    Image(systemName: "line.3.horizontal")
+                        .foregroundStyle(.tertiary)
+                        .help("Drag to change the order")
                     Image(nsImage: AppInfo.icon(app))
                         .resizable()
                         .frame(width: 24, height: 24)
@@ -552,13 +580,36 @@ private struct FavoritesOptions: View {
                     .buttonStyle(.borderless)
                     .help("Remove \(AppInfo.name(app))")
                 }
+                .contentShape(Rectangle())
+                .overlay(alignment: .top) {
+                    // Where a dragged app will land.
+                    if target == app { Capsule().fill(Color.accentColor).frame(height: 2).offset(y: -6) }
+                }
+                .draggable(app) {
+                    Label { Text(AppInfo.name(app)) } icon: { Image(nsImage: FavoriteApps.menuIcon(app)) }
+                }
+                .dropDestination(for: String.self) { items, _ in
+                    guard let moved = items.first, moved != app, apps.contains(moved) else { return false }
+                    var list = apps.filter { $0 != moved }
+                    list.insert(moved, at: list.firstIndex(of: app) ?? list.count)
+                    FavoriteApps.save(list)
+                    return true
+                } isTargeted: { over in
+                    target = over ? app : (target == app ? nil : target)
+                }
             }
             Button("Add Apps…") { choose(after: apps) }
         } header: {
             Text("Apps")
         } footer: {
-            Text("The Grid shows these: Small 4 apps, Medium 8, Wide 12 and Large 16. One App and Two Apps widgets have their own; select one in Layout Studio to choose. Click an app on the lock screen and it opens as soon as you unlock.")
+            Text("The Grid shows these in order: Small 4 apps, Medium 8, Wide 12 and Large 16. Drag an app to move it, or drop apps here from Finder to add them.")
                 .foregroundStyle(.secondary)
+        }
+        .dropDestination(for: URL.self) { urls, _ in
+            let added = FavoriteApps.bundleIDs(of: urls).filter { !apps.contains($0) }
+            guard !added.isEmpty else { return false }
+            FavoriteApps.save(apps + added)
+            return true
         }
     }
 

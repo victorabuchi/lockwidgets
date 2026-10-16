@@ -199,6 +199,48 @@ struct MeetingExpanded: View {
 
 // MARK: Hotspot
 
+/// The Mac is locked: a lock beside the camera, as on the iPhone's lock screen. It opens as you unlock.
+struct LockCompact: View {
+    let notch: CGSize
+    let open: Bool
+
+    var body: some View {
+        CompactRow(notch: notch) {
+            Image(systemName: open ? "lock.open.fill" : "lock.fill")
+                .font(.system(size: 14, weight: .semibold))
+                .foregroundStyle(.white)
+                .contentTransition(.symbolEffect(.replace.downUp))
+        } trailing: {
+            Color.clear
+        }
+    }
+}
+
+/// The dot beside the island while something uses the microphone (orange), the camera (green) or records (red).
+struct PrivacyDot: View {
+    let privacy: StatusMonitor.Privacy
+    let size: CGFloat
+
+    var body: some View {
+        Circle()
+            .fill(Color.black)
+            .frame(width: size, height: size)
+            .overlay {
+                Circle()
+                    .fill(color)
+                    .frame(width: size * 0.42, height: size * 0.42)
+            }
+    }
+
+    private var color: Color {
+        switch privacy {
+        case .microphone: Color(red: 1, green: 0.62, blue: 0.04)
+        case .camera: Color(red: 0.19, green: 0.82, blue: 0.35)
+        case .recording: Color(red: 1, green: 0.27, blue: 0.23)
+        }
+    }
+}
+
 /// While closed, the hotspot sits where a song's artwork would, as on the iPhone.
 struct HotspotCompact: View {
     let notch: CGSize

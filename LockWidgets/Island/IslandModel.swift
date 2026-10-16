@@ -9,6 +9,8 @@ enum IslandActivity: Equatable {
     case timer
     case music
     case hotspot
+    /// The Mac is locked, with nothing else live; `open` for a moment as you unlock, as on the iPhone.
+    case lock(open: Bool)
     // Brief, shown for a few seconds over everything else.
     case charging(level: Int, pluggedIn: Bool)
     case lowBattery(level: Int)
@@ -22,8 +24,14 @@ enum IslandActivity: Equatable {
     var isTransient: Bool {
         switch self {
         case .meeting, .timer, .music, .hotspot: false
+        case let .lock(open): open
         default: true
         }
+    }
+
+    var isLock: Bool {
+        if case .lock = self { return true }
+        return false
     }
 
     /// Banners open out like the full card instead of dropping a row below the notch.
@@ -44,7 +52,7 @@ enum IslandActivity: Equatable {
         }
     }
 
-    var canExpand: Bool { !isTransient }
+    var canExpand: Bool { !isTransient && !isLock }
 
     /// What the menu bar icon bounces for: something new arriving. A song, timer or hotspot just sits there, and
     /// volume and brightness change too often to bounce for.
@@ -57,7 +65,7 @@ enum IslandActivity: Equatable {
         case let .charging(_, pluggedIn): "charging \(pluggedIn)"
         case .lowBattery: "low battery"
         case .meeting: "meeting"
-        case .music, .timer, .hotspot, .volume, .brightness: nil
+        case .music, .timer, .hotspot, .lock, .volume, .brightness: nil
         }
     }
 }
@@ -82,6 +90,7 @@ final class IslandModel: ObservableObject {
     private var pending: [(IslandActivity, Double)] = []
     /// When the charger last went in or out.
     private var powerChangedAt = Date.distantPast
+    private var isLocked = false
     private var pendingBrightness: DispatchWorkItem?
     /// Banner widths by app, measured once per app.
     private var bannerWidths: [String: CGFloat] = [:]
@@ -160,6 +169,19 @@ final class IslandModel: ObservableObject {
         }
         DeviceMonitor.shared.start()
 
+        // While the Mac is locked the island shows a lock, which opens as you unlock.
+        let distributed = DistributedNotificationCenter.default()
+        distributed.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
+            self?.isLocked = true
+            self?.refresh()
+        }
+        distributed.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
+            guard let self else { return }
+            let showedLock = primary?.isLock == true
+            isLocked = false
+            if showedLock { show(.lock(open: true), for: 0.9) } else { refresh() }
+        }
+
         Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
             self?.checkUpcomingEvents()
         }
@@ -192,6 +214,7 @@ final class IslandModel: ObservableObject {
         if setting(SettingsKey.islandTimers), timers.pomodoroRunning || timers.stopwatchRunning { list.append(.timer) }
         if setting(SettingsKey.islandMusic), NowPlayingStore.shared.track != nil { list.append(.music) }
         if setting(SettingsKey.islandHotspot), StatusMonitor.shared.isOnHotspot { list.append(.hotspot) }
+        if setting(SettingsKey.islandLock), isLocked, list.isEmpty { list.append(.lock(open: false)) }
         return list
     }
 
@@ -289,7 +312,7 @@ final class IslandModel: ObservableObject {
         if isExpanded {
             return CGSize(width: cardWidth, height: notch.height + primary.expandedHeight)
         }
-        if primary.isTransient {
+        if primary.isTransient, !primary.isLock {
             return CGSize(width: notch.width, height: notch.height + Self.dropHeight)
         }
         return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)

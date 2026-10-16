@@ -13,6 +13,8 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandDevices) private var devices = true
     @AppStorage(SettingsKey.islandHUD) private var hud = true
     @AppStorage(SettingsKey.islandFocus) private var focus = true
+    @AppStorage(SettingsKey.islandLock) private var lock = true
+    @AppStorage(SettingsKey.islandPrivacy) private var privacy = true
     @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
@@ -94,6 +96,14 @@ struct IslandSettingsPage: View {
                 Toggle(isOn: $focus) {
                     Text("Focus")
                     Text("When a Focus such as Do Not Disturb turns on or off. Needs Full Disk Access.")
+                }
+                Toggle(isOn: $lock) {
+                    Text("Lock")
+                    Text("A lock beside the camera while your Mac is locked. It opens as you unlock.")
+                }
+                Toggle(isOn: $privacy) {
+                    Text("Microphone and camera")
+                    Text("A dot beside the island while an app uses the microphone (orange) or camera (green), or records (red).")
                 }
             }
             Section {

@@ -28,6 +28,8 @@ enum SettingsKey {
     static let islandDevices = "islandDevices"
     static let islandHUD = "islandHUD"
     static let islandFocus = "islandFocus"
+    static let islandLock = "islandLock"
+    static let islandPrivacy = "islandPrivacy"
     static let favoriteApps = "favoriteApps"
 
     /// Follows the region (°F in the US) until the user picks a unit.

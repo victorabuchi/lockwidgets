@@ -184,7 +184,7 @@ enum WidgetKind: String, Codable, CaseIterable, Identifiable {
         )
         case .favorites: WidgetMeta(
             title: "Favourite Apps", symbol: "square.grid.2x2.fill", color: .orange,
-            summary: "The apps you use most. Click one on the lock screen and it opens as soon as you unlock; over the desktop it opens straight away.", category: .productivity,
+            summary: "The apps you use most, a click away.", category: .productivity,
             styles: [
                 WidgetStyle(id: "grid", name: "Grid", summary: "Your favourite apps with their names.", sizes: [.small, .medium, .wide, .large]),
                 WidgetStyle(id: "single", name: "One App", summary: "One app of your choice, as big as a home screen icon.", sizes: [.small]),

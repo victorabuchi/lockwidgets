@@ -238,6 +238,8 @@ enum IslandActions {
             openSettings("com.apple.Battery-Settings.extension")
         case .volume:
             openSettings("com.apple.Sound-Settings.extension")
+        case .lock:
+            break
         case .brightness:
             openSettings("com.apple.Displays-Settings.extension")
         }

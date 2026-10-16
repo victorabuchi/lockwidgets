@@ -24,6 +24,8 @@ struct IslandShape: Shape {
 
 struct IslandView: View {
     @ObservedObject private var model = IslandModel.shared
+    @ObservedObject private var status = StatusMonitor.shared
+    @AppStorage(SettingsKey.islandPrivacy) private var showsPrivacy = true
 
     var body: some View {
         island(model.size)
@@ -57,6 +59,18 @@ struct IslandView: View {
                     .transition(.scale(scale: 0.4, anchor: .leading).combined(with: .opacity))
             }
         }
+        .overlay(alignment: .topTrailing) {
+            // The microphone, camera or a recording in use: a coloured dot in a small black circle beside the
+            // island, after the second activity's circle, as on the iPhone.
+            if showsPrivacy, let privacy = status.privacy {
+                let dot = model.bubbleSize * 0.62
+                PrivacyDot(privacy: privacy, size: dot)
+                    .offset(x: IslandModel.bubbleGap * 0.6 + dot + (model.showsBubble ? IslandModel.bubbleGap + model.bubbleSize : 0),
+                            y: (model.notch.height - dot) / 2)
+                    .transition(.scale(scale: 0.3).combined(with: .opacity))
+            }
+        }
+        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: status.privacy)
         .contentShape(Rectangle())
         .onTapGesture {
             // Clicks on the closed island are handled by IslandController; a click on the open card,
@@ -94,12 +108,15 @@ struct IslandView: View {
         case let (.volume(level, muted), _): LevelCompact(notch: notch, symbol: muted ? "speaker.slash.fill" : level < 0.34 ? "speaker.wave.1.fill" : level < 0.67 ? "speaker.wave.2.fill" : "speaker.wave.3.fill", level: muted ? 0 : level)
         case let (.brightness(level), _): LevelCompact(notch: notch, symbol: level < 0.5 ? "sun.min.fill" : "sun.max.fill", level: level)
         case let (.focus(name, symbol, on), _): FocusCompact(notch: notch, name: name, symbol: symbol, on: on)
+        case let (.lock(open), _): LockCompact(notch: notch, open: open)
         default: EmptyView()
         }
     }
 
     private var contentID: String {
-        "\(String(describing: model.primary))-\(model.isExpanded)"
+        // Locked and unlocking share one view, so the lock can open in place.
+        if model.primary?.isLock == true { return "lock" }
+        return "\(String(describing: model.primary))-\(model.isExpanded)"
     }
 }
 
