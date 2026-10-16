@@ -45,6 +45,21 @@ enum IslandActivity: Equatable {
     }
 
     var canExpand: Bool { !isTransient }
+
+    /// What the menu bar icon bounces for: something new arriving. A song, timer or hotspot just sits there, and
+    /// volume and brightness change too often to bounce for.
+    var bounceKey: String? {
+        switch self {
+        case let .notification(item): "notification \(item.id)"
+        case let .event(title, start, _): "event \(title) \(start.timeIntervalSince1970)"
+        case let .device(name, _, connected): "device \(name) \(connected)"
+        case let .focus(name, _, on): "focus \(name) \(on)"
+        case let .charging(_, pluggedIn): "charging \(pluggedIn)"
+        case .lowBattery: "low battery"
+        case .meeting: "meeting"
+        case .music, .timer, .hotspot, .volume, .brightness: nil
+        }
+    }
 }
 
 /// What the island is showing and how big it is. Shared by the window (for hit testing) and the view.

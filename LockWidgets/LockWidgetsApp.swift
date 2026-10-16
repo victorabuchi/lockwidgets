@@ -76,10 +76,18 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
 private struct MenuBarLabel: View {
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.hasLaunched) private var hasLaunched = false
+    @State private var frame = 0
+    @State private var player: Timer?
 
     var body: some View {
-        Image(nsImage: MenuBarIcon.image)
+        Image(nsImage: MenuBarIcon.frames[frame])
+            .accessibilityLabel("Notchlight")
+            // Bounces for anything new on the island: a notification, a call, an event, a device or the charger.
+            .onReceive(IslandModel.shared.$primary.map { $0?.bounceKey }.removeDuplicates()) { key in
+                if key != nil { bounce() }
+            }
             .onAppear {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) { bounce() }
                 #if DEBUG
                 if SettingsPage.launchPage != nil {
                     openWindow(id: "settings")
@@ -98,27 +106,60 @@ private struct MenuBarLabel: View {
                 DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
             }
     }
+
+    /// Plays the bounce once, unless Reduce Motion is on.
+    private func bounce() {
+        guard !NSWorkspace.shared.accessibilityDisplayShouldReduceMotion else { return }
+        player?.invalidate()
+        frame = 0
+        player = Timer.scheduledTimer(withTimeInterval: 1 / MenuBarIcon.framesPerSecond, repeats: true) { timer in
+            if frame + 1 < MenuBarIcon.frames.count {
+                frame += 1
+            } else {
+                frame = 0
+                timer.invalidate()
+            }
+        }
+    }
 }
 
-/// The island playing a song: a capsule with the artwork and waveform cut out of it, in one shape, drawn
-/// as a template so it tints with the menu bar.
+/// The menu bar icon: SF Symbols' light.panel, with its Bounce effect. A menu bar extra shows its label as a
+/// still image, so `.symbolEffect(.bounce)` can't run there; the bounce is played as frames of the symbol scaled
+/// the way the effect moves it: a quick squeeze, an overshoot, then rest. Every frame is a template image, so the
+/// icon tints with the menu bar like the system's own.
 enum MenuBarIcon {
-    static let image: NSImage = {
-        // As wide as the battery icon beside it, so it holds its own in the menu bar.
-        let image = NSImage(size: NSSize(width: 26, height: 18), flipped: true) { _ in
-            NSColor.black.setFill()
-            let island = NSBezierPath(roundedRect: NSRect(x: 1, y: 4, width: 24, height: 10), xRadius: 5, yRadius: 5)
-            island.append(NSBezierPath(roundedRect: NSRect(x: 3.5, y: 6.25, width: 5.5, height: 5.5), xRadius: 1.5, yRadius: 1.5).reversed)
-            for (i, height) in [3.4, 6.0, 4.4, 5.2].enumerated() {
-                let bar = NSRect(x: 13.05 + CGFloat(i) * 2.8, y: 9 - height / 2, width: 1.5, height: height)
-                island.append(NSBezierPath(roundedRect: bar, xRadius: 0.75, yRadius: 0.75).reversed)
-            }
-            island.fill()
+    static let framesPerSecond = 60.0
+
+    /// The bounce from rest back to rest; the first frame is the icon at rest.
+    static let frames: [NSImage] = {
+        let keyframes: [(time: Double, scale: Double)] = [(0, 1), (0.1, 0.84), (0.26, 1.1), (0.4, 0.97), (0.52, 1.01), (0.62, 1)]
+        let count = Int(keyframes.last!.time * framesPerSecond)
+        return (0 ... count).map { index in
+            let time = Double(index) / framesPerSecond
+            let next = keyframes.firstIndex { $0.time >= time } ?? keyframes.count - 1
+            guard next > 0 else { return image(scale: 1) }
+            let (from, to) = (keyframes[next - 1], keyframes[next])
+            let progress = (time - from.time) / (to.time - from.time)
+            let eased = progress * progress * (3 - 2 * progress)
+            return image(scale: from.scale + (to.scale - from.scale) * eased)
+        }
+    }()
+
+    private static let symbol = NSImage(systemSymbolName: "light.panel", accessibilityDescription: "Notchlight")?
+        .withSymbolConfiguration(NSImage.SymbolConfiguration(pointSize: 15, weight: .regular))
+
+    /// The symbol at a scale, centred on a canvas with room for the overshoot, so the item never changes width.
+    private static func image(scale: Double) -> NSImage {
+        let natural = symbol?.size ?? NSSize(width: 18, height: 14)
+        let canvas = NSSize(width: ceil(natural.width * 1.12), height: ceil(max(natural.height * 1.12, 18)))
+        let image = NSImage(size: canvas, flipped: false) { rect in
+            let size = NSSize(width: natural.width * scale, height: natural.height * scale)
+            symbol?.draw(in: NSRect(x: (rect.width - size.width) / 2, y: (rect.height - size.height) / 2, width: size.width, height: size.height))
             return true
         }
         image.isTemplate = true
         return image
-    }()
+    }
 }
 
 private struct MenuContent: View {
