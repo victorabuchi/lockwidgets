@@ -298,6 +298,8 @@ struct InstanceOptions: View {
             }
         case .stickyNote:
             NoteEditor(instance: instance)
+        case .favorites where FavoriteApps.count(for: instance.style) != nil:
+            FavoriteAppPicker(instance: instance)
         default:
             EmptyView()
         }

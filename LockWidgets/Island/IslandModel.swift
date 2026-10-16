@@ -82,6 +82,7 @@ final class IslandModel: ObservableObject {
     private var pending: [(IslandActivity, Double)] = []
     /// When the charger last went in or out.
     private var powerChangedAt = Date.distantPast
+    private var pendingBrightness: DispatchWorkItem?
     /// Banner widths by app, measured once per app.
     private var bannerWidths: [String: CGFloat] = [:]
     private var subscriptions: Set<AnyCancellable> = []
@@ -109,6 +110,7 @@ final class IslandModel: ObservableObject {
             .receive(on: DispatchQueue.main)
             .sink { [weak self] plugged in
                 self?.powerChangedAt = .now
+                self?.pendingBrightness?.cancel()
                 guard self?.setting(SettingsKey.islandBattery) == true else { return }
                 self?.show(.charging(level: battery.level ?? 0, pluggedIn: plugged), for: 4)
             }
@@ -141,11 +143,17 @@ final class IslandModel: ObservableObject {
             case let .volume(level, muted):
                 if setting(SettingsKey.islandHUD) { show(.volume(level: level, muted: muted), for: 1.6) }
             case let .brightness(level):
-                // macOS changes the brightness itself when the charger goes in or out; the charging alert
-                // says what happened, so that change doesn't replace it.
-                if setting(SettingsKey.islandHUD), Date.now.timeIntervalSince(powerChangedAt) > 5 {
+                // macOS changes the brightness itself when the charger goes in or out; the charging alert says
+                // what happened, so that change is dropped. It can arrive a moment before the charger is
+                // reported, so it waits briefly to see.
+                guard setting(SettingsKey.islandHUD) else { break }
+                pendingBrightness?.cancel()
+                let work = DispatchWorkItem { [weak self] in
+                    guard let self, Date.now.timeIntervalSince(powerChangedAt) > 5 else { return }
                     show(.brightness(level: level), for: 1.6)
                 }
+                pendingBrightness = work
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: work)
             case let .focus(name, symbol, on):
                 if setting(SettingsKey.islandFocus) { show(.focus(name: name, symbol: symbol, on: on), for: 3) }
             }

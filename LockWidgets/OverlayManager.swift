@@ -16,10 +16,12 @@ final class OverlayManager: ObservableObject {
         dnc.addObserver(forName: .init("com.apple.screenIsLocked"), object: nil, queue: .main) { [weak self] _ in
             guard UserDefaults.standard.object(forKey: SettingsKey.showOnLockScreen) as? Bool ?? true else { return }
             self?.refreshData()
-            self?.show()
+            self?.show(locked: true)
         }
         dnc.addObserver(forName: .init("com.apple.screenIsUnlocked"), object: nil, queue: .main) { [weak self] _ in
             self?.hide()
+            // An app tapped in Favourite Apps on the lock screen opens now, as on the iPhone.
+            self?.favoritesLayer.openWaitingApp()
         }
 
         #if DEBUG
@@ -29,7 +31,8 @@ final class OverlayManager: ObservableObject {
         #endif
     }
 
-    func show() {
+    /// Shows the widgets over every screen: on the lock screen when `locked`, otherwise as the desktop preview.
+    func show(locked: Bool = false) {
         hide()
         for screen in NSScreen.screens {
             // The notch screen also gets a display-only copy of the Dynamic Island.
@@ -44,6 +47,7 @@ final class OverlayManager: ObservableObject {
             controller.window?.ignoresMouseEvents = true
             controllers.append(controller)
         }
+        favoritesLayer.show(locked: locked)
         isShowing = true
     }
 
@@ -60,7 +64,6 @@ final class OverlayManager: ObservableObject {
             hide()
         } else {
             show()
-            favoritesLayer.show()
         }
     }
 

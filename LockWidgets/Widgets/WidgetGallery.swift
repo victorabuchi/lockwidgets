@@ -96,6 +96,10 @@ enum WidgetGallery {
                     switch kind {
                     case .stickyNote:
                         instance.config = ["text": "Water the plants 🌿\nCall the bike shop\nGym at 6", "color": NoteColor.yellow.rawValue]
+                    case .favorites where style.id == "single":
+                        instance.config = ["apps": "com.apple.Music"]
+                    case .favorites where style.id == "pair":
+                        instance.config = ["apps": "com.apple.MobileSMS,com.apple.Safari"]
                     case .countdown:
                         let date = Date.now.addingTimeInterval(23 * 86400 + 6 * 3600 + 14 * 60)
                         instance.config = ["title": "Trip to Lisbon", "date": String(date.timeIntervalSince1970)]

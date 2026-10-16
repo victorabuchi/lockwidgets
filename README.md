@@ -39,7 +39,7 @@ On a MacBook with a notch, Notchlight also turns the notch into a Dynamic Island
 | Pomodoro | Ring | Built in |
 | Stopwatch | Digits | Built in |
 | Reminders | List | Your reminders |
-| Favourite Apps | Grid; click an app while widgets show on the desktop | Apps you choose |
+| Favourite Apps | Grid, One App, Two Apps; click an app on the lock screen and it opens when you unlock | Apps you choose |
 | Recent Activity | Today | Time in each app, counted on your Mac |
 | Battery | Ring, Bar | System |
 | System | Gauges, Monitor | CPU, memory, network, disk |

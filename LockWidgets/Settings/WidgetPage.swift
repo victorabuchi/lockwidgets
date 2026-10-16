@@ -557,7 +557,7 @@ private struct FavoritesOptions: View {
         } header: {
             Text("Apps")
         } footer: {
-            Text("Small shows 4 apps, Medium 8, Wide 12 and Large 16. When your widgets are on the desktop, click an app to open it.")
+            Text("The Grid shows these: Small 4 apps, Medium 8, Wide 12 and Large 16. One App and Two Apps widgets have their own; select one in Layout Studio to choose. Click an app on the lock screen and it opens as soon as you unlock.")
                 .foregroundStyle(.secondary)
         }
     }
