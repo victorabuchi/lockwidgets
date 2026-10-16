@@ -203,12 +203,17 @@ struct FavoriteAppPicker: View {
 }
 
 /// The widget layer lets clicks through, so the Mac stays usable over the desktop and the login works on the lock
-/// screen. A clear panel over each Favourite Apps widget takes its clicks instead, in the same top layer as the
-/// widgets so it is never under them. Over the desktop a click opens the app; on the lock screen it marks the app
-/// and opens it as soon as you unlock, like the iPhone.
+/// screen. A clear panel over each Favourite Apps widget, in the same top layer as the widgets, handles its apps.
+/// Over the desktop it catches the click and opens the app. On the lock screen the click goes on to macOS, which
+/// asks for your password or Touch ID, while Notchlight notes the app you tapped and opens it once you unlock,
+/// like the iPhone.
 final class FavoritesClickLayer {
     private var panels: [NSPanel] = []
     private let taps = FavoriteTaps()
+    /// On the lock screen, each app's place on screen, and the mouse button as last seen.
+    private var targets: [(app: String, frame: NSRect)] = []
+    private var watcher: Timer?
+    private var wasPressed = false
 
     func show(locked: Bool) {
         hide()
@@ -224,6 +229,7 @@ final class FavoritesClickLayer {
                     height: size.height
                 )
                 let panel = ClickPanel(contentRect: frame, styleMask: [.borderless, .nonactivatingPanel], backing: .buffered, defer: false)
+                panel.ignoresMouseEvents = locked
                 panel.isReleasedWhenClosed = false
                 panel.isOpaque = false
                 panel.backgroundColor = .clear
@@ -232,6 +238,11 @@ final class FavoritesClickLayer {
                 panel.level = NSWindow.Level(rawValue: Int(Int32.max - 1))
                 panel.collectionBehavior = [.canJoinAllSpaces, .stationary, .ignoresCycle, .fullScreenAuxiliary]
                 let slots = FavoriteApps.slots(for: instance, stored: stored)
+                if locked {
+                    targets += slots.map { slot in
+                        (slot.app, NSRect(x: frame.minX + slot.rect.minX * scale, y: frame.maxY - slot.rect.maxY * scale, width: slot.rect.width * scale, height: slot.rect.height * scale))
+                    }
+                }
                 panel.contentView = ClickThroughHostingView(rootView: FavoritesHitView(slots: slots, size: instance.size, scale: scale, locked: locked, taps: taps) { [weak self] app in
                     self?.tapped(app, locked: locked)
                 })
@@ -240,11 +251,31 @@ final class FavoritesClickLayer {
                 panels.append(panel)
             }
         }
+        if locked, !targets.isEmpty { watchTaps() }
     }
 
     func hide() {
+        watcher?.invalidate()
+        watcher = nil
+        targets.removeAll()
         panels.forEach { $0.close() }
         panels.removeAll()
+    }
+
+    /// The lock screen keeps the click, so the press is read from the mouse button instead: a press over an app
+    /// marks it, and macOS shows the password and Touch ID prompt for the same click.
+    private func watchTaps() {
+        wasPressed = NSEvent.pressedMouseButtons & 1 != 0
+        watcher = Timer.scheduledTimer(withTimeInterval: 1.0 / 60, repeats: true) { [weak self] _ in
+            guard let self else { return }
+            let pressed = NSEvent.pressedMouseButtons & 1 != 0
+            defer { wasPressed = pressed }
+            guard pressed, !wasPressed else { return }
+            let point = NSEvent.mouseLocation
+            if let target = targets.first(where: { $0.frame.contains(point) }) {
+                taps.waiting = target.app
+            }
+        }
     }
 
     /// Opens the app tapped on the lock screen. Called once you've unlocked.
@@ -256,7 +287,7 @@ final class FavoritesClickLayer {
 
     private func tapped(_ app: String, locked: Bool) {
         if locked {
-            taps.waiting = taps.waiting == app ? nil : app
+            taps.waiting = app
         } else {
             FavoriteApps.open(app)
         }
@@ -269,7 +300,7 @@ private final class FavoriteTaps: ObservableObject {
 }
 
 /// Click targets matching the icons in the widget. On the lock screen the tapped app is ringed until you unlock;
-/// tapping it again cancels.
+/// tapping another app picks that one instead.
 private struct FavoritesHitView: View {
     let slots: [FavoriteApps.Slot]
     let size: WidgetSize
