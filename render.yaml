@@ -19,7 +19,9 @@ services:
       - path: /*
         name: Referrer-Policy
         value: strict-origin-when-cross-origin
-      # Pictures and icons change only with a new build of the site, so browsers may keep them for a week.
+      # Browsers check for a newer copy of each picture on every visit and get a quick "not modified" when nothing
+      # changed, so every push shows up right away. The page's picture links carry ?v=2 to replace the copies browsers
+      # kept for a week under the old setting.
       - path: /assets/*
         name: Cache-Control
-        value: public, max-age=604800
+        value: public, max-age=0, must-revalidate

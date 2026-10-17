@@ -5,20 +5,20 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Notchlight</title>
 <meta name="description" content="Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island, with Apple Music's own lyrics. For macOS 15 and later.">
-<link rel="icon" href="assets/icon-64.png">
+<link rel="icon" href="assets/icon-64.png?v=2">
 <link rel="canonical" href="https://notchlight.com/">
 <meta property="og:title" content="Notchlight">
 <meta property="og:description" content="Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island, with Apple Music's own lyrics. For macOS 15 and later.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://notchlight.com/">
-<meta property="og:image" content="https://notchlight.com/assets/og.jpg">
+<meta property="og:image" content="https://notchlight.com/assets/og.jpg?v=2">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta property="og:image:alt" content="Notchlight on a MacBook lock screen">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#ffffff" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)">
-<link rel="apple-touch-icon" href="assets/icon.png">
+<link rel="apple-touch-icon" href="assets/icon.png?v=2">
 <script>try{var t=localStorage.getItem("theme");if(t==="light"||t==="dark")document.documentElement.dataset.theme=t}catch(e){}</script>
 <style>
 /* Layout: a light page in Apple's own type, with a dark version that follows the Mac or the switch at the bottom. White and soft-grey bands carry near-black text,
@@ -49,8 +49,8 @@
   --ease: cubic-bezier(.45, 0, .2, 1);
   --on-ink: #ffffff;
   --chip: rgba(255, 255, 255, 0.9);
-  --wall: url("assets/walls/macos-light.webp");
-  --app-icon: url("assets/icon.png");
+  --wall: url("assets/walls/macos-light.webp?v=2");
+  --app-icon: url("assets/icon.png?v=2");
   /* The Layout Studio window, in macOS's own light or dark look. */
   --w-bg: #ffffff;
   --w-side: #ececf1;
@@ -101,8 +101,8 @@
     --shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.8);
     --on-ink: #000000;
     --chip: rgba(44, 44, 46, 0.9);
-    --wall: url("assets/walls/macos-dark.webp");
-    --app-icon: url("assets/icon-dark.png");
+    --wall: url("assets/walls/macos-dark.webp?v=2");
+    --app-icon: url("assets/icon-dark.png?v=2");
     --w-bg: #1e1e20;
     --w-side: #2a2a2d;
     --w-ink: #f2f2f7;
@@ -143,8 +143,8 @@
   --shadow: 0 24px 60px -26px rgba(0, 0, 0, 0.8);
   --on-ink: #000000;
   --chip: rgba(44, 44, 46, 0.9);
-  --wall: url("assets/walls/macos-dark.webp");
-  --app-icon: url("assets/icon-dark.png");
+  --wall: url("assets/walls/macos-dark.webp?v=2");
+  --app-icon: url("assets/icon-dark.png?v=2");
   --w-bg: #1e1e20;
   --w-side: #2a2a2d;
   --w-ink: #f2f2f7;
@@ -287,8 +287,8 @@ p { margin: 0; }
 .login .help { width: 2.1cqw; height: 2.1cqw; border-radius: 50%; border: 1px solid rgba(255, 255, 255, 0.7); display: grid; place-items: center; font-size: 1.1cqw; font-weight: 700; }
 
 /* Pieces of the island. */
-.cover { background: #333 url("assets/cover.jpg") center / cover; border-radius: 22%; flex: none; }
-.cover.two { background-image: url("assets/cover2.jpg"); }
+.cover { background: #333 url("assets/cover.jpg?v=2") center / cover; border-radius: 22%; flex: none; }
+.cover.two { background-image: url("assets/cover2.jpg?v=2"); }
 .wave { display: flex; align-items: center; gap: 14%; flex: none; }
 .wave i { flex: 1; height: 100%; border-radius: 99px; background: linear-gradient(#5ee6d0, #b46bff); transform-origin: center; animation: bounce 1s ease-in-out infinite; }
 .wave i:nth-child(2) { animation-duration: 0.8s; animation-delay: -0.3s; }
@@ -413,12 +413,12 @@ section { padding-block: 104px; }
 /* A lock screen in miniature. Positions and sizes are points on the 1512 × 982 screen the app lays widgets out
    on, so each one sits exactly where the app puts it, at any width. */
 .screen { position: relative; container-type: inline-size; aspect-ratio: 1512 / 982; max-width: 100%; overflow: hidden; background: #b9aa98 var(--wall) center / cover no-repeat; color: #fff; font-family: var(--system); }
-.screen[data-wall="macos-light"] { --wall: url("assets/walls/macos-light.webp"); }
-.screen[data-wall="macos-dark"] { --wall: url("assets/walls/macos-dark.webp"); }
-.screen[data-wall="golden-gate"] { --wall: url("assets/walls/golden-gate.webp"); }
-.screen[data-wall="golden-gate-night"] { --wall: url("assets/walls/golden-gate-night.webp"); }
-.screen[data-wall="sonoma"] { --wall: url("assets/walls/sonoma.webp"); }
-.screen[data-wall="mac-purple"] { --wall: url("assets/walls/mac-purple.webp"); }
+.screen[data-wall="macos-light"] { --wall: url("assets/walls/macos-light.webp?v=2"); }
+.screen[data-wall="macos-dark"] { --wall: url("assets/walls/macos-dark.webp?v=2"); }
+.screen[data-wall="golden-gate"] { --wall: url("assets/walls/golden-gate.webp?v=2"); }
+.screen[data-wall="golden-gate-night"] { --wall: url("assets/walls/golden-gate-night.webp?v=2"); }
+.screen[data-wall="sonoma"] { --wall: url("assets/walls/sonoma.webp?v=2"); }
+.screen[data-wall="mac-purple"] { --wall: url("assets/walls/mac-purple.webp?v=2"); }
 .layer { position: absolute; inset: 0; }
 .sw { position: absolute; display: block; left: calc((var(--cx) - var(--w) / 2) * 100% / 1512); top: calc((var(--cy) - var(--h) / 2) * 100% / 982); width: calc(var(--w) * 100% / 1512); height: auto; border-radius: calc(2400% / var(--w)) / calc(2400% / var(--h)); }
 .sw.glass { background-color: rgba(26, 26, 32, 0.3); backdrop-filter: blur(1.45cqw) saturate(160%); -webkit-backdrop-filter: blur(1.45cqw) saturate(160%); }
@@ -771,7 +771,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               <small>4 h 49 min left</small>
             </div>
             <div class="w w-todo">Finish the slides<br>— Robotics project<br>— Reading list</div>
-            <img class="sw glass r26" src="assets/widgets/musicCard-glass-wide.webp" alt="" width="524" height="164" style="--cx:756;--cy:701;--w:524;--h:164">
+            <img class="sw glass r26" src="assets/widgets/musicCard-glass-wide.webp?v=2" alt="" width="524" height="164" style="--cx:756;--cy:701;--w:524;--h:164">
             <div class="login">
               <div class="avatar" role="img" aria-label="Panda avatar">🐼</div>
               <div class="name">Alex</div>
@@ -825,62 +825,62 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       <div class="wgallery">
       <article class="wcard" id="widget-weather" data-cat="essentials">
         <div class="wstage" style="--spot: 8% 12%">
-          <img class="shot medium" src="assets/widgets/weather-current-medium.webp" width="344" height="164" alt="Weather widget, Current style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/weather-current-medium.webp?v=2" width="344" height="164" alt="Weather widget, Current style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Weather</h3>
           <p>Now, hourly or five days ahead.</p>
-          <div class="wstyles" role="group" aria-label="Weather styles"><button type="button" aria-pressed="true" data-src="assets/widgets/weather-current-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Weather widget, Current style">Current</button><button type="button" aria-pressed="false" data-src="assets/widgets/weather-hourly-wide.webp" data-class="shot wide" data-w="524" data-h="164" data-alt="Weather widget, Hourly style">Hourly</button><button type="button" aria-pressed="false" data-src="assets/widgets/weather-daily-large.webp" data-class="shot large" data-w="344" data-h="344" data-alt="Weather widget, Five Day style">Five Day</button></div>
+          <div class="wstyles" role="group" aria-label="Weather styles"><button type="button" aria-pressed="true" data-src="assets/widgets/weather-current-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Weather widget, Current style">Current</button><button type="button" aria-pressed="false" data-src="assets/widgets/weather-hourly-wide.webp?v=2" data-class="shot wide" data-w="524" data-h="164" data-alt="Weather widget, Hourly style">Hourly</button><button type="button" aria-pressed="false" data-src="assets/widgets/weather-daily-large.webp?v=2" data-class="shot large" data-w="344" data-h="344" data-alt="Weather widget, Five Day style">Five Day</button></div>
           <span class="wsizes">Small · Medium · Wide · Ultra Wide · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-calendar" data-cat="essentials">
         <div class="wstage" style="--spot: 92% 88%">
-          <img class="shot medium" src="assets/widgets/calendar-date-medium.webp" width="344" height="164" alt="Calendar widget, Date style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/calendar-date-medium.webp?v=2" width="344" height="164" alt="Calendar widget, Date style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Calendar</h3>
           <p>The date, the month, or what&#x27;s next.</p>
-          <div class="wstyles" role="group" aria-label="Calendar styles"><button type="button" aria-pressed="true" data-src="assets/widgets/calendar-date-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Calendar widget, Date style">Date</button><button type="button" aria-pressed="false" data-src="assets/widgets/calendar-monthly-large.webp" data-class="shot large" data-w="344" data-h="344" data-alt="Calendar widget, Monthly style">Monthly</button><button type="button" aria-pressed="false" data-src="assets/widgets/calendar-upNext-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Calendar widget, Up Next style">Up Next</button></div>
+          <div class="wstyles" role="group" aria-label="Calendar styles"><button type="button" aria-pressed="true" data-src="assets/widgets/calendar-date-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Calendar widget, Date style">Date</button><button type="button" aria-pressed="false" data-src="assets/widgets/calendar-monthly-large.webp?v=2" data-class="shot large" data-w="344" data-h="344" data-alt="Calendar widget, Monthly style">Monthly</button><button type="button" aria-pressed="false" data-src="assets/widgets/calendar-upNext-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Calendar widget, Up Next style">Up Next</button></div>
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-clock" data-cat="essentials">
         <div class="wstage" style="--spot: 48% 30%">
-          <img class="shot medium" src="assets/widgets/clock-digital-medium.webp" width="344" height="164" alt="Clock widget, Digital style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/clock-digital-medium.webp?v=2" width="344" height="164" alt="Clock widget, Digital style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Clock</h3>
           <p>Digital, analog or world time.</p>
-          <div class="wstyles" role="group" aria-label="Clock styles"><button type="button" aria-pressed="true" data-src="assets/widgets/clock-digital-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Clock widget, Digital style">Digital</button><button type="button" aria-pressed="false" data-src="assets/widgets/clock-analog-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Clock widget, Analog style">Analog</button><button type="button" aria-pressed="false" data-src="assets/widgets/clock-world-wide.webp" data-class="shot wide" data-w="524" data-h="164" data-alt="Clock widget, World Clock style">World Clock</button></div>
+          <div class="wstyles" role="group" aria-label="Clock styles"><button type="button" aria-pressed="true" data-src="assets/widgets/clock-digital-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Clock widget, Digital style">Digital</button><button type="button" aria-pressed="false" data-src="assets/widgets/clock-analog-small.webp?v=2" data-class="shot small" data-w="164" data-h="164" data-alt="Clock widget, Analog style">Analog</button><button type="button" aria-pressed="false" data-src="assets/widgets/clock-world-wide.webp?v=2" data-class="shot wide" data-w="524" data-h="164" data-alt="Clock widget, World Clock style">World Clock</button></div>
           <span class="wsizes">Small · Medium · Wide · Ultra Wide</span>
         </div>
       </article>
       <article class="wcard" id="widget-battery" data-cat="essentials">
         <div class="wstage" style="--spot: 20% 85%">
-          <img class="shot small" src="assets/widgets/battery-ring-small.webp" width="164" height="164" alt="Battery widget, Ring style" loading="lazy" decoding="async">
+          <img class="shot small" src="assets/widgets/battery-ring-small.webp?v=2" width="164" height="164" alt="Battery widget, Ring style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Battery</h3>
           <p>Charge and time left.</p>
-          <div class="wstyles" role="group" aria-label="Battery styles"><button type="button" aria-pressed="true" data-src="assets/widgets/battery-ring-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Battery widget, Ring style">Ring</button><button type="button" aria-pressed="false" data-src="assets/widgets/battery-bar-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Battery widget, Bar style">Bar</button></div>
+          <div class="wstyles" role="group" aria-label="Battery styles"><button type="button" aria-pressed="true" data-src="assets/widgets/battery-ring-small.webp?v=2" data-class="shot small" data-w="164" data-h="164" data-alt="Battery widget, Ring style">Ring</button><button type="button" aria-pressed="false" data-src="assets/widgets/battery-bar-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Battery widget, Bar style">Bar</button></div>
           <span class="wsizes">Small · Medium · Wide</span>
         </div>
       </article>
       <article class="wcard" id="widget-nowPlaying" data-cat="music">
         <div class="wstage" style="--spot: 75% 55%">
-          <img class="shot medium" src="assets/widgets/nowPlaying-player-medium.webp" width="344" height="164" alt="Now Playing widget, Player style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/nowPlaying-player-medium.webp?v=2" width="344" height="164" alt="Now Playing widget, Player style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Now Playing</h3>
           <p>The song in Apple Music or Spotify.</p>
-          <div class="wstyles" role="group" aria-label="Now Playing styles"><button type="button" aria-pressed="true" data-src="assets/widgets/nowPlaying-player-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Now Playing widget, Player style">Player</button><button type="button" aria-pressed="false" data-src="assets/widgets/nowPlaying-artwork-large.webp" data-class="shot large" data-w="344" data-h="344" data-alt="Now Playing widget, Artwork style">Artwork</button></div>
+          <div class="wstyles" role="group" aria-label="Now Playing styles"><button type="button" aria-pressed="true" data-src="assets/widgets/nowPlaying-player-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Now Playing widget, Player style">Player</button><button type="button" aria-pressed="false" data-src="assets/widgets/nowPlaying-artwork-large.webp?v=2" data-class="shot large" data-w="344" data-h="344" data-alt="Now Playing widget, Artwork style">Artwork</button></div>
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-musicCard" data-cat="music">
         <div class="wstage" style="--spot: 100% 20%">
-          <img class="shot medium r26" src="assets/widgets/musicCard-glass-medium.webp" width="344" height="164" alt="Music Card widget, Glass style" loading="lazy" decoding="async">
+          <img class="shot medium r26" src="assets/widgets/musicCard-glass-medium.webp?v=2" width="344" height="164" alt="Music Card widget, Glass style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Music Card <span class="new">New</span></h3>
@@ -890,7 +890,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-lyrics" data-cat="music">
         <div class="wstage" style="--spot: 35% 60%">
-          <img class="shot large" src="assets/widgets/lyrics-lyrics-large.webp" width="344" height="344" alt="Live Lyrics widget, Lyrics style" loading="lazy" decoding="async">
+          <img class="shot large" src="assets/widgets/lyrics-lyrics-large.webp?v=2" width="344" height="344" alt="Live Lyrics widget, Lyrics style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Live Lyrics</h3>
@@ -900,18 +900,18 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-favorites" data-cat="productivity">
         <div class="wstage" style="--spot: 62% 95%">
-          <img class="shot medium" src="assets/widgets/favorites-grid-medium.webp" width="344" height="164" alt="Favourite Apps widget, Grid style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/favorites-grid-medium.webp?v=2" width="344" height="164" alt="Favourite Apps widget, Grid style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Favourite Apps <span class="new">New</span></h3>
           <p>Your apps in a grid, or one or two anywhere you like.</p>
-          <div class="wstyles" role="group" aria-label="Favourite Apps styles"><button type="button" aria-pressed="true" data-src="assets/widgets/favorites-grid-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Favourite Apps widget, Grid style">Grid</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-single-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, One App style">One App</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-pair-small.webp" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, Two Apps style">Two Apps</button></div>
+          <div class="wstyles" role="group" aria-label="Favourite Apps styles"><button type="button" aria-pressed="true" data-src="assets/widgets/favorites-grid-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Favourite Apps widget, Grid style">Grid</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-single-small.webp?v=2" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, One App style">One App</button><button type="button" aria-pressed="false" data-src="assets/widgets/favorites-pair-small.webp?v=2" data-class="shot small" data-w="164" data-h="164" data-alt="Favourite Apps widget, Two Apps style">Two Apps</button></div>
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-activity" data-cat="productivity">
         <div class="wstage" style="--spot: 0% 50%">
-          <img class="shot large" src="assets/widgets/activity-today-large.webp" width="344" height="344" alt="Recent Activity widget, Today style" loading="lazy" decoding="async">
+          <img class="shot large" src="assets/widgets/activity-today-large.webp?v=2" width="344" height="344" alt="Recent Activity widget, Today style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Recent Activity <span class="new">New</span></h3>
@@ -921,7 +921,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-reminders" data-cat="productivity">
         <div class="wstage" style="--spot: 85% 0%">
-          <img class="shot medium" src="assets/widgets/reminders-list-medium.webp" width="344" height="164" alt="Reminders widget, List style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/reminders-list-medium.webp?v=2" width="344" height="164" alt="Reminders widget, List style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Reminders</h3>
@@ -931,18 +931,18 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-countdown" data-cat="productivity">
         <div class="wstage" style="--spot: 8% 12%">
-          <img class="shot medium" src="assets/widgets/countdown-days-medium.webp" width="344" height="164" alt="Countdown widget, Days style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/countdown-days-medium.webp?v=2" width="344" height="164" alt="Countdown widget, Days style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Countdown</h3>
           <p>Days until a date you pick.</p>
-          <div class="wstyles" role="group" aria-label="Countdown styles"><button type="button" aria-pressed="true" data-src="assets/widgets/countdown-days-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Countdown widget, Days style">Days</button><button type="button" aria-pressed="false" data-src="assets/widgets/countdown-units-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Countdown widget, Flip style">Flip</button></div>
+          <div class="wstyles" role="group" aria-label="Countdown styles"><button type="button" aria-pressed="true" data-src="assets/widgets/countdown-days-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Countdown widget, Days style">Days</button><button type="button" aria-pressed="false" data-src="assets/widgets/countdown-units-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Countdown widget, Flip style">Flip</button></div>
           <span class="wsizes">Small · Medium · Wide</span>
         </div>
       </article>
       <article class="wcard" id="widget-pomodoro" data-cat="productivity">
         <div class="wstage" style="--spot: 92% 88%">
-          <img class="shot medium" src="assets/widgets/pomodoro-ring-medium.webp" width="344" height="164" alt="Pomodoro widget, Ring style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/pomodoro-ring-medium.webp?v=2" width="344" height="164" alt="Pomodoro widget, Ring style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Pomodoro</h3>
@@ -952,7 +952,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-stopwatch" data-cat="productivity">
         <div class="wstage" style="--spot: 48% 30%">
-          <img class="shot medium" src="assets/widgets/stopwatch-digits-medium.webp" width="344" height="164" alt="Stopwatch widget, Digits style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/stopwatch-digits-medium.webp?v=2" width="344" height="164" alt="Stopwatch widget, Digits style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Stopwatch</h3>
@@ -962,18 +962,18 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-stickyNote" data-cat="productivity">
         <div class="wstage" style="--spot: 20% 85%">
-          <img class="shot medium bare" src="assets/widgets/stickyNote-paper-medium.webp" width="344" height="164" alt="Sticky Note widget, Paper style" loading="lazy" decoding="async">
+          <img class="shot medium bare" src="assets/widgets/stickyNote-paper-medium.webp?v=2" width="344" height="164" alt="Sticky Note widget, Paper style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Sticky Note</h3>
           <p>A note in five paper colours, or glass.</p>
-          <div class="wstyles" role="group" aria-label="Sticky Note styles"><button type="button" aria-pressed="true" data-src="assets/widgets/stickyNote-paper-medium.webp" data-class="shot medium bare" data-w="344" data-h="164" data-alt="Sticky Note widget, Paper style">Paper</button><button type="button" aria-pressed="false" data-src="assets/widgets/stickyNote-glass-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Sticky Note widget, Glass style">Glass</button></div>
+          <div class="wstyles" role="group" aria-label="Sticky Note styles"><button type="button" aria-pressed="true" data-src="assets/widgets/stickyNote-paper-medium.webp?v=2" data-class="shot medium bare" data-w="344" data-h="164" data-alt="Sticky Note widget, Paper style">Paper</button><button type="button" aria-pressed="false" data-src="assets/widgets/stickyNote-glass-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Sticky Note widget, Glass style">Glass</button></div>
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-earth" data-cat="information">
         <div class="wstage" style="--spot: 75% 55%">
-          <img class="shot medium" src="assets/widgets/earth-globe-medium.webp" width="344" height="164" alt="Earth widget, Globe style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/earth-globe-medium.webp?v=2" width="344" height="164" alt="Earth widget, Globe style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Earth</h3>
@@ -983,7 +983,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-location" data-cat="information">
         <div class="wstage" style="--spot: 100% 20%">
-          <img class="shot medium" src="assets/widgets/location-map-medium.webp" width="344" height="164" alt="Location widget, Map style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/location-map-medium.webp?v=2" width="344" height="164" alt="Location widget, Map style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Location <span class="new">New</span></h3>
@@ -993,7 +993,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-news" data-cat="information">
         <div class="wstage" style="--spot: 35% 60%">
-          <img class="shot medium" src="assets/widgets/news-headlines-medium.webp" width="344" height="164" alt="News widget, Headlines style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/news-headlines-medium.webp?v=2" width="344" height="164" alt="News widget, Headlines style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>News</h3>
@@ -1003,40 +1003,40 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       </article>
       <article class="wcard" id="widget-stocks" data-cat="information">
         <div class="wstage" style="--spot: 62% 95%">
-          <img class="shot medium" src="assets/widgets/stocks-watchlist-medium.webp" width="344" height="164" alt="Stock Ticker widget, Watchlist style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/stocks-watchlist-medium.webp?v=2" width="344" height="164" alt="Stock Ticker widget, Watchlist style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Stock Ticker</h3>
           <p>A watchlist, or one stock and its day.</p>
-          <div class="wstyles" role="group" aria-label="Stock Ticker styles"><button type="button" aria-pressed="true" data-src="assets/widgets/stocks-watchlist-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Stock Ticker widget, Watchlist style">Watchlist</button><button type="button" aria-pressed="false" data-src="assets/widgets/stocks-spotlight-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Stock Ticker widget, Spotlight style">Spotlight</button></div>
+          <div class="wstyles" role="group" aria-label="Stock Ticker styles"><button type="button" aria-pressed="true" data-src="assets/widgets/stocks-watchlist-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Stock Ticker widget, Watchlist style">Watchlist</button><button type="button" aria-pressed="false" data-src="assets/widgets/stocks-spotlight-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Stock Ticker widget, Spotlight style">Spotlight</button></div>
           <span class="wsizes">Small · Medium · Wide · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-photos" data-cat="information">
         <div class="wstage" style="--spot: 0% 50%">
-          <img class="shot medium" src="assets/widgets/photos-photo-medium.webp" width="344" height="164" alt="Photos widget, Photo style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/photos-photo-medium.webp?v=2" width="344" height="164" alt="Photos widget, Photo style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Photos</h3>
           <p>Favourites, or any folder.</p>
-          <div class="wstyles" role="group" aria-label="Photos styles"><button type="button" aria-pressed="true" data-src="assets/widgets/photos-photo-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="Photos widget, Photo style">Photo</button><button type="button" aria-pressed="false" data-src="assets/widgets/photos-framed-large.webp" data-class="shot large bare" data-w="344" data-h="344" data-alt="Photos widget, Framed style">Framed</button></div>
+          <div class="wstyles" role="group" aria-label="Photos styles"><button type="button" aria-pressed="true" data-src="assets/widgets/photos-photo-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="Photos widget, Photo style">Photo</button><button type="button" aria-pressed="false" data-src="assets/widgets/photos-framed-large.webp?v=2" data-class="shot large bare" data-w="344" data-h="344" data-alt="Photos widget, Framed style">Framed</button></div>
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-system" data-cat="information">
         <div class="wstage" style="--spot: 85% 0%">
-          <img class="shot medium" src="assets/widgets/system-gauges-medium.webp" width="344" height="164" alt="System widget, Gauges style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/system-gauges-medium.webp?v=2" width="344" height="164" alt="System widget, Gauges style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>System</h3>
           <p>CPU, memory, network and disk.</p>
-          <div class="wstyles" role="group" aria-label="System styles"><button type="button" aria-pressed="true" data-src="assets/widgets/system-gauges-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="System widget, Gauges style">Gauges</button><button type="button" aria-pressed="false" data-src="assets/widgets/system-list-medium.webp" data-class="shot medium" data-w="344" data-h="164" data-alt="System widget, Monitor style">Monitor</button></div>
+          <div class="wstyles" role="group" aria-label="System styles"><button type="button" aria-pressed="true" data-src="assets/widgets/system-gauges-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="System widget, Gauges style">Gauges</button><button type="button" aria-pressed="false" data-src="assets/widgets/system-list-medium.webp?v=2" data-class="shot medium" data-w="344" data-h="164" data-alt="System widget, Monitor style">Monitor</button></div>
           <span class="wsizes">Small · Medium · Large</span>
         </div>
       </article>
       <article class="wcard" id="widget-dailyBrief" data-cat="briefings">
         <div class="wstage" style="--spot: 8% 12%">
-          <img class="shot medium" src="assets/widgets/dailyBrief-brief-medium.webp" width="344" height="164" alt="Daily Brief widget, Brief style" loading="lazy" decoding="async">
+          <img class="shot medium" src="assets/widgets/dailyBrief-brief-medium.webp?v=2" width="344" height="164" alt="Daily Brief widget, Brief style" loading="lazy" decoding="async">
         </div>
         <div class="winfo">
           <h3>Daily Brief</h3>
@@ -1061,37 +1061,37 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
             <aside class="fw-side">
               <div class="fw-side-list">
                 <span class="fw-lights"><i></i><i></i><i></i></span>
-                <span class="fw-row"><img src="assets/icons/page-general.webp" alt="">General</span>
-                <span class="fw-row"><img src="assets/icons/page-whatsNew.webp" alt="">What's New</span>
+                <span class="fw-row"><img src="assets/icons/page-general.webp?v=2" alt="">General</span>
+                <span class="fw-row"><img src="assets/icons/page-whatsNew.webp?v=2" alt="">What's New</span>
                 <span class="fw-head">Lock Screen</span>
-                <span class="fw-row on"><img src="assets/icons/page-layoutStudio.webp" alt="">Layout Studio</span>
-                <span class="fw-row"><img src="assets/icons/page-layoutGallery.webp" alt="">Layout Gallery</span>
-                <span class="fw-row"><img src="assets/icons/page-appearance.webp" alt="">Appearance</span>
-                <span class="fw-row"><img src="assets/icons/page-stickyNotes.webp" alt="">Sticky Notes</span>
+                <span class="fw-row on"><img src="assets/icons/page-layoutStudio.webp?v=2" alt="">Layout Studio</span>
+                <span class="fw-row"><img src="assets/icons/page-layoutGallery.webp?v=2" alt="">Layout Gallery</span>
+                <span class="fw-row"><img src="assets/icons/page-appearance.webp?v=2" alt="">Appearance</span>
+                <span class="fw-row"><img src="assets/icons/page-stickyNotes.webp?v=2" alt="">Sticky Notes</span>
                 <span class="fw-head">Desktop</span>
-                <span class="fw-row"><img src="assets/icons/page-island.webp" alt="">Dynamic Island</span>
+                <span class="fw-row"><img src="assets/icons/page-island.webp?v=2" alt="">Dynamic Island</span>
                 <span class="fw-head">Widget Settings</span>
-                <span class="fw-row"><img src="assets/icons/weather.webp" alt="">Weather</span>
-                <span class="fw-row"><img src="assets/icons/earth.webp" alt="">Earth</span>
-                <span class="fw-row"><img src="assets/icons/location.webp" alt="">Location</span>
-                <span class="fw-row"><img src="assets/icons/news.webp" alt="">News</span>
-                <span class="fw-row"><img src="assets/icons/stocks.webp" alt="">Stock Ticker</span>
-                <span class="fw-row"><img src="assets/icons/nowPlaying.webp" alt="">Now Playing</span>
-                <span class="fw-row"><img src="assets/icons/musicCard.webp" alt="">Music Card</span>
-                <span class="fw-row"><img src="assets/icons/photos.webp" alt="">Photos</span>
-                <span class="fw-row"><img src="assets/icons/lyrics.webp" alt="">Live Lyrics</span>
-                <span class="fw-row"><img src="assets/icons/calendar.webp" alt="">Calendar</span>
-                <span class="fw-row"><img src="assets/icons/clock.webp" alt="">Clock</span>
-                <span class="fw-row"><img src="assets/icons/countdown.webp" alt="">Countdown</span>
-                <span class="fw-row"><img src="assets/icons/pomodoro.webp" alt="">Pomodoro</span>
-                <span class="fw-row"><img src="assets/icons/stopwatch.webp" alt="">Stopwatch</span>
-                <span class="fw-row"><img src="assets/icons/reminders.webp" alt="">Reminders</span>
-                <span class="fw-row"><img src="assets/icons/favorites.webp" alt="">Favourite Apps</span>
-                <span class="fw-row"><img src="assets/icons/activity.webp" alt="">Recent Activity</span>
-                <span class="fw-row"><img src="assets/icons/battery.webp" alt="">Battery</span>
-                <span class="fw-row"><img src="assets/icons/system.webp" alt="">System</span>
-                <span class="fw-row"><img src="assets/icons/dailyBrief.webp" alt="">Daily Brief</span>
-                <span class="fw-row"><img src="assets/icons/page-about.webp" alt="">About</span>
+                <span class="fw-row"><img src="assets/icons/weather.webp?v=2" alt="">Weather</span>
+                <span class="fw-row"><img src="assets/icons/earth.webp?v=2" alt="">Earth</span>
+                <span class="fw-row"><img src="assets/icons/location.webp?v=2" alt="">Location</span>
+                <span class="fw-row"><img src="assets/icons/news.webp?v=2" alt="">News</span>
+                <span class="fw-row"><img src="assets/icons/stocks.webp?v=2" alt="">Stock Ticker</span>
+                <span class="fw-row"><img src="assets/icons/nowPlaying.webp?v=2" alt="">Now Playing</span>
+                <span class="fw-row"><img src="assets/icons/musicCard.webp?v=2" alt="">Music Card</span>
+                <span class="fw-row"><img src="assets/icons/photos.webp?v=2" alt="">Photos</span>
+                <span class="fw-row"><img src="assets/icons/lyrics.webp?v=2" alt="">Live Lyrics</span>
+                <span class="fw-row"><img src="assets/icons/calendar.webp?v=2" alt="">Calendar</span>
+                <span class="fw-row"><img src="assets/icons/clock.webp?v=2" alt="">Clock</span>
+                <span class="fw-row"><img src="assets/icons/countdown.webp?v=2" alt="">Countdown</span>
+                <span class="fw-row"><img src="assets/icons/pomodoro.webp?v=2" alt="">Pomodoro</span>
+                <span class="fw-row"><img src="assets/icons/stopwatch.webp?v=2" alt="">Stopwatch</span>
+                <span class="fw-row"><img src="assets/icons/reminders.webp?v=2" alt="">Reminders</span>
+                <span class="fw-row"><img src="assets/icons/favorites.webp?v=2" alt="">Favourite Apps</span>
+                <span class="fw-row"><img src="assets/icons/activity.webp?v=2" alt="">Recent Activity</span>
+                <span class="fw-row"><img src="assets/icons/battery.webp?v=2" alt="">Battery</span>
+                <span class="fw-row"><img src="assets/icons/system.webp?v=2" alt="">System</span>
+                <span class="fw-row"><img src="assets/icons/dailyBrief.webp?v=2" alt="">Daily Brief</span>
+                <span class="fw-row"><img src="assets/icons/page-about.webp?v=2" alt="">About</span>
               </div>
             </aside>
             <div class="fw-main">
@@ -1100,10 +1100,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
                 <div class="clock faint"><b>Fri 16 Oct</b><span>9:41</span></div>
                 <div class="seat faint"><i></i>Alex</div>
                 <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
-                <img class="sw glass fw-w" data-w="clock" src="assets/widgets/clock-analog-small.webp" alt="" width="164" height="164" style="--cx:138;--cy:342;--w:164;--h:164">
-                <img class="sw glass fw-w" data-w="battery" src="assets/widgets/battery-ring-small.webp" alt="" width="164" height="164" style="--cx:482;--cy:702;--w:164;--h:164">
-                <img class="sw glass fw-w" data-w="calendar" src="assets/widgets/calendar-upNext-medium.webp" alt="" width="344" height="164" style="--cx:1284;--cy:342;--w:344;--h:164">
-                <img class="sw glass r26 fw-w" data-w="music" src="assets/widgets/musicCard-glass-medium.webp" alt="" width="344" height="164" style="--cx:1284;--cy:522;--w:344;--h:164">
+                <img class="sw glass fw-w" data-w="clock" src="assets/widgets/clock-analog-small.webp?v=2" alt="" width="164" height="164" style="--cx:138;--cy:342;--w:164;--h:164">
+                <img class="sw glass fw-w" data-w="battery" src="assets/widgets/battery-ring-small.webp?v=2" alt="" width="164" height="164" style="--cx:482;--cy:702;--w:164;--h:164">
+                <img class="sw glass fw-w" data-w="calendar" src="assets/widgets/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" style="--cx:1284;--cy:342;--w:344;--h:164">
+                <img class="sw glass r26 fw-w" data-w="music" src="assets/widgets/musicCard-glass-medium.webp?v=2" alt="" width="344" height="164" style="--cx:1284;--cy:522;--w:344;--h:164">
                 <img class="sw glass fw-w" data-w="weather" alt="" hidden>
               </div>
               <div class="fw-controls">
@@ -1113,7 +1113,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               <div class="fw-insp" data-insp>
                 <p class="fw-hint">Select a widget to resize, restyle or remove it.</p>
                 <div class="fw-panel">
-                  <div class="fw-ihead"><img data-insp-icon src="assets/icons/weather.webp" alt=""><span class="who"><b data-insp-name>Weather</b><small data-insp-detail>Current · Medium</small></span><span class="fw-remove">Remove</span></div>
+                  <div class="fw-ihead"><img data-insp-icon src="assets/icons/weather.webp?v=2" alt=""><span class="who"><b data-insp-name>Weather</b><small data-insp-detail>Current · Medium</small></span><span class="fw-remove">Remove</span></div>
                   <div class="fw-irow" data-style-row><span>Style</span><span class="fw-popup" data-target="style"><span data-insp-style>Current</span><i>⌃⌄</i><span class="fw-menu" data-menu hidden></span></span></div>
                   <div class="fw-irow"><span>Size</span><span class="fw-seg" data-insp-sizes></span></div>
                   <div class="fw-warn" data-warn>⚠︎ This widget covers the system clock or login area.</div>
@@ -1124,30 +1124,30 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
               <div class="fw-plist">
                 <span class="fw-search">Search Widgets</span>
                 <span class="fw-head">Essentials</span>
-                <span class="fw-row" data-pick="weather" data-target="pick-weather"><img src="assets/icons/weather.webp" alt="">Weather</span>
-                <span class="fw-row" data-pick="calendar"><img src="assets/icons/calendar.webp" alt="">Calendar</span>
-                <span class="fw-row on" data-pick="clock"><img src="assets/icons/clock.webp" alt="">Clock</span>
-                <span class="fw-row" data-pick="battery"><img src="assets/icons/battery.webp" alt="">Battery</span>
+                <span class="fw-row" data-pick="weather" data-target="pick-weather"><img src="assets/icons/weather.webp?v=2" alt="">Weather</span>
+                <span class="fw-row" data-pick="calendar"><img src="assets/icons/calendar.webp?v=2" alt="">Calendar</span>
+                <span class="fw-row on" data-pick="clock"><img src="assets/icons/clock.webp?v=2" alt="">Clock</span>
+                <span class="fw-row" data-pick="battery"><img src="assets/icons/battery.webp?v=2" alt="">Battery</span>
                 <span class="fw-head">Music</span>
-                <span class="fw-row" data-pick="nowPlaying"><img src="assets/icons/nowPlaying.webp" alt="">Now Playing</span>
-                <span class="fw-row" data-pick="musicCard"><img src="assets/icons/musicCard.webp" alt="">Music Card</span>
-                <span class="fw-row" data-pick="lyrics"><img src="assets/icons/lyrics.webp" alt="">Live Lyrics</span>
+                <span class="fw-row" data-pick="nowPlaying"><img src="assets/icons/nowPlaying.webp?v=2" alt="">Now Playing</span>
+                <span class="fw-row" data-pick="musicCard"><img src="assets/icons/musicCard.webp?v=2" alt="">Music Card</span>
+                <span class="fw-row" data-pick="lyrics"><img src="assets/icons/lyrics.webp?v=2" alt="">Live Lyrics</span>
               </div>
               <div class="fw-gal">
                 <div data-group="clock">
                   <h4>Clock</h4>
                   <p>Digital, analog and world clocks.</p>
                   <div class="fw-prev">
-                    <figure><span class="pic"><img src="assets/widgets/clock-digital-small.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Small</figcaption></figure>
-                    <figure><span class="pic"><img src="assets/widgets/clock-digital-medium.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Medium</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/clock-digital-small.webp?v=2" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Small</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/clock-digital-medium.webp?v=2" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Digital · Medium</figcaption></figure>
                   </div>
                 </div>
                 <div data-group="weather" hidden>
                   <h4>Weather</h4>
                   <p>Current conditions and the forecast ahead.</p>
                   <div class="fw-prev">
-                    <figure><span class="pic"><img src="assets/widgets/weather-current-small.webp" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Current · Small</figcaption></figure>
-                    <figure><span class="pic"><img src="assets/widgets/weather-current-medium.webp" alt="" loading="lazy"><b class="fw-plus" data-target="plus-weather-medium">+</b></span><figcaption>Current · Medium</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/weather-current-small.webp?v=2" alt="" loading="lazy"><b class="fw-plus">+</b></span><figcaption>Current · Small</figcaption></figure>
+                    <figure><span class="pic"><img src="assets/widgets/weather-current-medium.webp?v=2" alt="" loading="lazy"><b class="fw-plus" data-target="plus-weather-medium">+</b></span><figcaption>Current · Medium</figcaption></figure>
                   </div>
                 </div>
               </div>
@@ -1183,10 +1183,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="macos-light" role="img" aria-label="Everyday: Weather, Calendar, Now Playing and Battery on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/battery-bar-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-hourly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/nowPlaying-player-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/battery-bar-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>Everyday</h3><span>4 widgets</span><p>A little of everything</p></div>
@@ -1195,10 +1195,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="golden-gate-night" role="img" aria-label="After Hours: Live Lyrics, Now Playing, Clock and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/lyrics-lyrics-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
-            <img class="sw glass" src="assets/widgets/nowPlaying-player-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:524;--h:164">
-            <img class="sw glass" src="assets/widgets/clock-analog-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:362;--w:164;--h:164">
-            <img class="sw glass" src="assets/widgets/weather-current-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:542;--w:164;--h:164">
+            <img class="sw glass" src="assets/widgets/lyrics-lyrics-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/nowPlaying-player-wide.webp?v=2" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:524;--h:164">
+            <img class="sw glass" src="assets/widgets/clock-analog-small.webp?v=2" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:362;--w:164;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-current-small.webp?v=2" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:138;--cy:542;--w:164;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>After Hours</h3><span>4 widgets</span><p>Let the music take over</p></div>
@@ -1207,9 +1207,9 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="macos-dark" role="img" aria-label="In the Zone: Pomodoro, a Sticky Note and Reminders on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/pomodoro-ring-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:362;--w:344;--h:164">
-            <img class="sw bare" src="assets/widgets/stickyNote-paper-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:542;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/reminders-list-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/pomodoro-ring-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:362;--w:344;--h:164">
+            <img class="sw bare" src="assets/widgets/stickyNote-paper-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:542;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/reminders-list-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:452;--w:344;--h:344">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>In the Zone</h3><span>3 widgets</span><p>Find your focus</p></div>
@@ -1218,9 +1218,9 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="sonoma" role="img" aria-label="Day Ahead: Daily Brief, Calendar and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/dailyBrief-brief-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:452;--w:344;--h:344">
-            <img class="sw glass" src="assets/widgets/calendar-monthly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:362;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/weather-daily-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:1194;--cy:542;--w:524;--h:164">
+            <img class="sw glass" src="assets/widgets/dailyBrief-brief-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:452;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/calendar-monthly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:362;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-daily-wide.webp?v=2" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:1194;--cy:542;--w:524;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>Day Ahead</h3><span>3 widgets</span><p>Catch up. Look ahead.</p></div>
@@ -1229,10 +1229,10 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="mac-purple" role="img" aria-label="Mission Control: Stock Ticker, News, System and Earth on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/stocks-watchlist-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/news-headlines-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:602;--w:344;--h:344">
-            <img class="sw glass" src="assets/widgets/system-list-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:422;--w:344;--h:344">
-            <img class="sw glass" src="assets/widgets/earth-globe-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:692;--w:164;--h:164">
+            <img class="sw glass" src="assets/widgets/stocks-watchlist-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/news-headlines-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:602;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/system-list-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:1284;--cy:422;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/earth-globe-small.webp?v=2" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:692;--w:164;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>Mission Control</h3><span>4 widgets</span><p>The bigger picture</p></div>
@@ -1241,9 +1241,9 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="golden-gate" role="img" aria-label="Traveller: Weather, Earth and World Clock on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/weather-daily-large.webp" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:422;--w:344;--h:344">
-            <img class="sw glass" src="assets/widgets/earth-globe-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-            <img class="sw glass" src="assets/widgets/clock-world-ultraWide.webp" alt="" width="704" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:704;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-daily-large.webp?v=2" alt="" width="344" height="344" loading="lazy" decoding="async" style="--cx:228;--cy:422;--w:344;--h:344">
+            <img class="sw glass" src="assets/widgets/earth-globe-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+            <img class="sw glass" src="assets/widgets/clock-world-ultraWide.webp?v=2" alt="" width="704" height="164" loading="lazy" decoding="async" style="--cx:756;--cy:642;--w:704;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>Traveller</h3><span>3 widgets</span><p>Time and weather wherever you are</p></div>
@@ -1252,8 +1252,8 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="screen" data-wall="macos-light" role="img" aria-label="Minimal: Clock and Weather on the lock screen">
             <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
             <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-            <img class="sw glass" src="assets/widgets/clock-digital-wide.webp" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:318;--cy:842;--w:524;--h:164">
-            <img class="sw glass" src="assets/widgets/weather-current-small.webp" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:842;--w:164;--h:164">
+            <img class="sw glass" src="assets/widgets/clock-digital-wide.webp?v=2" alt="" width="524" height="164" loading="lazy" decoding="async" style="--cx:318;--cy:842;--w:524;--h:164">
+            <img class="sw glass" src="assets/widgets/weather-current-small.webp?v=2" alt="" width="164" height="164" loading="lazy" decoding="async" style="--cx:1374;--cy:842;--w:164;--h:164">
             <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
           </div>
           <div class="linfo"><h3>Minimal</h3><span>2 widgets</span><p>Just the essentials, out of the way</p></div>
@@ -1287,34 +1287,34 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
           <div class="look-group">
             <span class="look-label" id="look-wall-label">Wallpaper</span>
             <div class="swatches" role="group" aria-labelledby="look-wall-label">
-              <button type="button" class="swatch" aria-pressed="true" data-pick-wall="macos-light"><span style="background-image:url('assets/walls/macos-light-thumb.webp')"></span>macOS Light</button>
-              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="macos-dark"><span style="background-image:url('assets/walls/macos-dark-thumb.webp')"></span>macOS Dark</button>
-              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate"><span style="background-image:url('assets/walls/golden-gate-thumb.webp')"></span>Golden Gate</button>
-              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate-night"><span style="background-image:url('assets/walls/golden-gate-night-thumb.webp')"></span>Golden Gate Night</button>
-              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="sonoma"><span style="background-image:url('assets/walls/sonoma-thumb.webp')"></span>Sonoma</button>
-              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="mac-purple"><span style="background-image:url('assets/walls/mac-purple-thumb.webp')"></span>Mac Purple</button>
+              <button type="button" class="swatch" aria-pressed="true" data-pick-wall="macos-light"><span style="background-image:url('assets/walls/macos-light-thumb.webp?v=2')"></span>macOS Light</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="macos-dark"><span style="background-image:url('assets/walls/macos-dark-thumb.webp?v=2')"></span>macOS Dark</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate"><span style="background-image:url('assets/walls/golden-gate-thumb.webp?v=2')"></span>Golden Gate</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="golden-gate-night"><span style="background-image:url('assets/walls/golden-gate-night-thumb.webp?v=2')"></span>Golden Gate Night</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="sonoma"><span style="background-image:url('assets/walls/sonoma-thumb.webp?v=2')"></span>Sonoma</button>
+              <button type="button" class="swatch" aria-pressed="false" data-pick-wall="mac-purple"><span style="background-image:url('assets/walls/mac-purple-thumb.webp?v=2')"></span>Mac Purple</button>
             </div>
           </div>
         </div>
         <div class="screen" data-look data-style="glass" data-wall="macos-light" role="img" aria-label="A lock screen with Clock, Weather, Calendar and Now Playing widgets in the chosen card style and wallpaper">
           <div class="notchling"><span class="cover"></span><span class="wave"><i></i><i></i><i></i><i></i></span></div>
           <div class="clock"><b>Friday 16 October</b><span>9:41</span></div>
-          <img data-style="glass" class="sw glass" src="assets/look/glass/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-          <img data-style="glass" class="sw glass" src="assets/look/glass/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
-          <img data-style="glass" class="sw glass" src="assets/look/glass/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-          <img data-style="glass" class="sw glass" src="assets/look/glass/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
-          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
-          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
-          <img data-style="solid" class="sw" src="assets/look/solid/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-          <img data-style="solid" class="sw" src="assets/look/solid/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
-          <img data-style="solid" class="sw" src="assets/look/solid/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-          <img data-style="solid" class="sw" src="assets/look/solid/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
-          <img data-style="minimal" class="sw bare" src="assets/look/minimal/clock-digital-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
-          <img data-style="minimal" class="sw bare" src="assets/look/minimal/weather-hourly-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
-          <img data-style="minimal" class="sw bare" src="assets/look/minimal/calendar-upNext-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
-          <img data-style="minimal" class="sw bare" src="assets/look/minimal/nowPlaying-player-medium.webp" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/clock-digital-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/weather-hourly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="glass" class="sw glass" src="assets/look/glass/nowPlaying-player-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/clock-digital-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/weather-hourly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="frosted" class="sw frosted" src="assets/look/frosted/nowPlaying-player-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/clock-digital-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/weather-hourly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="solid" class="sw" src="assets/look/solid/nowPlaying-player-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/clock-digital-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:332;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/weather-hourly-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:228;--cy:512;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/calendar-upNext-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:332;--w:344;--h:164">
+          <img data-style="minimal" class="sw bare" src="assets/look/minimal/nowPlaying-player-medium.webp?v=2" alt="" width="344" height="164" loading="lazy" decoding="async" style="--cx:1284;--cy:512;--w:344;--h:164">
           <div class="login"><div class="avatar">🐼</div><div class="name">Alex</div></div>
         </div>
       </div>
@@ -1328,13 +1328,13 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
         <h2>Apple Music and Spotify, with the lyrics Music shows.</h2>
         <p class="lede">The song that's playing in Apple Music or Spotify shows on the lock screen and in the island. Lyrics come from Apple Music: Notchlight reads the time-synced lyrics Music already downloaded, so every line lands exactly when it does in Music.</p>
         <div class="players">
-          <span class="player"><img src="assets/apps/music.png" alt="">Apple Music</span>
-          <span class="player"><img src="assets/apps/spotify.png" alt="">Spotify</span>
+          <span class="player"><img src="assets/apps/music.png?v=2" alt="">Apple Music</span>
+          <span class="player"><img src="assets/apps/spotify.png?v=2" alt="">Spotify</span>
         </div>
       </div>
       <div class="lyrics-panel" aria-label="Lyrics in sync with the song">
         <span class="silk" aria-hidden="true"></span>
-        <span class="song"><span class="cover"></span>Low Orbit · Mira Vale<img src="assets/apps/music.png" alt="Apple Music"></span>
+        <span class="song"><span class="cover"></span>Low Orbit · Mira Vale<img src="assets/apps/music.png?v=2" alt="Apple Music"></span>
         <p data-line>City lights are spelling out your name</p>
         <p data-line>We drove until the morning found us</p>
         <p data-line>Hold the moment, let the record play</p>
@@ -1464,7 +1464,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
   };
   const controls = '<span class="controls" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M11 6v12L2 12zm11 0v12l-9-6z"/></svg><svg viewBox="0 0 24 24"><path d="M6 5h4v14H6zm8 0h4v14h-4z"/></svg><svg viewBox="0 0 24 24"><path d="M13 6v12l9-6zM2 6v12l9-6z"/></svg></span>';
   const wave = '<span class="wave"><i></i><i></i><i></i><i></i></span>';
-  const app = (name) => `assets/apps/${name}.png`;
+  const app = (name) => `assets/apps/${name}.png?v=2`;
 
   const compact = (left, right, extra = "") => `<div class="isl compact"><span class="side">${left}</span><span class="side">${right}</span>${extra}</div>`;
   const song = (cover, title, artist, lyric, bubble) => ({
@@ -1804,7 +1804,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     musicCard: { title: "Music Card", styles: { glass: ["Glass", ["medium", "wide"]] } },
     weather: { title: "Weather", styles: { current: ["Current", ["small", "medium"]], hourly: ["Hourly", ["medium", "wide", "ultraWide"]], daily: ["Five Day", ["wide", "large"]] } },
   };
-  const picture = (w) => `assets/widgets/${w.kind}-${w.style}-${w.size}.webp`;
+  const picture = (w) => `assets/widgets/${w.kind}-${w.style}-${w.size}.webp?v=2`;
 
   // Where things start: centres in points on the 1512 × 982 screen the app lays widgets out on.
   const START = {
@@ -1963,7 +1963,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
       const key = JSON.stringify([selected, s.menu, s.hover]);
       if (key !== inspectorKey) {
         inspectorKey = key;
-        $("[data-insp-icon]").src = `assets/icons/${selected.kind}.webp`;
+        $("[data-insp-icon]").src = `assets/icons/${selected.kind}.webp?v=2`;
         $("[data-insp-name]").textContent = kind.title;
         $("[data-insp-detail]").textContent = `${styleName} · ${SIZE_NAME[selected.size]}`;
         $("[data-insp-style]").textContent = styleName;
@@ -2067,7 +2067,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     if (preloaded) return;
     preloaded = true;
     ["weather-current-medium", "weather-hourly-medium", "weather-hourly-wide", "clock-digital-small", "clock-digital-medium", "weather-current-small"]
-      .forEach((name) => { new Image().src = `assets/widgets/${name}.webp`; });
+      .forEach((name) => { new Image().src = `assets/widgets/${name}.webp?v=2`; });
   };
   new IntersectionObserver(([entry]) => {
     visible = entry.isIntersecting;
