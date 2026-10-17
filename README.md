@@ -1,6 +1,6 @@
 # Notchlight
 
-Your Mac's lock screen and notch, lit up: widgets on the lock screen and a Dynamic Island around the notch.
+Widgets on your Mac's lock screen and a Dynamic Island around the notch.
 
 Website: [notchlight.com](https://notchlight.com)
 
@@ -92,7 +92,7 @@ Notchlight asks only when a widget needs something:
 
 ## Privacy
 
-Notchlight collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and Notchlight reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Recent Activity notes which app is in front to add up today's time, and keeps that in a file on your Mac. Nothing is sent anywhere else.
+Notchlight collects no data. Weather, news and prices come straight from their public sources. Lyrics are read from Apple Music on your Mac: when Music plays a song it fetches the song's lyrics from Apple, and Notchlight reads Music's local copy. For a streamed song without artwork in your library, the artwork is downloaded from Apple using the link in that same copy. Notifications are read from macOS's own notification database on your Mac and never leave it. Recent Activity notes which app is in front to add up today's time, and keeps that in a file on your Mac. Nothing is sent anywhere else. The full policy is at [notchlight.com/privacy](https://notchlight.com/privacy/).
 
 ## How lyrics work
 
@@ -117,7 +117,7 @@ Run `xcodegen generate` again after adding files outside Xcode.
 | `LockWidgets/Island` | The Dynamic Island: its window, state and the view for each activity |
 | `LockWidgets/Services` | Data sources: weather, calendar, music, lyrics, system and so on |
 | `LockWidgets/Settings` | The settings window, Layout Studio, Gallery and Setup Guide |
-| `scripts` | Install, release and widget gallery scripts, and the app icon renderer |
+| `scripts` | Install, release and widget gallery scripts, and the renderers for the website's icon and link preview |
 
 Debug builds accept launch arguments for screenshots, such as `-settingsPage studio` or `-previewAtLaunch YES`. `scripts/widget-gallery.sh <folder>` draws every widget, in each style and size, with sample data to PNG files for the website; it reads none of your data and changes no settings.
 
@@ -128,7 +128,9 @@ scripts/release.sh            # signed DMG in dist/
 scripts/release.sh --publish  # also the GitHub release, its update feed and the Homebrew cask
 ```
 
-Bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` first. The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
+Before each release, test on the current macOS and, from June each year, on the new macOS beta. The lock screen layer, notifications, Apple Music lyrics and the screen recording dot rely on parts of macOS that Apple can change in any update, so lock the Mac with widgets showing, play a song, get a notification and start a screen recording.
+
+Bump `MARKETING_VERSION` and `CURRENT_PROJECT_VERSION` in `project.yml` first; installed copies only update when the build number goes up. The script notarizes the DMG when a keychain profile named `lockwidgets-notary` exists:
 
 ```sh
 xcrun notarytool store-credentials lockwidgets-notary --apple-id <apple-id> --team-id 4T4AXT6P7X
@@ -137,6 +139,10 @@ xcrun notarytool store-credentials lockwidgets-notary --apple-id <apple-id> --te
 Updates reach installed copies through [Sparkle](https://sparkle-project.org). Each release uploads an `appcast.xml` describing the new version, and its download is signed with the EdDSA key in `~/.config/notchlight/sparkle-ed25519.key`, whose public half is `SUPublicEDKey` in `project.yml`. Keep a backup of that key: without it, installed copies won't accept new versions.
 
 The app icon is `LockWidgets/AppIcon.icon`, an Icon Composer document (open it in Icon Composer, which comes with Xcode, to change it); macOS draws its Dark, Clear and Tinted versions from it. `scripts/render-icon.sh` renders the website's copies.
+
+### Website
+
+The website is `docs/index.html`, with the Privacy and Terms pages in `docs/privacy` and `docs/terms`. Render serves it at [notchlight.com](https://notchlight.com) from `render.yaml` and redeploys whenever something in `docs` changes on `main`. `scripts/og-image.sh` redraws its link preview from the page.
 
 ## Credits
 
