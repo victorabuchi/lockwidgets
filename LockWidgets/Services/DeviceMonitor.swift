@@ -21,6 +21,9 @@ final class DeviceMonitor: NSObject {
     private var outputDevice = AudioDeviceID(0)
     private var lastVolume: (Double, Bool)?
     private var lastBrightness: Float?
+    /// The level before macOS dimmed an idle screen, so coming back to the Mac and its brightness returning
+    /// isn't shown either.
+    private var dimmedFrom: Float?
     private var lastFocus: String?
     private var pollTimer: Timer?
 
@@ -143,6 +146,19 @@ final class DeviceMonitor: NSObject {
         guard getBrightness(CGMainDisplayID(), &level) == 0 else { return }
         defer { lastBrightness = level }
         guard let last = lastBrightness, abs(last - level) > 0.004 else { return }
+        // Only changes you make are shown: the brightness keys or Control Centre move it in clear steps (a key
+        // press is a sixteenth) within a moment of a key press or a click. macOS adjusting to the room's light
+        // moves it gradually, and dimming an idle screen happens while you're away; neither is shown.
+        let idle = CGEventSource.secondsSinceLastEventType(.hidSystemState, eventType: CGEventType(rawValue: ~0)!)
+        guard idle < 1, abs(level - last) >= 0.02 else {
+            if level < last, idle >= 1, dimmedFrom == nil { dimmedFrom = last }
+            return
+        }
+        if let before = dimmedFrom, level > last, abs(level - before) < 0.03 {
+            dimmedFrom = nil
+            return
+        }
+        dimmedFrom = nil
         onEvent?(.brightness(level: Double(level)))
     }
 
