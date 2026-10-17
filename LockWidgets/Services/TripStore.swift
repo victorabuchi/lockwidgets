@@ -30,13 +30,8 @@ final class TripStore: ObservableObject {
             }
         }
 
-        var color: Color {
-            switch self {
-            case .bus: Color(red: 1, green: 0.62, blue: 0.04)
-            case .train: Color(red: 0.19, green: 0.82, blue: 0.35)
-            case .plane: Color(red: 0.39, green: 0.82, blue: 1)
-            }
-        }
+        /// Navigation blue, as a journey looks in Maps on the iPhone, whatever you travel by.
+        var color: Color { Color(red: 0.26, green: 0.55, blue: 1) }
     }
 
     struct Trip: Codable, Equatable {
@@ -87,13 +82,14 @@ final class TripStore: ObservableObject {
         refresh()
     }
 
-    func start(mode: Mode, destination: String, arrival: Date) {
-        let now = Date.now
+    /// Starts a trip, or changes the one under way. The departure can be in the past, for a bus you're
+    /// already on, so the island picks up from how far along you are.
+    func start(mode: Mode, destination: String, departure: Date, arrival: Date) {
         manual = Trip(
             mode: mode,
             destination: destination.trimmingCharacters(in: .whitespacesAndNewlines),
-            departure: now,
-            arrival: max(arrival, now.addingTimeInterval(60))
+            departure: departure,
+            arrival: max(arrival, departure.addingTimeInterval(60))
         )
         refresh()
     }

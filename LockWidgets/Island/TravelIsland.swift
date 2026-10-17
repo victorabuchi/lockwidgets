@@ -18,8 +18,8 @@ private func clock(_ date: Date, in zone: TimeZone = .current) -> String {
     date.formatted(Date.FormatStyle(date: .omitted, time: .shortened, timeZone: zone))
 }
 
-/// The bus, train or plane beside the camera, and on the right the departure time, then the time left once
-/// under way, as an iPhone shows a journey.
+/// The bus, train or plane beside the camera in navigation blue, and on the right the departure time, then the
+/// time left once under way, as Maps shows a journey on the iPhone.
 struct TripCompact: View {
     let notch: CGSize
     @ObservedObject private var trips = TripStore.shared
@@ -35,7 +35,7 @@ struct TripCompact: View {
                     let departed = trip.hasDeparted(at: context.date)
                     Text(departed ? shortDuration(trip.arrival.timeIntervalSince(context.date)) : clock(trip.departure))
                         .font(.system(size: 12, weight: .semibold, design: .rounded).monospacedDigit())
-                        .foregroundStyle(departed ? trip.mode.color : .white)
+                        .foregroundStyle(trip.mode.color)
                         .minimumScaleFactor(0.6)
                 }
             }
@@ -43,6 +43,8 @@ struct TripCompact: View {
     }
 }
 
+/// The open card, laid out like a journey's Live Activity in Maps on the iPhone: how you travel and the time
+/// left, when you arrive and where, and a blue line with you moving along it to the destination.
 struct TripExpanded: View {
     let notch: CGSize
     @ObservedObject private var trips = TripStore.shared
@@ -55,9 +57,9 @@ struct TripExpanded: View {
                 CardLayout(notch: notch) {
                     circleIcon(trip.mode.symbol, trip.mode.color)
                 } right: {
-                    Text(departed ? "\(longDuration(trip.arrival.timeIntervalSince(now))) left" : "in \(longDuration(trip.departure.timeIntervalSince(now)))")
-                        .font(.system(size: 13, weight: .semibold).monospacedDigit())
-                        .foregroundStyle(departed ? trip.mode.color : .white)
+                    Text(departed ? longDuration(trip.arrival.timeIntervalSince(now)) : "in \(longDuration(trip.departure.timeIntervalSince(now)))")
+                        .font(.system(size: 15, weight: .semibold, design: .rounded).monospacedDigit())
+                        .foregroundStyle(trip.mode.color)
                 } below: {
                     HStack(spacing: 6) {
                         Text(trip.title)
@@ -67,48 +69,58 @@ struct TripExpanded: View {
                                 .font(.system(size: 11, weight: .semibold))
                                 .foregroundStyle(.white.opacity(0.55))
                         }
+                        Spacer(minLength: 8)
+                        Text(departed ? "Arrives \(clock(trip.arrival))" : "Leaves \(clock(trip.departure))")
+                            .font(.system(size: 12, weight: .medium).monospacedDigit())
+                            .foregroundStyle(.white.opacity(0.7))
                     }
                     .lineLimit(1)
                     .frame(height: 16)
                     .padding(.top, 4)
                     TripProgress(trip: trip, progress: trip.progress(at: now))
-                        .padding(.top, 4)
-                    HStack {
-                        Text("\(departed ? "Left" : "Leaves") \(clock(trip.departure))")
-                        Spacer()
-                        Text("Arrives \(clock(trip.arrival))")
-                    }
-                    .font(.system(size: 11, weight: .medium).monospacedDigit())
-                    .foregroundStyle(.white.opacity(0.6))
-                    .frame(height: 14)
-                    .padding(.top, 2)
+                        .padding(.top, 6)
                 }
             }
         }
     }
 }
 
-/// The journey as a line that fills from departure to arrival, with the bus, train or plane riding along it.
+/// The journey as a blue line to the destination, with you as a blue arrow moving along it and the way
+/// already travelled in grey, as Maps draws it on the iPhone.
 private struct TripProgress: View {
     let trip: TripStore.Trip
     let progress: Double
 
     var body: some View {
         GeometryReader { proxy in
-            let width = proxy.size.width
+            let knob: CGFloat = 22, end: CGFloat = 14
+            let track = proxy.size.width - knob / 2 - end / 2
+            let x = knob / 2 + track * progress
             ZStack(alignment: .leading) {
-                Capsule().fill(.white.opacity(0.18)).frame(height: 4)
-                Capsule().fill(trip.mode.color).frame(width: max(4, width * progress), height: 4)
-                Image(systemName: trip.mode.symbol)
-                    .font(.system(size: 10, weight: .bold))
-                    .foregroundStyle(trip.mode.color)
-                    .frame(width: 18, height: 18)
-                    .background(Circle().fill(Color.black))
-                    .offset(x: min(max(0, width * progress - 9), width - 18))
+                Capsule().fill(trip.mode.color)
+                    .frame(width: track, height: 6)
+                    .offset(x: knob / 2)
+                Capsule().fill(.white.opacity(0.3))
+                    .frame(width: max(0, x - knob / 2), height: 6)
+                    .offset(x: knob / 2)
+                Circle()
+                    .fill(Color.white)
+                    .overlay(Circle().strokeBorder(Color.black, lineWidth: 2.5))
+                    .overlay(Circle().fill(Color.black).frame(width: 5, height: 5))
+                    .frame(width: end, height: end)
+                    .offset(x: proxy.size.width - end)
+                Image(systemName: "location.north.fill")
+                    .font(.system(size: 9, weight: .bold))
+                    .rotationEffect(.degrees(90))
+                    .foregroundStyle(.white)
+                    .frame(width: knob, height: knob)
+                    .background(Circle().fill(trip.mode.color))
+                    .overlay(Circle().strokeBorder(Color.white, lineWidth: 2.5))
+                    .offset(x: x - knob / 2)
             }
-            .frame(height: 18)
+            .frame(height: knob)
         }
-        .frame(height: 18)
+        .frame(height: 22)
     }
 }
 
@@ -253,12 +265,15 @@ struct RemindersExpanded: View {
 
 // MARK: Starting a trip
 
-/// The small window from the menu bar's "Start a Trip…": how you're travelling, where to and when you arrive.
+/// The trip window from the menu bar: how you're travelling, where to, when you left and when you arrive. Opened
+/// during a trip it changes that trip, so a bus you're already on picks up from how far along you are.
 struct TripStartView: View {
     @Environment(\.dismissWindow) private var dismissWindow
     @State private var mode: TripStore.Mode = .bus
     @State private var destination = ""
+    @State private var departure = Date.now
     @State private var arrival = Date.now.addingTimeInterval(3600)
+    @State private var changing = false
 
     var body: some View {
         VStack(spacing: 0) {
@@ -269,27 +284,44 @@ struct TripStartView: View {
                     }
                 }
                 .pickerStyle(.segmented)
-                TextField("To", text: $destination, prompt: Text("Helsinki"))
+                TextField("To", text: $destination, prompt: Text("Kamppi, Helsinki"))
+                DatePicker("Left at", selection: $departure, displayedComponents: .hourAndMinute)
                 DatePicker("Arrives at", selection: $arrival, displayedComponents: .hourAndMinute)
             }
             .formStyle(.grouped)
             HStack {
-                Text("The island shows the time left until you arrive.")
+                Text("Already on your way? Set when you left, and the island picks up from there.")
                     .font(.callout)
                     .foregroundStyle(.secondary)
-                Spacer()
+                    .fixedSize(horizontal: false, vertical: true)
+                Spacer(minLength: 12)
                 Button("Cancel") { dismissWindow(id: "trip") }
                     .keyboardShortcut(.cancelAction)
-                Button("Start Trip") {
-                    // A time earlier than now means tomorrow, for an overnight trip.
-                    let when = arrival > .now ? arrival : arrival.addingTimeInterval(86400)
-                    TripStore.shared.start(mode: mode, destination: destination, arrival: when)
-                    dismissWindow(id: "trip")
-                }
-                .keyboardShortcut(.defaultAction)
+                Button(changing ? "Update Trip" : "Start Trip") { save() }
+                    .keyboardShortcut(.defaultAction)
             }
             .padding([.horizontal, .bottom], 20)
         }
-        .frame(width: 440)
+        .frame(width: 460)
+        .onAppear {
+            if let trip = TripStore.shared.trip {
+                mode = trip.mode
+                destination = trip.destination
+                departure = trip.departure
+                arrival = trip.arrival
+                changing = true
+            }
+        }
+    }
+
+    private func save() {
+        // The pickers only set hours and minutes, so a departure far in the future means last night, and an
+        // arrival before the departure means the next day.
+        var left = departure
+        if left.timeIntervalSince(.now) > 12 * 3600 { left.addTimeInterval(-86400) }
+        var arrives = arrival
+        while arrives <= left { arrives.addTimeInterval(86400) }
+        TripStore.shared.start(mode: mode, destination: destination, departure: left, arrival: arrives)
+        dismissWindow(id: "trip")
     }
 }

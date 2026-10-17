@@ -36,7 +36,7 @@ struct LockWidgetsApp: App {
         .windowResizability(.contentSize)
         .defaultLaunchBehavior(.suppressed)
 
-        Window("Start a Trip", id: "trip") {
+        Window("Trip", id: "trip") {
             TripStartView()
         }
         .windowResizability(.contentSize)
@@ -181,6 +181,11 @@ private struct MenuContent: View {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
     }
 
+    private func openTripWindow() {
+        openWindow(id: "trip")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
+    }
+
     var body: some View {
         Text("Notchlight \(version)")
         if let available = updater.availableVersion {
@@ -217,13 +222,11 @@ private struct MenuContent: View {
         }
         if let trip = trips.trip {
             Menu("\(trip.title) · arrives \(trip.arrival.formatted(date: .omitted, time: .shortened))") {
+                Button("Change Trip…") { openTripWindow() }
                 Button("End Trip") { trips.end() }
             }
         } else {
-            Button("Start a Trip…") {
-                openWindow(id: "trip")
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
-            }
+            Button("Start a Trip…") { openTripWindow() }
         }
         Button("Refresh Widgets") { overlay.refreshData() }
             .keyboardShortcut("r")
