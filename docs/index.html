@@ -45,6 +45,7 @@
   --on-ink: #ffffff;
   --chip: rgba(255, 255, 255, 0.9);
   --wall: url("assets/walls/macos-light.webp");
+  --app-icon: url("assets/icon.png");
   /* The Layout Studio window, in macOS's own light or dark look. */
   --w-bg: #ffffff;
   --w-side: #ececf1;
@@ -96,6 +97,7 @@
     --on-ink: #000000;
     --chip: rgba(44, 44, 46, 0.9);
     --wall: url("assets/walls/macos-dark.webp");
+    --app-icon: url("assets/icon-dark.png");
     --w-bg: #1e1e20;
     --w-side: #2a2a2d;
     --w-ink: #f2f2f7;
@@ -137,6 +139,7 @@
   --on-ink: #000000;
   --chip: rgba(44, 44, 46, 0.9);
   --wall: url("assets/walls/macos-dark.webp");
+  --app-icon: url("assets/icon-dark.png");
   --w-bg: #1e1e20;
   --w-side: #2a2a2d;
   --w-ink: #f2f2f7;
@@ -184,6 +187,9 @@ p { margin: 0; }
 .bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 20; background: var(--bar); backdrop-filter: saturate(180%) blur(20px); -webkit-backdrop-filter: saturate(180%) blur(20px); border-bottom: 1px solid var(--line); }
 .topbar { display: flex; align-items: center; min-height: 52px; padding-left: max(20px, env(safe-area-inset-left, 0px)); padding-right: max(20px, env(safe-area-inset-right, 0px)); }
 .brand { flex: none; display: flex; align-items: center; gap: 9px; font-family: var(--display); font-weight: 600; font-size: 19px; text-decoration: none; letter-spacing: -0.02em; white-space: nowrap; }
+/* The app icon, as macOS draws it in Light or Dark, following the page's theme. */
+.app-icon { display: block; flex: none; background: var(--app-icon) center / contain no-repeat; }
+.brand .app-icon { width: 26px; height: 26px; }
 .nav { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; gap: 24px; margin-left: 40px; font-size: 14px; letter-spacing: -0.01em; }
 .nav a { text-decoration: none; color: var(--muted); white-space: nowrap; transition: color 0.2s; }
 .nav a:hover { color: var(--ink); }
@@ -597,7 +603,7 @@ section { padding-block: 104px; }
 .closing { padding-block: 88px; }
 .download-card { display: grid; justify-items: center; gap: 28px; padding: 56px 24px 52px; border-radius: 28px; background: var(--tile); text-align: center; }
 .download-card h2 { font-size: clamp(28px, 3.2vw, 36px); font-weight: 600; }
-.download-card img { width: 96px; height: 96px; }
+.download-card .app-icon { width: 96px; height: 96px; }
 .download-go { display: grid; justify-items: center; gap: 8px; }
 
 footer { border-top: 1px solid var(--line); background: var(--paper-2); padding-block: 36px 44px; color: var(--faint); font-size: 14px; }
@@ -656,7 +662,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 
 <header class="bar">
   <nav class="topbar" aria-label="Notchlight">
-    <a class="brand" href="#top">Notchlight</a>
+    <a class="brand" href="#top"><span class="app-icon" aria-hidden="true"></span>Notchlight</a>
     <div class="nav">
       <a href="#island">Island</a>
       <a href="#widgets">Widgets</a>
@@ -676,7 +682,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
 <main id="top">
   <div class="hero">
     <div class="wrap">
-      <img class="hero-icon" src="assets/icon.png" alt="" width="120" height="120">
+      <span class="app-icon hero-icon" aria-hidden="true"></span>
       <h1>Notchlight</h1>
       <p class="lede">Notchlight puts live widgets on your Mac's lock screen and turns the notch into a Dynamic Island: the song that's playing with Apple Music's own lyrics, your calls, notifications and more.</p>
       <a class="download" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 5.8v7.6M6.7 10.4 10 13.7l3.3-3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -1381,7 +1387,7 @@ footer .legal { flex-basis: 100%; font-size: 13px; }
     <div class="wrap">
       <div class="download-card">
         <h2>Download Notchlight</h2>
-        <img src="assets/icon.png" alt="" width="96" height="96">
+        <span class="app-icon" aria-hidden="true"></span>
         <div class="download-go">
           <a class="download" href="https://github.com/victorabuchi/notchlight/releases/latest/download/Notchlight.dmg">Download <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="10" cy="10" r="8.6" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M10 5.8v7.6M6.7 10.4 10 13.7l3.3-3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
           <p class="requires">Requires macOS Sequoia or later.</p>
