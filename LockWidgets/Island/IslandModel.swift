@@ -298,7 +298,17 @@ final class IslandModel: ObservableObject {
     var bubbleSize: CGFloat { notch.height }
     static let bubbleGap: CGFloat = 10
 
-    var showsBubble: Bool { secondary != nil && primary?.isTransient == false }
+    /// The hotspot on its own waits in the circle beside the notch, as on the iPhone, instead of widening the
+    /// island. A Mac without a notch has nothing for it to sit beside, so there it keeps the island.
+    var hotspotAlone: Bool { hasNotch && primary == .hotspot && secondary == nil }
+
+    /// What the circle beside the island shows: a second live activity, or the hotspot on its own.
+    var bubbleActivity: IslandActivity? {
+        if hotspotAlone, !isExpanded { return .hotspot }
+        return primary?.isTransient == false ? secondary : nil
+    }
+
+    var showsBubble: Bool { bubbleActivity != nil }
 
     /// Size of the black shape for the current state. With nothing live it is exactly the notch; a live
     /// activity sits either side of it at its height; brief alerts hang below it at its width; the open
@@ -307,6 +317,7 @@ final class IslandModel: ObservableObject {
         // On a Mac without a notch there is nothing to blend into, so the island only appears while
         // something is live.
         guard let primary else { return hasNotch ? notch : .zero }
+        if hotspotAlone, !isExpanded { return notch }
         if primary.isBanner {
             return CGSize(width: bannerWidth(for: primary), height: notch.height + primary.expandedHeight)
         }
@@ -334,6 +345,7 @@ final class IslandModel: ObservableObject {
     /// The size the island returns to when the open card closes.
     var closedSize: CGSize {
         guard let primary, !primary.isTransient else { return size }
+        if hotspotAlone { return notch }
         return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
     }
 
@@ -342,6 +354,7 @@ final class IslandModel: ObservableObject {
 
     var bottomRadius: CGFloat {
         guard let primary else { return Self.notchRadius }
+        if hotspotAlone, !isExpanded { return Self.notchRadius }
         if isExpanded || primary.isBanner { return 24 }
         return 16
     }

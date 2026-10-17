@@ -51,10 +51,10 @@ struct IslandView: View {
         .frame(width: size.width)
         .animation(.spring(response: 0.32, dampingFraction: 0.86), value: size.width)
         .overlay(alignment: .topTrailing) {
-            // A second live activity, such as the hotspot while a song plays, waits in its own circle
-            // on the right, as on the iPhone.
-            if model.showsBubble, let secondary = model.secondary {
-                Bubble(activity: secondary, size: model.bubbleSize, fill: .black)
+            // A second live activity, such as the hotspot while a song plays, or the hotspot on its own,
+            // waits in its own circle on the right, as on the iPhone.
+            if let activity = model.bubbleActivity {
+                Bubble(activity: activity, size: model.bubbleSize, fill: .black)
                     .offset(x: IslandModel.bubbleGap + model.bubbleSize)
                     .transition(.scale(scale: 0.4, anchor: .leading).combined(with: .opacity))
             }
@@ -99,6 +99,7 @@ struct IslandView: View {
         case (.meeting, true): MeetingExpanded(notch: notch)
         case (.meeting, false): MeetingCompact(notch: notch)
         case (.hotspot, true): HotspotExpanded(notch: notch)
+        case (.hotspot, false) where model.hotspotAlone: EmptyView()
         case (.hotspot, false): HotspotCompact(notch: notch)
         case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
         case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)

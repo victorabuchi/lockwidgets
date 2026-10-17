@@ -99,7 +99,7 @@ final class IslandController {
         let model = IslandModel.shared
         let area = target == .bubble ? bubbleRect : rect(model.size)
         guard area.insetBy(dx: -8, dy: -8).contains(NSEvent.mouseLocation),
-              let activity = target == .bubble ? model.secondary : model.primary
+              let activity = target == .bubble ? model.bubbleActivity : model.primary
         else { return true }
         IslandActions.open(activity)
         if activity.isTransient { model.dismissTransient() }
