@@ -226,6 +226,12 @@ enum IslandActions {
             NotificationCenter.default.post(name: AppDelegate.openSettings, object: nil)
         case .hotspot:
             openSettings("com.apple.wifi-settings-extension")
+        case .trip:
+            openMaps(to: TripStore.shared.trip?.destination ?? "")
+        case .reminders:
+            openApp("com.apple.reminders")
+        case .homeTime, .timeZone:
+            openApp("com.apple.clock")
         case let .notification(item):
             openApp(item.bundleID)
         case .event:
@@ -248,6 +254,13 @@ enum IslandActions {
     private static func openApp(_ bundleID: String) {
         guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleID) else { return }
         NSWorkspace.shared.openApplication(at: url, configuration: .init())
+    }
+
+    /// Maps with directions to the trip's destination, or just Maps when there's no destination.
+    private static func openMaps(to destination: String) {
+        var components = URLComponents(string: "maps://")!
+        if !destination.isEmpty { components.queryItems = [URLQueryItem(name: "daddr", value: destination)] }
+        if let url = components.url { NSWorkspace.shared.open(url) }
     }
 
     private static func openSettings(_ pane: String) {

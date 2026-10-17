@@ -8,6 +8,7 @@ struct Bubble: View {
     var size: CGFloat = 24
     var fill = Color.white.opacity(0.14)
     @ObservedObject private var music = NowPlayingStore.shared
+    @ObservedObject private var trips = TripStore.shared
 
     var body: some View {
         ZStack {
@@ -21,6 +22,14 @@ struct Bubble: View {
                 Image(systemName: "video.fill").foregroundStyle(.green)
             case .hotspot:
                 Image(systemName: "personalhotspot").foregroundStyle(.green)
+            case .trip:
+                if let trip = trips.trip {
+                    Image(systemName: trip.mode.symbol).foregroundStyle(trip.mode.color)
+                }
+            case .reminders:
+                Image(systemName: "checklist").foregroundStyle(Color(red: 1, green: 0.62, blue: 0.04))
+            case .homeTime:
+                Image(systemName: "house.fill").foregroundStyle(Color(red: 0.39, green: 0.82, blue: 1))
             default:
                 EmptyView()
             }
@@ -31,7 +40,7 @@ struct Bubble: View {
 }
 
 /// A round icon for the left of the open card's top row, where a song's artwork would be.
-private func circleIcon(_ symbol: String, _ color: Color) -> some View {
+func circleIcon(_ symbol: String, _ color: Color) -> some View {
     Image(systemName: symbol)
         .font(.system(size: 13, weight: .bold))
         .foregroundStyle(color)

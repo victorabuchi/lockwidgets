@@ -30,6 +30,11 @@ enum SettingsKey {
     static let islandFocus = "islandFocus"
     static let islandLock = "islandLock"
     static let islandPrivacy = "islandPrivacy"
+    static let islandTrips = "islandTrips"
+    static let islandReminders = "islandReminders"
+    static let islandHomeTime = "islandHomeTime"
+    /// The time zone the island counts as home, as an identifier such as "Europe/Helsinki".
+    static let homeTimeZone = "homeTimeZone"
     static let favoriteApps = "favoriteApps"
 
     /// Follows the region (°F in the US) until the user picks a unit.

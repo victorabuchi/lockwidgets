@@ -35,6 +35,12 @@ struct LockWidgetsApp: App {
         .windowStyle(.hiddenTitleBar)
         .windowResizability(.contentSize)
         .defaultLaunchBehavior(.suppressed)
+
+        Window("Start a Trip", id: "trip") {
+            TripStartView()
+        }
+        .windowResizability(.contentSize)
+        .defaultLaunchBehavior(.suppressed)
     }
 }
 
@@ -166,6 +172,7 @@ private struct MenuContent: View {
     @ObservedObject var overlay: OverlayManager
     @ObservedObject private var timers = TimerStore.shared
     @ObservedObject private var updater = Updater.shared
+    @ObservedObject private var trips = TripStore.shared
     @Environment(\.openWindow) private var openWindow
     @AppStorage(SettingsKey.showOnLockScreen) private var showOnLockScreen = true
     @AppStorage(SettingsKey.islandEnabled) private var islandEnabled = true
@@ -207,6 +214,16 @@ private struct MenuContent: View {
         Menu("Stopwatch · \(timers.stopwatchElapsed().clockText)") {
             Button(timers.stopwatchRunning ? "Stop" : "Start") { timers.toggleStopwatch() }
             Button("Reset") { timers.resetStopwatch() }
+        }
+        if let trip = trips.trip {
+            Menu("\(trip.title) · arrives \(trip.arrival.formatted(date: .omitted, time: .shortened))") {
+                Button("End Trip") { trips.end() }
+            }
+        } else {
+            Button("Start a Trip…") {
+                openWindow(id: "trip")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) { DockPolicy.bringWindowsForward() }
+            }
         }
         Button("Refresh Widgets") { overlay.refreshData() }
             .keyboardShortcut("r")

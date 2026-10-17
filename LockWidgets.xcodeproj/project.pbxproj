@@ -49,6 +49,7 @@
 		8EE9ADA9CB9906AF5DEE5112 /* LayoutGalleryPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */; };
 		8F47B1E39456B60326D2F14C /* GeneralPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F29FB9B3C2BB81FB3C713EB3 /* GeneralPage.swift */; };
 		8FD1755B70D4C0154188A426 /* AlertIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9BBF42D293790175EB80BFB2 /* AlertIsland.swift */; };
+		908298A8EB3B8D3484998FA2 /* TripStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = CB910C73FBFB4C186BF67F02 /* TripStore.swift */; };
 		93F84A20251CE797468415BC /* AppleMusicLyrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1CA8579E6D602C960EE54CFE /* AppleMusicLyrics.swift */; };
 		940693083BF27989A43B197B /* WeatherWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = C166765275AD20B49E4DCDBE /* WeatherWidget.swift */; };
 		96FD7E333C27BD707372BA2A /* SettingsWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A520B6BC02944014CAB7788 /* SettingsWindow.swift */; };
@@ -56,6 +57,7 @@
 		9F649597321F6665DB1D7129 /* WidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B592C7B3AE19D5764E21A15 /* WidgetView.swift */; };
 		A14709DBC9B2BB1E51F308F6 /* WidgetBoard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D67D8F04957B4191B11B16 /* WidgetBoard.swift */; };
 		A42C6F387E3655E1C8246A62 /* EarthWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19685DDC575424AFEFDC10DB /* EarthWidget.swift */; };
+		A4B1253B79141C00496F6BDD /* TravelIsland.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A3F2847FFAAC98340665AFC /* TravelIsland.swift */; };
 		AE7592EBB34634614B783B06 /* CalendarWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */; };
 		B054E332EC23ED3B4F091731 /* MusicCardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35143FB7F7104D48A9C5CCC9 /* MusicCardWidget.swift */; };
 		B6689475C982ABB1B73F26E5 /* FavoritesWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CEEB090E45CA7FF69F7BD22 /* FavoritesWidget.swift */; };
@@ -110,6 +112,7 @@
 		5C7C55A83BA2DAD1F62FA6AE /* NewsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewsWidget.swift; sourceTree = "<group>"; };
 		5D7B8609BD101B905C97D79E /* NowPlayingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NowPlayingStore.swift; sourceTree = "<group>"; };
 		62CEFE7F9ABFBC92793B4690 /* LayoutStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutStore.swift; sourceTree = "<group>"; };
+		6A3F2847FFAAC98340665AFC /* TravelIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TravelIsland.swift; sourceTree = "<group>"; };
 		6E7B4AC3C487672B6DE67D62 /* ActivityTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityTracker.swift; sourceTree = "<group>"; };
 		6EE72259ADB9B790E83CE79B /* BatteryWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BatteryWidget.swift; sourceTree = "<group>"; };
 		76BAF23BFBA1E552ACD644A3 /* CalendarWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarWidget.swift; sourceTree = "<group>"; };
@@ -138,6 +141,7 @@
 		C7E9C717EC3548B411BFD11C /* LayoutGalleryPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGalleryPage.swift; sourceTree = "<group>"; };
 		CA558E33214FD867D2DF7B02 /* LocationWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationWidget.swift; sourceTree = "<group>"; };
 		CA65EB68D63BB068EC166544 /* DeviceMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeviceMonitor.swift; sourceTree = "<group>"; };
+		CB910C73FBFB4C186BF67F02 /* TripStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TripStore.swift; sourceTree = "<group>"; };
 		CF728633E3B7B9FEAFF17FB5 /* LyricsWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LyricsWidget.swift; sourceTree = "<group>"; };
 		DCB192CC30D0F25EF056A5D4 /* SystemWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SystemWidget.swift; sourceTree = "<group>"; };
 		DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusIsland.swift; sourceTree = "<group>"; };
@@ -253,6 +257,7 @@
 				8A513FE231239454ED6ED159 /* StocksStore.swift */,
 				3F494EDCBD251C16B86A4343 /* SystemMonitor.swift */,
 				59D421F3DF3559273A21EB63 /* TimerStore.swift */,
+				CB910C73FBFB4C186BF67F02 /* TripStore.swift */,
 				3DCE04B03437C9A51DC657C6 /* Updater.swift */,
 				8AEAFD45F48CEC57D83E9622 /* WeatherStore.swift */,
 			);
@@ -287,6 +292,7 @@
 				C072D9FA5183B596ABFBA02B /* MusicIsland.swift */,
 				FC24D3D942A21659A1C96E66 /* NotificationIsland.swift */,
 				DD41E562DF501668F3C9B5B9 /* StatusIsland.swift */,
+				6A3F2847FFAAC98340665AFC /* TravelIsland.swift */,
 			);
 			path = Island;
 			sourceTree = "<group>";
@@ -445,6 +451,8 @@
 				FBB750C184D9FD02F78B8B5C /* SystemWidget.swift in Sources */,
 				2C595B1CAC6C05B014363646 /* TimerStore.swift in Sources */,
 				317CB231FCB0BB0D5938E03B /* TimerWidgets.swift in Sources */,
+				A4B1253B79141C00496F6BDD /* TravelIsland.swift in Sources */,
+				908298A8EB3B8D3484998FA2 /* TripStore.swift in Sources */,
 				6E47A89FDBD2624A239D1DBD /* Updater.swift in Sources */,
 				4469748AF58F07A1B94D7510 /* WeatherStore.swift in Sources */,
 				940693083BF27989A43B197B /* WeatherWidget.swift in Sources */,

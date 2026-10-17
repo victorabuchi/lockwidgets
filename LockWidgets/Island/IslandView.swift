@@ -92,6 +92,8 @@ struct IslandView: View {
     @ViewBuilder
     private func activityContent(_ notch: CGSize) -> some View {
         switch (model.primary, model.isExpanded) {
+        // Quiet status on its own waits in the circle, so the island itself stays the notch.
+        case (_, false) where model.minorAlone: EmptyView()
         case (.music, true): MusicExpanded(notch: notch)
         case (.music, false): MusicCompact(notch: notch)
         case (.timer, true): TimerExpanded(notch: notch)
@@ -99,8 +101,14 @@ struct IslandView: View {
         case (.meeting, true): MeetingExpanded(notch: notch)
         case (.meeting, false): MeetingCompact(notch: notch)
         case (.hotspot, true): HotspotExpanded(notch: notch)
-        case (.hotspot, false) where model.hotspotAlone: EmptyView()
         case (.hotspot, false): HotspotCompact(notch: notch)
+        case (.trip, true): TripExpanded(notch: notch)
+        case (.trip, false): TripCompact(notch: notch)
+        case (.reminders, true): RemindersExpanded(notch: notch)
+        case (.reminders, false): RemindersCompact(notch: notch)
+        case (.homeTime, true): HomeTimeExpanded(notch: notch)
+        case (.homeTime, false): HomeTimeCompact(notch: notch)
+        case let (.timeZone(city, detail), _): TimeZoneAlert(notch: notch, city: city, detail: detail)
         case let (.charging(level, plugged), _): ChargingCompact(notch: notch, level: level, pluggedIn: plugged)
         case let (.lowBattery(level), _): LowBatteryCompact(notch: notch, level: level)
         case let (.notification(item), _): NotificationBanner(notch: notch, item: item)

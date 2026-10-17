@@ -15,6 +15,10 @@ struct IslandSettingsPage: View {
     @AppStorage(SettingsKey.islandFocus) private var focus = true
     @AppStorage(SettingsKey.islandLock) private var lock = true
     @AppStorage(SettingsKey.islandPrivacy) private var privacy = true
+    @AppStorage(SettingsKey.islandTrips) private var trips = true
+    @AppStorage(SettingsKey.islandReminders) private var reminders = true
+    @AppStorage(SettingsKey.islandHomeTime) private var homeTime = true
+    @AppStorage(SettingsKey.homeTimeZone) private var homeZone = ""
     @ObservedObject private var notificationStore = NotificationStore.shared
 
     var body: some View {
@@ -77,6 +81,24 @@ struct IslandSettingsPage: View {
                     Text("Personal Hotspot")
                     Text("While your Mac is on your iPhone's hotspot.")
                 }
+                Toggle(isOn: $trips) {
+                    Text("Trips")
+                    Text("A bus, train or flight from your calendar, or one you start from the menu bar: the time it leaves, then the time left. Click it for directions in Maps.")
+                }
+                Toggle(isOn: $reminders) {
+                    Text("To-dos")
+                    Text("Reminders due today wait in the circle beside the notch. Point at it to see them.")
+                }
+                .onChange(of: reminders) { _, on in
+                    if on { RemindersStore.shared.requestAccess() }
+                }
+                Toggle(isOn: $homeTime) {
+                    Text("Home time")
+                    Text("In another time zone, the time back home in \(HomeTime.city(TimeZone(identifier: homeZone) ?? .current)) waits in the circle.")
+                }
+                if homeTime, HomeTime.isAway {
+                    Button("Make \(HomeTime.city(.current)) Home") { HomeTime.setHomeToCurrent() }
+                }
                 Toggle(isOn: $battery) {
                     Text("Charging and low battery")
                     Text("When you plug in or unplug, and at 20% and 10%.")
@@ -107,7 +129,7 @@ struct IslandSettingsPage: View {
                 }
             }
             Section {
-                Text("When two things are live, the second waits in its own circle on the right, like the iPhone. Calls come first, then timers, music and the hotspot.")
+                Text("When two things are live, the second waits in its own circle on the right, like the iPhone. Calls come first, then timers, trips and music. The hotspot, to-dos and home time wait in the circle when nothing else is live.")
                     .foregroundStyle(.secondary)
             }
         }

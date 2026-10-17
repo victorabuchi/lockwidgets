@@ -9,6 +9,12 @@ enum IslandActivity: Equatable {
     case timer
     case music
     case hotspot
+    /// A bus, train or plane journey: the time it leaves, then the time left.
+    case trip
+    /// Reminders due today.
+    case reminders
+    /// The time back home, while the Mac is in another time zone.
+    case homeTime
     /// The Mac is locked; anything live waits in the circle beside it. `open` for a moment as you unlock, as
     /// on the iPhone.
     case lock(open: Bool)
@@ -21,10 +27,11 @@ enum IslandActivity: Equatable {
     case volume(level: Double, muted: Bool)
     case brightness(level: Double)
     case focus(name: String, symbol: String, on: Bool)
+    case timeZone(city: String, detail: String)
 
     var isTransient: Bool {
         switch self {
-        case .meeting, .timer, .music, .hotspot: false
+        case .meeting, .timer, .music, .hotspot, .trip, .reminders, .homeTime: false
         case let .lock(open): open
         default: true
         }
@@ -33,6 +40,14 @@ enum IslandActivity: Equatable {
     var isLock: Bool {
         if case .lock = self { return true }
         return false
+    }
+
+    /// Quiet status that waits in the circle beside the notch when nothing else is live.
+    var isMinor: Bool {
+        switch self {
+        case .hotspot, .reminders, .homeTime: true
+        default: false
+        }
     }
 
     /// Banners open out like the full card instead of dropping a row below the notch.
@@ -49,6 +64,8 @@ enum IslandActivity: Equatable {
         case .music: MusicExpanded.height(showsLyrics: UserDefaults.standard.object(forKey: SettingsKey.islandLyrics) as? Bool ?? true)
         case .notification: 60
         case .hotspot: 44
+        case .trip: 64
+        case .reminders: 66
         default: 46
         }
     }
@@ -66,7 +83,8 @@ enum IslandActivity: Equatable {
         case let .charging(_, pluggedIn): "charging \(pluggedIn)"
         case .lowBattery: "low battery"
         case .meeting: "meeting"
-        case .music, .timer, .hotspot, .lock, .volume, .brightness: nil
+        case let .timeZone(city, _): "time zone \(city)"
+        case .music, .timer, .hotspot, .trip, .reminders, .homeTime, .lock, .volume, .brightness: nil
         }
     }
 }
@@ -110,6 +128,8 @@ final class IslandModel: ObservableObject {
             timers.$stopwatchRunning.map { _ in () }.eraseToAnyPublisher(),
             status.$isOnHotspot.map { _ in () }.eraseToAnyPublisher(),
             status.$meeting.map { $0?.app }.removeDuplicates().map { _ in () }.eraseToAnyPublisher(),
+            TripStore.shared.$trip.map { _ in () }.eraseToAnyPublisher(),
+            RemindersStore.shared.$items.map { _ in () }.eraseToAnyPublisher(),
             NotificationCenter.default.publisher(for: UserDefaults.didChangeNotification).map { _ in () }.eraseToAnyPublisher()
         )
         .receive(on: DispatchQueue.main)
@@ -183,8 +203,25 @@ final class IslandModel: ObservableObject {
             if showedLock { show(.lock(open: true), for: 0.9) } else { refresh() }
         }
 
+        // A new time zone, as after a flight: a moment saying where you are and how far that is from home, then
+        // home's time waits in the circle.
+        HomeTime.rememberHome()
+        NotificationCenter.default.publisher(for: .NSSystemTimeZoneDidChange)
+            .receive(on: DispatchQueue.main)
+            .sink { [weak self] _ in
+                NSTimeZone.resetSystemTimeZone()
+                guard let self else { return }
+                refresh()
+                guard setting(SettingsKey.islandHomeTime) else { return }
+                let away = HomeTime.isAway
+                show(.timeZone(city: HomeTime.city(away ? .current : HomeTime.zone), detail: away ? HomeTime.shortDifference() : "Home"), for: 5)
+            }
+            .store(in: &subscriptions)
+
         Timer.scheduledTimer(withTimeInterval: 20, repeats: true) { [weak self] _ in
             self?.checkUpcomingEvents()
+            // Reminders fall due and trips start as the clock moves on.
+            self?.refresh()
         }
     }
 
@@ -213,8 +250,11 @@ final class IslandModel: ObservableObject {
         if setting(SettingsKey.islandMeetings), StatusMonitor.shared.meeting != nil { list.append(.meeting) }
         let timers = TimerStore.shared
         if setting(SettingsKey.islandTimers), timers.pomodoroRunning || timers.stopwatchRunning { list.append(.timer) }
+        if setting(SettingsKey.islandTrips), TripStore.shared.trip != nil { list.append(.trip) }
         if setting(SettingsKey.islandMusic), NowPlayingStore.shared.track != nil { list.append(.music) }
+        if setting(SettingsKey.islandReminders), !RemindersStore.shared.dueToday.isEmpty { list.append(.reminders) }
         if setting(SettingsKey.islandHotspot), StatusMonitor.shared.isOnHotspot { list.append(.hotspot) }
+        if setting(SettingsKey.islandHomeTime), HomeTime.isAway { list.append(.homeTime) }
         if setting(SettingsKey.islandLock), isLocked { list.insert(.lock(open: false), at: 0) }
         return list
     }
@@ -298,13 +338,14 @@ final class IslandModel: ObservableObject {
     var bubbleSize: CGFloat { notch.height }
     static let bubbleGap: CGFloat = 10
 
-    /// The hotspot on its own waits in the circle beside the notch, as on the iPhone, instead of widening the
-    /// island. A Mac without a notch has nothing for it to sit beside, so there it keeps the island.
-    var hotspotAlone: Bool { hasNotch && primary == .hotspot && secondary == nil }
+    /// Quiet status on its own, such as the hotspot, waits in the circle beside the notch, as on the iPhone,
+    /// instead of widening the island. A Mac without a notch has nothing for it to sit beside, so there it keeps
+    /// the island.
+    var minorAlone: Bool { hasNotch && primary?.isMinor == true && secondary == nil }
 
-    /// What the circle beside the island shows: a second live activity, or the hotspot on its own.
+    /// What the circle beside the island shows: a second live activity, or quiet status on its own.
     var bubbleActivity: IslandActivity? {
-        if hotspotAlone, !isExpanded { return .hotspot }
+        if minorAlone, !isExpanded { return primary }
         return primary?.isTransient == false ? secondary : nil
     }
 
@@ -317,7 +358,7 @@ final class IslandModel: ObservableObject {
         // On a Mac without a notch there is nothing to blend into, so the island only appears while
         // something is live.
         guard let primary else { return hasNotch ? notch : .zero }
-        if hotspotAlone, !isExpanded { return notch }
+        if minorAlone, !isExpanded { return notch }
         if primary.isBanner {
             return CGSize(width: bannerWidth(for: primary), height: notch.height + primary.expandedHeight)
         }
@@ -345,7 +386,7 @@ final class IslandModel: ObservableObject {
     /// The size the island returns to when the open card closes.
     var closedSize: CGSize {
         guard let primary, !primary.isTransient else { return size }
-        if hotspotAlone { return notch }
+        if minorAlone { return notch }
         return CGSize(width: notch.width + Self.wing(notch) * 2, height: notch.height)
     }
 
@@ -354,7 +395,7 @@ final class IslandModel: ObservableObject {
 
     var bottomRadius: CGFloat {
         guard let primary else { return Self.notchRadius }
-        if hotspotAlone, !isExpanded { return Self.notchRadius }
+        if minorAlone, !isExpanded { return Self.notchRadius }
         if isExpanded || primary.isBanner { return 24 }
         return 16
     }
